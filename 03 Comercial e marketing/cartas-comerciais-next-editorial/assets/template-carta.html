@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ASSUNTO}}</title>
+<!--
+  TEMPLATE DE CARTA COMERCIAL — NEXT EDITORIAL
+  Marcas suportadas: ES Brasil, Comunhão, Destinos ES, Prócidade
+
+  Como usar:
+  1. Substituir os placeholders {{...}} pelos dados da carta
+  2. Trocar a classe do <body> conforme a marca:
+     - class="brand-esbrasil"  → ES Brasil
+     - class="brand-comunhao"  → Comunhão
+     - class="brand-destinos"  → Destinos ES
+     - class="brand-procidade" → Prócidade
+  3. Substituir o conteúdo do <div class="brand-logo"> pelo wordmark da marca
+  4. Abrir o HTML no navegador → Imprimir → Salvar como PDF (formato A4)
+-->
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700;800;900&family=Lato:ital,wght@0,300;0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  /* ============ VARIÁVEIS POR MARCA ============ */
+  body.brand-esbrasil {
+    --c-primary: #001C43;
+    --c-secondary: #00427B;
+    --c-accent: #B11A27;
+    --c-table-header-bg: #B11A27;
+    --c-table-header-text: #FFFFFF;
+    --c-subject-bg: #FFFFFF;
+    --c-subject-text: #B11A27;
+    --brand-name: "ES BRASIL";
+  }
+  body.brand-comunhao {
+    --c-primary: #001C43;
+    --c-secondary: #00427B;
+    --c-accent: #F58223;
+    --c-table-header-bg: #FFC220;
+    --c-table-header-text: #001C43;
+    --c-subject-bg: #FFFFFF;
+    --c-subject-text: #B11A27;
+    --brand-name: "COMUNHÃO";
+  }
+  body.brand-destinos {
+    --c-primary: #0D2B45;
+    --c-secondary: #003B6F;
+    --c-accent: #E91E8C;
+    --c-table-header-bg: #E91E8C;
+    --c-table-header-text: #FFFFFF;
+    --c-subject-bg: #FFFFFF;
+    --c-subject-text: #E91E8C;
+    --brand-name: "DESTINOS ES";
+  }
+  body.brand-procidade {
+    --c-primary: #1A1A1A;
+    --c-secondary: #333333;
+    --c-accent: #F26522;
+    --c-table-header-bg: #F26522;
+    --c-table-header-text: #FFFFFF;
+    --c-subject-bg: #FFFFFF;
+    --c-subject-text: #F26522;
+    --brand-name: "PRÓCIDADE";
+  }
+
+  /* ============ RESET E BASE ============ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #ffffff; }
+  body {
+    font-family: 'Lato', sans-serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    max-width: 210mm;
+    margin: 0 auto;
+    padding: 18mm 20mm 0 20mm;
+  }
+
+  /* ============ CABEÇALHO ============ */
+  .brand-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 2px solid var(--c-primary);
+    margin-bottom: 24px;
+  }
+  .brand-logo {
+    font-family: 'Heebo', sans-serif;
+    font-weight: 900;
+    font-size: 22pt;
+    letter-spacing: 0.02em;
+    color: var(--c-primary);
+  }
+  .brand-logo::before {
+    content: var(--brand-name);
+  }
+  .next-logo {
+    font-family: 'Heebo', sans-serif;
+    font-weight: 900;
+    font-size: 11pt;
+    letter-spacing: 0.15em;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .next-logo .mark {
+    display: inline-block;
+    background: #B20B27;
+    color: #fff;
+    padding: 2px 6px;
+    font-weight: 900;
+    border-radius: 2px;
+  }
+
+  /* ============ INFORMAÇÕES DE TOPO ============ */
+  .letter-date {
+    font-weight: 700;
+    margin-bottom: 18px;
+  }
+  .recipient {
+    margin-bottom: 18px;
+  }
+  .recipient .org { font-weight: 700; }
+  .recipient .name { font-weight: 700; }
+  .recipient .role { font-weight: 400; }
+
+  /* ============ ASSUNTO ============ */
+  .subject {
+    color: var(--c-subject-text);
+    font-weight: 700;
+    margin-bottom: 18px;
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--c-subject-text);
+    display: inline-block;
+  }
+
+  /* ============ SAUDAÇÃO ============ */
+  .greeting {
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  /* ============ CORPO ============ */
+  p.body-text {
+    margin-bottom: 14px;
+    text-align: justify;
+  }
+  p.body-text strong { font-weight: 700; }
+
+  /* ============ TABELAS ============ */
+  .table-section {
+    margin: 18px 0;
+    border: 1px solid #d0d0d0;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  .table-section caption {
+    background: var(--c-table-header-bg);
+    color: var(--c-table-header-text);
+    font-family: 'Heebo', sans-serif;
+    font-weight: 800;
+    font-size: 10.5pt;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: center;
+    caption-side: top;
+  }
+  .table-section td, .table-section th {
+    border: 1px solid #d0d0d0;
+    padding: 10px 14px;
+    vertical-align: top;
+    font-size: 10.5pt;
+  }
+  .table-section .label {
+    font-weight: 700;
+    width: 32%;
+    background: #f7f7f7;
+  }
+  .table-section .item-list {
+    padding: 12px 14px;
+    line-height: 1.55;
+  }
+  .table-section .item-list .item {
+    margin-bottom: 6px;
+  }
+  .table-section .item-list .item:last-child { margin-bottom: 0; }
+  .table-section .item-list strong { font-weight: 700; }
+
+  /* ============ BLOCO INSTITUCIONAL ============ */
+  .institutional {
+    margin: 24px 0;
+  }
+  .institutional h3 {
+    font-family: 'Heebo', sans-serif;
+    font-weight: 800;
+    font-size: 11pt;
+    margin-bottom: 8px;
+    color: var(--c-primary);
+  }
+  .institutional p {
+    margin-bottom: 10px;
+    text-align: justify;
+    font-size: 10.5pt;
+    line-height: 1.55;
+  }
+
+  /* ============ EMISSÃO ============ */
+  .billing {
+    border: 1px solid #d0d0d0;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+  }
+  .billing td {
+    padding: 10px 14px;
+    border: 1px solid #d0d0d0;
+    font-size: 10.5pt;
+  }
+  .billing .billing-label {
+    font-weight: 700;
+    width: 60%;
+  }
+  .billing .billing-data {
+    font-weight: 700;
+    color: var(--c-primary);
+  }
+
+  /* ============ ASSINATURA ============ */
+  .signoff {
+    margin-top: 22px;
+    margin-bottom: 8px;
+  }
+  .signature {
+    margin-top: 60px;
+    font-size: 10.5pt;
+    line-height: 1.45;
+  }
+  .signature .sig-name { font-weight: 700; }
+  .signature .sig-role { font-weight: 400; }
+
+  /* ============ RODAPÉ ============ */
+  .footer {
+    margin-top: 40px;
+    padding: 12px 0;
+    border-top: 2px solid var(--c-primary);
+    display: flex;
+    justify-content: center;
+    gap: 18px;
+    font-size: 9pt;
+    color: #444;
+    flex-wrap: wrap;
+  }
+  .footer span { white-space: nowrap; }
+
+  /* ============ IMPRESSÃO ============ */
+  @page { size: A4; margin: 0; }
+  @media print {
+    body { padding: 18mm 20mm; }
+    .table-section, .billing { page-break-inside: avoid; }
+  }
+</style>
+</head>
+
+<!-- TROQUE A CLASSE ABAIXO CONFORME A MARCA:
+     brand-esbrasil | brand-comunhao | brand-destinos | brand-procidade -->
+<body class="brand-esbrasil">
+
+  <!-- 1. CABEÇALHO -->
+  <header class="brand-header">
+    <div class="brand-logo"></div>
+    <div class="next-logo"><span class="mark">N</span> NEXT EDITORIAL</div>
+  </header>
+
+  <!-- 2. LOCAL E DATA -->
+  <p class="letter-date">{{LOCAL_DATA}}</p>
+
+  <!-- 3. DESTINATÁRIO -->
+  <div class="recipient">
+    <div class="org">{{DESTINATARIO_INSTITUICAO}}</div>
+    <div class="name">{{DESTINATARIO_NOME}}</div>
+    <div class="role">{{DESTINATARIO_CARGO}}</div>
+  </div>
+
+  <!-- 4. ASSUNTO -->
+  <p class="subject">Assunto: {{ASSUNTO_CONTEUDO}}</p>
+
+  <!-- 5. SAUDAÇÃO -->
+  <p class="greeting">Olá {{PRIMEIRO_NOME}},</p>
+
+  <!-- 6. PARÁGRAFO 1 — ESPELHO DE VALOR -->
+  <p class="body-text">{{PARAGRAFO_1}}</p>
+
+  <!-- 7. PARÁGRAFO 2 — PROVA E CONVITE -->
+  <p class="body-text">{{PARAGRAFO_2}}</p>
+
+  <!-- 8. LINHA DE TRANSIÇÃO -->
+  <p class="body-text">A seguir, apresentamos proposta de veiculação na plataforma <strong>{{MARCA}}</strong> em condições comerciais e técnicas diferenciadas e com excelente relação custo/benefício para <strong>{{DESTINATARIO_INSTITUICAO}}</strong>:</p>
+
+  <!-- 9. TABELA APROVEITAMENTO -->
+  <table class="table-section">
+    <caption>{{TITULO_APROVEITAMENTO}}</caption>
+    <tr>
+      <td class="item-list">
+        <!-- Repetir o bloco abaixo para cada item do aproveitamento -->
+        <div class="item">• <strong>{{FORMATO_1}}</strong> - {{DESCRICAO_1}}</div>
+        <div class="item">• <strong>{{FORMATO_2}}</strong> - {{DESCRICAO_2}}</div>
+        <div class="item">• <strong>{{FORMATO_3}}</strong> - {{DESCRICAO_3}}</div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- 10. TABELA PROPOSTA COMERCIAL -->
+  <table class="table-section">
+    <caption>PROPOSTA COMERCIAL – {{TITULO_PROPOSTA}}</caption>
+    <tr>
+      <td class="label">Edição/Período de veiculação</td>
+      <td>{{EDICAO_PERIODO}}</td>
+    </tr>
+    <tr>
+      <td class="label">Investimento</td>
+      <td><strong>R$ {{INVESTIMENTO}}</strong></td>
+    </tr>
+    <tr>
+      <td class="label">Condições de pagamento</td>
+      <td>{{CONDICOES_PAGAMENTO}}</td>
+    </tr>
+    <tr>
+      <td class="label">Fechamento comercial</td>
+      <td>{{FECHAMENTO}}</td>
+    </tr>
+    <tr>
+      <td class="label">Envio de Material</td>
+      <td>{{ENVIO_MATERIAL}}</td>
+    </tr>
+  </table>
+
+  <!-- 11. BLOCO INSTITUCIONAL -->
+  <div class="institutional">
+    <h3>{{TITULO_PLATAFORMA}}</h3>
+    <p>{{BLOCO_INSTITUCIONAL_1}}</p>
+    <p>{{BLOCO_INSTITUCIONAL_2}}</p>
+  </div>
+
+  <!-- 12. EMISSÃO E ASSINATURA -->
+  <table class="billing">
+    <tr>
+      <td class="billing-label">Informações para emissão de autorização e pagamento</td>
+      <td class="billing-data">{{RAZAO_SOCIAL}}<br><strong>CNPJ:</strong> {{CNPJ}}</td>
+    </tr>
+  </table>
+
+  <p class="signoff">Sem mais, atenciosamente.</p>
+
+  <div class="signature">
+    <div class="sig-name">Mário Fernando Souza</div>
+    <div class="sig-role">Diretor Executivo</div>
+    <div>(27) 98121-4222</div>
+    <div>(27) 2123-6506</div>
+    <div>mariof@nxte.com.br</div>
+  </div>
+
+  <!-- 13. RODAPÉ -->
+  <footer class="footer">
+    <span>Av. Paulino Muller, 795 • Vitória • ES • 29040-715</span>
+    <span>@nexteditorial</span>
+    <span>nexteditorial.com.br</span>
+    <span>27 98121-4442</span>
+  </footer>
+
+</body>
+</html>

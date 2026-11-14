@@ -1,0 +1,39 @@
+KIT DE ARTES — CANAL REVISTA ES BRASIL (skill youtube-esbrasil-titulos)
+Atualizado em 02/10/2026 com os templates enviados pelo Mário Fernando.
+
+O QUE TEM AQUI
+  assets/thumbs/entrevista.png      base da capa ES Brasil Entrevista (1600x900)
+  assets/thumbs/destinos.png        base da capa Destinos ES (com logo e apresentadora)
+  assets/thumbs/cafe.png            base da capa Café com Moqueca (com logo e apresentador)
+  assets/shorts/moldura_esbrasil.png   moldura do Short ES Brasil (1080x1920, área do vídeo transparente)
+  assets/shorts/moldura_destinos.png   moldura do Short Destinos ES
+  assets/shorts/capa_esbrasil.png      base da capa (thumb) do Short ES Brasil, com janela transparente para a foto
+  assets/shorts/capa_destinos.png      base da capa do Short Destinos ES
+  assets/referencias/               as artes originais enviadas (gabarito visual)
+  assets/fonts/                     Inter ExtraBold Italic, SemiBold Italic e ExtraBold
+  scripts/gerar_thumb_esbrasil.py   capa 1600x900 (template: entrevista | destinos | cafe)
+  scripts/gerar_short_esbrasil.py   moldura e capa dos Shorts (marca: esbrasil | destinos)
+  scripts/montar_short.py           corta o trecho, põe o vídeo na área livre e aplica a moldura (+ legendas)
+  scripts/tratar_foto_esbrasil.py   restaura (opcional), recorta e trata a foto do convidado
+  exemplos/                         configurações e artes de teste
+
+COMO USAR (a partir desta pasta)
+  python3 scripts/tratar_foto_esbrasil.py quadro.png recorte.png
+  python3 scripts/gerar_thumb_esbrasil.py exemplos/thumb_cafe.json capa.png
+  python3 scripts/gerar_short_esbrasil.py moldura exemplos/short_esbrasil.json moldura.png
+  python3 scripts/montar_short.py original.mp4 15:13 16:02 moldura.png short_01.mp4 0.5 legendas.srt
+  python3 scripts/gerar_short_esbrasil.py capa exemplos/short_esbrasil.json capa_short_01.png
+
+Requisitos: Python 3, ffmpeg, pip install playwright rembg opencv-python pillow numpy (+ Chromium do Playwright)
+
+ATENÇÃO
+  - As bases foram reconstruídas a partir das artes de referência: o texto e o convidado de exemplo
+    foram removidos e o fundo foi refeito por aproximação. Nas capas Destinos ES e Café com Moqueca a
+    textura da faixa ficou lisa onde havia texto, e a área atrás do convidado é aproximada.
+    O ideal é o design exportar as artes LIMPAS (sem texto e sem convidado): basta substituir os
+    arquivos de assets/ pelo mesmo nome e tamanho — os scripts não mudam.
+  - As molduras dos Shorts vieram em PNG e ficaram fiéis; as capas dos Shorts vieram em JPG 900x1600
+    e foram ampliadas para 1080x1920.
+  - Logos, selos e apresentadores fazem parte das bases. Nunca redesenhe.
+  - Apresentadores fixos nas bases: Kamila Rangel (Destinos ES) e Renzo Colnago (Café com Moqueca).
+    Se o apresentador mudar, a base precisa ser trocada.

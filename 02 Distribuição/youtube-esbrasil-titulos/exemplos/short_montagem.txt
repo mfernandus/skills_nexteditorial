@@ -1,0 +1,5 @@
+Exemplo de montagem de um Short (a partir da pasta do kit):
+
+  python3 scripts/gerar_short_esbrasil.py moldura exemplos/short_esbrasil.json moldura.png
+  python3 scripts/montar_short.py original.mp4 15:13 16:02 moldura.png short_01.mp4 0.5 legendas.srt
+  python3 scripts/gerar_short_esbrasil.py capa exemplos/short_esbrasil.json capa_short_01.png
