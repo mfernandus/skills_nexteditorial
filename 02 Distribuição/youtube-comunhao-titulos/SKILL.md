@@ -16,9 +16,13 @@ O arquivo `youtube-comunhao-titulos.skill` distribuído ao time traz tudo o que 
 | Arquivo | Para quê |
 |---|---|
 | `scripts/gerar_thumb.py config.json saida.png` | Monta a thumb 1600×900 sobre a arte do template (manchete, nome, apoio opcional, foto). Centraliza o bloco na faixa sozinho (`"y0": "auto"`) e nunca deixa a manchete abaixo do corpo 38. Requer `pip install playwright` + Chromium. |
-| `scripts/tratar_foto.py quadro.png recorte.png [0.6]` | Tratamento da foto: restauração facial com IA (GFPGAN), recorte com refino de cabelo, cor, rim light. Requer `gfpgan`, `rembg` e os pesos `weights/GFPGANv1.4.pth` (instruções no topo do arquivo). |
+| `scripts/tratar_foto.py quadro.png recorte.png [0.6]` | Tratamento da foto: restauração facial com IA (GFPGAN, **opcional**), recorte com refino de cabelo, cor, rim light. Requer `rembg`. A restauração só roda se o pacote `gfpgan` e os pesos `weights/GFPGANv1.4.pth` existirem; sem eles, o script avisa "restauração PULADA" e segue (os pesos não vão no pacote: baixe pelo link no topo do arquivo). |
 | `scripts/gerar_visual_short.py moldura\|capa config.json saida.png` | Visual dos Shorts no padrão **Comunhão play** (1080×1920 PNG): `moldura` = camada que vai por cima do vídeo (faixa laranja com título e nome, rodapé vermelho com logo, janela transparente de 1260 px); `capa` = miniatura do Short (logo Comunhão no alto, foto, faixa laranja com título e nome, logo play). Valida o limite de 30 caracteres e 2 linhas. Requer `playwright` + Chromium. |
 | `scripts/cortar_shorts.py video.mp4 shorts.json pasta [legendas.srt]` | Gera os Shorts 1080×1920: vídeo do convidado na área livre de 1260 px (recorte no rosto), moldura do `gerar_visual_short.py` e legendas queimadas. Requer `ffmpeg` e `playwright`. |
+| `scripts/captura_quadros.js` | Trecho para o Chrome: salva 12 quadros em 1080p do vídeo, direto do player do YouTube, em Downloads. Para escolher a foto quando o original ainda não foi baixado (ver 12.5). |
+| `scripts/folha_de_contato.py saida.jpg quadros...` | Junta até 24 quadros numa folha numerada para escolher o melhor. |
+| `scripts/montar_dupla.py esq.png dir.png saida.png [0.25] [direita]` | Junta os recortes de dois convidados (rostos inteiros, quem está na frente cobre só cabelo/ombro do outro). |
+| `scripts/comprimir_envio.py pasta [9.2]` | Recomprime os Shorts para o envio pelo navegador (≤ 10 MB, H.264 em 2 passagens) em `pasta/envio/`. |
 | `assets/` | `base_clean.png` (template sem texto e sem a pessoa de exemplo), `template.jpg` (original), logos isolados (`logo_play.png`, `logo_entrevista.png`, `logo_comunhao.png` — só a palavra Comunhão, para a capa do Short) e fontes Inter ExtraBold/SemiBold Italic. |
 | `exemplos/` | Caso real (Danielle Nazário): `thumb_danielle.json`, a foto tratada, a thumb final e `shorts_danielle.json`. Use como modelo de configuração. Modelos aprovados dos Shorts: `exemplos/modelo_short_interno.jpg` e `exemplos/modelo_short_capa.jpg` (atenção: a palavra "linguágem" nos modelos está com acento errado; o certo é "linguagem"). |
 
@@ -327,6 +331,14 @@ Entregue sempre **duas manchetes com fórmulas diferentes** (A = recomendada, B 
 5. **Integração:** luz de recorte (rim light) laranja na borda, brilho laranja suave atrás do convidado e escurecimento leve na base para fundir com o fundo.
 6. **Posição:** à direita, ancorado na base, rosto no terço superior, altura ~860–880 px. O rosto nunca fica atrás do texto; se a manchete precisar de espaço, a foto vai para a direita.
 
+#### 12.5.1 — Quadros e composição (mesmos parâmetros técnicos da skill da ES Brasil, revisados com o Mário em 17/10/2026)
+- **Quadros em boa resolução sem baixar o original:** use `scripts/captura_quadros.js` no Chrome, na página pública do vídeo (o script força 1080p, pausa e salva 12 quadros entre 6% e 94% do vídeo em Downloads). Uma chamada por vídeo e verificação pelo título da aba (`CAPDONE`), porque o navegador corta chamadas longas. O servidor de trabalho não consegue baixar do YouTube; não insista por lá.
+- **Escolha numa folha de contato** (`folha_de_contato.py`), nunca às cegas. Se nenhum quadro servir, capture **mais 24 quadros** em outros pontos do vídeo antes de aceitar um ruim. Critérios: rosto de frente ou 3/4, olhando para o centro da capa; olhos abertos; boca fechada ou sorriso; **sem tarja de nome** (se só houver quadro com tarja, recorte acima dela); **sem microfone na frente do rosto**; cabeça inteira no quadro; nunca o apresentador.
+- **Recorte antes do rembg:** corte um retângulo de ~900–1.000 px de largura em volta da pessoa, deixando de fora microfone, copo e tarja; confira na folha que nada sobrou.
+- **Cabeça nunca cortada:** nem pelo topo da capa nem pelo outro convidado. Confira o recorte sobre fundo chapado e a capa reduzida a 320×180, lembrando que o selo de duração do YouTube cobre o canto inferior direito.
+- **Dois convidados:** recorte cada um separadamente e junte com `montar_dupla.py` (rostos inteiros, um ao lado do outro, olhando para o centro; quem está na frente cobre só cabelo ou ombro do outro). Na thumb, reduza a dupla (`foto_h` ~530–560) para o texto não passar por cima de cabeças; se ainda encostar, use nomes curtos ("Thiago e Thayná").
+- **Mostre a grade antes de trocar no canal** sempre que forem várias capas (ver "Revisando vídeos antigos").
+
 ### 12.6 — Avaliação obrigatória: gerar, comparar, escolher
 
 Nunca entregue a primeira versão. Para cada thumb:
@@ -393,8 +405,9 @@ Nunca entregue a primeira versão. Para cada thumb:
    {"titulo": "Quem domina\nsua linguagem?", "nome": "Tassos Lycurgo", "foto": "quadro_tassos.png"}
    ```
 9. **Publicar (sem parar para perguntar)** — passo a passo testado:
-   - **Arquivo ≤ 10 MB:** o envio pelo navegador aceita no máximo 10 MB por arquivo. Recomprima cada Short em 1080×1920 com H.264 em **duas passagens** e taxa-alvo `9,2 MB × 8 ÷ duração − 130 kbps` (áudio AAC 128k). Guarde a versão cheia; suba a comprimida.
-   - **Caminho do arquivo:** o envio só aceita arquivos de pasta conectada **trazidos para o ambiente de trabalho** (`/mnt/user-data/uploads/...`). Grave os comprimidos em `Downloads/shorts_[convidado]/envio/` no computador e traga-os (stage) antes de enviar. Arquivos só em `/mnt/user-data/outputs` ou com caminho do Mac são recusados.
+   - **Arquivo ≤ 10 MB:** o envio pelo navegador aceita no máximo 10 MB por arquivo. Recomprima cada Short em 1080×1920 com H.264 em **duas passagens** e taxa-alvo `9,2 MB × 8 ÷ duração − 130 kbps` (áudio AAC 128k): `comprimir_envio.py pasta`. Guarde a versão cheia; suba a comprimida.
+   - **Caminho do arquivo:** o envio só aceita arquivos de pasta conectada **trazidos para o ambiente de trabalho** (`/mnt/user-data/uploads/...`). Grave os comprimidos em `Downloads/shorts_[convidado]/envio/` no computador e traga-os (stage) antes de enviar. Arquivos só em `/mnt/user-data/outputs` ou com caminho do Mac são recusados — vale também para capas.
+   - **"file is hardlinked":** arquivo recém-gravado no Mac pode ser recusado ao ser trazido. Regrave no próprio Mac (`sips -s format jpeg -s formatOptions 93 entrada.jpg --out saida.jpg`; para vídeo, `cp` para outro nome), **espere ~50 s** e traga de novo. Não fique repetindo na hora.
    - Studio → `.../videos/upload?d=ud` → localizar o `input type=file` e enviar o arquivo (nunca clicar no botão "Selecionar arquivos").
    - **Título e descrição:** o Studio preenche os padrões do canal alguns segundos depois de abrir a janela e sobrescreve o que foi digitado antes. Espere ~6 s, **clique de verdade no campo Título**, e só então substitua o conteúdo dos dois campos (selecionar o conteúdo do campo e inserir o texto). Releia os dois campos antes de avançar.
    - **Capa:** envie o JPG no `input type=file` da seção Miniatura.
@@ -446,6 +459,10 @@ Na execução completa, salve direto (ver "Execução completa"); em pedidos avu
 - **Teste A/B:** o Studio roda **um teste por vez** por vídeo. Com teste de título em andamento, a capa pode ser trocada normalmente (vale para todas as variantes); um teste de **miniatura** só começa depois que o de título terminar.
 - **Download do original (liberado):** ⋮ (Opções, ao lado de Salvar) → Baixar, sem pedir confirmação. Se o primeiro clique só fechar o menu, abra o menu de novo e clique em Baixar; confira em Downloads se surgiu o `.crdownload` e espere ele virar `.mp4` antes de cortar.
 - **Transcrição com minutagem:** se o painel de transcrição não abrir, ligue as legendas no player; a requisição de legenda (`timedtext`) traz o texto com tempos.
+- **Trocar a miniatura:** página de edição → localizar o `input type=file` da seção Miniatura (a página às vezes demora; espere ~8 s e procure de novo) → enviar o JPG trazido para `/mnt/user-data/uploads/...` → esperar ~5 s → **Salvar** → conferir que o botão Salvar voltou a ficar desativado. Vale também para vídeos não listados.
+- **Vídeo relacionado do Short:** no seletor, a busca pelo link mostra um cartão com a miniatura; clique no cartão (nem sempre há item com `role=option`) e salve.
+- **Short antigo substituído:** passe para **Privado** (Visibilidade → Privado → Concluir → Salvar) e confira em Conteúdo → Shorts. Nunca exclua.
+- **Legendas `.srt`:** o `cortar_shorts.py` aceita tempos com vírgula ou ponto (`00:00:02,000` ou `00:00:02.000`) e arquivos com quebra de linha do Windows.
 
 ## Execução completa ("rode a skill neste vídeo") — ponta a ponta, sem paradas
 
@@ -477,3 +494,11 @@ Se o download falhar (menu fecha, arquivo não aparece em Downloads, computador 
 ## Revisando vídeos antigos
 
 Aponte em uma linha o que está fraco (ex.: "palavra-chave só no fim", "começa com Comunhão Entrevista", "tags genéricas", "sem capítulos", "sem tela final", "sem os cards padrão", "sem comentário fixado", "fora da playlist da categoria") e entregue o pacote completo novo.
+
+### Troca de capas em lote (vídeos antigos)
+Mesmo processo da skill da ES Brasil:
+1. Liste os vídeos pela playlist do programa, do mais recente para o mais antigo, e separe **lotes de 10**. Pule duplicados (mesma capa vale para os dois vídeos do mesmo episódio), chamadas/promos e debates sem definição de capa — liste-os à parte para o Mário decidir.
+2. Para cada vídeo: quadros (12.5.1), recorte, manchete nova a partir do tema (≤ 38 caracteres, sem inventar), nome do convidado.
+3. Monte uma **grade** com as capas novas e, no canto de cada uma, a capa atual, e **mostre ao Mário antes de trocar**. Troque só depois do "pode trocar" daquele lote.
+4. Troque no Studio (nota "Trocar a miniatura") e confirme pelo botão Salvar desativado. O YouTube pode levar alguns minutos para mostrar a capa nova.
+5. Guarde as capas em `Downloads/comunhao_capas/<lote>/`. Nunca exclua nada; Short antigo substituído vai para Privado.

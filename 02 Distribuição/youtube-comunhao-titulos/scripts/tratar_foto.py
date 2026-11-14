@@ -7,23 +7,32 @@ Requisitos: pip install gfpgan rembg opencv-python pillow; pesos GFPGANv1.4.pth 
 Se o basicsr acusar 'torchvision.transforms.functional_tensor', troque o import por
 'torchvision.transforms.functional' em basicsr/data/degradations.py.
 Em máquinas com pouca memória, rode as etapas em processos separados.
+A restauração (etapa 1) é OPCIONAL: sem o pacote gfpgan ou sem os pesos, o script avisa e segue
+só com recorte e cor (antes, a falta do gfpgan derrubava a geração inteira).
 3. Cor: contraste, saturação, brilho, nitidez e tom levemente quente.
 4. Integração: rim light laranja e escurecimento na base.
 """
-import sys, numpy as np, cv2
+import sys, pathlib, numpy as np, cv2
 from PIL import Image, ImageEnhance, ImageFilter
-from gfpgan import GFPGANer
 from rembg import remove, new_session
 
 src, out = sys.argv[1], sys.argv[2]
 w8 = float(sys.argv[3]) if len(sys.argv) > 3 else 0.6
 
 img = cv2.imread(src)
-r = GFPGANer(model_path=str(__import__('pathlib').Path(__file__).resolve().parent.parent/'weights'/'GFPGANv1.4.pth'), upscale=2, arch='clean',
-             channel_multiplier=2, bg_upsampler=None)
-_, _, rest = r.enhance(img, has_aligned=False, only_center_face=True, paste_back=True, weight=w8)
-# suaviza o restante da imagem ampliada (cabelo/roupa) sem perder nitidez
-rest = cv2.bilateralFilter(rest, 5, 25, 5)
+assert img is not None, f"não consegui abrir {src}"
+rest = img
+pesos = pathlib.Path(__file__).resolve().parent.parent / "weights" / "GFPGANv1.4.pth"
+try:
+    from gfpgan import GFPGANer
+    assert pesos.exists(), f"pesos não encontrados em {pesos}"
+    r = GFPGANer(model_path=str(pesos), upscale=2, arch='clean', channel_multiplier=2, bg_upsampler=None)
+    _, _, rest = r.enhance(img, has_aligned=False, only_center_face=True, paste_back=True, weight=w8)
+    # suaviza o restante da imagem ampliada (cabelo/roupa) sem perder nitidez
+    rest = cv2.bilateralFilter(rest, 5, 25, 5)
+    print("restauração do rosto: aplicada (peso", w8, ")")
+except Exception as e:  # noqa: BLE001
+    print("restauração do rosto: PULADA —", e)
 
 rgb = Image.fromarray(cv2.cvtColor(rest, cv2.COLOR_BGR2RGB))
 sess = new_session('isnet-general-use')
