@@ -1,0 +1,315 @@
+{
+  "acervo-comunhao": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/02 Acervo e republicação/acervo-comunhao",
+    "sha": "e8b30eb269000e3a2ad0cb81282a9617a992eff0687c6474a49227331a40927c",
+    "updatedAt": "2026-11-03T01:05:53.188257Z"
+  },
+  "acervo-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/02 Acervo e republicação/acervo-esbrasil",
+    "sha": "f9a02fc05928635b7634ebb924d0911234a0eff373e6518416827b15c70975b8",
+    "updatedAt": "2026-11-05T03:49:48.573607Z"
+  },
+  "analise-semanal-vendas-next": {
+    "arquivos": [
+      "SKILL.md",
+      "assets/next_logo.png",
+      "assets/report.css",
+      "reference/exemplo_build.py"
+    ],
+    "pasta": "04 Controle/analise-semanal-vendas-next",
+    "sha": "0a0164c8bb8174ba505e3ff136f321ccb20c3ad01c6d7ed027ffdb12e9f9b1ff",
+    "updatedAt": "2026-08-14T15:38:06.649891Z"
+  },
+  "artigos-acervo-comunhao": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/02 Acervo e republicação/artigos-acervo-comunhao",
+    "sha": "04abc47f7329c75fcbf5dc1f2c1689884f128bc5a1bbb960513a450aaf6cc476",
+    "updatedAt": "2026-11-13T19:33:20.282134Z"
+  },
+  "artigos-acervo-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/02 Acervo e republicação/artigos-acervo-esbrasil",
+    "sha": "b024f26c4dd8136a449008b3bfc2a64e8f0feac59394cc6f9e2dff99467db32c",
+    "updatedAt": "2026-11-13T19:33:29.815821Z"
+  },
+  "artigos-acervo-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/02 Acervo e republicação/artigos-acervo-next",
+    "sha": "c0e488feb85a512d134617982cc038597c8f2612e5307095ad2000bfa6d48631",
+    "updatedAt": "2026-11-13T19:33:34.856393Z"
+  },
+  "atualizacao-cnpj-templos": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "06 Plataformas e dados/atualizacao-cnpj-templos",
+    "sha": "8e88e234fa19223cf3d95e3c66f8cfbf36f52c03f451170f4c9fc2cf39961153",
+    "updatedAt": "2026-11-13T16:12:32.550391Z"
+  },
+  "atualizacao-mapas-destinos-es": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "06 Plataformas e dados/atualizacao-mapas-destinos-es",
+    "sha": "bd3b7bf541916ac2b28bc3f4ab5b07c498cfda66de2d8df7f8e6e13e1c8d02af",
+    "updatedAt": "2026-11-07T23:09:29.280172Z"
+  },
+  "cacadores-destinos-conteudo": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/04 Pesquisa e apuração/cacadores-destinos-conteudo",
+    "sha": "3caa98a9c6735925337d673b1e0e69414485923f9c17548784d3f95ef5339b99",
+    "updatedAt": "2026-11-07T23:39:54.830936Z"
+  },
+  "cacadores-destinos-levantamento": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/04 Pesquisa e apuração/cacadores-destinos-levantamento",
+    "sha": "aaf96891fadb85a8719d6d1f3c6918336e344d2302115cf0da47e60023263808",
+    "updatedAt": "2026-11-07T23:39:51.586367Z"
+  },
+  "cartas-comerciais-next-editorial": {
+    "arquivos": [
+      "SKILL.md",
+      "assets/template-carta.html",
+      "examples/exemplos-comentados.md",
+      "references/voz-por-marca.md"
+    ],
+    "pasta": "03 Comercial e marketing/cartas-comerciais-next-editorial",
+    "sha": "1caa36097b2ff0c7b84c7850d37c09055eb2be6271d25bea2e109260ebf724a7",
+    "updatedAt": "2026-06-03T22:35:17.993317Z"
+  },
+  "comunhao-na-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/02 Acervo e republicação/comunhao-na-esbrasil",
+    "sha": "1d46c18ffcb8e8ef15eb9feee97f68fbba49399c491ca28e21ef5344eb82743f",
+    "updatedAt": "2026-11-05T03:55:29.415878Z"
+  },
+  "datafe-materia-diaria-comunhao": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/03 Dados e especiais/datafe-materia-diaria-comunhao",
+    "sha": "8207db70574d1796ac313230f4f6e58c68d62f5a0548b25d4c7535ddd92a6091",
+    "updatedAt": "2026-11-14T13:36:59.493010Z"
+  },
+  "diversao-e-arte-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/diversao-e-arte-esbrasil",
+    "sha": "73fde290d2dd2a128a00f2e29fac5e17a79518f0098afcc6d30b4e1cbbb7f7cd",
+    "updatedAt": "2026-11-05T02:13:56.143290Z"
+  },
+  "documentos-next-editorial": {
+    "arquivos": [
+      "SKILL.md",
+      "assets/logos/comunhao.png",
+      "assets/logos/destinos-es.png",
+      "assets/logos/es-brasil.png",
+      "assets/logos/next-editorial-horizontal.png",
+      "assets/logos/next-editorial-n.png",
+      "assets/logos/procidade.png",
+      "references/manual-visual.html",
+      "references/template-base.html",
+      "references/tokens.md"
+    ],
+    "pasta": "05 Administrativo e financeiro/documentos-next-editorial",
+    "sha": "fed2ad238caa27d6a04ed90157618edb69a51cce42a966075c3a2d387ff25598",
+    "updatedAt": "2026-10-06T13:52:14.986899Z"
+  },
+  "esporte-noturno-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/esporte-noturno-next",
+    "sha": "0d3df81e5ef1f7a2d2f1dc1f26365ef64fca6ebc8065239e45522980bb536fa0",
+    "updatedAt": "2026-11-05T02:06:48.170545Z"
+  },
+  "estilo-diario-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/estilo-diario-esbrasil",
+    "sha": "347f252d9cb12e29b18f8958ddfa26edc8ed2ddc68aa2a16dcc27c0138fb0582",
+    "updatedAt": "2026-11-05T02:19:37.731888Z"
+  },
+  "f1-gp-eua-2026": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "99 Arquivadas/f1-gp-eua-2026",
+    "sha": "7892a085c5d578e05195b3b77c992506976cbb60fdd264a172ff2eadf818b0f1",
+    "updatedAt": "2026-10-24T13:01:16.979872Z"
+  },
+  "formula-1": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/formula-1",
+    "sha": "90066a5dcf1d9286ef775d088bd78272e000dd1ca9de8fe09cb623cf4a3d1687",
+    "updatedAt": "2026-11-03T01:06:12.221068Z"
+  },
+  "igreja-comunhao": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/igreja-comunhao",
+    "sha": "ca85eae5b7f4e4e8927a715e8da1858be00ced529a6c376eb1f87d428b4b13cc",
+    "updatedAt": "2026-11-10T14:06:34.916174Z"
+  },
+  "materia-igrejas-abertas-comunhao": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/03 Dados e especiais/materia-igrejas-abertas-comunhao",
+    "sha": "ef98b601c92c92f3a313241e3c43600bdb13e6877104f3b4a504eb9f5ad896ae",
+    "updatedAt": "2026-11-12T02:05:58.802486Z"
+  },
+  "missoes-comunhao": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/missoes-comunhao",
+    "sha": "77ce4f74d37da7a4a995fd44e36655c27b695cfdfe5989d460a6927abcbce166",
+    "updatedAt": "2026-11-10T14:06:39.083762Z"
+  },
+  "monitor-audiencia-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "04 Controle/monitor-audiencia-next",
+    "sha": "6874bfa73070544226972d773502fda26740480d216c3e61957699ee2bd4ee2c",
+    "updatedAt": "2026-09-05T19:07:24.712280Z"
+  },
+  "noticias-noturnas-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/noticias-noturnas-esbrasil",
+    "sha": "4f1ed531715bdbd752f71b9b65b4192254d5afe41e2aa13a2e6eba39993f9c6d",
+    "updatedAt": "2026-11-05T02:19:34.186494Z"
+  },
+  "padrao-publicacao-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/00 Padrão de publicação/padrao-publicacao-next",
+    "sha": "aae7a84b73c2cdc54e1e71507ea001c814df687dc1f127adbf11ec08ff62ae96",
+    "updatedAt": "2026-11-13T13:53:33.408973Z"
+  },
+  "panorama-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/panorama-next",
+    "sha": "d7239f625b940a1257c6061067bb6b7e56c92509fc4bd07655f6200a9e88f7a7",
+    "updatedAt": "2026-11-10T14:09:58.410537Z"
+  },
+  "politica-comunhao": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/politica-comunhao",
+    "sha": "c3e2dc38b31a8050c2908a135b826531e21a41e013cdd62160e91a10f4d55178",
+    "updatedAt": "2026-11-05T04:27:06.734750Z"
+  },
+  "politica-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/politica-esbrasil",
+    "sha": "49960afa8c89c15ff155e41ae2c2f23896407106aae8d45c2b87700b25744ccf",
+    "updatedAt": "2026-11-10T19:38:06.919755Z"
+  },
+  "previsao-tempo-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/previsao-tempo-esbrasil",
+    "sha": "d383c14338968901ac8108c3d95e1d63c2914dae70f236008bc0032a5d519fb9",
+    "updatedAt": "2026-11-02T15:51:05.467110Z"
+  },
+  "retrospectiva-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/03 Dados e especiais/retrospectiva-esbrasil",
+    "sha": "ffa5d121d3004e0b851d37810928a8b840a7e9103e949788517553d3d9c82148",
+    "updatedAt": "2026-11-11T17:23:13.226173Z"
+  },
+  "verificacao-es-em-numeros": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "06 Plataformas e dados/verificacao-es-em-numeros",
+    "sha": "dbc0088aa26801c243f785f7c26fc3eec062eca65c646a91c2025e3c534d1b8c",
+    "updatedAt": "2026-10-24T20:17:31.852104Z"
+  },
+  "youtube-comunhao-titulos": {
+    "arquivos": [
+      "SKILL.md",
+      "assets/base_clean.png",
+      "assets/logo_comunhao.png",
+      "assets/logo_entrevista.png",
+      "assets/logo_play.png",
+      "assets/template.jpg",
+      "assets/fonts/Inter-ExtraBoldItalic.ttf",
+      "assets/fonts/Inter-SemiBoldItalic.ttf",
+      "exemplos/danielle_ia.png",
+      "exemplos/mensagem_admin_danielle.txt",
+      "exemplos/modelo_short_capa.jpg",
+      "exemplos/modelo_short_interno.jpg",
+      "exemplos/shorts_danielle.json",
+      "exemplos/thumb_danielle.jpg",
+      "exemplos/thumb_danielle.json",
+      "scripts/cortar_shorts.py",
+      "scripts/gerar_thumb.py",
+      "scripts/gerar_visual_short.py",
+      "scripts/tratar_foto.py"
+    ],
+    "pasta": "02 Distribuição/youtube-comunhao-titulos",
+    "sha": "7e4df396b2accbaf5d0b79a10eb41408d8b8fc8724db16c34222e7069ac086e4",
+    "updatedAt": "2026-10-02T22:05:41.880493Z"
+  },
+  "youtube-esbrasil-titulos": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "02 Distribuição/youtube-esbrasil-titulos",
+    "sha": "d8cae171e70a7b6840117f72849c5512e4c22c91ef88b6688839030623138fc9",
+    "updatedAt": "2026-11-03T01:28:34.521754Z"
+  },
+  "youtube-lote-noturno-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "02 Distribuição/youtube-lote-noturno-next",
+    "sha": "21e123ef7be7ab120d32b8e49a8a77e6dc215abf2019e7e5836479b7dc618f15",
+    "updatedAt": "2026-10-25T20:26:26.974428Z"
+  },
+  "youtube-playlists-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "02 Distribuição/youtube-playlists-next",
+    "sha": "f9b0bb7a5ab6253e3d153b0e0fdf92b78e5e34fbe4533dab7f1f300fdd816249",
+    "updatedAt": "2026-11-02T18:31:49.418032Z"
+  }
+}
