@@ -213,7 +213,7 @@ Articulista vivo: a mesma estrutura, com a minibio no presente e sem "In memoria
 
 ### Categorias e tags (portal ES Brasil = 1)
 
-- Artigos (11960) + uma categoria temática, pela tabela da rotina de notícias da **ES Brasil** (`noticias-noturnas-esbrasil`). Na dúvida, só Artigos.
+- **Só Artigos (11960)**, em todo texto da rotina, inclusive os da seção 2.2. Nunca uma segunda categoria temática: com ela, o site mostrava o artigo na editoria do tema (decisão do Mário Fernando, 16/11/2026). O tema vai nas tags.
 - Nunca Destaques, Edição Digital, Conteúdo de Marca, Institucional ou Eleições.
 - Tags (5 a 10): sempre "Acervo de Artigos" e o nome do articulista, mais tema, setor e instituição quando houver.
 
@@ -222,349 +222,129 @@ Articulista vivo: a mesma estrutura, com a minibio no presente e sem "In memoria
 - SEO pelo padrão (seção 8), com `prompt_do_nxfeed` (tipo seo). O título fica o original; a palavra-chave e o título SEO trazem o termo mais buscado do tema. **O texto do autor nunca muda por causa de SEO:** quando o que falta para a nota 85 exige mexer nele (palavra-chave em intertítulo, por exemplo), publique com a nota que tiver e registre.
 - Imagem destacada pelo padrão (seção 9), nesta ordem: personagem do título, quando o texto é sobre uma pessoa (retrato de acervo público com crédito) → **foto do articulista** (NX Fotos pelo nome; imagem destacada de posts antigos dele ou sobre ele no site, que a NEIA traz em `featured_image`; `buscar_imagens`; foto oficial da instituição ou empresa com crédito) → foto real do tema → imagem por IA (nunca o rosto do autor). Foto antiga: "foto de arquivo" na descrição; falecido: "(1929-2016), foto de arquivo".
 
-### Enquadramento da foto destacada (decisão do Mário Fernando, 13/11/2026)
+### Foto destacada: padrão de artigos (decisão do Mário Fernando, 16/11/2026)
 
-O tema dos sites mostra a destacada recortada em caixas mais altas que 16:9: o destaque grande da categoria Artigos é 5:3, com o foco um pouco abaixo do meio, e há blocos de 70% e miniaturas quadradas. Retrato vertical, quadrado ou 3:2 com a cabeça no alto perde a cabeça do autor quando aparece grande (aconteceu com Hernandes Dias Lopes, Gilson Bifano e Sidemberg Rodrigues em novembro de 2026). Em 16:9 a imagem preenche essas caixas pela altura e o site só corta as laterais. Por isso, **toda destacada com pessoa vai em 16:9, com o rosto no centro e a cabeça inteira**:
+Toda destacada com pessoa sai no mesmo padrão, seja qual for a foto de partida (estúdio, cena ou montagem antiga): **a pessoa recortada sobre uma foto do tema bem desfocada (o fundo é sempre trocado), em 1600x900 (16:9), com a cabeça sempre do mesmo tamanho e na mesma altura**: do alto do cabelo ao queixo, metade da altura da imagem; o alto do cabelo a 7% do topo; o rosto no centro; o corte na altura dos braços. Substitui as regras de enquadramento e de fundo neutro de 13 e 14/11/2026: o fundo agora é trocado sempre, não só quando é neutro. Em 16:9, com o rosto no centro e a cabeça logo abaixo do topo, os cortes do tema dos sites (destaque grande 5:3, blocos de 70% e miniaturas quadradas) nunca pegam a cabeça.
 
-1. Baixe a foto escolhida em resolução cheia (NX Fotos: `link_do_original`; nas outras, o link da foto). Se ela precisar de tratamento de cor (padrão, 9.3), trate antes de enquadrar.
-2. Grave o script abaixo como `enquadrar_retrato.py` e rode `python3 enquadrar_retrato.py foto.jpg destacada.jpg --folha folha.jpg`. Ele acha o rosto e escolhe um de três caminhos: foto já larga, corta só as laterais com o rosto no centro; foto mais alta com folga acima da cabeça, corta em 16:9 com a cabeça inteira; senão, mantém a foto inteira no centro (a vertical fica da cabeça à cintura) e completa as laterais com o próprio fundo (fundo liso: a cor da borda, só provisória, porque o fundo neutro é trocado no passo 3; fundo com cena: a própria foto desfocada). Saída em JPEG 1600x900 (menor só quando a original é pequena).
-3. **Fundo neutro vira fundo do tema, bem desfocado** (decisão do Mário Fernando, 13/11/2026; cobrada de novo em 14/11/2026, quando a destacada de Robson Melo foi ao ar com o cinza de estúdio). Fundo neutro é estúdio cinza, branco ou de cor, ou parede lisa: a pessoa nunca vai ao ar sobre ele. Vale em qualquer caminho do enquadramento, inclusive quando a foto já veio larga e só teve as laterais cortadas.
-   a. **Escolha o fundo no NX Fotos** (`buscar`, `orientacao` "h", `tipo` "foto"): foto real, horizontal, de 2000 px ou mais, ligada ao tema do artigo. Exemplos: gestão, carreira e liderança → escritório; ESG, sustentabilidade e meio ambiente → área verde na cidade; urbanismo e cidades → Centro de Vitória, orla ou Terceira Ponte; economia, indústria e logística → porto ou fábrica; agro → lavoura capixaba. Prefira a biblioteca dos fotógrafos da casa (Sidney Pagotto e demais). Nunca foto oculta (`visibilidade` "oculta", que é banco de imagem comprado), de outro veículo ou da Reuters, nem com texto, logotipo ou pessoa em primeiro plano. Atrás da cabeça, prefira um tom que contraste com o cabelo: cabelo branco pede verde ou tom médio; cabelo escuro, fundo claro. Baixe o original com `link_do_original`.
-   b. Grave o script `trocar_fundo.py` (logo depois do `enquadrar_retrato.py`, abaixo) e rode `python3 trocar_fundo.py destacada.jpg tema.jpg destacada_fundo.jpg --folha folha.jpg`. `--altura`, de 0 a 1, escolhe a faixa do fundo que fica atrás da pessoa. Ele mede as bordas: com cena, copia a foto como veio (`trocado` false); com fundo neutro, recorta a pessoa (rembg; se faltar, `pip install --break-system-packages "rembg[cpu]"`) e a põe sobre o fundo do tema desfocado, no mesmo tamanho e enquadramento. Se ele disser que o fundo tem cena e você vir estúdio na foto, rode de novo com `--forcar`.
-   c. Olhe com Read a saída e os dois zooms que ele grava (cabelo e ombros). Halo claro em volta do cabelo, sobra do cinza, orelha, óculos ou ombro comido pelo recorte: tente outra faixa (`--altura`) ou outro fundo. Se em duas tentativas não ficar bom, ou se o JSON disser "recorte duvidoso", suba a foto com o fundo neutro e registre "fundo não trocado" em Pendências.
-   d. Campos da montagem: autor "<crédito da foto da pessoa>; fundo: <autor do fundo>/NX Fotos"; descrição "<Nome>, autor do artigo; foto de arquivo, em montagem com fundo ilustrativo de <cena>"; legenda (alt) com o que se vê, terminando em "diante de <cena> desfocada". Fonte: a da foto da pessoa.
-4. Olhe a `folha.jpg` com Read (a do passo 3, quando o fundo foi trocado): nos três cortes do site (5:3, 70% e quadrado), a cabeça aparece inteira e o rosto fica perto do centro. Emenda visível, faixa estranha ou objeto esticado na lateral: escolha outra foto do articulista e repita.
-5. Suba com `pedir_link_de_envio` (`tipo` "imagem", `tratamento` "nao", `materia_id`) e `curl -T`, e grave a URL que o envio devolve com `definir_imagem_destacada` (`tratamento` "nao"), com título, fonte, autor, descrição e legenda de sempre. O link de envio é de uso único: não mostre nem guarde.
-6. Sem OpenCV ou sem o modelo de rosto, o script segue sem rosto e mantém a foto inteira, o que também protege a cabeça. Se nem o script rodar, prefira uma foto horizontal com a cabeça longe do alto e registre "foto sem enquadramento" em Pendências.
-7. Vale para toda foto de pessoa na destacada (articulista ou personagem do título), inclusive a troca do fundo neutro. Foto de tema sem pessoa e imagem de IA (gerada em 16:9) não precisam.
+1. **Foto da pessoa, com corpo.** No NX Fotos (pelo nome do articulista), escolha uma foto em que apareçam o peito e os ombros, e baixe a original (`link_do_original`) ou a versão de 1600 px do CDN. Retrato fechado, com a cabeça ocupando quase a foto toda, não serve: para a cabeça ficar com metade da altura, o corpo tem de descer até a base. Montagem antiga da rotina também serve de fonte, se tiver corpo. Foto com objeto ou outra pessoa encostada (carro, cadeira, parede pintada com sombra) dá recorte sujo: prefira outra.
+2. **Fundo do tema, no NX Fotos** (`buscar`, `orientacao` "h", `tipo` "foto"): foto real, horizontal, ligada ao tema do artigo. Exemplos: gestão, carreira e liderança → escritório; ESG, sustentabilidade e meio ambiente → área verde; urbanismo e cidades → Centro de Vitória, orla ou Terceira Ponte; mobilidade → trânsito na cidade; economia, indústria e logística → porto ou fábrica; agro e mundo rural → lavouras capixabas; turismo → cartão-postal capixaba. Prefira a biblioteca dos fotógrafos da casa (Sidney Pagotto, Claudio Alves e demais). Nunca foto oculta (`visibilidade` "oculta", banco de imagem comprado), de outro veículo ou da Reuters, nem com texto, logotipo ou pessoa em primeiro plano. A versão de 1600 px do CDN basta, porque o fundo vai desfocado.
+3. Grave o script abaixo como `padronizar_retrato.py` e rode `python3 padronizar_retrato.py foto.jpg fundo.jpg destacada.jpg --altura 0.45 --folha folha.jpg` (`--altura`, de 0 a 1, escolhe a faixa da foto do tema que fica atrás da pessoa). Ele recorta a pessoa (rembg; se faltar, `pip install --break-system-packages "rembg[cpu]" opencv-python-headless`), acha o rosto, iguala a cabeça e compõe sobre o tema desfocado.
+4. Leia o JSON. Com `ok` true, siga. Com problema:
+   - "corpo curto": a foto acaba antes da base. Troque por outra foto da pessoa, com mais corpo. Sem outra, rode de novo com `--aceitar-cabeca-maior` (a cabeça cresce só o necessário e o alto continua a 7%) e registre "cabeça maior que o padrão" em Pendências.
+   - "corte lateral esfumado": a foto original corta o ombro ou o braço, e o script esfuma o corte. Se o degradê ficar estranho, troque a foto.
+   - "sem rosto detectado" ou "ampliação alta": troque a foto. Sem outra, mantenha a destacada que houver e registre "foto fora do padrão" em Pendências.
+5. Olhe com Read a saída e a folha (cortes 5:3, 70% e quadrado): cabeça inteira, alto do cabelo logo abaixo do topo, recorte limpo, sem halo, sem pedaço do fundo antigo ou de objeto grudado na pessoa, sem orelha, óculos ou ombro comidos. Com defeito, troque a foto ou o fundo.
+6. Suba com `pedir_link_de_envio` (`tipo` "imagem", `tratamento` "nao", `materia_id`) e `curl -T`, e grave a URL que o envio devolve com `definir_imagem_destacada` (`tratamento` "nao"). O link de envio é de uso único: não mostre nem guarde. Campos: título "<Nome>, articulista da ES Brasil"; fonte, a da foto da pessoa; autor "<crédito da foto da pessoa>; fundo: <autor do fundo>/NX Fotos"; descrição "<Nome>, autor do artigo[, em <ano da foto>]; foto de arquivo, em montagem com fundo ilustrativo de <cena>"; legenda (alt) com o que se vê, terminando em "diante de <cena> desfocada".
+7. Vale para toda foto de pessoa na destacada (articulista ou personagem do título). Foto de tema sem pessoa e imagem de IA (gerada em 16:9) não passam pelo script.
 
 ```python
 #!/usr/bin/env python3
-"""Enquadra a foto do articulista para a imagem destacada (16:9), sem cortar a cabeça.
+"""Padrão de foto dos artigos: recorta o articulista, troca SEMPRE o fundo e iguala a cabeça.
 
-Por que existe: o tema dos sites (Newspaper/tagDiv) mostra a destacada como fundo
-"cover" em caixas mais altas que 16:9 (destaque grande 5:3 com foco vertical em 60%,
-blocos de 70%, miniaturas quadradas). Foto vertical, quadrada ou 3:2 com a cabeça no
-alto perde o alto da cabeça. Em 16:9 a imagem preenche essas caixas pela altura: o
-site só corta as laterais, nunca o alto.
-
-O que faz:
-  - acha o rosto (OpenCV Haar; baixa o modelo do GitHub se faltar);
-  - foto já 16:9 ou mais larga: corta só as laterais, com o rosto no centro;
-  - foto mais alta que 16:9 com folga acima da cabeça: corta em 16:9 com a cabeça
-    inteira e margem no alto;
-  - senão (vertical, quadrada, cabeça encostada no alto): mantém a foto inteira no
-    centro e completa as laterais com o próprio fundo (fundo liso: cor da borda,
-    linha a linha; fundo com cena: a própria foto ampliada e desfocada).
-Saída em JPEG 1600x900 (menor só se a original for pequena; nunca abaixo de 1200x675).
+Decisão do Mário Fernando (16/11/2026): toda destacada de artigo sai no mesmo padrão,
+seja qual for a foto de partida (estúdio, cena, montagem antiga):
+  - a pessoa recortada (rembg) sobre uma foto do tema bem desfocada (o fundo é sempre trocado);
+  - 1600x900 (16:9);
+  - a cabeça sempre do mesmo tamanho e na mesma altura: do alto do cabelo ao queixo = 50%
+    da altura; alto do cabelo a 7% do topo; rosto no centro; corte na altura dos braços.
 
 Uso:
-  python3 enquadrar_retrato.py entrada.jpg saida.jpg [--folha folha.jpg]
-Imprime um JSON com o modo usado e as medidas; a --folha mostra como o site cortaria
-a saída (5:3 foco 60%, 70% foco 60%, quadrado foco 20%) para conferir antes de subir.
+  python3 padronizar_retrato.py foto.jpg fundo.jpg saida.jpg [--altura 0.45] [--folha folha.jpg]
+  fundo.jpg: foto do tema (NX Fotos, horizontal). Use "cinza" só para testar.
+  --altura: de 0 (alto) a 1 (baixo), a faixa da foto do tema que fica atrás da pessoa.
+  --aceitar-cabeca-maior: foto fechada demais e nenhuma outra do articulista: a cabeça cresce
+    só o necessário para o corpo chegar à base (o alto da cabeça continua a 7%).
+Imprime um JSON. "ok": false lista os problemas (corpo curto, corte lateral, ampliação alta,
+sem rosto): nesse caso escolha outra foto do articulista em vez de subir esta.
+Precisa de: pip install --break-system-packages "rembg[cpu]" opencv-python-headless
 """
 import json, os, sys, urllib.request
 import numpy as np
-from PIL import Image, ImageFilter, ImageOps, ImageDraw
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageOps
 
-HAAR_URL = ("https://raw.githubusercontent.com/opencv/opencv/4.x/data/haarcascades/"
-            "haarcascade_frontalface_default.xml")
-HAAR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modelos",
-                    "haarcascade_frontalface_default.xml")
-RATIO = 16 / 9
+W, H = 1600, 900
+TOPO = 0.07      # alto do cabelo, em fração da altura
+CABECA = 0.50    # do alto do cabelo ao queixo, em fração da altura (metade da imagem)
+AMPLIAR = False  # --aceitar-cabeca-maior: só quando não houver outra foto do articulista
+FOLGA = 0.04     # se o corpo não chegar à base por até 4% da altura, a pessoa desce esse tanto
+CENTRO_X = 0.50  # centro do rosto
 
-# Caixas do tema medidas na Comunhão em 13/11/2026 (fundo "cover"): altura/largura e foco vertical
-CAIXAS = [("5:3 foco 60%", 0.60, 0.60), ("70% foco 60%", 0.70, 0.60), ("quadrado foco 20%", 1.00, 0.20)]
-
-def corte(im, ratio_h, foco_y, foco_x=0.5, larg=420):
-    w, h = im.size
-    box_w, box_h = larg, int(larg * ratio_h)
-    esc = max(box_w / w, box_h / h)
-    nw, nh = int(w * esc + 0.5), int(h * esc + 0.5)
-    r = im.resize((nw, nh), Image.LANCZOS)
-    ox = int((nw - box_w) * foco_x); oy = int((nh - box_h) * foco_y)
-    return r.crop((ox, oy, ox + box_w, oy + box_h))
-
-def folha(paths, saida):
-    """Folha de conferência: original e os três cortes do site, uma linha por imagem."""
-    linhas = []
-    for p in paths:
-        im = Image.open(p).convert("RGB")
-        orig = im.copy(); orig.thumbnail((300, 300))
-        pecas = [orig] + [corte(im, rh, fy) for _, rh, fy in CAIXAS]
-        lw = sum(x.size[0] for x in pecas) + 10 * (len(pecas) + 1)
-        lh = max(x.size[1] for x in pecas) + 34
-        lin = Image.new("RGB", (lw, lh), "white"); d = ImageDraw.Draw(lin)
-        x = 10
-        for i, pc in enumerate(pecas):
-            lin.paste(pc, (x, 28))
-            d.text((x, 8), ("original %dx%d" % im.size) if i == 0 else CAIXAS[i - 1][0], fill="black")
-            x += pc.size[0] + 10
-        d.text((lw - 200, 8), p.split("/")[-1][:30], fill="red")
-        linhas.append(lin)
-    W = max(l.size[0] for l in linhas); H = sum(l.size[1] for l in linhas)
-    out = Image.new("RGB", (W, H), "white"); y = 0
-    for l in linhas: out.paste(l, (0, y)); y += l.size[1]
-    out.save(saida, quality=85)
+HAAR_BASE = "https://raw.githubusercontent.com/opencv/opencv/4.x/data/haarcascades/"
+MODELOS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modelos")
 
 
+def cascata(nome):
+    import cv2
+    p = os.path.join(MODELOS, nome)
+    if not os.path.exists(p):
+        os.makedirs(MODELOS, exist_ok=True)
+        urllib.request.urlretrieve(HAAR_BASE + nome, p)
+    return cv2.CascadeClassifier(p)
 
-def achar_rosto(im):
-    try:
-        import cv2
-    except ImportError:
-        return None
-    if not os.path.exists(HAAR):
-        os.makedirs(os.path.dirname(HAAR), exist_ok=True)
-        try:
-            urllib.request.urlretrieve(HAAR_URL, HAAR)
-        except Exception:
-            return None
-    cas = cv2.CascadeClassifier(HAAR)
-    if cas.empty():
-        return None
-    w, h = im.size
-    g = cv2.cvtColor(np.array(im)[:, :, ::-1], cv2.COLOR_BGR2GRAY)
+
+def achar_rosto(im, mask):
+    """Maior rosto dentro da pessoa e com largura de rosto (pelo menos 45% da largura da
+    silhueta na altura dos olhos), para não pegar botão, óculos ou mão."""
+    import cv2
+    g = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2GRAY)
     g = cv2.equalizeHist(g)
-    for viz in (6, 4):
-        fs = cas.detectMultiScale(g, 1.08, viz, minSize=(int(min(w, h) * 0.07),) * 2)
-        if len(fs):
-            x, y, fw, fh = max(fs, key=lambda r: r[2] * r[3])
-            return int(x), int(y), int(fw), int(fh)
+    w, h = im.size
+    for nome in ("haarcascade_frontalface_default.xml", "haarcascade_frontalface_alt2.xml"):
+        cas = cascata(nome)
+        for viz in (6, 4, 3):
+            fs = cas.detectMultiScale(g, 1.06, viz, minSize=(int(min(w, h) * 0.06),) * 2)
+            boas = []
+            for (x, y, fw, fh) in fs:
+                cx, cy = int(x + fw / 2), min(int(y + fh * 0.4), h - 1)
+                linha = mask[cy, :].sum()
+                if mask[cy, min(cx, w - 1)] and fw >= 0.45 * linha:
+                    boas.append((int(x), int(y), int(fw), int(fh)))
+            if boas:
+                return max(boas, key=lambda r: r[2] * r[3])
     return None
 
 
-def _suave(v, jan):
-    """Média móvel ao longo das linhas (v: linhas x 3)."""
-    jan = max(3, int(jan) | 1)
-    pad = np.pad(v, ((jan // 2, jan // 2), (0, 0)), mode="edge")
-    k = np.ones(jan) / jan
-    return np.stack([np.convolve(pad[:, c], k, mode="valid") for c in range(3)], axis=1)
+def maior_componente(alfa):
+    import cv2
+    bin_ = (alfa > 128).astype(np.uint8)
+    n, lab, stats, _ = cv2.connectedComponentsWithStats(bin_, 8)
+    if n <= 2:
+        return alfa
+    k = 1 + int(np.argmax(stats[1:, cv2.CC_STAT_AREA]))
+    keep = (lab == k).astype(np.uint8)
+    keep = cv2.dilate(keep, np.ones((9, 9), np.uint8))       # mantém a borda suave
+    return (alfa * keep).astype(np.uint8)
 
 
-def fundo_liso(arr):
-    """Fundo de estúdio? As faixas laterais (3% de cada lado) têm de ser uniformes em
-    cada linha e sem objeto no caminho (cadeira, mesa, planta): a cor de cada linha não
-    pode fugir da média móvel vertical."""
-    h, w, _ = arr.shape
-    b = max(4, int(w * 0.03))
-    pior = 0.0
-    for faixa in (arr[:, :b].astype(float), arr[:, -b:].astype(float)):
-        na_linha = faixa.std(axis=1).mean()
-        medias = faixa.mean(axis=1)
-        salto = np.abs(medias - _suave(medias, h * 0.15)).max()
-        pior = max(pior, na_linha, salto * 0.8)
-    return pior < 12, round(float(pior), 1)
-
-
-def preencher(im, W, H, x0, y0, liso):
-    """Põe im (já na escala) em (x0, y0) de uma tela WxH e completa o resto."""
-    iw, ih = im.size
-    arr = np.array(im)
-    if liso:
-        b = max(3, int(iw * 0.02))
-        cor_e = _suave(arr[:, :b].astype(float).mean(axis=1), ih * 0.15)   # cor da borda,
-        cor_d = _suave(arr[:, -b:].astype(float).mean(axis=1), ih * 0.15)  # linha a linha
-        tela = np.zeros((H, W, 3), float)
-        linhas = np.clip(np.arange(H) - y0, 0, ih - 1)
-        ce, cd = cor_e[linhas], cor_d[linhas]
-        meio = x0 + iw // 2
-        tela[:, :meio] = ce[:, None, :]
-        tela[:, meio:] = cd[:, None, :]
-        fundo = Image.fromarray(np.clip(tela, 0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(4))
-        borda = max(16, int(iw * 0.06))
+def fundo_tema(caminho, altura):
+    if caminho == "cinza":
+        return Image.new("RGB", (W, H), (128, 132, 136))
+    t = ImageOps.exif_transpose(Image.open(caminho)).convert("RGB")
+    bw, bh = t.size
+    if bw / bh >= W / H:
+        cw = int(bh * W / H); x0 = (bw - cw) // 2
+        t = t.crop((x0, 0, x0 + cw, bh))
     else:
-        esc = max(W / iw, H / ih)
-        fundo = im.resize((int(iw * esc) + 1, int(ih * esc) + 1), Image.LANCZOS)
-        fx, fy = (fundo.size[0] - W) // 2, (fundo.size[1] - H) // 2
-        fundo = fundo.crop((fx, fy, fx + W, fy + H)).filter(ImageFilter.GaussianBlur(28))
-        fundo = Image.eval(fundo, lambda v: int(v * 0.78))
-        borda = max(10, int(iw * 0.025))
-    # máscara com bordas suaves para não ficar emenda
-    m = Image.new("L", (iw, ih), 255)
-    d = ImageDraw.Draw(m)
-    for i in range(borda):
-        a = int(255 * (i + 1) / (borda + 1))
-        if x0 > 0:
-            d.line([(i, 0), (i, ih)], fill=a)
-        if x0 + iw < W:
-            d.line([(iw - 1 - i, 0), (iw - 1 - i, ih)], fill=a)
-        if y0 > 0:
-            d.line([(0, i), (iw, i)], fill=min(a, 255))
-    fundo.paste(im, (x0, y0), m)
-    return fundo
-
-
-def tamanho_tela(lado_ref):
-    """Altura da tela: até 900, nunca abaixo de 675 (largura 1200)."""
-    H = int(min(900, max(675, lado_ref)))
-    return int(round(H * RATIO)), H
-
-
-def enquadrar(ent, sai):
-    im = ImageOps.exif_transpose(Image.open(ent)).convert("RGB")
-    w, h = im.size
-    r = w / h
-    rosto = achar_rosto(im)
-    info = {"entrada": f"{w}x{h}", "proporcao": round(r, 2), "rosto": bool(rosto)}
-    if rosto:
-        x, y, fw, fh = rosto
-        cx = x + fw / 2
-        topo = max(0.0, y - 0.6 * fh)           # alto do cabelo, com folga
-        queixo = y + fh
-    else:
-        cx, topo, queixo, fh = w / 2, 0.0, h * 0.5, h * 0.25
-
-    if r >= RATIO - 0.01:                        # já horizontal o bastante
-        W, H = tamanho_tela(h)
-        esc = H / h
-        r_im = im.resize((int(w * esc + 0.5), H), Image.LANCZOS)
-        cxs = cx * esc
-        x0 = int(min(max(cxs - W / 2, 0), r_im.size[0] - W))
-        out = r_im.crop((x0, 0, x0 + W, H))
-        info["modo"] = "corte lateral"
-    else:
-        ch = w / RATIO                           # janela 16:9 na largura toda
-        y_top = min(max(topo - 0.10 * ch, 0), h - ch)
-        folga = topo - y_top
-        cabe = (rosto is not None and folga >= 0.06 * ch
-                and y_top + ch >= queixo + 0.6 * fh and ch >= 0.62 * h and w >= 1200)
-        if cabe:
-            W, H = tamanho_tela(ch)
-            out = im.crop((0, int(y_top), w, int(y_top + ch))).resize((W, H), Image.LANCZOS)
-            info["modo"] = "corte 16:9 com a cabeça inteira"
-        else:
-            if h > w:                            # vertical: fica da cabeça à cintura
-                y_c = int(min(max(topo - 0.08 * w, 0), h - w))
-                im = im.crop((0, y_c, w, y_c + w))
-                topo -= y_c
-                h = w
-                info["recorte_vertical"] = f"{w}x{w} a partir de y={y_c}"
-            liso, desvio = fundo_liso(np.array(im))
-            W, H = tamanho_tela(h)
-            margem = 0                           # sem faixa no alto: o site não corta o alto do 16:9
-            ih = H - margem
-            esc = ih / h
-            iw = int(w * esc + 0.5)
-            if iw > W:                           # não deveria acontecer (r < 16:9)
-                iw, ih = W, int(h * W / w)
-            r_im = im.resize((iw, ih), Image.LANCZOS)
-            x0 = int(min(max(W / 2 - cx * esc, 0), W - iw))
-            out = preencher(r_im, W, H, x0, margem, liso)
-            info["modo"] = "foto inteira no centro, laterais completadas"
-            info["fundo"] = "liso (cor da borda)" if liso else "cena (foto desfocada)"
-            info["desvio_borda"] = desvio
-    out.save(sai, "JPEG", quality=92, optimize=True, progressive=True)
-    info["saida"] = f"{out.size[0]}x{out.size[1]}"
-    return info
-
-
-if __name__ == "__main__":
-    args = sys.argv[1:]
-    folha_saida = None
-    if "--folha" in args:
-        i = args.index("--folha"); folha_saida = args[i + 1]; del args[i:i + 2]
-    res = enquadrar(args[0], args[1])
-    if folha_saida:
-        globals()["folha"]([args[1]], folha_saida)
-        res["folha"] = folha_saida
-    print(json.dumps(res, ensure_ascii=False))
-```
-
-Script do passo 3 (`trocar_fundo.py`):
-
-```python
-#!/usr/bin/env python3
-"""Troca o fundo neutro da foto do articulista por uma foto do tema bem desfocada.
-
-Por que existe: decisão do Mário Fernando (13/11/2026, reforçada em 14/11/2026).
-Retrato com fundo neutro (estúdio cinza, branco, parede lisa) fica sem vida na capa
-da categoria Artigos, ao lado das outras destacadas, que têm cena desfocada atrás da
-pessoa. Quando o fundo é neutro, a pessoa é recortada e posta sobre uma foto do tema
-do artigo, bem desfocada, como nas montagens de Eustáquio Palhares, Luciano Raizer e
-Sidemberg Rodrigues.
-
-O que faz:
-  - recebe a destacada já enquadrada em 16:9 (saída do enquadrar_retrato.py);
-  - mede as bordas: fundo com cena → não mexe (copia e avisa);
-  - fundo liso → recorta a pessoa (rembg, modelo isnet-general-use, com alpha
-    matting) e compõe sobre a foto do tema, cortada em 16:9 e bem desfocada;
-  - recusa o recorte duvidoso (pessoa ocupando menos de 8% ou mais de 85% da tela,
-    ou sem chegar à borda de baixo): copia a destacada como veio e avisa.
-
-Uso:
-  python3 trocar_fundo.py destacada.jpg tema.jpg saida.jpg [--altura 0.45] [--forcar] [--folha folha.jpg]
-  --altura: de 0 (alto) a 1 (baixo), qual faixa da foto do tema fica atrás da pessoa.
-  --forcar: troca o fundo mesmo quando a medida não acusar fundo liso.
-Imprime um JSON com "trocado" (true/false), o motivo e as medidas.
-Precisa de: pip install --break-system-packages "rembg[cpu]" (baixa o modelo do GitHub
-na primeira vez, ~180 MB).
-"""
-import json, shutil, sys
-import numpy as np
-from PIL import Image, ImageEnhance, ImageFilter, ImageOps
-
-
-def _suave(v, jan):
-    jan = max(3, int(jan) | 1)
-    pad = np.pad(v, ((jan // 2, jan // 2), (0, 0)), mode="edge")
-    k = np.ones(jan) / jan
-    return np.stack([np.convolve(pad[:, c], k, mode="valid") for c in range(3)], axis=1)
-
-
-def fundo_liso(arr):
-    """Fundo neutro? Duas medidas, as duas têm de passar:
-    1) a do enquadrar_retrato.py: faixas laterais (3%) uniformes em cada linha e sem
-       objeto no caminho (desvio < 12);
-    2) a variação total das bordas (6% de cada lado + 6% do alto) pequena (< 16): uma
-       cena já desfocada também é uniforme linha a linha, mas muda de cor ao longo da
-       borda; o estúdio, no máximo, tem um degradê suave. Medido em 14/11/2026:
-       estúdio cinza do Robson Melo 11,8; cenas desfocadas de 20 a 63."""
-    h, w, _ = arr.shape
-    b = max(4, int(w * 0.03))
-    pior = 0.0
-    for faixa in (arr[:, :b].astype(float), arr[:, -b:].astype(float)):
-        na_linha = faixa.std(axis=1).mean()
-        medias = faixa.mean(axis=1)
-        salto = np.abs(medias - _suave(medias, h * 0.15)).max()
-        pior = max(pior, na_linha, salto * 0.8)
-    b2 = max(4, int(w * 0.06))
-    bordas = np.concatenate([arr[:, :b2].reshape(-1, 3), arr[:, -b2:].reshape(-1, 3),
-                             arr[:max(2, int(h * 0.06)), :].reshape(-1, 3)]).astype(float)
-    variacao = float(bordas.std(axis=0).max())
-    return bool(pior < 12 and variacao < 16), round(float(pior), 1), round(variacao, 1)
-
-
-def fundo_tema(tema, W, H, altura):
-    bw, bh = tema.size
-    if bw / bh >= W / H:                       # tema mais largo: corta laterais
-        cw = int(bh * W / H)
-        x0 = (bw - cw) // 2
-        tema = tema.crop((x0, 0, x0 + cw, bh))
-    else:                                      # tema mais alto: escolhe a faixa
-        ch = int(bw * H / W)
-        y0 = int((bh - ch) * altura)
-        tema = tema.crop((0, y0, bw, y0 + ch))
-    tema = tema.resize((W, H), Image.LANCZOS)
-    tema = tema.filter(ImageFilter.GaussianBlur(max(14, W / 55)))   # bem desfocado
-    tema = ImageEnhance.Brightness(tema).enhance(0.92)
-    return ImageEnhance.Color(tema).enhance(0.85)
+        ch = int(bw * H / W); y0 = int((bh - ch) * altura)
+        t = t.crop((0, y0, bw, y0 + ch))
+    t = t.resize((W, H), Image.LANCZOS).filter(ImageFilter.GaussianBlur(W / 55))
+    t = ImageEnhance.Brightness(t).enhance(0.92)
+    return ImageEnhance.Color(t).enhance(0.85)
 
 
 def folha(img, saida):
-    """Original e os três cortes do site (5:3 foco 60%, 70% foco 60%, quadrado foco 20%)."""
-    caixas = [("5:3", 0.60, 0.60), ("70%", 0.70, 0.60), ("quadrado", 1.00, 0.20)]
-    pecas = []
-    th = img.copy(); th.thumbnail((420, 420)); pecas.append(th)
-    for _, rh, fy in caixas:
+    """Saída e os três cortes do site (5:3 foco 60%, 70% foco 60%, quadrado foco 20%)."""
+    caixas = [(0.60, 0.60), (0.70, 0.60), (1.00, 0.20)]
+    pecas = [img.copy()]; pecas[0].thumbnail((420, 420))
+    for rh, fy in caixas:
         bw, bh = 300, int(300 * rh)
         esc = max(bw / img.size[0], bh / img.size[1])
         r = img.resize((int(img.size[0] * esc + .5), int(img.size[1] * esc + .5)), Image.LANCZOS)
         ox = (r.size[0] - bw) // 2; oy = int((r.size[1] - bh) * fy)
         pecas.append(r.crop((ox, oy, ox + bw, oy + bh)))
-    W = sum(p.size[0] for p in pecas) + 10 * (len(pecas) + 1)
-    H = max(p.size[1] for p in pecas) + 20
-    out = Image.new("RGB", (W, H), "white"); x = 10
+    Wf = sum(p.size[0] for p in pecas) + 10 * (len(pecas) + 1)
+    Hf = max(p.size[1] for p in pecas) + 20
+    out = Image.new("RGB", (Wf, Hf), "white"); x = 10
     for p in pecas:
         out.paste(p, (x, 10)); x += p.size[0] + 10
     out.save(saida, quality=85)
@@ -572,53 +352,108 @@ def folha(img, saida):
 
 def main():
     a = sys.argv[1:]
-    forcar = "--forcar" in a
-    if forcar: a.remove("--forcar")
+    global AMPLIAR
     altura, folha_saida = 0.45, None
+    if "--aceitar-cabeca-maior" in a:
+        a.remove("--aceitar-cabeca-maior"); AMPLIAR = True
     if "--altura" in a:
         i = a.index("--altura"); altura = float(a[i + 1]); del a[i:i + 2]
     if "--folha" in a:
         i = a.index("--folha"); folha_saida = a[i + 1]; del a[i:i + 2]
-    ent, tema_p, sai = a[0], a[1], a[2]
+    ent, fundo_p, sai = a[0], a[1], a[2]
 
     im = ImageOps.exif_transpose(Image.open(ent)).convert("RGB")
-    W, H = im.size
-    liso, desvio, variacao = fundo_liso(np.array(im))
-    info = {"entrada": f"{W}x{H}", "fundo_liso": liso, "desvio_borda": desvio,
-            "variacao_bordas": variacao}
-    if not liso and not forcar:
-        shutil.copy(ent, sai)
-        info.update(trocado=False, motivo="o fundo já tem cena: foto mantida como veio")
-        print(json.dumps(info, ensure_ascii=False)); return
+    w, h = im.size
+    cache = ent.rsplit(".", 1)[0] + "_recorte.png"     # o recorte é a parte lenta: guarda
+    if os.path.exists(cache):
+        pessoa = Image.open(cache).convert("RGBA")
+        arr = np.array(pessoa)
+    else:
+        from rembg import new_session, remove
+        sess = new_session("isnet-general-use")
+        pessoa = remove(im, session=sess, alpha_matting=True,
+                        alpha_matting_foreground_threshold=240,
+                        alpha_matting_background_threshold=15,
+                        alpha_matting_erode_size=8).convert("RGBA")
+        arr = np.array(pessoa)
+        arr[:, :, 3] = maior_componente(arr[:, :, 3])
+        pessoa = Image.fromarray(arr)
+        pessoa.save(cache)
+    mask = arr[:, :, 3] > 128
 
-    from rembg import new_session, remove
-    sess = new_session("isnet-general-use")
-    pessoa = remove(im, session=sess, alpha_matting=True,
-                    alpha_matting_foreground_threshold=240,
-                    alpha_matting_background_threshold=15,
-                    alpha_matting_erode_size=8).convert("RGBA")
-    alfa = np.array(pessoa)[:, :, 3] > 128
-    ocupa = float(alfa.mean())
-    base = float(alfa[-3:, :].mean())
-    info.update(pessoa_ocupa=round(ocupa, 3), pessoa_na_base=round(base, 3))
-    if ocupa < 0.08 or ocupa > 0.85 or base < 0.10:
-        shutil.copy(ent, sai)
-        info.update(trocado=False, motivo="recorte duvidoso: foto mantida com o fundo liso")
-        print(json.dumps(info, ensure_ascii=False)); return
+    info = {"entrada": f"{w}x{h}", "problemas": []}
+    rosto = achar_rosto(im, mask)
+    if rosto:
+        fx, fy, fw, fh = rosto
+        c0, c1 = max(0, int(fx - 0.25 * fw)), min(w, int(fx + 1.25 * fw))
+        linhas = np.where(mask[:, c0:c1].any(axis=1))[0]
+        topo = int(linhas.min()) if len(linhas) else max(0, int(fy - 0.6 * fh))
+        queixo = fy + 1.07 * fh
+        cx = fx + fw / 2
+    else:
+        info["problemas"].append("sem rosto detectado: cabeça estimada pela silhueta")
+        ys, xs = np.where(mask)
+        topo = int(ys.min())
+        cols = xs[ys < topo + h * 0.05]
+        cx = float(cols.mean()) if len(cols) else w / 2
+        queixo = topo + 0.30 * h
+    cabeca = queixo - topo
+    s = CABECA * H / cabeca
+    ox = CENTRO_X * W - cx * s
+    oy = TOPO * H - topo * s
+    info.update(rosto=bool(rosto), escala=round(s, 2), cabeca_px_original=int(cabeca))
 
-    tema = ImageOps.exif_transpose(Image.open(tema_p)).convert("RGB")
-    out = fundo_tema(tema, W, H, altura).convert("RGBA")
-    out.alpha_composite(pessoa)
+    # Conferências: a pessoa tem de chegar à base, sem corte reto visível nas laterais
+    base_y = oy + h * s
+    toca_base = mask[-3:, :].any()
+    if toca_base and H - 2 > base_y >= H * (1 - FOLGA):    # falta pouco: desce a pessoa
+        oy += H - base_y; base_y = H
+        info["ajuste"] = "pessoa descida para chegar à base"
+    elif toca_base and base_y < H - 2 and AMPLIAR:          # foto fechada: a cabeça cresce
+        b = h - queixo                                       # o mínimo para chegar à base
+        c_min = (1 - TOPO) * cabeca / (b + cabeca) + 0.005
+        s = c_min * H / cabeca
+        ox = CENTRO_X * W - cx * s
+        oy = TOPO * H - topo * s
+        base_y = oy + h * s
+        info["ajuste"] = f"foto fechada: cabeça em {c_min:.0%} da altura, acima do padrão de {CABECA:.0%}"
+        info["problemas"].append("cabeça maior que o padrão (não há corpo para a cabeça de 50%)")
+        info["escala"] = round(s, 2)
+    if toca_base and base_y < H - 2:
+        info["problemas"].append(f"corpo curto: a foto acaba {int(H - base_y)} px acima da base")
+    if not toca_base:
+        info["problemas"].append("a pessoa não chega à borda de baixo da foto original")
+    toca_esq = mask[:, :3].mean() > 0.02
+    toca_dir = mask[:, -3:].mean() > 0.02
+    esfuma = []
+    if toca_esq and ox > 2:
+        esfuma.append("esq")
+        info["aviso_lateral_esq"] = f"ombro ou braço cortado pela foto original ({int(ox)} px da borda): esfumado"
+    if toca_dir and ox + w * s < W - 2:
+        esfuma.append("dir")
+        info["aviso_lateral_dir"] = f"ombro ou braço cortado pela foto original ({int(W - (ox + w * s))} px da borda): esfumado"
+    if esfuma:                       # o corte reto da foto vira um degradê para o fundo
+        a_ = np.array(pessoa).astype(float)
+        F = max(8, int(w * 0.10))
+        rampa = np.linspace(0.0, 1.0, F)
+        if "esq" in esfuma:
+            a_[:, :F, 3] *= rampa[None, :]
+        if "dir" in esfuma:
+            a_[:, -F:, 3] *= rampa[::-1][None, :]
+        pessoa = Image.fromarray(a_.clip(0, 255).astype(np.uint8))
+        info["problemas"].append("corte lateral esfumado: confira se não ficou estranho; se ficar, troque a foto")
+    if s > 2.2:
+        info["problemas"].append(f"ampliação alta ({s:.1f}x): a foto vai perder nitidez")
+
+    out = fundo_tema(fundo_p, altura).convert("RGBA")
+    p2 = pessoa.resize((max(1, int(w * s + .5)), max(1, int(h * s + .5))), Image.LANCZOS)
+    camada = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    camada.paste(p2, (int(round(ox)), int(round(oy))))
+    out.alpha_composite(camada)
     out = out.convert("RGB")
     out.save(sai, "JPEG", quality=92, optimize=True, progressive=True)
-    # zooms para conferir as bordas (cabelo e ombros)
-    alvo = sai.rsplit(".", 1)[0]
-    ys, xs = np.where(alfa)
-    x0, x1, y0 = int(xs.min()), int(xs.max()), int(ys.min())
-    out.crop((max(0, x0), max(0, y0 - 20), min(W, x1), min(H, y0 + int(H * 0.45)))).save(alvo + "_zoom_cabelo.jpg", quality=88)
-    out.crop((0, int(H * 0.6), W, H)).save(alvo + "_zoom_ombros.jpg", quality=88)
-    info.update(trocado=True, motivo="fundo liso trocado pela foto do tema desfocada",
-                saida=f"{W}x{H}", zooms=[alvo + "_zoom_cabelo.jpg", alvo + "_zoom_ombros.jpg"])
+    info["saida"] = f"{W}x{H}"
+    info["ok"] = not info["problemas"]
     if folha_saida:
         folha(out, folha_saida); info["folha"] = folha_saida
     print(json.dumps(info, ensure_ascii=False))
@@ -631,7 +466,7 @@ if __name__ == "__main__":
 ## 9. Publicação às 8h
 
 1. Refaça a duplicidade (seção 11).
-2. `criar_materia` → `prompt_do_nxfeed` (seo) → `editar_materia` com o que faltar → enquadramento da foto e troca do fundo neutro (seção 8, "Enquadramento da foto destacada") → `definir_imagem_destacada` com a foto final.
+2. `criar_materia` → `prompt_do_nxfeed` (seo) → `editar_materia` com o que faltar → foto no padrão de artigos (seção 8, "Foto destacada: padrão de artigos") → `definir_imagem_destacada` com a foto final.
 3. `conferir_publicacao` (tipo agendar) → `publicar_no_wordpress` com `portais` ["1"], `quando` "DD/MM/AAAA 08:00" (hoje) e o `codigo_confirmacao` (decisão de publicação direta, padrão seção 2). Se a matéria só ficar pronta depois das 7h55, agende para o próximo horário de 15 em 15 minutos (8h15, 8h30…), sempre com pelo menos 5 minutos de folga: a folga é o tempo de barrar o story automático (seção 10.1). Erro 429: espere e repita.
 4. Guarde o `materia_id` e o horário agendado.
 5. Faça a seção 10.1 logo em seguida.
@@ -688,11 +523,11 @@ Como decidir:
 
 **Não envie e-mail.** Siga o padrão (seção 10), com o título "Artigos do acervo · **ES Brasil** · DD/MM" e estas seções:
 
-- **Publicado:** título com link, articulista (vivo ou in memoriam), caminho (editoria Artigos ou seção 2.2, com o cabeçalho original), origem (edição ou post e data original, "data deduzida" quando for), categoria, nota de escolha, nota SEO, imagem (real, arquivo ou IA, e o modo do enquadramento), se teve Nota de contexto, dados atualizados (antigo → atual, fonte e ano) e peça do NXtab.
+- **Publicado:** título com link, articulista (vivo ou in memoriam), caminho (editoria Artigos ou seção 2.2, com o cabeçalho original), origem (edição ou post e data original, "data deduzida" quando for), categoria, nota de escolha, nota SEO, imagem (real, arquivo ou IA, e se ficou no padrão de artigos), se teve Nota de contexto, dados atualizados (antigo → atual, fonte e ano) e peça do NXtab.
 - **Story para revisão (Joviana e Mário):** link do Studio, `post_id` e situação ("em revisão"); story automático cancelado ou não encontrado.
 - **Rejeitados no dia:** título, articulista, edição e motivo (não entra, contexto, dados ou outro), uma linha cada.
 - **Para tirar do ar:** versões antigas no site, quando houver.
 - **Imagens de IA para validar**, quando houver.
-- **Pendências:** cargo não confirmado, data deduzida, grafia em dúvida, articulista novo para a lista, story que falhou ou saiu sem revisão, foto sem enquadramento, fundo neutro não trocado.
+- **Pendências:** cargo não confirmado, data deduzida, grafia em dúvida, articulista novo para a lista, story que falhou ou saiu sem revisão, cabeça maior que o padrão, foto fora do padrão.
 
 Notificação do app Claude ao terminar.
