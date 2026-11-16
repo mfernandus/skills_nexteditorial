@@ -18,9 +18,15 @@ Medidas (arte 1600x900; corpo em pontos a 300 dpi: 1 pt = 4,1667 px):
               entrelinha 0,886; até 3 linhas de ~15 caracteres (máx. 42); nome Inter SemiBold Italic 61 px,
               alinhado à esquerda; bloco centralizado na faixa; texto branco -> lilás; largura útil 900 px.
   DESTINOS ES e CAFÉ COM MOQUECA
-              texto a -4,9 graus; manchete Inter ExtraBold Italic corpo 28 (116,67 px), entreletras -30,
-              entrelinha 1,05; 2 linhas de até ~17 caracteres (máx. 34); nome Inter SemiBold Italic corpo 15
-              (62,5 px), entreletras -35, alinhado à DIREITA em x=990; texto branco; largura útil 945 px.
+              texto a -4,9 graus; manchete Inter ExtraBold Italic corpo 28 (116,67 px), entreletras -30;
+              nome Inter SemiBold Italic corpo 15 (62,5 px), entreletras -35, alinhado à DIREITA em x=990;
+              texto branco; largura útil 945 px.
+              DESTINOS ES (16/11/2026): entrelinha 0,92 (107 px), bloco centrado na mesma altura de antes;
+              no máximo 2 linhas, 6 palavras, 17 caracteres por linha e 34 no total. Manchete fora
+              desses limites ou com linha acima de 945 px PARA O SCRIPT (erro, sem gerar a capa): a 3ª
+              linha passa por trás do nome do convidado e da apresentadora e some. Ex.: "Conceição da
+              Barra" sozinho já tem 1.081 px e não cabe numa linha.
+              CAFÉ COM MOQUECA: entrelinha 1,05; 2 linhas de até ~17 caracteres (máx. 34).
 """
 import base64, json, sys, pathlib
 from playwright.sync_api import sync_playwright
@@ -31,7 +37,8 @@ CAP = 0.727              # altura das maiúsculas do Inter, em relação ao corp
 
 TEMPLATES = {
     "entrevista": dict(base="thumbs/entrevista.png", max_linhas=3, max_chars=42, maxw=900),
-    "destinos":   dict(base="thumbs/destinos.png",   max_linhas=2, max_chars=34, maxw=945),
+    "destinos":   dict(base="thumbs/destinos.png",   max_linhas=2, max_chars=34, maxw=945,
+                       lh=0.92, max_palavras=6, max_chars_linha=17, trava_largura=True),
     "cafe":       dict(base="thumbs/cafe.png",       max_linhas=2, max_chars=34, maxw=945),
 }
 
@@ -75,9 +82,10 @@ def textos_programa(cfg, l1):
     ang = -4.9
     t1 = cfg.get("corpo1", 28) * PT; t2 = cfg.get("corpo2", 15) * PT
     pitch = cfg.get("lh", 1.05) * t1
-    ax, ay = 72, 354                                 # linha de base da 1ª linha da manchete
-    if len(l1) == 1:                                  # uma linha só: fica no meio das duas posições
-        ay += pitch / 2
+    # o bloco fica centrado na altura original da arte (1ª linha em y=354 com entrelinha 1,05),
+    # de modo que a entrelinha mais justa não desloca a manchete em relação ao nome e ao logo
+    centro = 354 + 1.05 * t1 / 2
+    ax, ay = 72, centro - (len(l1) - 1) * pitch / 2  # linha de base da 1ª linha da manchete
     tx = "".join(f'<text class="t1" x="0" y="{i * pitch:.1f}">{esc(t)}</text>' for i, t in enumerate(l1))
     g = f'<g transform="translate({ax},{ay:.1f}) rotate({ang})">{tx}</g>'
     if cfg.get("linha2"):
@@ -96,9 +104,24 @@ def build(cfg):
     if cfg.get("apresentadora"):                    # Destinos ES: base com outra apresentadora no círculo
         T["base"] = f"thumbs/destinos_{cfg['apresentadora']}.png"
     l1 = cfg["linha1"].split("\n")
+    if "lh" in T and "lh" not in cfg:               # entrelinha própria do template (Destinos ES: 0,92)
+        cfg = {**cfg, "lh": T["lh"]}
     n = len(" ".join(l1)); lim = cfg.get("max_chars", T["max_chars"])
-    assert n <= lim, f"manchete com {n} caracteres (máx. {lim} no template {nome})"
-    assert len(l1) <= T["max_linhas"], f"manchete: no máximo {T['max_linhas']} linhas no template {nome}"
+    erros = []
+    if n > lim:
+        erros.append(f"manchete com {n} caracteres (máx. {lim})")
+    if len(l1) > T["max_linhas"]:
+        erros.append(f"{len(l1)} linhas (máx. {T['max_linhas']}; linha a mais some atrás do nome e da apresentadora)")
+    if T.get("max_palavras"):
+        p = len(" ".join(l1).split())
+        if p > T["max_palavras"]:
+            erros.append(f"{p} palavras (máx. {T['max_palavras']})")
+    if T.get("max_chars_linha"):
+        for t in l1:
+            if len(t) > T["max_chars_linha"]:
+                erros.append(f'linha "{t}" com {len(t)} caracteres (máx. {T["max_chars_linha"]} por linha)')
+    if erros:
+        raise SystemExit(f"ERRO no template {nome}: " + "; ".join(erros) + ". Encurte a manchete; o corpo não é reduzido.")
     css, defs, textos = (textos_entrevista if nome == "entrevista" else textos_programa)(cfg, l1)
     foto = ""
     if cfg.get("foto"):
@@ -129,8 +152,12 @@ def render(cfg, out):
             Math.max(0,...[...document.querySelectorAll('.'+c)].map(e=>e.getComputedTextLength()))]))""")
         for c, w in larg.items():
             if c == "t1" and w > T["maxw"]:
-                print(f"AVISO: manchete com {w:.0f} px passa da largura útil ({T['maxw']} px). "
-                      f"Reescreva ou quebre de outro jeito; o corpo não é reduzido.")
+                msg = (f"manchete com {w:.0f} px passa da largura útil ({T['maxw']} px). "
+                       f"Reescreva ou quebre de outro jeito; o corpo não é reduzido.")
+                if T.get("trava_largura"):
+                    b.close()
+                    raise SystemExit("ERRO: " + msg)
+                print("AVISO: " + msg)
         pg.screenshot(path=out, type="png")
         b.close()
     return larg
