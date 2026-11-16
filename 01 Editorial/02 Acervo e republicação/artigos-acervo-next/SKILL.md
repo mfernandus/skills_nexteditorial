@@ -199,8 +199,9 @@ Articulista vivo: a mesma estrutura, com a minibio no presente e sem "In memoria
 
 ### Categorias e tags
 
-- **Comunhão (portal 4):** Artigos (2) + uma subcategoria temática da tabela da skill `acervo-comunhao` (seção 7), pela leitura do texto.
-- **ES Brasil (portal 1):** Artigos (11960) + uma categoria temática, pela tabela da rotina de notícias da **ES Brasil** (`noticias-noturnas-esbrasil`). Na dúvida, só Artigos.
+- **Comunhão (portal 4):** só Artigos (2).
+- **ES Brasil (portal 1):** só Artigos (11960).
+- Nunca uma segunda categoria temática: com ela, o site mostrava o artigo na editoria do tema (decisão do Mário Fernando, 16/11/2026). O tema vai nas tags.
 - Nunca Destaques, Edição Digital, Conteúdo de Marca, Institucional ou Eleições.
 - Tags (5 a 10): sempre "Acervo de Artigos" e o nome do articulista, mais tema, instituição e denominação quando houver.
 
@@ -208,6 +209,7 @@ Articulista vivo: a mesma estrutura, com a minibio no presente e sem "In memoria
 
 - SEO pelo padrão (seção 8), com `prompt_do_nxfeed` (tipo seo). O título fica o original; a palavra-chave e o título SEO trazem o termo mais buscado do tema. **O texto do autor nunca muda por causa de SEO:** quando o que falta para a nota 85 exige mexer nele (palavra-chave em intertítulo, por exemplo), publique com a nota que tiver e registre.
 - Imagem destacada pelo padrão (seção 9), nesta ordem: personagem do título, quando o artigo é sobre uma pessoa (retrato de acervo público com crédito) → **foto do articulista** (NX Fotos, que tem a pasta "Articulistas Comunhão"; imagem destacada de posts antigos dele ou sobre ele no site, que a NEIA traz em `featured_image`; `buscar_imagens`; foto oficial da igreja ou instituição com crédito) → foto real do tema → imagem por IA (nunca o rosto do autor). Foto antiga: "foto de arquivo" na descrição; falecido: "(1929-2016), foto de arquivo".
+- **Padrão da foto (decisão do Mário Fernando, 16/11/2026):** toda destacada com pessoa sai no padrão de artigos das rotinas `artigos-acervo-esbrasil` e `artigos-acervo-comunhao` (seção 8, "Foto destacada: padrão de artigos", com o script `padronizar_retrato.py`): pessoa recortada sobre foto do tema bem desfocada (o fundo é sempre trocado), 1600x900, cabeça do alto do cabelo ao queixo com metade da altura, alto do cabelo a 7% do topo e rosto no centro.
 
 ## 7. Publicação às 8h
 
