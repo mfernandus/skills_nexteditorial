@@ -42,6 +42,12 @@ Como usar: peça acesso à pasta **Documents** uma vez, traga o kit para o ambie
  "foto": "quadro.png", "centro_x": 0.5, "centro_y": 0.42}
 ```
 
+No template `destinos`, ponha sempre `"lh": 0.92` no config (entrelinha justa, desde 16/11/2026), mesmo que o script do kit seja de antes dessa data:
+```json
+{"template": "destinos", "linha1": "Turismo, o motor\nda Barra", "linha2": "Erivan Tavares",
+ "foto": "recorte.png", "foto_h": 860, "foto_right": -20, "lh": 0.92}
+```
+
 Se a pasta do kit não estiver acessível (computador desligado, sessão sem vínculo com o computador, outro usuário da equipe), **não improvise a arte**: entregue manchetes, nomes e foto tratada, registre "capa e Shorts no template" como pendência e avise que o kit está no computador do Mário.
 
 Regras que valem sempre:
@@ -436,7 +442,10 @@ Limites por template:
 | Template | Linhas | Caracteres por linha | Total |
 |---|---|---|---|
 | `entrevista` | até 3 (padrão da arte) | ~15 | máx. 42 |
-| `destinos` e `cafe` | 2 (uma só também funciona) | ~17 | máx. 34 |
+| `destinos` | 2, nunca 3 (uma só também funciona) | até 17, e nenhuma linha acima de 945 px | máx. **6 palavras** e 34 caracteres |
+| `cafe` | 2 (uma só também funciona) | ~17 | máx. 34 |
+
+**Destinos ES: limite rígido.** A manchete tem no máximo 6 palavras, em 2 linhas. Uma 3ª linha passa por trás do nome do convidado e do círculo da apresentadora e some: foi isso que cortou "da Barra" na capa de Erivan Tavares (16/11/2026). Nome de município comprido não cabe numa linha ("Conceição da Barra" sozinho mede 1.081 px, e o limite é 945). Reescreva a manchete em vez de quebrar em 3 linhas. Ex.: "O turismo como motor de Conceição da Barra" (8 palavras) vira "Turismo, o motor / da Barra". O script para com erro, sem gerar a capa, quando a manchete passa de 2 linhas, 6 palavras, 17 caracteres numa linha, 34 no total ou 945 px.
 
 - Nasce da **tese central**, do dado mais forte ou da pergunta que o vídeo responde. Pergunte: o que um empresário contaria a um sócio depois de assistir?
 - Palavras concretas e verbos fortes; corte artigos e adjetivos vazios. Palavra comprida (mais de 13 letras) ocupa uma linha sozinha: confira se cabe antes de fechar a manchete.
@@ -492,14 +501,14 @@ Medidas tiradas das artes de referência e já gravadas no script; servem de gab
 |---|---|
 | Fundo e faixa | Destinos ES: rosa → roxo → azul, com mapa em marca-d'água. Café com Moqueca: laranja com faixa marrom de borda rasgada e retícula. Prontos na base. |
 | Elementos fixos | Logo do programa (alto, à esquerda); círculo com a foto do apresentador, "Apresentação:" + nome e **ES BRASIL play** (embaixo, à esquerda). Prontos na base; nunca redesenhar nem cobrir. |
-| Manchete | **Inter ExtraBold Italic**, corpo **28** (116,67 px), entreletras −30, entrelinha 1,05 (122,5 px). 2 linhas, alinhadas à esquerda em x≈72; linha de base da 1ª linha em y≈354. |
+| Manchete | **Inter ExtraBold Italic**, corpo **28** (116,67 px), entreletras −30. Entrelinha **0,92 (107 px) no Destinos ES**, mais justa (desde 16/11/2026), e 1,05 (122,5 px) no Café com Moqueca. 2 linhas, alinhadas à esquerda em x≈72; o bloco fica centrado na altura original (linha de base da 1ª linha em y≈362 no Destinos ES e y≈354 no Café com Moqueca). |
 | Nome | **Inter SemiBold Italic**, corpo **15** (62,5 px), entreletras −35, **alinhado à direita em x=990**, linha de base em y≈505. |
 | Inclinação do texto | **−4,9°**. |
 | Cor do texto | Branco puro, com sombra suave. |
 | Largura útil | **945 px**. |
 
 - **Sempre itálico** nestas capas: é a tipografia das artes oficiais (exceção à regra de títulos retos do Brand System, que continua valendo para documentos).
-- O corpo não é reduzido para caber. Se a manchete passar da largura útil, o script avisa: reescreva ou quebre de outro jeito.
+- O corpo não é reduzido para caber. Se a manchete passar da largura útil, o script avisa (no Destinos ES, para com erro e não gera a capa): reescreva ou quebre de outro jeito.
 - Uma única paleta na peça: a da arte. Não acrescente cores, faixas, contornos nem elementos.
 
 ### 12.5 — Base e imagem do convidado
@@ -539,6 +548,7 @@ Nunca entregue a primeira versão. Para cada capa:
 ### 12.7 — Conferência final
 - Corpo da manchete e do nome conforme o template — confira o corpo **final** renderizado e o aviso de largura do script.
 - Nada encosta nos logos, no apresentador, no rosto nem nas bordas da faixa.
+- A manchete aparece inteira: nenhuma palavra atrás do nome, do círculo da apresentadora ou do convidado. No Destinos ES, confira também a entrelinha 0,92.
 - Elementos fixos intactos; rosto tratado e reconhecível; recorte sem restos de fundo.
 - Exportar JPG 1600×900 com menos de 2 MB e salvar também em `Downloads/shorts_esbrasil_[convidado]/`.
 - **Publicar no Studio só depois do ok final** (Detalhes → Miniatura → Enviar arquivo → Salvar) e conferir a miniatura pública.
@@ -614,7 +624,7 @@ Em blocos fáceis de copiar, nesta ordem:
     - Tags padrão do canal removidas e substituídas
     - Vídeo em uma playlist de programa e em uma de categoria, mais o tema quando houver (ou pendência ao administrador); Shorts fora das playlists de vídeos longos; nada acrescentado à vitrine Comece por aqui
     - Tipo de capa perguntado no início
-    - Capa no template do programa (entrevista: até 3 linhas, ≤ 42 caracteres; Destinos ES e Café com Moqueca: 2 linhas, ≤ 34), Inter itálico, elementos fixos intactos, foto tratada sem luz colorida, versão escolhida por avaliação. Colunas e outros quadros: só textos e foto, com pendência
+    - Capa no template do programa (entrevista: até 3 linhas, ≤ 42 caracteres; Destinos ES: 2 linhas, até 6 palavras, ≤ 34 caracteres, nenhuma linha acima de 945 px, entrelinha 0,92; Café com Moqueca: 2 linhas, ≤ 34), Inter itálico, elementos fixos intactos, foto tratada sem luz colorida, versão escolhida por avaliação. Colunas e outros quadros: só textos e foto, com pendência
     - Ok final recebido antes de salvar qualquer coisa no Studio
     - Original baixado pelo Studio (download liberado) e trechos cortados
     - 3 a 5 Shorts na moldura oficial (vídeo na área de 1080×1260, título em 2 linhas com até 30 caracteres, nome), com legenda e capa no template, publicados como privados, com vídeo relacionado
