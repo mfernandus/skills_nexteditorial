@@ -8,6 +8,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 
 - **padrao-publicacao-next** — Regras comuns das rotinas que publicam nos sites **ES Brasil** e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem e avisos). Carregar antes de cada rotina; gráficos, republicação e imagem por IA ficam nas skills de apoio.
 - **imagem-ia-next** — Apoio da padrao-publicacao-next (9.1 e 9.2): imagem por IA na Krea e legenda-fato. Carregar só quando nenhuma foto real com direito de uso servir para a matéria.
+- **dados-e-graficos-next** — Apoio da padrao-publicacao-next (seções 12 e 13): gráficos, tabelas e infográficos no NXtab e dados atualizados na republicação. Carregar antes de montar qualquer peça e em toda republicação.
 
 ## 01 Editorial / 01 Rotinas de notícias
 
