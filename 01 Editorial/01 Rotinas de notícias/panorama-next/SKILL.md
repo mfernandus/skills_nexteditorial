@@ -41,7 +41,7 @@ Com o esporte na mesma execução, use as pendências de Panorama que ele separo
 ## 3. O que entra (por prioridade)
 
 1. **Brasil:** fato nacional de grande impacto — decisões do governo, do Congresso e do STF que mexem no dia a dia (salário mínimo, impostos, MEI, previdência, escala de trabalho), tragédias, eleição (resultado, regras, prazos do TSE).
-2. **Mundo:** guerras e acordos de paz, eleições e crises em países relevantes, decisões dos EUA, da China e da UE com efeito no Brasil, papa e Vaticano (só na ES Brasil, ver seção 4), catástrofes naturais.
+2. **Mundo:** guerras e acordos de paz, eleições e crises em países relevantes, decisões dos EUA, da China e da UE com efeito no Brasil, papa e Vaticano (só na ES Brasil, salvo doença ou morte; ver seção 4), catástrofes naturais.
 3. **Clima e ciência:** alertas do Inmet, El Niño/La Niña, ondas de calor e chuvas fortes no país, meio ambiente nacional, saúde pública nacional (vacinas, novos tratamentos no SUS, surtos).
 4. **Gente:** morte de personalidade conhecida do grande público, notícia grande de celebridade brasileira (sem fofoca).
 
@@ -53,7 +53,8 @@ Com o esporte na mesma execução, use as pendências de Panorama que ele separo
 - **Prefira aproveitar o item da agência** (é o que a casa contrata): revise título (≤ 60), linha fina, chapéu, SEO, tags, categorias e imagem, e mantenha o crédito no rodapé ("Com informações da Agência Brasil" / "do Estadão Conteúdo"). Só escreva matéria nova, "Redação", quando juntar fontes ou acrescentar apuração.
 - Intertítulos `<h3>`.
 - **Comunhão** (público cristão): leve todo fato de interesse geral, mas sem sensacionalismo de violência, sem conteúdo sexual e sem fofoca; o que não servir vai só para a ES Brasil. Fé e liberdade religiosa no mundo são bem-vindas, menos o que envolve a Igreja Católica (regra abaixo).
-- **Igreja Católica, papa e Vaticano nunca vão para a Comunhão** (decisão de Mário Fernando, 10/11/2026). Na Comunhão não entra nada sobre a Igreja Católica, o papa, o Vaticano ou a Santa Sé, a CNBB, dioceses, paróquias, padres, bispos, freiras ou organizações católicas, nem mesmo como personagem secundário, fonte, aspas, link ou imagem. Ataque ou perseguição cujas vítimas são identificadas como católicas também fica fora da Comunhão. Esses fatos saem só na **ES Brasil**, pelas regras normais.
+- **Igreja Católica, papa e Vaticano não vão para a Comunhão, salvo doença ou morte** (decisão de Mário Fernando, 10/11/2026; exceção incluída em 17/11/2026). Fora a exceção abaixo, na Comunhão não entra nada sobre a Igreja Católica, o papa, o Vaticano ou a Santa Sé, a CNBB, dioceses, paróquias, padres, bispos, freiras ou organizações católicas, nem mesmo como personagem secundário, fonte, aspas, link ou imagem. Ataque ou perseguição cujas vítimas são identificadas como católicas também fica fora da Comunhão. Esses fatos saem só na **ES Brasil**, pelas regras normais.
+  - **Única exceção: doença ou morte.** Internação, doença grave ou morte do papa ou de uma liderança católica de grande relevância vai também para a Comunhão, em texto curto, factual e respeitoso: o fato, o estado de saúde ou a morte e, se houver, a repercussão entre líderes evangélicos. Sem doutrina católica, sem cobertura de rito, conclave ou sucessão e sem juízo sobre a fé católica. Nessa matéria, o boletim oficial (Vaticano, Santa Sé ou a instituição da pessoa) pode ser citado como fonte do fato, e uma foto da pessoa pode ilustrar; templo, símbolo ou celebração católica, não. Na ES Brasil, a cobertura segue as regras normais.
 
 ## 5. Categorias
 
