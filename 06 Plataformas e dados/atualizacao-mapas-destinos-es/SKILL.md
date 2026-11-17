@@ -172,9 +172,13 @@ esta linha de base no relatório.
 6. Metas por execução e por ponto: até 5 comer, 3 ficar, 4 serviços, 3 fazer.
 7. Nunca inventar estabelecimento: só entra o que veio da busca, com endereço e coordenadas.
 
-## Passo 4 — Fotos (NX Fotos primeiro, Google depois, sempre com crédito)
+## Passo 4 — Fotos (NX Fotos primeiro, Google depois, sempre com crédito e tratadas)
 
 O site mostra legenda e crédito em cada foto e promete imagens "sempre creditadas".
+
+Vale para **todo local**, não só ponto turístico: restaurante, hospedagem, serviço ou atração
+sempre passa primeiro pelo NX Fotos; Google só quando o NX Fotos não tiver o lugar.
+Toda foto, do NX Fotos ou do Google, passa pelo tratamento (item 7) antes de subir.
 
 1. **Escolher no NX Fotos** (MCP `NXFOTOS`): `buscar` com `q` = nome do ponto; depois nome +
    município; depois `sugestoes_de_filtro` para achar o `local` exato; olhar com
@@ -191,6 +195,12 @@ O site mostra legenda e crédito em cada foto e promete imagens "sempre creditad
    - se a importação falhar: `POST /api/mapa/{id}/images` com a URL `src.large` do CDN do
      NX Fotos e conferir em `GET /api/mapa/{id}/images` se virou URL local; se continuar no
      CDN, registrar no relatório.
+   - **caminho que funciona (17/11/2026)**: o CDN do NX Fotos não libera leitura pelo
+     mapas (sem CORS). Numa aba do mapas logada, `window.open` da imagem do CDN; na aba do
+     CDN, `fetch('/pub/...@w1600.webp')` e `window.opener.postMessage({key, blob},
+     'https://mapas.nx.tv.br')`; na aba do mapas, tratar o blob no canvas (item 7), subir por
+     `POST /api/upload-image` (campo `image`) e anexar com `POST /api/mapa/{id}/images`
+     (`source: upload`). Assim a foto fica tratada e com cópia local.
 3. Campos de cada foto nova: `alt_text` "<título> — <município> (ES)", `legenda` = descrição
    da foto, **`autoria` obrigatória** (NX Fotos: `author`; Google: nome do colaborador que vem
    na própria foto), `is_main: false`, `file_name`. Não repetir foto já existente.
@@ -202,6 +212,19 @@ O site mostra legenda e crédito em cada foto e promete imagens "sempre creditad
    só quando o autor for conhecido com certeza; senão, listar no relatório.
 6. **Foto principal**: propor trocar só se não houver principal, ou se a atual for Google e
    houver NX Fotos horizontal ≥ 1600 (`POST /api/mapa/{id}/images/{imgId}/set-main`).
+7. **Tratamento (regra de Mário, 11/11/2026, todas as rotinas)**: analisar cada foto. Se
+   estiver crua, tratar no padrão das revistas impressas: mais viva, um pouco mais cítrica e
+   quente, azuis mais quentes. Se já estiver tratada e boa, não mexer. Receita usada em
+   17/11/2026 (k = 1 para foto crua de câmera, 0,8 para celular, 0,6 para foto já viva):
+   contraste ×(1+0,09k) em torno de 0,5; vivacidade 0,55k×(1−saturação); R ×(1+0,04k),
+   G ×(1+0,022k), B ×(1−0,012k); nos azuis (d = B−R > 0) G +0,05k·d e B −0,01k·d;
+   gama 1−0,05k; JPEG 0,9. Não tirar azul do céu: esquentar puxando para o turquesa.
+8. **Não repetir foto**: antes de anexar, comparar cada candidata com as fotos que o local já
+   tem (miniatura 16×16 em tons de cinza, hash médio; distância ≤ 20 = mesma foto). As
+   fotos do Google já usadas numa rodada anterior voltam primeiro na busca.
+9. **A foto tem de mostrar o lugar**: nada de logotipo, selfie ou paisagem que não mostre o
+   estabelecimento. Foto do NX Fotos sem GPS e com título genérico ("praça central",
+   "calçadão") só entra depois de comparar com as fotos que o local já tem.
 
 ## Passo 5 — Tags e categorias (o que põe o ponto nas experiências do site)
 
@@ -326,6 +349,10 @@ Ordem: novos locais → vínculos → fotos → tags e categorias → textos →
 ## Regras invioláveis
 
 - Nunca apagar locais, fotos ou vínculos (`DELETE` fora de questão) nem desmarcar ponto turístico.
+  Única exceção, e só com ordem expressa de Mário na hora: apagar foto que a própria rodada
+  criou (cópia repetida, versão sem tratamento trocada pela tratada, foto imprópria) com
+  `DELETE /api/mapa/{id}/images/{imgId}`, conferindo depois que a original continua.
+- Nunca subir foto sem tratamento (Passo 4, item 7).
 - Nunca sobrescrever texto preenchido sem pedido explícito.
 - Nunca aprovar/recusar na fila de revisão sem ordem de Mário.
 - Nunca criar, renomear nem desativar tag ou categoria.
