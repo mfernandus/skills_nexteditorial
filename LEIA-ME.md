@@ -6,7 +6,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 
 ## 01 Editorial / 00 Padrão de publicação
 
-- **padrao-publicacao-next** — Regras comuns das rotinas que publicam nos sites **ES Brasil** e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem, gráficos e tabelas no NXtab, dados atualizados na republicação e avisos). Carregar antes de cada rotina.
+- **padrao-publicacao-next** — Regras comuns das rotinas que publicam nos sites **ES Brasil** e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem e avisos). Carregar antes de cada rotina; gráficos, republicação e imagem por IA ficam nas skills de apoio.
 
 ## 01 Editorial / 01 Rotinas de notícias
 

@@ -1,11 +1,15 @@
 ---
 name: "padrao-publicacao-next"
-description: "Regras comuns das rotinas que publicam nos sites ES Brasil e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem, gráficos e tabelas no NXtab, dados atualizados na republicação e avisos). Carregar antes de cada rotina."
+description: "Regras comuns das rotinas que publicam nos sites ES Brasil e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem e avisos). Carregar antes de cada rotina; gráficos, republicação e imagem por IA ficam nas skills de apoio."
 ---
 
 # Padrão de publicação Next — ES Brasil e Comunhão
 
-Regras que valem para **toda** rotina de conteúdo dos sites (turno noturno, Estilo, esporte, Panorama e as que vierem). Cada rotina carrega esta skill primeiro e traz só o que é dela: pauta, rodadas, tetos, categorias e o título do resumo. Onde a rotina disser algo diferente, vale a rotina naquele ponto, **salvo as seções 2.1 (pautas proibidas), 2.2 (matéria agendada), 2.3 (feed do Instagram só manual), 12 (gráficos e tabelas no NXtab) e 13 (dados atualizados na republicação) e a regra de caixa alta da seção 7, que valem acima de qualquer rotina e de qualquer tarefa agendada**. Onde uma rotina ainda pedir chapéu "em maiúsculas", escreva em caixa alta e baixa. A seção 11 (economia do plano) vale como padrão para todas: a rotina só a contraria quando disser expressamente que precisa do contrário naquele ponto. **Mudança de regra comum se faz só aqui.**
+Regras que valem para **toda** rotina de conteúdo dos sites (turno noturno, Estilo, esporte, Panorama e as que vierem). Cada rotina carrega esta skill primeiro e traz só o que é dela: pauta, rodadas, tetos, categorias e o título do resumo. Onde a rotina disser algo diferente, vale a rotina naquele ponto, **salvo as seções 2.1 (pautas proibidas), 2.2 (matéria agendada), 2.3 (feed do Instagram só manual), 12 (gráficos e tabelas no NXtab) e 13 (dados atualizados na republicação) e a regra de caixa alta da seção 7, que valem acima de qualquer rotina e de qualquer tarefa agendada**. Onde uma rotina ainda pedir chapéu "em maiúsculas", escreva em caixa alta e baixa. A seção 11 (economia do plano) vale como padrão para todas: a rotina só a contraria quando disser expressamente que precisa do contrário naquele ponto. **Mudança de regra comum se faz só aqui** (e nas skills de apoio abaixo).
+
+**Skills de apoio** (economia do plano, decisão do Mário Fernando de 17/11/2026). Partes deste padrão que nem toda rodada usa ficam em skills próprias, carregadas só quando a rodada precisa delas, uma vez por execução (11.7). Valem com a mesma força que se estivessem aqui:
+- **`dados-e-graficos-next`** (seções 12 e 13): carregue antes de montar qualquer tabela, gráfico ou infográfico e, sempre, nas rotinas de republicação (`acervo-esbrasil`, `acervo-comunhao`, `artigos-acervo-esbrasil`, `artigos-acervo-comunhao`, `artigos-acervo-next`).
+- **`imagem-ia-next`** (9.1 e 9.2): carregue só quando nenhuma foto real com direito de uso servir, antes de gerar a imagem.
 
 ## 1. Portais e idioma
 
@@ -68,7 +72,7 @@ Na dúvida, fica fora. Registre no resumo, em "Também na rodada", como "aguarda
 - Para atualizar um post no ar sem mudar o status: `enviar_rascunho_ao_wordpress` (ou `atualizar_no_wordpress` num portal só).
 - Mexa só nas matérias da própria rotina (criadas ou editadas via Claude; `historico_da_materia` mostra), nunca nos rascunhos da equipe, a não ser que a rotina diga o contrário. Matéria agendada da equipe nunca: seção 2.2.
 - Id de categoria recusado: rode `listar_categorias_wordpress` no portal, use o id atual da **mesma** categoria e avise no resumo. Nunca grave em categoria aproximada.
-- **Destaques** (11966 na ES Brasil, 44517 na Comunhão) é da redação e de só três rotinas (decisão do Mário Fernando, 30/10, 02/11 e 05/11/2026): (1) a **rotina de Destaques**, de hora em hora, que põe e tira as matérias automáticas, inclusive o esporte, com mais espaço nos fins de semana, feriados e noites de jogo; (2) as **rotinas de acervo** (`acervo-comunhao` e `acervo-esbrasil`), que agendam a matéria das 22h já com Destaques e a deixam lá até o meio-dia seguinte; (3) a rotina **`comunhao-na-esbrasil`**, que agenda as matérias de sábado, domingo e feriado para as 7h já com Destaques na **ES Brasil**, e a saída delas fica com a rotina de Destaques, pelas regras de fim de semana e feriado. Nenhuma outra rotina, nem a de esporte, marca ou tira Destaques.
+- **Destaques** (11966 na ES Brasil, 44517 na Comunhão) é da redação e só das rotinas que o tratam expressamente, cada uma pela sua regra (decisões do Mário Fernando de 30/10, 02/11, 05/11 e 12/11/2026): a **rotina de Destaques**, as **rotinas de acervo** (matéria das 22h), a **`comunhao-na-esbrasil`** (sábado, domingo e feriado) e a da **previsão do tempo** (Post A das 00h01). Nenhuma outra rotina, nem a de esporte, marca ou tira Destaques.
 
 ## 4. Trava de duplicidade
 
@@ -133,34 +137,9 @@ Se a casa já tem o mesmo fato, publicado ou em rascunho da equipe, não escreva
 - Recusa por "dimensões muito grandes": use a versão reduzida que o WordPress do próprio site gera (o mesmo arquivo com sufixo como -1536x1024).
 - Nunca rosto de menor identificável em contexto sensível.
 
-### 9.1 Imagem por IA (último recurso; autorizada em 26/10/2026 para todas as rotinas)
+### 9.1 e 9.2 Imagem por IA e legenda-fato (autorizada em 26/10/2026 para todas as rotinas)
 
-Só quando nenhuma foto real com direito de uso servir:
-
-- Krea: `mcp__Krea_AI__generate_image` (carregue com ToolSearch), modelo `krea/krea-2/large`, `aspect_ratio` 16:9, `resolution` 1K, `sync` = true.
-- Prompt em inglês, com uma cena **genérica e ilustrativa** do tema, terminando com: "photorealistic editorial photo, natural light, no text, no logos, no recognizable faces".
-- **Proibido gerar:** pessoa real ou identificável; rosto de personagem da matéria; criança em contexto sensível; marca, logotipo, fachada, produto ou coleção de empresa real; escudo, uniforme ou patrocinador de clube real; símbolo ou templo de denominação específica; lugar reconhecível como se fosse foto real; recriar o próprio fato (gol, ataque, acidente, discurso, evento noticiado) como se fosse foto; procedimento, remédio ou dose; animal em sofrimento.
-- Olhe a imagem antes de gravar. Com defeito visível (mãos, rostos, objetos deformados, texto), gere de novo **uma** vez.
-- Grave com `definir_imagem_destacada`: fonte "Imagem gerada por IA"; autor "Krea AI / ES Brasil" (só Comunhão: "Krea AI / Comunhão"); título curto com o assunto da matéria; **descrição = a legenda-fato (9.2)**; legenda (alt) com até 125 caracteres dizendo o que a ilustração mostra, terminando com "(imagem ilustrativa gerada por IA)".
-- Se a Krea falhar (saldo ou erro), publique sem imagem e avise.
-- Toda imagem de IA entra no resumo, na seção "Imagens de IA para validar", com a legenda-fato. É validação, não aprovação: não espere resposta.
-
-### 9.2 Legenda-fato da imagem por IA (decisão do Mário Fernando, 26/10/2026)
-
-A descrição é o texto que aparece embaixo da imagem no site, seguido do crédito "Foto: Imagem gerada por IA/Krea AI / …", que já avisa que é ilustração. Por isso ela **não descreve a imagem**: entrega ao leitor um dado a mais sobre o assunto da matéria.
-
-1. **Assunto, não cena.** Fala do tema da matéria, nunca do que a ilustração mostra. Nada de "na imagem", "na foto", "ilustração de".
-2. **Fato novo.** Não está no título, na linha fina nem no texto: dado, número, data, regra, histórico ou serviço. Antes de gravar, confira que os números e os termos-chave da frase não aparecem no texto.
-3. **Conferido e atribuído.** Vem de fonte oficial aberta com WebFetch e leva a atribuição na frase ("segundo o IBGE", "de acordo com a Anvisa"). Nunca de memória, nunca inventado.
-4. **Coerente.** Não contradiz o texto nem muda o foco da matéria.
-5. **Uma frase de 100 a 220 caracteres**, informativa: sem pergunta, chamada, exclamação ou adjetivo de propaganda.
-6. **Saúde e pet:** sem dose nem prescrição. **Política:** dado oficial e neutro.
-7. **Sem fato novo** conferido depois de duas buscas extras: use o dado de serviço mais útil da própria matéria (data, local, horário, prazo, canal de atendimento) e marque "legenda sem fato novo" no resumo.
-
-Exemplos (matéria sobre apreensão de lote falsificado de toxina botulínica):
-- Errado (descreve a imagem): "Sala de clínica de estética vazia, com cadeira reclinável branca e janela com cortinas claras."
-- Errado (repete a matéria): "Anvisa manda apreender novo lote falsificado de toxina botulínica."
-- Certo (forma): "<fato que o texto não traz, com número ou data>, segundo <fonte oficial>." Por exemplo: "O Espírito Santo tem N estabelecimentos de estética licenciados pela Vigilância Sanitária, segundo a Sesa." O número e a fonte vêm sempre da apuração do dia.
+Último recurso, só quando nenhuma foto real com direito de uso servir: carregue a skill **`imagem-ia-next`** e siga-a (Krea, prompt, o que é proibido gerar, gravação, legenda-fato e resumo). Se ela não estiver disponível, publique sem imagem e registre em Pendências "imagem por IA: skill de apoio indisponível".
 
 ### 9.3 Conferência e tratamento da foto (decisão do Mário Fernando, 11/11/2026)
 
@@ -226,68 +205,8 @@ As rotinas dividem o mesmo limite de uso do plano com tudo o que o Mário faz no
 
 ## 12. Gráficos, tabelas e infográficos: sempre no NXtab (decisão do Mário Fernando, 13/11/2026)
 
-**Esta seção vale acima de qualquer rotina e de qualquer tarefa agendada.** Toda tabela, gráfico ou infográfico que entra numa matéria dos sites sai do NXtab, o construtor de gráficos da Next (artefato "NXtab", slug `7a1c22c8-3982-455a-ab9a-cac69d588c8c`), na paleta do veículo. Nada de tabela HTML montada à mão, gráfico de matplotlib ou de outra biblioteca, imagem de IA com números ou print de outro site. Única exceção: o quadro da previsão do tempo, que sai do gerador da rotina `previsao-tempo-esbrasil`.
-
-1. **Quando entra.** Sempre que a matéria tiver dados que se leem melhor numa peça: série no tempo, ranking, comparação entre itens, participação no todo ou três a seis números-chave do assunto. Um número solto fica só no texto. No máximo duas peças por matéria. Na republicação, todo dado atualizado que couber num modelo vira peça (seção 13).
-2. **Modelo pela natureza do dado** (biblioteca da revista no NXtab):
-   - evolução no tempo: `c-percentual` (uma série, o último ou o maior valor em destaque) ou `c-colunas` (duas ou mais séries);
-   - ranking ou comparação entre itens (municípios, estados, países, empresas, denominações): `c-barras`;
-   - participação no todo: `c-rosca` (uma fatia em destaque) ou `v-leque` (várias fatias);
-   - três a seis números-chave: `c-faixa` (números grandes) ou `c-lista` (box "em números");
-   - tabela: `t-indicadores` (indicador e resultado), `t-comparativo` (várias colunas numéricas), `t-panorama` (indicador e valor), `t-descritiva` (item e explicação), `t-tres` (três colunas) ou `t-abertura` (título em frase);
-   - etapas ou lista ordenada: `v-numerada`.
-3. **Paleta do veículo.** Campo `marca`: `"esb"` na **ES Brasil** (portal 1: azul em degradê e destaque magenta) e `"com"` na Comunhão (portal 4: azul com o amarelo e o laranja da marca). Destinos ES usa `"des"` e Prócidade, `"pro"`. Matéria que vai aos dois portais leva uma peça para cada um, cada qual na sua marca. Nunca misture marcas numa peça.
-4. **Regras da peça** (o script já aplica): Inter, título em peso 900 e subtítulo em 300, em caixa alta e baixa; sem cerco branco e sem sombra; fonte colada embaixo do box; escala quebrada (//) quando o maior valor passa de duas vezes o segundo, com a nota "[item]: barra fora de escala."; nunca barra esticada nem escala logarítmica. Campo `fundo`: `"none"` por padrão; `"auto"` só na **ES Brasil** e quando o assunto for um dos temas de foto do NXtab (construção, agro, portos, indústria, energia, rochas, turismo, cidade). Rótulos curtos; números com vírgula decimal e ponto de milhar, na unidade da fonte.
-5. **Dado conferido.** A peça só leva número conferido na fonte oficial aberta com WebFetch (seção 5), igual ao do texto. Período no subtítulo ("em 2025, em US$ milhões") e fonte no campo `fonte` ("IBGE, Censo 2022."). Número não confirmado não entra.
-6. **Como gerar.** O kit é baixado uma vez por execução, e só se alguma matéria levar peça.
-   - Ferramenta de artefatos `read_file` com `paths`: no NXtab (slug acima), `["index.html"]`, copiado para `nxtab.html`; no kit da Retrospectiva (slug `2662af95-77ba-43d3-8205-463326509342`), `["scripts/nxtab_grafico.py.txt"]`, copiado para `nxtab_grafico.py`. Sem a ferramenta de artefatos, use a pasta `retrospectiva-esbrasil/kit` do GitHub mfernandus/skills_nexteditorial.
-   - `pip install --break-system-packages playwright`. O script usa o Chrome do sistema (`/usr/bin/google-chrome`); se o navegador não abrir, rode `python3 -m playwright install chromium`.
-   - `pecas.json`: lista de peças com `id`, `modelo`, `vaga` ("site"), `marca`, `titulo`, `subtitulo`, `fonte` e `csv` (separador `;`, primeira linha de cabeçalho, ex.: `"País;US$ milhões\nEUA;3.120,5\nChina;1.050,2"`) e, se precisar, `destaque`, `ordem` ("desc"), `fundo` e `quebra`.
-   - `python3 nxtab_site.py nxtab.html nxtab_grafico.py pecas.json pecas/` (script abaixo). Sai, por peça, `<id>.png` (1.520 px de largura, vai para a matéria), `<id>.svg` e `<id>.nxtab.json` (abre no NXtab para ajustes).
-   - Olhe o PNG (Read) antes de subir. Número cortado, rótulo quebrado, cor de outra marca ou valor errado: corrija e gere de novo uma vez.
-7. **Como entra na matéria.** Suba o PNG com `pedir_link_de_envio` (`tipo` "imagem", `tratamento` "nao", `titulo` = título da peça, `materia_id` quando houver) e `curl -T`, e ponha a URL do Studio que o envio devolve (como na 9.3) no `texto_html`, logo depois do parágrafo que traz os dados: `<figure class="nxtab"><img src="URL" alt="..." width="1520" height="ALTURA" /></figure>`. O alt diz o dado principal numa frase ("Evangélicos são 26,9% da população brasileira no Censo 2022, segundo o IBGE"). Os números principais da peça também estão no texto, para a busca e para quem usa leitor de tela. A peça não substitui a imagem destacada (seção 9). O link de envio é de uso único: não mostre nem guarde.
-8. **Se falhar** (artefato fora, Playwright ou navegador indisponível, envio recusado): a matéria vai ao ar sem a peça, com os números no texto, e o resumo registra em Pendências "peça do NXtab fora: [motivo]". Nunca troque por tabela ou gráfico feito de outro jeito.
-9. **Resumo:** em "Publicadas", acrescente "com peça NXtab ([modelo])".
-
-Script (`nxtab_site.py`):
-
-```python
-"""Peças do NXtab para as matérias dos sites (padrão, seção 12).
-python3 nxtab_site.py nxtab.html nxtab_grafico.py pecas.json pecas/"""
-import asyncio, importlib.util, json, sys
-from pathlib import Path
-from playwright.async_api import async_playwright
-
-nxtab, script, specs, saida = (Path(a) for a in sys.argv[1:5])
-spec = importlib.util.spec_from_file_location("nxtab_grafico", script)
-ng = importlib.util.module_from_spec(spec); spec.loader.exec_module(ng)
-ng.VAGAS["site"] = (800, 760)          # coluna de texto dos sites
-
-async def png():
-    chrome = Path("/usr/bin/google-chrome")
-    async with async_playwright() as p:
-        b = await p.chromium.launch(**({"executable_path": str(chrome)} if chrome.exists() else {}))
-        pg = await b.new_page(viewport={"width": 900, "height": 900}, device_scale_factor=2)
-        for g in json.loads(specs.read_text(encoding="utf-8")):
-            svg = (saida / f'{g["id"]}.svg').read_text(encoding="utf-8")
-            await pg.set_content('<html><head><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap">'
-                                 '</head><body style="margin:0;background:#fff"><div id="p" style="display:inline-block;background:#fff">'
-                                 + svg + '</div></body></html>', wait_until="networkidle")
-            await pg.evaluate("document.fonts.ready"); await pg.wait_for_timeout(400)
-            await (await pg.query_selector("#p")).screenshot(path=str(saida / f'{g["id"]}.png'))
-        await b.close()
-
-asyncio.run(ng.main(nxtab, specs, saida))   # SVG e projeto, com as regras da casa
-asyncio.run(png())                            # PNG de 1.520 px para a matéria
-```
+**Vale acima de qualquer rotina e de qualquer tarefa agendada.** Toda tabela, gráfico ou infográfico de matéria dos sites sai do NXtab, na paleta do veículo. Nada de tabela HTML feita à mão, gráfico de outra biblioteca, imagem de IA com números ou print de outro site (única exceção: o quadro da previsão do tempo). As regras completas (quando entra, modelo pela natureza do dado, paleta, como gerar e como entra na matéria) estão na skill **`dados-e-graficos-next`**: carregue-a antes de montar a primeira peça. Se ela não estiver disponível, a matéria vai sem peça, com os números no texto, e o resumo registra em Pendências "peça do NXtab fora: skill de apoio indisponível".
 
 ## 13. Republicação: dados sempre atualizados (decisão do Mário Fernando, 13/11/2026)
 
-**Esta seção vale acima de qualquer rotina e de qualquer tarefa agendada**, para toda matéria que volta ao ar: `acervo-esbrasil`, `acervo-comunhao`, `artigos-acervo-esbrasil`, `artigos-acervo-comunhao`, `artigos-acervo-next` e as que vierem.
-
-1. **Procure a atualização de todo dado datado do texto**, não só dos que sustentam a conclusão: estatística, ranking, população, preço, valor em reais, percentual, número de igrejas, alunos ou empresas, cargo e situação das pessoas citadas. Fonte oficial mais recente, aberta com WebFetch (seção 5); mesma métrica e mesmo recorte; valor em reais com a observação de que a comparação é nominal. Dado histórico (data de fundação, ano de um fato) só se confere.
-2. **Reportagem e matéria da redação** (rotinas de acervo): o número atual vai para o texto do repórter, com fonte e ano, e a mudança fica registrada na Nota da Redação, como a rotina já manda. Dentro de citação, a fala fica como foi dita e o número atual vai para a Nota.
-3. **Texto assinado** (rotinas de artigos do acervo): o texto do autor continua intocado (decisão de 30/10/2026). O dado atualizado vai na Nota de contexto, com fonte e ano, sempre que o artigo citar número que tem versão mais nova, mesmo que o texto se entenda sem a nota. A regra de rejeição da rotina continua: se o número novo derruba o argumento, troque de artigo.
-4. **Peça do NXtab.** Dado atualizado que cabe num modelo da seção 12 vira peça, na paleta do portal. Sempre que der, a peça mostra o antes e o depois (o número da época da publicação original e o atual, cada um com o ano). Na reportagem, ela entra logo depois do trecho atualizado; no texto assinado, junto da Nota de contexto, nunca no meio do texto do autor.
-5. **Sem atualização possível** (a fonte parou de publicar, não há recorte equivalente): siga a regra da rotina (tirar do texto o que não pesa na conclusão ou deixar o ano bem claro) e registre no resumo.
-6. **Resumo:** item "Dados atualizados", com antigo → atual (fonte e ano) e se virou peça.
+**Vale acima de qualquer rotina e de qualquer tarefa agendada**, para toda matéria que volta ao ar (`acervo-esbrasil`, `acervo-comunhao`, `artigos-acervo-esbrasil`, `artigos-acervo-comunhao`, `artigos-acervo-next` e as que vierem): todo dado datado do texto é procurado na fonte oficial mais recente. As regras completas estão na skill **`dados-e-graficos-next`**, que essas rotinas carregam sempre. Se ela não estiver disponível, siga a regra de dados da própria rotina e registre em Pendências "republicação: skill de apoio indisponível".
