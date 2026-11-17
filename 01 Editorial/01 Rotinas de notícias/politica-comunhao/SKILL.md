@@ -22,7 +22,7 @@ Rotina da série **Fé e Política** do portal Comunhão (comunhao.com.br; no NX
 
 ## 2. Quem entra
 
-**Evangélico confirmado.** O político entra só se a fé evangélica é pública e verificável em uma destas fontes: (a) título religioso no nome parlamentar registrado (Pastor, Pastora, Bispo, Missionária, Apóstolo, Irmão, Irmã); (b) biografia oficial na Casa, site ou rede oficial do próprio político; (c) discurso dele nas notas taquigráficas ou nos anais; (d) site oficial do partido; (e) matéria anterior da Comunhão que o apresente como evangélico (acervo NEIA). **Assinar a Frente Parlamentar Evangélica não basta**: a frente tem signatários de outras crenças. Denominação só quando a fonte disser.
+**Evangélico confirmado.** O político entra só se a fé evangélica é pública e verificável em uma destas fontes: (a) título religioso no nome parlamentar registrado (Pastor, Pastora, Bispo, Missionária, Apóstolo, Irmão, Irmã); (b) biografia oficial na Casa, site ou rede oficial do próprio político; (c) discurso dele nas notas taquigráficas ou nos anais; (d) site oficial do partido; (e) matéria anterior da Comunhão que o apresente como evangélico (acervo NEIA). **Assinar a Frente Parlamentar Evangélica não basta**: a frente tem signatários de outras crenças. Denominação só quando a fonte disser. Para **achar** essa fonte, a rotina pode usar a busca da `raspagem-web-next` (item 6 da seção 4); a confirmação continua sendo uma das fontes (a) a (e), aberta e lida. Nunca deduza fé ou igreja por nome, partido, foto, evento ou parente.
 
 **Quem pode:** deputados federais, senadores, governadores e vices, deputados estaduais (prioridade à Assembleia Legislativa do ES), prefeitos e vereadores (prioridade à Grande Vitória), em exercício. Ex-parlamentar só em perfil histórico com gancho de data.
 
@@ -53,6 +53,8 @@ O agendamento começa 20 minutos antes. Descubra a rodada e o dia com `TZ=Americ
 3. **Câmara:** página do deputado (`https://www.camara.leg.br/deputados/<id>`: notícias, cargos e números do mandato) e Agência Câmara de Notícias. A página `/biografia` é bloqueada para leitura automática: use a página principal.
 4. Feed nacional do NX Feed (Agência Brasil, Estadão Conteúdo), com `busca` por "evangélic", "frente parlamentar", "igrejas" ou pelo nome do político: é pista para chegar à fonte oficial.
 5. WebSearch com o mês e o ano correntes ("frente parlamentar evangélica novembro 2026", "sessão solene evangélicos 2026", "Ales aprova projeto deputado pastor").
+
+6. **Raspagem (decisão do Mário Fernando, 17/11/2026):** carregue a `raspagem-web-next`, rode `creditos` e `teto 4`. Use `search` pelo nome do político com "pastor", "evangélico" ou "igreja" para achar a fonte da fé (item 2) e com `--dias 3` para achar fato do mandato; `scrape` da página de tag da Agência Senado e das notícias da Agência Câmara quando o WebFetch vier sem a lista. Discursos: antes da raspagem, os dados abertos da Câmara (dadosabertos.camara.leg.br) e do Senado (legis.senado.leg.br/dadosabertos), que são oficiais e não gastam crédito. **Nunca pela raspagem:** a página /biografia da Câmara e o al.es.gov.br, que bloqueiam leitura automática. Resultado de imprensa ou de rede social é só pista.
 
 Abra a fonte com WebFetch antes de escrever. Fonte que não abre: troque de pauta.
 
@@ -134,4 +136,4 @@ Refaça a duplicidade → `conferir_publicacao` (tipo publicar) → `publicar_no
 
 ## 13. Resumo da rodada
 
-`SendUserMessage`, curto, para celular, com o título **"Fé e Política Comunhão HHh · DD/MM"** e as seções da padrão (Publicadas, Imagens de IA para validar, Também na rodada, Pendências; seção vazia = "nenhuma"). Acrescente: formato, político (PARTIDO-UF), fonte que confirma a fé (item 2), nota de pauta, nota SEO, imagem (do político / da Casa / IA), fontes usadas, contagem por partido das últimas 10 e quantas da semana foram do ES. Notifique só com matéria nova ou problema. Não envie e-mail.
+`SendUserMessage`, curto, para celular, com o título **"Fé e Política Comunhão HHh · DD/MM"** e as seções da padrão (Publicadas, Imagens de IA para validar, Também na rodada, Pendências; seção vazia = "nenhuma"). Acrescente: formato, político (PARTIDO-UF), fonte que confirma a fé (item 2), nota de pauta, nota SEO, imagem (do político / da Casa / IA), fontes usadas, contagem por partido das últimas 10, quantas da semana foram do ES e a linha da raspagem (créditos gastos e saldo, seção 6 da `raspagem-web-next`; crédito esgotado: aviso da seção 5 dela). Notifique só com matéria nova ou problema. Não envie e-mail.
