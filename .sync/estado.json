@@ -262,6 +262,14 @@
     "sha": "d383c14338968901ac8108c3d95e1d63c2914dae70f236008bc0032a5d519fb9",
     "updatedAt": "2026-11-02T15:51:05.467110Z"
   },
+  "raspagem-web-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/00 Padrão de publicação/raspagem-web-next",
+    "sha": "134092bb079256e42ddf193caf61aedbebd0f95c960dee70a64c8b208de89474",
+    "updatedAt": "2026-11-17T15:32:31.097516Z"
+  },
   "retrospectiva-esbrasil": {
     "arquivos": [
       "SKILL.md"
