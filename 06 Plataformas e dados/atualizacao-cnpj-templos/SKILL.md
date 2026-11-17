@@ -159,7 +159,7 @@ select * from mv_cnpj_aberturas_mes order by 1 desc limit 6;
 select * from mv_cnpj_baixas_mes order by 1 desc limit 6;
 ```
 
-Abra também a página de igrejas abertas em https://datafe.com.br e confira se os números novos aparecem.
+Abra também a página de igrejas abertas (https://datafe.com.br/igrejas-abertas) e confira se os números novos aparecem. A página é feita em JavaScript e o WebFetch só mostra o cabeçalho: leia com `scrape` da skill `raspagem-web-next` (rode antes `creditos` e `teto 2`).
 
 O relatório para o Mário deve ser curto e em português:
 
