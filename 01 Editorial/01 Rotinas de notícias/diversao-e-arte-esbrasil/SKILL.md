@@ -55,6 +55,8 @@ A base abaixo vem da planilha **Fontes_Diversao_e_Arte_ES_Brasil** (132 fontes, 
 
 Varra nessa ordem e, entre duas pautas de mesmo peso, fica a da fonte mais relevante. Fonte fora da lista não serve de fonte; a única exceção é a página oficial do próprio evento, artista ou espaço, usada para confirmar o que uma fonte da lista anunciou. As fontes "a confirmar", descartadas ou fechadas não entram. As pistas (3.6) nunca são fonte nem crédito.
 
+**Raspagem (decisão do Mário Fernando, 17/11/2026):** carregue a skill `raspagem-web-next` uma vez por rodada, rode `creditos` e `teto 8`, e use-a como diz a seção 3.8. Sem créditos, siga como antes, com WebFetch e WebSearch.
+
 **Varredura econômica (skill-base, seção 11):** em cada fonte, procure só o recorte da rodada (8h: anúncios novos; 14h: a programação do dia da agenda, ou de sábado e domingo às sextas) e leia a página de programação uma vez; abra a página de um evento só quando ele for virar pauta ou item da agenda. Site que esta skill diz que não abre por leitura automática não é tentado de novo.
 
 **Parceiros primeiro (como no turno noturno):** Sesc ES e Senac (gastronomia). Se tiverem fato novo, ganham a vaga antes de qualquer outra pauta, com a mesma régua editorial.
@@ -111,7 +113,7 @@ Varra nessa ordem e, entre duas pautas de mesmo peso, fica a da fonte mais relev
 
 Ativos em 2025–2026: Roberto Carlos, Silva, Dead Fish, Budah, Cesar MC (@cesarmc027), Luiza Dutra, Dan Abranches, Dudu MC, Afronta MC, André Prando, Amaro Lima (Manimal), Maré Tardia, Sandrera, Ada Koffi, DJ Gegeo, Casaca (@bandacasaca), Pele Morena (@pelemorenaoficial), Edson Papo Furado (@edsonpapofurado) e Thaysa Pizzolato (@thaysa_pizzolato). A confirmar: Modão das Patroas. Os @ e as páginas de Spotify estão na planilha. Vale: lançamento de música ou álbum, clipe, turnê, show no ES, prêmio, festival nacional com artista capixaba.
 
-**Como monitorar (economia do plano, 04/11/2026):** na rodada das 8h, primeiro por busca (WebSearch no modo standard, juntando 4 ou 5 nomes por consulta com "lançamento", "clipe" ou "show" e o mês e o ano) e pelas páginas oficiais que abrem por leitura automática (site, YouTube, release). Abra o perfil no navegador quando a busca trouxer pista de lançamento, ou para confirmar a data e o crédito de um lançamento já achado (3.7).
+**Como monitorar (economia do plano, 04/11/2026; raspagem em 17/11/2026):** na rodada das 8h, primeiro por busca (`search` da `raspagem-web-next` com `--dias 7`, juntando 4 ou 5 nomes por consulta com "lançamento", "clipe" ou "show"; sem créditos, WebSearch no modo standard com o mês e o ano) e pelas páginas oficiais que abrem por leitura automática (site, YouTube, release). Abra o perfil no navegador quando a busca trouxer pista de lançamento, ou para confirmar a data e o crédito de um lançamento já achado (3.7).
 
 ### 3.6 Só pista (nunca fonte, nunca crédito)
 
@@ -120,6 +122,16 @@ HZ / A Gazeta (agazeta.com.br/hz), Folha Vitória (folhavitoria.com.br/agenda-de
 ### 3.7 Leitura de Instagram e sites fechados
 
 Instagram, alguns sites de bilheteria e de prefeituras e o próprio esbrasil.com.br não abrem por WebFetch. Nesses casos, abra no navegador (Claude in Chrome, carregando antes a skill `chrome-browser`) só para LER; nunca curta, siga, comente nem preencha nada. Use o navegador para confirmar uma pauta ou um item de agenda já escolhido, não para varrer perfis e listas (skill-base, seção 11): cada tela custa muitas vezes uma leitura de página. Se nem assim abrir, troque a pauta.
+
+### 3.8 Raspagem com Firecrawl e Apify (17/11/2026)
+
+Skill `raspagem-web-next`, teto de **8 créditos por rodada**. Usos, nesta ordem:
+
+1. **Descobrir eventos novos numa fonte da base:** `map` com `--busca` (ex.: `map https://sesc-es.com.br --busca evento`, `map` na página do organizador na Let's Events ou na Sympla, Secult com `--busca noticias`). Abra só a URL do evento que vai virar pauta ou item da agenda.
+2. **Páginas que carregam por JavaScript:** `scrape` da lista da Sympla por cidade, das sessões no Ingresso.com e da página da Eventim por cidade, quando precisar delas.
+3. **Casas e bares (3.4) e artistas capixabas (3.5):** `search` com `--dias 7`, pelo nome da casa ou do artista e "programação", "show", "lançamento" ou "clipe". Resultado de agregador (TocaOnde, Vamos e afins), de imprensa e de Instagram é só pista: confirme na fonte oficial da base (3.1 a 3.4) ou na página oficial do evento, do artista ou da casa antes de escrever.
+
+**Nunca pela raspagem:** os sites que esta skill diz que não abrem por leitura automática (teatro.ufes.br, Folha Vitória, Le Billet, prefeituras de Guarapari, Cachoeiro e Linhares), o Instagram e o esbrasil.com.br. Continuam como na 3.7.
 
 ## 4. Tipos de matéria
 
@@ -227,7 +239,8 @@ Parte própria do resumo:
 - meta do dia (na rodada das 14h): quantas das 5 saíram e o motivo do que faltou;
 - agenda: feita pela rotina, feita pela equipe ou não feita (menos de 6 itens);
 - eventos achados só em pista, sem confirmação oficial;
-- fontes da base que não abriram ou parecem desativadas (para a equipe atualizar a planilha).
+- fontes da base que não abriram ou parecem desativadas (para a equipe atualizar a planilha);
+- raspagem: créditos gastos na rodada e saldo, pela seção 6 da `raspagem-web-next` (crédito esgotado: aviso da seção 5 dela).
 
 Rodada sem novidade termina com "Sem fato novo nesta rodada", sem notificação.
 
