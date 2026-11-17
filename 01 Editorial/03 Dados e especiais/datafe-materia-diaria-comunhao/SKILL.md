@@ -61,7 +61,7 @@ Banco do Datafé: projeto Lovable `bd496ff6-6711-470b-aef0-fc1c2b6a611e`, ferram
 | Locais de culto (CNEFE 2022) e CNPJ | `mv_templos_municipio` (`origem` cnefe ou cnpj; `religiao`; `denominacao_slug`; `total`; `ativos`). Brasil: some tudo. UF: os dois primeiros dígitos de `codigo_ibge` |
 | Aberturas, baixas, idade e situação do CNPJ | `templos_termometro(p_codigo_uf, p_codigo_ibge, p_meses)`, `templos_saldo_anual_resumo()`, `templos_idade_resumo()`, `templos_situacao_resumo()`, `mv_cnpj_aberturas_mes`, `mv_cnpj_baixas_mes` |
 | Gerações × conversão | `decomposicao_avanco` (tipo, codigo, p2010, p2022, so_geracoes_2022, pontos_total, pontos_geracoes, pontos_conversao, parte_geracoes_pct) |
-| Projeções | `modelo_parametros` e `projecao_geracoes`; os números publicados estão em datafe.com.br/projecoes (abra com WebFetch e use o que a página mostra) |
+| Projeções | `modelo_parametros` e `projecao_geracoes`; os números publicados estão em datafe.com.br/projecoes (a página é feita em JavaScript e o WebFetch só mostra o cabeçalho: leia com `scrape` da `raspagem-web-next` e use o que ela mostra) |
 | Denominações 2022 (estimativa com faixa) e 2010 | `denominacoes_2022_estimativa`, `denominacoes_2010`, `declarados` |
 | Família | `familia_por_faixa_evangelica()`, `familia_por_uf()`, `registro_civil_uf`, `registro_civil_municipio` |
 | Pesquisas e referências | `pesquisas_religiao`, `institutos_vies`, `termometro_pesquisas`, `pesquisas`, `temas_indicadores` (tema, indicador, valor, selo, fonte, url, nota) |
@@ -73,7 +73,8 @@ Banco do Datafé: projeto Lovable `bd496ff6-6711-470b-aef0-fc1c2b6a611e`, ferram
 - Nunca escreva "o Censo 2022 mostra X fiéis da Assembleia de Deus": denominação de 2022 é estimativa do Datafé, com faixa.
 - CNPJ não é igreja nova: é organização religiosa registrada. Locais do CNEFE são endereços identificados pelo nome (estimativa): 112 mil endereços religiosos sem pista ficam fora.
 - Barna é painel online com cotas, não amostra probabilística: diga isso numa frase. Associação não é causa; membro não é frequentador; venda não é leitura.
-- Fonte externa (Pew, Barna, Lifeway, SBB, Inep, IBGE fora do banco, TSE): abra com WebFetch na rodada. Não abriu, não entra.
+- Fonte externa (Pew, Barna, Lifeway, SBB, Inep, IBGE fora do banco, TSE): abra com WebFetch na rodada. Se a página carregar por JavaScript e vier vazia, leia com `scrape` da `raspagem-web-next`; se o WebFetch recusar ou der bloqueio, não raspe. Não abriu, não entra.
+- **Raspagem (decisão do Mário Fernando, 17/11/2026):** carregue a `raspagem-web-next` **todo dia**, no começo, siga a seção 1 dela (chaves da memória) e rode `creditos` e `teto 3`. Esta rotina é a sentinela dos créditos: o aviso diário de crédito baixo ou esgotado (seção 5 da `raspagem-web-next`) vai na primeira linha da notificação dela, mesmo quando a matéria não usar a raspagem. Usos: ler páginas do datafe.com.br, conferir a página da barra do fecho e, no domingo (O Brasil e o mundo), `search` dos últimos 30 dias por número novo da Barna, da Lifeway, do Pew ou da SBU.
 
 ## 5. Comparações de escala
 
@@ -105,7 +106,7 @@ A comparação é o que faz o leitor sentir o tamanho do número. Use uma, no m�
    - **Texto:** `{PERGUNTA}` com até 80 caracteres; `{PROMESSA}`, uma frase de até 110 caracteres com o que o leitor vai achar no Datafé. Escreva `"` como `&quot;` e `&` como `&amp;`.
    - Depois de `criar_materia`, confira com `ver_materia` (formato html) que a barra chegou inteira e numa linha.
    - **A pergunta da barra é genérica** (pedido de Mário Fernando, 16/11/2026): fala com qualquer leitor, em "você", "sua cidade", "sua igreja", sem chamar um grupo (nada de "Pastor,", "Líder," ou "Jovem,"). É diferente da pergunta do título ou da linha fina. Padrão: "Você conhece os números da igreja evangélica na sua cidade?". Varie só quando o eixo combinar melhor: igrejas ("Quantas igrejas evangélicas existem na sua cidade?"), ranking ("Em que posição a sua cidade está no ranking?"), checagem ("Antes de repassar aquele número no WhatsApp, você conferiu o oficial?"), movimento ("Como estará a igreja da sua cidade em 2030?"), família ("Na sua cidade, casa-se mais ou menos que a média?").
-   - O link vai para a página que responde à pergunta: https://datafe.com.br/municipios (busca da cidade), /templos, /igrejas-abertas, /projecoes, /denominacoes, /pesquisas, /familia, /movimento, /biblia-e-livro, /musica-gospel, /mercado, /estados, /estado/<slug> ou /municipio/<slug>. Confira com WebFetch que a página abre; se não abrir, use https://datafe.com.br.
+   - O link vai para a página que responde à pergunta: https://datafe.com.br/municipios (busca da cidade), /templos, /igrejas-abertas, /projecoes, /denominacoes, /pesquisas, /familia, /movimento, /biblia-e-livro, /musica-gospel, /mercado, /estados, /estado/<slug> ou /municipio/<slug>. Confira que a página abre e mostra conteúdo: no WebFetch só aparece o cabeçalho (o site é feito em JavaScript), então leia com `scrape` da `raspagem-web-next` (1 crédito); sem crédito, basta o título da página no WebFetch. Se não abrir, use https://datafe.com.br.
    - A barra não conta como intertítulo para a Nota SEO. Um aviso de "trecho sem intertítulo" no fim do texto é aceitável se a nota ficar em 85 ou mais.
    - O plugin nx-relacionados do WordPress põe barras automáticas no texto ("Ouça", "Leia também") e pode pôr uma logo acima da barra do Datafé. Isso se resolve no plugin (pedido ao Jhonatan em 16/11/2026); não tente tirar pelo texto da matéria.
    - Quando a pauta tiver recorte por cidade ou estado, ponha também, logo depois da peça do NXtab, uma linha curta: `<p><em>Procure a sua cidade no <a href="https://datafe.com.br/municipios">Datafé</a>.</em></p>`.
@@ -144,7 +145,7 @@ A comparação é o que faz o leitor sentir o tamanho do número. Use uma, no m�
 1. `criar_materia` (portal 4, categoria da seção 2, chapéu "Datafé", autor "Redação") → peças do NXtab enviadas ao Studio e postas no texto → `definir_imagem_destacada` → `ver_nota_seo`.
 2. Reconferência de duplicidade (seção 4 do padrão) → `conferir_publicacao` → `publicar_no_wordpress` com `quando` 09:30 do dia (ou "agora", seção 2) e o `codigo_confirmacao` (a decisão de Mário Fernando de 13/11/2026 vale como o "sim").
 3. Nada de redes antes de a matéria ir ao ar (2.2 do padrão). Feed do Instagram nunca (2.3). O story automático do NX Feed segue a cota do canal.
-4. **Resumo** (seção 10 do padrão), título "Datafé · matéria do dia · DD/MM": título com link (ou horário em que vai ao ar), eixo do dia, o "não sabia" em uma linha, a pergunta da chamada e a do fecho, as peças do NXtab, a foto e Pendências.
+4. **Resumo** (seção 10 do padrão), título "Datafé · matéria do dia · DD/MM": título com link (ou horário em que vai ao ar), eixo do dia, o "não sabia" em uma linha, a pergunta da chamada e a do fecho, as peças do NXtab, a foto, a linha da raspagem quando usada (seção 6 da `raspagem-web-next`) e Pendências.
 
 ## 8. Banco de pautas (ponto de partida)
 
