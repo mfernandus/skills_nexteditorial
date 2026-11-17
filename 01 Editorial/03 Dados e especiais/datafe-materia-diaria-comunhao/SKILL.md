@@ -90,8 +90,8 @@ A comparação é o que faz o leitor sentir o tamanho do número. Use uma, no m�
 
 **Estrutura (nesta ordem):**
 
-1. **Título** (até 60 caracteres): o número que espanta, já traduzido em escala, ou uma pergunta direta à igreja do leitor. Ex.: "Brasil tem quase duas igrejas evangélicas para cada escola"; "Os jovens estão deixando a sua igreja?".
-2. **Linha fina** (uma frase): se o título traz o número, a linha fina faz a pergunta à igreja do leitor; se o título é a pergunta, a linha fina traz o número exato. Ex.: "O Censo contou 339 mil locais de culto, um para cada 139 fiéis. Quantos cabem na sua?".
+1. **Título** (até 60 caracteres): a chamada que faz o leitor parar e clicar, pela seção 6.1.
+2. **Linha fina** (até 20 palavras): o número exato, a fonte e o convite, pela seção 6.1.
 3. **Abertura** (25 a 70 palavras): a prova, com a fonte e o ano.
 4. **Segundo parágrafo:** de onde vem (o Datafé, "o portal de dados da Revista Comunhão") e o contexto mínimo.
 5. **Peça do NXtab** (seção 12 do padrão, `marca` "com", `fundo` "none"): logo depois do parágrafo com os dados. Até duas peças. `c-faixa` para três a cinco números-chave; `c-barras` para ranking de estados ou cidades (pode ter "Brasil" como barra de referência, em destaque); `c-percentual` ou `c-colunas` para série no tempo.
@@ -115,8 +115,45 @@ A comparação é o que faz o leitor sentir o tamanho do número. Use uma, no m�
 
 **Tamanho:** 500 a 750 palavras.
 
+### 6.1 Título e linha fina: chamada que faz clicar (pedido de Mário Fernando, 17/11/2026)
+
+Os títulos estavam certos, mas frios e sem convite, como "Crescimento evangélico: 1.700 por dia, menos de 2 por igreja". O título tem um trabalho só: fazer o leitor da Comunhão parar no meio da rolagem e querer saber mais. O Google fica com o **título SEO**, que é outro campo e continua começando pela palavra-chave (seção 6, SEO).
+
+**1. Do frio para o que chama.** O número vira uma imagem que o leitor sente (gente, relógio, a sala de aula, a rua, o vizinho, a igreja dele), e a frase tem gancho: contraste, surpresa, desafio ou convite.
+
+| Frio (não fazer mais) | Com chamada |
+|---|---|
+| Crescimento evangélico: 1.700 por dia, menos de 2 por igreja | O Brasil ganha 1.700 crentes por dia. E a sua igreja? |
+| Quase 1 em cada 3 adolescentes do Brasil é evangélico | Numa turma de 30 adolescentes, quase 10 são evangélicos |
+| Cidade mais evangélica do Brasil: quase 9 em 10 moradores | A cidade onde quase 9 em cada 10 vizinhos são evangélicos |
+| Mais de 1 em cada 7 Bíblias do mundo ficou no Brasil | Uma Bíblia a cada 9 segundos põe o Brasil em 1º no mundo |
+| Brasil tem quase duas igrejas evangélicas para cada escola | Para cada escola, quase duas igrejas. E na sua cidade? |
+
+**2. Fórmulas** (escolha a que o número do dia pede; varie de um dia para o outro):
+- **Gente e relógio:** "O Brasil ganha 1.700 crentes por dia"; "Um crente a mais a cada 50 segundos".
+- **Escala que cabe no olho:** a turma de 30 alunos, a rua, o ônibus, o estádio, a cidade do leitor.
+- **Contraste:** o país contra a igreja local, o maior contra o menor, antes contra agora.
+- **Desafio à igreja do leitor:** "E a sua igreja?", "Sua igreja está pronta?", "Faça a conta da sua".
+- **Virada:** a previsão que errou, o número que circula e não é o oficial, o lugar que ninguém esperava.
+- **Convite direto:** "Descubra quantos evangélicos vivem na sua cidade", "Veja em que lugar ficou o seu estado".
+
+**3. Chamada para ação sempre.** O título ou a linha fina convidam o leitor a fazer algo: ver, descobrir, comparar, conferir, procurar a cidade, fazer a conta da igreja dele. A barra do Datafé no fecho é onde o convite se cumpre.
+
+**4. Linha fina** (até 20 palavras, uma ou duas frases curtas): não repete o título nem o número dele; traz o número exato e a fonte quando o título arredondou ("estimativa do Datafé", "segundo o Censo 2022") e termina no convite. Ex.: "Pela estimativa do Datafé, isso dá menos de duas pessoas por igreja a cada ano. Faça a conta da sua."
+
+**5. Como escolher.** Escreva seis títulos de fórmulas diferentes. Risque os que passam de 60 caracteres, os que prometem o que a abertura não entrega e os que mudam o sentido do número. Fica o que dá mais vontade de clicar sem mentir. O resumo leva o escolhido e mais dois.
+
+**6. Criativo, nunca falso:**
+- Saldo é saldo: "ganha", "a mais", "crentes a mais". "Novos convertidos" ou "novos crentes" só quando o número for de conversões de fato (batismos, decisões declaradas).
+- Arredondar pode ("a cada 9 segundos" para 9,4), mudar o sentido não. Estimativa no título pede "estimativa" ou "cerca de" na linha fina.
+- A resposta do gancho está na abertura. Nada de "você não vai acreditar", "chocante", "o segredo", exclamação ou reticências de suspense.
+- Pergunta que provoca, não que acusa: "E a sua igreja?" pode; "Sua igreja está morrendo?" não.
+- Valem as regras da seção 1 e da análise: sem "explosão", "boom", "crise"; comparação com católicos mede, não compete; nada em caixa alta.
+
+**7. SEO.** O título SEO começa pela palavra-chave e pode ser diferente do título. Se a palavra-chave couber natural no título, melhor. Se a Nota SEO cair abaixo de 85 por causa do título, ajuste a palavra-chave ou o título SEO; nunca volte ao título frio.
+
 **A chamada provocativa (pedido de Mário Fernando, 14/11/2026):**
-- Toda matéria fala diretamente com a igreja do leitor em dois lugares: no título ou na linha fina, e no fecho. Use "sua igreja", "sua cidade", "sua denominação", "o pastor da sua igreja", "os jovens da sua igreja".
+- Toda matéria fala diretamente com a igreja do leitor em dois lugares: no título ou na linha fina (seção 6.1), e no fecho. Use "sua igreja", "sua cidade", "sua denominação", "o pastor da sua igreja", "os jovens da sua igreja".
 - A pergunta nasce do número do dia, e o texto responde com dado. Nada de pergunta que acusa, que promete o que o Datafé não mede ou que o texto não sustenta.
 - Modelos para adaptar ao dado do dia (reconsulte os números):
   - Quantas vidas se converteram na sua igreja no último ano? (saldo de 2010 a 2022: menos de duas pessoas por igreja por ano, além do que nascimentos e mortes explicam; estimativa do Datafé)
@@ -145,7 +182,7 @@ A comparação é o que faz o leitor sentir o tamanho do número. Use uma, no m�
 1. `criar_materia` (portal 4, categoria da seção 2, chapéu "Datafé", autor "Redação") → peças do NXtab enviadas ao Studio e postas no texto → `definir_imagem_destacada` → `ver_nota_seo`.
 2. Reconferência de duplicidade (seção 4 do padrão) → `conferir_publicacao` → `publicar_no_wordpress` com `quando` 09:30 do dia (ou "agora", seção 2) e o `codigo_confirmacao` (a decisão de Mário Fernando de 13/11/2026 vale como o "sim").
 3. Nada de redes antes de a matéria ir ao ar (2.2 do padrão). Feed do Instagram nunca (2.3). O story automático do NX Feed segue a cota do canal.
-4. **Resumo** (seção 10 do padrão), título "Datafé · matéria do dia · DD/MM": título com link (ou horário em que vai ao ar), eixo do dia, o "não sabia" em uma linha, a pergunta da chamada e a do fecho, as peças do NXtab, a foto, a linha da raspagem quando usada (seção 6 da `raspagem-web-next`) e Pendências.
+4. **Resumo** (seção 10 do padrão), título "Datafé · matéria do dia · DD/MM": título com link (ou horário em que vai ao ar), eixo do dia, o "não sabia" em uma linha, o título escolhido e as duas opções que ficaram de fora (seção 6.1), a pergunta da chamada e a do fecho, as peças do NXtab, a foto, a linha da raspagem quando usada (seção 6 da `raspagem-web-next`) e Pendências.
 
 ## 8. Banco de pautas (ponto de partida)
 
