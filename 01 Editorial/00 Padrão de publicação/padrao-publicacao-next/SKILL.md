@@ -11,6 +11,7 @@ Regras que valem para **toda** rotina de conteúdo dos sites (turno noturno, Est
 - **`dados-e-graficos-next`** (seções 12 e 13): carregue antes de montar qualquer tabela, gráfico ou infográfico e, sempre, nas rotinas de republicação (`acervo-esbrasil`, `acervo-comunhao`, `artigos-acervo-esbrasil`, `artigos-acervo-comunhao`, `artigos-acervo-next`).
 - **`imagem-ia-next`** (9.1 e 9.2): carregue só quando nenhuma foto real com direito de uso servir, antes de gerar a imagem.
 - **`raspagem-web-next`** (busca e leitura de páginas pelo Firecrawl, com o Apify de reserva; decisão do Mário Fernando de 17/11/2026): carregue só nas rotinas que a citam. A seção 3 dela (o que nunca se raspa) vale acima de qualquer rotina, e a seção 5 diz quando avisar que os créditos estão baixos ou acabaram.
+- **`pauta-local-next`** (pauta de contexto local a partir de número nacional ou internacional; decisão do Mário Fernando de 17/11/2026): carregue só quando uma matéria publicada na rodada passar no filtro rápido da seção 10, item 0.
 
 ## 1. Portais e idioma
 
@@ -72,6 +73,7 @@ Na dúvida, fica fora. Registre no resumo, em "Também na rodada", como "aguarda
 - `editar_materia` com "categorias" **substitui as categorias de todos os portais**: leia antes com `ver_materia` (pegue a `versao`) e mande as categorias de todos os portais já com a mudança. Ao reenviar, passe `portais` só com os portais em que a matéria já tem post (senão o NX Feed cria rascunho no outro).
 - Para atualizar um post no ar sem mudar o status: `enviar_rascunho_ao_wordpress` (ou `atualizar_no_wordpress` num portal só).
 - Mexa só nas matérias da própria rotina (criadas ou editadas via Claude; `historico_da_materia` mostra), nunca nos rascunhos da equipe, a não ser que a rotina diga o contrário. Matéria agendada da equipe nunca: seção 2.2.
+- **Rascunho com chapéu "Pauta local"** é pauta sugerida à equipe pela `pauta-local-next`, não matéria de rotina, mesmo criado via Claude: nenhuma rotina o publica, edita, apaga, trata como pendência ou usa como link interno. Na trava de duplicidade (seção 4) ele não barra notícia factual: indica só que a equipe vai fazer aquela reportagem.
 - Id de categoria recusado: rode `listar_categorias_wordpress` no portal, use o id atual da **mesma** categoria e avise no resumo. Nunca grave em categoria aproximada.
 - **Destaques** (11966 na ES Brasil, 44517 na Comunhão) é da redação e só das rotinas que o tratam expressamente, cada uma pela sua regra (decisões do Mário Fernando de 30/10, 02/11, 05/11 e 12/11/2026): a **rotina de Destaques**, as **rotinas de acervo** (matéria das 22h), a **`comunhao-na-esbrasil`** (sábado, domingo e feriado) e a da **previsão do tempo** (Post A das 00h01). Nenhuma outra rotina, nem a de esporte, marca ou tira Destaques.
 
@@ -181,11 +183,13 @@ if __name__ == "__main__":
 
 ## 10. Avisos ao fim da rodada
 
-**Não envie e-mail** (decisão do Mário Fernando, 27/10/2026). O aviso da rodada é o resumo na conversa e a notificação do app.
+**Não envie e-mail** (decisão do Mário Fernando, 27/10/2026). O aviso da rodada é o resumo na conversa e a notificação do app. Única exceção: o e-mail da `pauta-local-next` à Joviana com a pauta local.
 
+0. **Pauta local** (decisão do Mário Fernando, 17/11/2026). Antes do resumo, olhe as matérias que a rodada publicou, sem busca nova. Filtro rápido: a matéria traz **número nacional ou internacional** (pesquisa, índice, ranking, variação, balanço oficial) com fonte identificável, sobre tema que **também acontece no Espírito Santo** (ES Brasil) ou **na igreja brasileira** (Comunhão, que circula no país inteiro: número de fora do Brasil, ou nacional sem o recorte da igreja). Se ao menos uma passar, carregue a **`pauta-local-next`** e siga-a; se nenhuma passar, não carregue. Fora do filtro: matéria que já é do ES, esporte, previsão do tempo, Diversão e Arte, republicação de acervo, artigos e pesquisa eleitoral; na Comunhão, também a que já traz o recorte da igreja no Brasil.
 1. **Resumo na conversa** (SendUserMessage), curto, para celular, com o título que a rotina define. Se a execução rodar mais de uma rotina, um resumo só, com uma parte por rotina. Seções, nesta ordem:
    - **Publicadas:** título com o link no ar, portal e categoria;
    - **Imagens de IA para validar:** link da matéria, link da imagem e a legenda-fato (ou "legenda sem fato novo"), com a frase "Se precisar, troque no NX Feed.";
+   - **Pautas locais:** só quando houver; veículo, ângulo, link do painel e o e-mail à Joviana (seção 7 da `pauta-local-next`);
    - **Também na rodada:** o que não foi publicado e o motivo (fora por regra de pauta, duplicado, superado, erro técnico), ajustes em matérias da redação, casos marcados "envolve parceiro";
    - **Pendências:** erro técnico, SEO abaixo de 85, categoria recusada, dado não confirmado, conector fora, foto sem tratamento, lacuna no banco de fotos, peça do NXtab fora.
    - Seção sem itens: "nenhuma". A rotina pode acrescentar a parte própria dela (tabelas, metas, contagens).
