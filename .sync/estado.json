@@ -238,6 +238,14 @@
     "sha": "a676870269c1e33de829e628a941ba949714a77248bec0c28c9c6a933811bbe1",
     "updatedAt": "2026-11-17T10:09:41.402465Z"
   },
+  "pauta-local-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/00 Padrão de publicação/pauta-local-next",
+    "sha": "4ef2586c3b179e20c1eebe0be272f36dc51f9aba850a956b963b79a1e39522bc",
+    "updatedAt": "2026-11-17T16:42:06.854282Z"
+  },
   "politica-comunhao": {
     "arquivos": [
       "SKILL.md"

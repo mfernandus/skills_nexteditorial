@@ -10,6 +10,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 - **imagem-ia-next** — Apoio da padrao-publicacao-next (9.1 e 9.2): imagem por IA na Krea e legenda-fato. Carregar só quando nenhuma foto real com direito de uso servir para a matéria.
 - **dados-e-graficos-next** — Apoio da padrao-publicacao-next (seções 12 e 13): gráficos, tabelas e infográficos no NXtab e dados atualizados na republicação. Carregar antes de montar qualquer peça e em toda republicação.
 - **raspagem-web-next** — Busca e leitura de páginas pela API do Firecrawl, com o Apify de reserva quando os créditos acabam, para as rotinas Diversão e Arte, Fé e Política e Datafé. Diz onde ficam as chaves (na memória, nunca na skill) e traz o script raspar.py, os tetos de crédito por rotina, o que nunca se raspa e os avisos de crédito baixo ou esgotado. Carregar só quando a rotina citar esta skill.
+- **pauta-local-next** — Apoio da padrao-publicacao-next (seção 10, item 0): quando a rodada publica número com eco no Espírito Santo (**ES Brasil**) ou na igreja brasileira (Comunhão), grava a pauta local no NX Feed e avisa a Joviana por e-mail.
 
 ## 01 Editorial / 01 Rotinas de notícias
 
