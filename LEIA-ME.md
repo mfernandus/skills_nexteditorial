@@ -25,6 +25,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 - **politica-comunhao** — Série Fé e Política da Comunhão: 2 matérias por dia, de segunda a sábado (11h e 17h), valorizando mandatos de políticos evangélicos de todos os partidos. Carregar depois da padrao-publicacao-next.
 - **politica-esbrasil** — Política da **ES Brasil**: uma matéria por hora (dias úteis 7h–20h; fim de semana e feriado de 2 em 2 horas), só agenda positiva da política capixaba — Governo, Ales, prefeituras, bancada, TJES e TCE-ES —, parceiros primeiro. Só ato político-institucional: ação de serviço do governo (saúde, educação, agro etc.) é da editoria do tema, não de Política.
 - **previsao-tempo-esbrasil** — Rotina diária da previsão do tempo da **ES Brasil**: às 19h prepara o Post A (dia seguinte + 3 dias), o Post B (2 dias) e o stories animado, e agenda tudo no NX Feed para 00h01.
+- **coluna-target-esbrasil** — Coluna Target da **ES Brasil**: três notas por rodada (cliente da Next, mercado capixaba, nacional ou internacional) sobre publicidade e comunicação, publicadas direto, seg, qua e sex às 11h.
 
 ## 01 Editorial / 02 Acervo e republicação
 

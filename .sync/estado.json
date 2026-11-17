@@ -93,6 +93,14 @@
     "sha": "1caa36097b2ff0c7b84c7850d37c09055eb2be6271d25bea2e109260ebf724a7",
     "updatedAt": "2026-06-03T22:35:17.993317Z"
   },
+  "coluna-target-esbrasil": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/01 Rotinas de notícias/coluna-target-esbrasil",
+    "sha": "78871c24924d9949ba890ecea2f6eff246b66e631d7b27e4a373c1de5a683e6d",
+    "updatedAt": "2026-11-17T21:15:48.788884Z"
+  },
   "comunhao-na-esbrasil": {
     "arquivos": [
       "SKILL.md"

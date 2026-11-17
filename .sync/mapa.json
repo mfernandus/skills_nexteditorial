@@ -5,5 +5,6 @@
   "raspagem-web-next": "next:01 Editorial/00 Padrão de publicação",
   "pauta-local-next": "next:01 Editorial/00 Padrão de publicação",
   "validacao-diaria-datafe": "next:06 Plataformas e dados",
-  "datafe-manchetes-semana": "next:01 Editorial/03 Dados e especiais"
+  "datafe-manchetes-semana": "next:01 Editorial/03 Dados e especiais",
+  "coluna-target-esbrasil": "next:01 Editorial/01 Rotinas de notícias"
 }
