@@ -10,6 +10,7 @@ Regras que valem para **toda** rotina de conteúdo dos sites (turno noturno, Est
 **Skills de apoio** (economia do plano, decisão do Mário Fernando de 17/11/2026). Partes deste padrão que nem toda rodada usa ficam em skills próprias, carregadas só quando a rodada precisa delas, uma vez por execução (11.7). Valem com a mesma força que se estivessem aqui:
 - **`dados-e-graficos-next`** (seções 12 e 13): carregue antes de montar qualquer tabela, gráfico ou infográfico e, sempre, nas rotinas de republicação (`acervo-esbrasil`, `acervo-comunhao`, `artigos-acervo-esbrasil`, `artigos-acervo-comunhao`, `artigos-acervo-next`).
 - **`imagem-ia-next`** (9.1 e 9.2): carregue só quando nenhuma foto real com direito de uso servir, antes de gerar a imagem.
+- **`raspagem-web-next`** (busca e leitura de páginas pelo Firecrawl, com o Apify de reserva; decisão do Mário Fernando de 17/11/2026): carregue só nas rotinas que a citam. A seção 3 dela (o que nunca se raspa) vale acima de qualquer rotina, e a seção 5 diz quando avisar que os créditos estão baixos ou acabaram.
 
 ## 1. Portais e idioma
 
@@ -90,7 +91,7 @@ Se a casa já tem o mesmo fato, publicado ou em rascunho da equipe, não escreva
 
 ## 5. Fontes e apuração
 
-- A fonte oficial ou primária (órgão público, entidade, documento, release no site da própria empresa, dado público) é a fonte de verdade. Órgão de controle (Ministério Público, Tribunal de Contas, controladoria) não serve de fonte (2.1), salvo o TCE-ES na exceção da rotina `politica-esbrasil`, e só na própria matéria do TCE-ES. Abra com WebFetch antes de escrever; nunca redija a partir de snippet. Fonte que não abre: procure outra ou troque a pauta. Não use curl ou Python para burlar página bloqueada.
+- A fonte oficial ou primária (órgão público, entidade, documento, release no site da própria empresa, dado público) é a fonte de verdade. Órgão de controle (Ministério Público, Tribunal de Contas, controladoria) não serve de fonte (2.1), salvo o TCE-ES na exceção da rotina `politica-esbrasil`, e só na própria matéria do TCE-ES. Abra com WebFetch antes de escrever; nunca redija a partir de snippet. Fonte que não abre: procure outra ou troque a pauta. Não use curl, Python, Firecrawl ou Apify para burlar página bloqueada (`raspagem-web-next`, seção 3).
 - Imprensa serve só de pista e de conferência. **Não dê crédito a outro veículo:** não cite, não linke, não escreva "segundo o jornal X". A atribuição vai para a fonte oficial.
 - Agências contratadas que chegam no NX Feed (Agência Brasil, Estadão Conteúdo e as demais cadastradas) podem ser aproveitadas, com o crédito no rodapé.
 - O que só existe no outro veículo (entrevista exclusiva, levantamento próprio, bastidor) não entra. Se o fato depende disso, troque a pauta.
@@ -196,7 +197,7 @@ As rotinas dividem o mesmo limite de uso do plano com tudo o que o Mário faz no
 
 1. **Uma varredura por execução.** Quando duas rotinas rodam na mesma execução (ex.: esporte e Panorama), faça uma só listagem do feed, uma só listagem de rascunhos e pendências e uma só listagem do que já foi ao ar em cada portal, e reparta os itens entre as rotinas. Listagem que já está na conversa não se repete; a exceção é a reconferência antes de publicar (seção 4).
 2. **Listagens enxutas.** `listar_materias` sempre com `formato` compacto e `data_de` no início da janela da rodada; "todas as páginas" quer dizer até a lista sair da janela. `ver_materia` só nas matérias que a rodada vai usar ou que a regra manda conferir.
-3. **Web na medida.** WebSearch no modo standard; o extended só quando o standard vier vazio, fora do assunto ou desatualizado. WebFetch só nas páginas que sustentam a matéria ou conferem um dado. Para saber "o que está grande no dia", uma ou duas páginas bastam. Site que a skill diz que não abre por leitura automática: não tente.
+3. **Web na medida.** WebSearch no modo standard; o extended só quando o standard vier vazio, fora do assunto ou desatualizado. WebFetch só nas páginas que sustentam a matéria ou conferem um dado. Para saber "o que está grande no dia", uma ou duas páginas bastam. Site que a skill diz que não abre por leitura automática: não tente, nem pela raspagem. Firecrawl e Apify (`raspagem-web-next`) só nas rotinas que os citam, dentro do teto de créditos de cada uma.
 4. **Navegador só para confirmar.** Claude in Chrome só para ler uma página específica que confirma uma pauta já escolhida e que não abre por WebFetch (ex.: o perfil oficial do evento). Nunca para varrer perfis, feeds ou listas: cada tela do navegador custa muitas vezes uma leitura de página.
 5. **Imagem pela ordem.** Siga a ordem de busca da seção 9 e só passe para a fonte seguinte quando nenhuma opção da fonte da vez atender aos critérios. Imagem por IA: uma geração, e a segunda só com defeito visível (9.1).
 6. **Sair cedo.** Sem pauta que passe na régua da rotina depois da varredura, não procure pauta para preencher: vá ao resumo com "Sem fato novo nesta rodada". Pauta descartada não volta a ser aberta na mesma rodada.
