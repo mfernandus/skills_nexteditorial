@@ -1,6 +1,6 @@
 ---
 name: "youtube-esbrasil-titulos"
-description: "Publica de ponta a ponta um vídeo do canal Revista ES Brasil no YouTube: títulos A/B, descrição, capítulos, tags, cards, tela final, playlists, capa nos templates ES Brasil Entrevista, Destinos ES e Café com Moqueca, e 3 a 5 Shorts no corte limpo dos Reels, com capa oficial. Pergunta o tipo de capa no início e pede ok antes de salvar no Studio. Download do original já liberado."
+description: "Publica de ponta a ponta um vídeo do canal Revista ES Brasil no YouTube: títulos A/B, descrição, capítulos, tags, cards, tela final, playlists, capa nos templates ES Brasil Entrevista, Destinos ES e Café com Moqueca, e 3 a 5 Shorts no corte limpo dos Reels, com selos do programa e da marca e capa oficial. Pergunta o tipo de capa no início e pede ok antes de salvar no Studio. Download do original já liberado."
 ---
 
 # Pacote de publicação no YouTube — Revista ES Brasil
@@ -23,6 +23,7 @@ Use SEMPRE que alguém da equipe pedir título de vídeo, sugestão de título, 
 | `assets/thumbs/destinos.png` | Base da capa **Destinos ES**: logo, apresentadora (Kamila Rangel) e ES BRASIL play prontos. |
 | `assets/thumbs/cafe.png` | Base da capa **Café com Moqueca**: logo, apresentador (Renzo Colnago) e ES BRASIL play prontos. |
 | `assets/shorts/moldura_esbrasil.png`, `moldura_destinos.png` | Fora de uso desde 18/11/2026: os Shorts saem no corte limpo, sem moldura (Passo 13). Guardadas só como referência. |
+| `assets/selos/` | Selos dos Shorts: `esb_quadrado.png` (quadradinho da marca), `programa_[nome].png` (logos dos programas, fundo transparente) e as camadas prontas `selos_[programa].png` e `selos_so_marca.png` (1080×1920, transparentes). Ver Passo 13, item 7. |
 | `assets/shorts/capa_esbrasil.png`, `capa_destinos.png` | Bases das capas (thumbs) dos Shorts, com janela transparente para a foto. |
 | `assets/referencias/` | As artes originais enviadas pelo Mário (02/10/2026). São o gabarito visual. |
 | `assets/fonts/` | Inter ExtraBold Italic, Inter SemiBold Italic e Inter ExtraBold. |
@@ -516,7 +517,7 @@ Medidas tiradas das artes de referência e já gravadas no script; servem de gab
 **Bases: `assets/thumbs/`.** Nunca redesenhe fundo, faixa, selos, logos ou o apresentador. As bases foram reconstruídas a partir das artes de referência; a área atrás do convidado é aproximada e fica coberta pela foto, e em `destinos` e `cafe` a textura da faixa ficou lisa onde havia texto. Se o design enviar as artes limpas, basta substituir os arquivos (1600×900) — o script não muda. Se o apresentador do programa mudar, a base precisa ser trocada: registre como pendência em vez de cobrir o círculo.
 
 **Imagem do convidado — tratamento obrigatório, nesta ordem:**
-1. **Escolha do quadro:** percorra o vídeo e teste vários momentos (pause e capture em tela cheia, na maior resolução). Olhos abertos, rosto frontal, olhando para a câmera, expressão serena ou sorriso leve. Nunca rosto inclinado, olhos fechados ou boca no meio de uma palavra. Se houver foto de estúdio ou da matéria da revista, prefira-a ao quadro do vídeo.
+1. **Escolha do quadro:** percorra o vídeo e teste vários momentos (pause e capture em tela cheia, na maior resolução). A imagem tem de ser **focada** (nítida, sem borrão de movimento) e ter **boa expressão facial e boa comunicação**: olhos abertos, rosto frontal, olhando para a câmera, boca fechada ou em fim de frase. **Nunca** careta nem "caras e bocas": nada de boca aberta no meio da palavra, olhos semicerrados ou fechados, mão no rosto, testa franzida ou rosto inclinado. **Tom da foto conforme a pauta:** assunto sério (tributos, finanças, política, Justiça, saúde, perdas, crise) pede **foto sóbria**, com expressão serena e sem sorriso aberto; sorriso aberto só em pauta leve (cultura, turismo, celebração). Regras do Mário Fernando, 18/11/2026. Capture um quadro a cada 1 a 2 segundos nos trechos em que o convidado está de frente, compare os candidatos lado a lado e descarte os borrados. Antes de capturar quadros, procure no **NX Fotos** as fotos de estúdio da gravação (busca pelo nome do convidado e do programa; costumam estar lá em alta, com crédito do fotógrafo e direito de uso da casa). Foto de estúdio ou da matéria da revista tem preferência sobre o quadro do vídeo, desde que passe pelos mesmos critérios (foco, expressão, tom).
 2. **Restauração do rosto com IA:** modelo de restauração facial (ex.: GFPGAN v1.4, ampliação 2×, intensidade ~0,6). Regra: **melhorar sem descaracterizar** — o convidado tem de continuar reconhecível; nada de mudar formato do rosto, cor de pele, idade aparente ou traços. Se parecer artificial, reduza a intensidade (0,4–0,5). Foto de estúdio profissional dispensa esta etapa. Compare antes/depois lado a lado.
 3. **Recorte de qualidade:** remova o fundo com modelo de segmentação (rembg isnet-general-use) **com refino de bordas (alpha matting)**, preservando os fios de cabelo. Limpe restos de cenário e confira o recorte sobre um fundo de cor chapada.
 4. **Tratamento de cor:** +10% de contraste, +8% de saturação, +5% de brilho e nitidez leve. Tom neutro — **não aqueça a imagem** e não aplique luz de recorte colorida: nos templates, o convidado entra limpo sobre o fundo.
@@ -559,7 +560,7 @@ Nunca entregue a primeira versão. Para cada capa:
 2. Duração ideal de **30 a 60 segundos** (máximo 90). Corte no início e no fim de frases completas.
 3. **O que rende Short na ES Brasil:** um dado com a explicação junto, uma previsão ou tendência, um conselho prático para quem empreende ou administra, uma tese forte de quem tem autoridade no assunto, uma explicação didática de tema técnico.
    **O que evitar:** número sem o contexto (período, fonte, base de comparação); crítica ou acusação a pessoa ou empresa nomeada; fala política que soe como pedido de voto, ataque a adversário ou previsão de resultado; pesquisa eleitoral sem instituto e recorte; trecho que funcione como propaganda da empresa do convidado; informação que o convidado tratou como reservada; falas fora de contexto.
-4. Para cada Short: tempos, duração, título do YouTube (até 40 caracteres, palavra-chave no início, terminando em #Shorts), **título da capa do Short (2 linhas, máximo de 30 caracteres no total)** e descrição neste modelo:
+4. Para cada Short: tempos, duração, título do YouTube (até 40 caracteres, palavra-chave no início, terminando em #Shorts), **título da capa do Short (2 linhas, máximo de 30 caracteres no total), escrito como chamada para o público: pergunta direta ou convite (ex.: "Sua ONG está pronta para 2027?"), fiel ao que o trecho entrega, nunca só o tema descrito** e descrição neste modelo:
    ```
    [1–2 frases com a palavra-chave, o nome e o cargo do convidado]
 
@@ -572,7 +573,12 @@ Nunca entregue a primeira versão. Para cada capa:
 5. **Arquivo original — download liberado, sem pergunta:** Studio → vídeo → ⋮ (Opções, ao lado de Salvar) → **Baixar**. **Não pergunte "posso baixar?"**: o download do original do próprio canal já está autorizado (ver "Download liberado", na Execução completa). Avise em uma linha o que está sendo baixado (nome do arquivo, origem e tamanho) e siga. O arquivo vai para **Downloads** do computador. Peça acesso à pasta Downloads uma vez. Se o envio direto do arquivo inteiro para o ambiente de trabalho for recusado (arquivo grande ou "hardlinked"), **corte os trechos brutos no próprio computador** com ffmpeg (`-ss início -t duração -c copy`, com 1 s de folga de cada lado) e traga só os trechos.
 6. **Tempo exato por palavra:** transcreva cada trecho com faster-whisper (modelo `small`, `language='pt'`, `word_timestamps=True`). Use os tempos das palavras para cortar no começo e no fim da frase e para as legendas. Confira a grafia de nomes próprios, empresas, siglas e números nas legendas — o reconhecimento automático erra justamente neles. (Alternativa: `.srt` do Studio → Legendas → ⋮ → Baixar.)
 7. **Montagem 1080×1920 (30 fps, H.264 + AAC) no corte limpo — o mesmo padrão dos Reels da ES Brasil no Instagram (desde 18/11/2026, decisão do Mário Fernando):**
-   - **Sem moldura:** nada de faixa de título em cima nem rodapé com a marca. O vídeo ocupa a tela inteira e o único elemento sobre ele é a legenda. Título, nome do convidado e marca ficam na capa do Short (item 8), no título e na descrição.
+   - **Sem moldura:** nada de faixa de título em cima nem rodapé com a marca. O vídeo ocupa a tela inteira; por cima dele vão só os selos e a legenda. Título e nome do convidado ficam na capa do Short (item 8), no título e na descrição.
+   - **Selos no alto, do começo ao fim do Short (decisão do Mário Fernando, 18/11/2026; estrutura casa, produto e programa):**
+     - Short de programa (Terceiro na Terça, Café com Moqueca, Destinos ES, ES Brasil Debate, Direito ao Direito, Diálogos ES Brasil e outros com logo próprio): **logo do programa no canto esquerdo** e **quadradinho da marca (ESB) no canto direito**.
+     - Short sem programa (reportagem, evento): **só o quadradinho ESB, no canto direito**.
+     - Medidas: os dois com 120 px de altura, topo em y=220, a 48 px das bordas laterais, sombra leve para ler em fundo claro; o quadradinho com cantos levemente arredondados (raio 14 px). Se um selo encostar no rosto, ajuste o `centro_x` ou reduza os dois para 100 px; nunca tire um só.
+     - Arquivos oficiais, nunca redesenhados: `assets/selos/esb_quadrado.png` e `assets/selos/programa_[nome].png` (PNG com fundo transparente). Enquanto o design não mandar o quadradinho em alta, serve a foto de perfil da @revistaesbrasil, que é o mesmo selo. Monte uma vez por programa a camada `selos_[programa].png` (1080×1920 transparente, com os dois selos e a sombra) e reutilize. Programa sem logo oficial na pasta: use só o quadradinho e registre a pendência na mensagem ao administrador.
    - **Enquadramento:** corte vertical 9:16 na altura inteira do original (largura = altura × 9/16), centrado no rosto de quem fala (`centro_x`, de 0 a 1), escalado para 1080×1920 com lanczos. Em debates e entrevistas com dois enquadramentos, o corte acompanha quem está falando (divida o trecho em partes e troque o `centro_x` em cada uma). Plano aberto com duas pessoas não funciona no vertical: prefira trechos em plano fechado.
    - **Qualidade:** monte sempre a partir do original baixado pelo Studio, na maior resolução disponível. O corte vertical amplia o quadro (num original 1080p, 1,78×); nunca use cópia comprimida.
    - **Legendas queimadas:** Inter ExtraBold, brancas com contorno escuro, blocos de até 4 palavras, centralizadas, com a base em y≈1450. Deixe livres as áreas que o YouTube e o Instagram cobrem com botões e textos: 420 px de baixo, 220 px de cima e 120 px de cada lado.
@@ -589,10 +595,11 @@ Nunca entregue a primeira versão. Para cada capa:
      Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
      Style: Legenda,Inter ExtraBold,96,&H00FFFFFF,&H00FFFFFF,&H00201010,&H64000000,0,0,0,0,100,100,0,0,1,6,2,2,120,120,470,1
      ```
-     e monte o Short (CX = `centro_x`; DURACAO = FIM − INICIO, em segundos):
+     e monte o Short com a camada de selos (CX = `centro_x`; DURACAO = FIM − INICIO, em segundos; SELOS = `selos_[programa].png` ou `selos_so_marca.png`):
      ```
-     ffmpeg -ss INICIO -to FIM -i original.mp4 \
-       -vf "crop=w='ih*9/16':h=ih:x='min(max(iw*CX-ih*9/32,0),iw-ih*9/16)':y=0,scale=1080:1920:flags=lanczos,setsar=1,subtitles=legendas.ass" \
+     ffmpeg -ss INICIO -to FIM -i original.mp4 -i SELOS.png \
+       -filter_complex "[0:v]crop=w='ih*9/16':h=ih:x='min(max(iw*CX-ih*9/32,0),iw-ih*9/16)':y=0,scale=1080:1920:flags=lanczos,setsar=1[v];[v][1:v]overlay=0:0,subtitles=legendas.ass[out]" \
+       -map "[out]" -map 0:a \
        -af "afade=t=in:d=0.15,afade=t=out:st=DURACAO-0.3:d=0.3" \
        -r 30 -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart short_01.mp4
      ```
@@ -600,7 +607,7 @@ Nunca entregue a primeira versão. Para cada capa:
    - **Um arquivo só para todas as redes:** o Short limpo é o mesmo que segue para Instagram, TikTok e Facebook (exportação da skill `youtube-lote-noturno-next`), sem versão separada.
 8. **Capa de cada Short (1080×1920):** base `capa_esbrasil.png` (azul) ou `capa_destinos.png` (rosa/roxo, só Destinos ES), conforme a tabela de "Antes de executar". A capa continua no template: é ela que leva título, nome e marca, já que o vídeo sai limpo, e serve também de capa no Reels e no TikTok. Logo no alto; foto do convidado na janela (de y=357 até a faixa inclinada); faixa com o **título da capa do Short** (item 4: 2 linhas, máximo de 30 caracteres) e o nome; ES BRASIL play embaixo.
    - Título: Inter ExtraBold Italic, corpo 29 (120 px), entrelinha 1,0, entreletras −35. Nome: Inter SemiBold Italic, corpo 14 (58 px). Centralizados e inclinados a −4,85°. Essas medidas foram tiradas da arte de referência.
-   - Foto: quadro do convidado com olhos abertos e sem tarja, rosto no centro da janela (`centro_x`, `centro_y`). Não precisa recortar o fundo.
+   - Foto: escolhida pelos mesmos critérios da capa do vídeo (Passo 12.5, "Escolha do quadro"): focada, boa expressão e boa comunicação, nunca careta nem "caras e bocas", sóbria quando a pauta for séria, sem tarja. A foto aprovada para a capa do vídeo serve também para os Shorts; um quadro do próprio trecho só entra se for melhor que ela. Enquadre com **pouco teto**: topo da cabeça perto do alto da área da foto, sem faixa vazia acima, rosto grande no centro da janela (`centro_x`, `centro_y`). Escurecimento, quando houver, só na parte de baixo e leve: nunca cobre o rosto nem apaga a foto. Não precisa recortar o fundo.
    - Como fazer: `gerar_short_esbrasil.py capa`. Exporte em JPG com menos de 2 MB para enviar ao Studio. Gere todas as capas e confira lado a lado com `assets/referencias/`.
 9. **Publicar — só depois do ok final** (ver "Execução completa"). Passo a passo testado no canal da Comunhão:
    - **Arquivo ≤ 10 MB:** o envio pelo navegador aceita no máximo 10 MB por arquivo. Recomprima cada Short em 1080×1920 com H.264 em **duas passagens** e taxa-alvo `9,2 MB × 8 ÷ duração − 130 kbps` (áudio AAC 128k). Guarde a versão cheia; suba a comprimida.
@@ -644,7 +651,7 @@ Em blocos fáceis de copiar, nesta ordem:
     - Capa no template do programa (entrevista: até 3 linhas, ≤ 42 caracteres; Destinos ES: 2 linhas, até 6 palavras, ≤ 34 caracteres, nenhuma linha acima de 945 px, entrelinha 0,92; Café com Moqueca: 2 linhas, ≤ 34), Inter itálico, elementos fixos intactos, foto tratada sem luz colorida, versão escolhida por avaliação. Colunas e outros quadros: só textos e foto, com pendência
     - Ok final recebido antes de salvar qualquer coisa no Studio
     - Original baixado pelo Studio (download liberado) e trechos cortados
-    - 3 a 5 Shorts no corte limpo (vídeo em tela cheia 1080×1920, sem faixa de título nem rodapé, só a legenda dentro da área segura), com capa no template (título em 2 linhas com até 30 caracteres e nome), publicados como privados, com vídeo relacionado
+    - 3 a 5 Shorts no corte limpo (vídeo em tela cheia 1080×1920, sem faixa de título nem rodapé; no alto, logo do programa à esquerda e quadradinho ESB à direita, ou só o quadradinho quando não há programa; legenda dentro da área segura), com capa no template, título em forma de chamada e foto focada, de boa expressão, sóbria em pauta séria e com pouco teto (título em 2 linhas com até 30 caracteres e nome), publicados como privados, com vídeo relacionado
     - Short que ficar público: na playlist de cortes do programa (Cortes | [programa]), e em nenhuma playlist de vídeo longo
     - Tela final com o próximo vídeo da playlist da categoria + essa playlist + inscrição
     - Cards: perfil (canal), site (se liberado), playlist da categoria, próximo vídeo
