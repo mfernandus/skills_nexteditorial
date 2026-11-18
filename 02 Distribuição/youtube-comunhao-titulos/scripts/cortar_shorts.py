@@ -35,13 +35,13 @@ def overlay(gancho, nome, out):
 def srt_trecho(srt, ini, fim, out):
     """Copia do .srt só as falas do trecho, com tempos deslocados para começar em 0."""
     def ts(s):
-        h, m, r = s.split(":"); s2, ms = r.replace(".", ",").split(",")
+        h, m, r = s.split(":"); s2, ms = r.split(",")
         return int(h) * 3600 + int(m) * 60 + int(s2) + int(ms) / 1000
     def fmt(v):
         v = max(0, v); h = int(v // 3600); m = int(v % 3600 // 60); s = v % 60
         return f"{h:02}:{m:02}:{int(s):02},{int((s % 1) * 1000):03}"
     blocos, n = [], 1
-    for b in re.split(r"\n\s*\n", open(srt, encoding="utf-8-sig").read().replace("\r\n", "\n").strip()):
+    for b in re.split(r"\n\s*\n", open(srt, encoding="utf-8").read().strip()):
         ls = b.splitlines()
         if len(ls) < 3 or "-->" not in ls[1]:
             continue

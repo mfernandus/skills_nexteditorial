@@ -1,6 +1,6 @@
 ---
 name: "youtube-comunhao-titulos"
-description: "Publica de ponta a ponta um vídeo da Revista Comunhão no YouTube: títulos A/B, descrição, tags, cards, tela final, capa publicada e 3 a 5 Shorts com capa, prontos no canal. Download do original já liberado."
+description: "Publica de ponta a ponta um vídeo da Revista Comunhão no YouTube: títulos A/B, descrição, tags, cards, tela final, capa publicada e 3 a 5 Shorts no corte limpo, com selos do programa e da marca e capa, prontos no canal. Download do original já liberado."
 ---
 
 # Pacote de publicação no YouTube — Revista Comunhão
@@ -16,14 +16,10 @@ O arquivo `youtube-comunhao-titulos.skill` distribuído ao time traz tudo o que 
 | Arquivo | Para quê |
 |---|---|
 | `scripts/gerar_thumb.py config.json saida.png` | Monta a thumb 1600×900 sobre a arte do template (manchete, nome, apoio opcional, foto). Centraliza o bloco na faixa sozinho (`"y0": "auto"`) e nunca deixa a manchete abaixo do corpo 38. Requer `pip install playwright` + Chromium. |
-| `scripts/tratar_foto.py quadro.png recorte.png [0.6]` | Tratamento da foto: restauração facial com IA (GFPGAN, **opcional**), recorte com refino de cabelo, cor, rim light. Requer `rembg`. A restauração só roda se o pacote `gfpgan` e os pesos `weights/GFPGANv1.4.pth` existirem; sem eles, o script avisa "restauração PULADA" e segue (os pesos não vão no pacote: baixe pelo link no topo do arquivo). |
-| `scripts/gerar_visual_short.py moldura\|capa config.json saida.png` | Visual dos Shorts no padrão **Comunhão play** (1080×1920 PNG): `moldura` = camada que vai por cima do vídeo (faixa laranja com título e nome, rodapé vermelho com logo, janela transparente de 1260 px); `capa` = miniatura do Short (logo Comunhão no alto, foto, faixa laranja com título e nome, logo play). Valida o limite de 30 caracteres e 2 linhas. Requer `playwright` + Chromium. |
-| `scripts/cortar_shorts.py video.mp4 shorts.json pasta [legendas.srt]` | Gera os Shorts 1080×1920: vídeo do convidado na área livre de 1260 px (recorte no rosto), moldura do `gerar_visual_short.py` e legendas queimadas. Requer `ffmpeg` e `playwright`. |
-| `scripts/captura_quadros.js` | Trecho para o Chrome: salva 12 quadros em 1080p do vídeo, direto do player do YouTube, em Downloads. Para escolher a foto quando o original ainda não foi baixado (ver 12.5). |
-| `scripts/folha_de_contato.py saida.jpg quadros...` | Junta até 24 quadros numa folha numerada para escolher o melhor. |
-| `scripts/montar_dupla.py esq.png dir.png saida.png [0.25] [direita]` | Junta os recortes de dois convidados (rostos inteiros, quem está na frente cobre só cabelo/ombro do outro). |
-| `scripts/comprimir_envio.py pasta [9.2]` | Recomprime os Shorts para o envio pelo navegador (≤ 10 MB, H.264 em 2 passagens) em `pasta/envio/`. |
-| `assets/` | `base_clean.png` (template sem texto e sem a pessoa de exemplo), `template.jpg` (original), logos isolados (`logo_play.png`, `logo_entrevista.png`, `logo_comunhao.png` — só a palavra Comunhão, para a capa do Short) e fontes Inter ExtraBold/SemiBold Italic. |
+| `scripts/tratar_foto.py quadro.png recorte.png [0.6]` | Tratamento da foto: restauração facial com IA (GFPGAN), recorte com refino de cabelo, cor, rim light. Requer `gfpgan`, `rembg` e os pesos `weights/GFPGANv1.4.pth` (instruções no topo do arquivo). |
+| `scripts/gerar_visual_short.py moldura\|capa config.json saida.png` | Visual dos Shorts no padrão **Comunhão play** (1080×1920 PNG): `moldura` saiu de uso em 18/11/2026 (os Shorts saem no corte limpo, Passo 13); `capa` = miniatura do Short (logo Comunhão no alto, foto, faixa laranja com título e nome, logo play). Valida o limite de 30 caracteres e 2 linhas. Requer `playwright` + Chromium. |
+| `scripts/cortar_shorts.py video.mp4 shorts.json pasta [legendas.srt]` | Versão antiga, com moldura: não usar para montar. A montagem do corte limpo é o comando ffmpeg do Passo 13, item 7. |
+| `assets/` | `base_clean.png` (template sem texto e sem a pessoa de exemplo), `template.jpg` (original), logos isolados (`logo_play.png`, `logo_entrevista.png`, `logo_comunhao.png` — só a palavra Comunhão, para a capa do Short) e fontes Inter ExtraBold/SemiBold Italic. Selos dos Shorts em `assets/selos/`: `com_quadrado.png` (quadradinho COM), `programa_[nome].png` (logos dos programas, fundo transparente) e as camadas prontas `selos_[programa].png` e `selos_so_marca.png` (1080×1920, transparentes). |
 | `exemplos/` | Caso real (Danielle Nazário): `thumb_danielle.json`, a foto tratada, a thumb final e `shorts_danielle.json`. Use como modelo de configuração. Modelos aprovados dos Shorts: `exemplos/modelo_short_interno.jpg` e `exemplos/modelo_short_capa.jpg` (atenção: a palavra "linguágem" nos modelos está com acento errado; o certo é "linguagem"). |
 
 Se os scripts não estiverem disponíveis, reproduza o mesmo resultado com Python (Pillow, numpy, rembg, faster-whisper) e ffmpeg, seguindo as especificações dos Passos 12 e 13. A thumb já publicada de outro vídeo (ex.: `thumb_comunhao_danielle.jpg` no Drive) serve de referência para amostrar cores e copiar os selos.
@@ -331,14 +327,6 @@ Entregue sempre **duas manchetes com fórmulas diferentes** (A = recomendada, B 
 5. **Integração:** luz de recorte (rim light) laranja na borda, brilho laranja suave atrás do convidado e escurecimento leve na base para fundir com o fundo.
 6. **Posição:** à direita, ancorado na base, rosto no terço superior, altura ~860–880 px. O rosto nunca fica atrás do texto; se a manchete precisar de espaço, a foto vai para a direita.
 
-#### 12.5.1 — Quadros e composição (mesmos parâmetros técnicos da skill da ES Brasil, revisados com o Mário em 17/10/2026)
-- **Quadros em boa resolução sem baixar o original:** use `scripts/captura_quadros.js` no Chrome, na página pública do vídeo (o script força 1080p, pausa e salva 12 quadros entre 6% e 94% do vídeo em Downloads). Uma chamada por vídeo e verificação pelo título da aba (`CAPDONE`), porque o navegador corta chamadas longas. O servidor de trabalho não consegue baixar do YouTube; não insista por lá.
-- **Escolha numa folha de contato** (`folha_de_contato.py`), nunca às cegas. Se nenhum quadro servir, capture **mais 24 quadros** em outros pontos do vídeo antes de aceitar um ruim. Critérios: rosto de frente ou 3/4, olhando para o centro da capa; olhos abertos; boca fechada ou sorriso; **sem tarja de nome** (se só houver quadro com tarja, recorte acima dela); **sem microfone na frente do rosto**; cabeça inteira no quadro; nunca o apresentador.
-- **Recorte antes do rembg:** corte um retângulo de ~900–1.000 px de largura em volta da pessoa, deixando de fora microfone, copo e tarja; confira na folha que nada sobrou.
-- **Cabeça nunca cortada:** nem pelo topo da capa nem pelo outro convidado. Confira o recorte sobre fundo chapado e a capa reduzida a 320×180, lembrando que o selo de duração do YouTube cobre o canto inferior direito.
-- **Dois convidados:** recorte cada um separadamente e junte com `montar_dupla.py` (rostos inteiros, um ao lado do outro, olhando para o centro; quem está na frente cobre só cabelo ou ombro do outro). Na thumb, reduza a dupla (`foto_h` ~530–560) para o texto não passar por cima de cabeças; se ainda encostar, use nomes curtos ("Thiago e Thayná").
-- **Mostre a grade antes de trocar no canal** sempre que forem várias capas (ver "Revisando vídeos antigos").
-
 ### 12.6 — Avaliação obrigatória: gerar, comparar, escolher
 
 Nunca entregue a primeira versão. Para cada thumb:
@@ -371,7 +359,7 @@ Nunca entregue a primeira versão. Para cada thumb:
 1. Leia a transcrição inteira e escolha de **3 a 5 trechos** que se sustentam sozinhos: começo com gancho, uma ideia completa, final que fecha.
 2. Duração ideal de **30 a 60 segundos** (máximo 90). Corte no início e no fim de frases completas.
 3. Evite trechos com detalhes sexuais explícitos, uso de drogas descrito em detalhe, menção a menores, nomes de terceiros, candidatos/partidos citados nominalmente ou falas fora de contexto. Prefira virada de vida, ensino bíblico, frase de impacto, conselho final.
-4. Para cada Short: tempos, duração, título (até 40 caracteres, palavra-chave no início, terminando em #Shorts), **faixa de título na tela (até 30 caracteres, contando espaços, em 2 linhas)**, o **nome do convidado** (1 linha) e descrição neste modelo:
+4. Para cada Short: tempos, duração, título (até 40 caracteres, palavra-chave no início, terminando em #Shorts), **título da capa do Short (até 30 caracteres, contando espaços, em 2 linhas)**, o **nome do convidado** (1 linha) e descrição neste modelo:
    ```
    [1–2 frases com a palavra-chave e o nome do convidado]
 
@@ -383,31 +371,44 @@ Nunca entregue a primeira versão. Para cada thumb:
    ```
 5. **Arquivo original — download liberado, sem pergunta:** Studio → vídeo → ⋮ (Opções, ao lado de Salvar) → **Baixar**. **Não pergunte "posso baixar?"**: o download do original do próprio canal já está autorizado (ver "Download liberado", na Execução completa). Avise em uma linha o que está sendo baixado (nome do arquivo, origem e tamanho) e siga. O arquivo vai para **Downloads** do computador. Peça acesso à pasta Downloads uma vez. Se o envio direto do arquivo inteiro para o ambiente de trabalho for recusado (arquivo grande ou "hardlinked"), **corte os trechos brutos no próprio computador** com ffmpeg (`-ss início -t duração -c copy`, com 1 s de folga de cada lado) e traga só os trechos.
 6. **Tempo exato por palavra:** transcreva cada trecho com faster-whisper (modelo `small`, `language='pt'`, `word_timestamps=True`). Use os tempos das palavras para cortar no começo e no fim da frase e para as legendas. (Alternativa: `.srt` do Studio → Legendas → ⋮ → Baixar, com `cortar_shorts.py`.)
-7. **Montagem 1080×1920 (30 fps, H.264 + AAC)** — padrão Comunhão play (modelo: `exemplos/modelo_short_interno.jpg`). Use `gerar_visual_short.py moldura` (chamado pelo `cortar_shorts.py`):
-   - **Área livre do vídeo: 1260 px de altura** (y 344 a 1604), largura total, com o convidado recortado no rosto.
-   - **Topo:** faixa em degradê amarelo → laranja, com a borda de baixo inclinada (−4,95°: y 455 na esquerda, 362 na direita), cobrindo o começo do vídeo.
-   - **Título** (na faixa, centralizado e inclinado com ela): **Inter ExtraBold Italic, corpo 22, entrelinha 22, tracking −35, máximo 30 caracteres, 2 linhas**, cor creme.
-   - **Nome** do convidado logo abaixo: **Inter ExtraBold Italic, corpo 11, tracking −35, 1 linha**.
-   - Escala: a arte é uma prancheta 270×480 exportada em 4×, então **1 unidade de corpo = 4 px** (corpo 22 = 88 px; corpo 11 = 44 px; tracking −35 = −0,035 do corpo).
-   - **Rodapé** (y 1604 a 1920): vermelho com retícula, filete escuro no topo e logo **Comunhão ▶ play** centralizado.
-   - Legendas queimadas: Inter ExtraBold Italic, ~80 px, creme com contorno preto, blocos de até 4 palavras, terminando logo acima do rodapé (~y 1460).
-   - Se o título não couber em 2 linhas com o corpo 22, **reescreva o título** — nunca reduza o corpo.
-   - Se a tarja com nome/cargo do vídeo original aparecer cortada no enquadramento vertical, **desfoque a tarja** no intervalo em que ela aparece.
+7. **Montagem 1080×1920 (30 fps, H.264 + AAC) no corte limpo — o mesmo padrão dos Reels e dos Shorts da ES Brasil (desde 18/11/2026, decisão do Mário Fernando):**
+   - **Sem moldura:** nada de faixa laranja em cima nem rodapé vermelho com o logo play. O vídeo ocupa a tela inteira; por cima dele vão só os selos e a legenda. Título e nome do convidado ficam na capa do Short (item 8), no título e na descrição.
+   - **Selos no alto, do começo ao fim do Short (estrutura casa, produto e programa):**
+     - Short de programa (Comunhão Entrevista, Na Estrada, O Pastor Responde, Fim de Papo, Persona, Texto & Contexto e outros com logo próprio): **logo do programa no canto esquerdo** e **quadradinho da marca (COM) no canto direito**.
+     - Short sem programa: **só o quadradinho COM, no canto direito**.
+     - Medidas iguais às da ES Brasil: os dois com 120 px de altura, topo em y=220, a 48 px das bordas laterais, sombra leve; o quadradinho com cantos levemente arredondados (raio 14 px). Se um selo encostar no rosto, ajuste o `centro_x` ou reduza os dois para 100 px; nunca tire um só.
+     - Arquivos oficiais, nunca redesenhados: `assets/selos/com_quadrado.png` (o mesmo selo COM das artes da @oficialcomunhao) e `assets/selos/programa_[nome].png`; o do Comunhão Entrevista é o `logo_entrevista.png`. Monte uma vez por programa a camada `selos_[programa].png` (1080×1920 transparente, com os dois selos e a sombra) e reutilize. Programa sem logo oficial na pasta: use só o quadradinho e registre a pendência na mensagem ao administrador.
+   - **Enquadramento:** corte vertical 9:16 na altura inteira do original (largura = altura × 9/16), centrado no rosto de quem fala (`centro_x`, de 0 a 1), escalado para 1080×1920 com lanczos. Em entrevistas com dois enquadramentos, o corte acompanha quem está falando. Monte sempre a partir do original baixado pelo Studio, na maior resolução disponível.
+   - **Legendas queimadas:** Inter ExtraBold Italic, creme (#FFF6D8) com contorno preto, blocos de até 4 palavras, centralizadas, com a base em y≈1450. Deixe livres as áreas que o YouTube e o Instagram cobrem: 420 px de baixo, 220 px de cima e 120 px de cada lado.
+   - Se a tarja com nome/cargo do vídeo original aparecer cortada no enquadramento vertical, **desfoque a tarja** no intervalo em que ela aparece. As marcas d'água dos cantos do original normalmente ficam fora do corte; se um pedaço entrar, ajuste o `centro_x`.
    - Fade de áudio de 0,15 s na entrada e 0,3 s na saída.
+   - Como fazer (ffmpeg): gere as legendas do trecho em `.ass` (tempos por palavra do item 6) com `PlayResX: 1080`, `PlayResY: 1920` e este estilo:
+     ```
+     Style: Legenda,Inter ExtraBold,96,&H00D8F6FF,&H00D8F6FF,&H00000000,&H64000000,0,-1,0,0,100,100,0,0,1,6,2,2,120,120,470,1
+     ```
+     e monte o Short com a camada de selos (CX = `centro_x`; DURACAO = FIM − INICIO, em segundos; SELOS = `selos_[programa].png` ou `selos_so_marca.png`):
+     ```
+     ffmpeg -ss INICIO -to FIM -i original.mp4 -i SELOS.png \
+       -filter_complex "[0:v]crop=w='ih*9/16':h=ih:x='min(max(iw*CX-ih*9/32,0),iw-ih*9/16)':y=0,scale=1080:1920:flags=lanczos,setsar=1[v];[v][1:v]overlay=0:0,subtitles=legendas.ass:fontsdir=assets/fonts[out]" \
+       -map "[out]" -map 0:a \
+       -af "afade=t=in:d=0.15,afade=t=out:st=DURACAO-0.3:d=0.3" \
+       -r 30 -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart short_01.mp4
+     ```
+     Comando e estilo testados em 18/11/2026 (o `fontsdir` aponta para as fontes do kit). O `cortar_shorts.py` aplica a moldura antiga: não use para montar.
+   - **Um arquivo só para todas as redes:** o Short limpo é o mesmo que segue para Instagram, TikTok e Facebook (exportação da skill `youtube-lote-noturno-next`), sem versão separada.
 8. **Capa de cada Short (1080×1920, PNG)** — modelo: `exemplos/modelo_short_capa.jpg`. Use `gerar_visual_short.py capa`:
    - Fundo vermelho com retícula; logo **Comunhão** (só a palavra, amarelo) centralizado no alto (y ~207).
    - Foto do convidado de y 358 para baixo, largura total (quadro com olhos abertos e sem tarja; pode ser tratada com `tratar_foto.py`). **A foto tem de ser do próprio convidado do Short.**
    - Faixa laranja inclinada (−4,95°) de y 1228 a 1645 na esquerda, com o **mesmo título** do Short e o nome: Inter ExtraBold Italic, tracking −35, entrelinha igual ao corpo; na capa o bloco é maior, como no modelo: **título corpo 30 (120 px) e nome corpo 14 (56 px)**, ainda com no máximo 30 caracteres em 2 linhas.
    - Logo **Comunhão ▶ play** centralizado logo abaixo da faixa (y ~1697).
    - Gere todas as capas e confira lado a lado; revise a acentuação do título antes de exportar.
-   Configuração (`moldura` e `capa` usam o mesmo arquivo):
+   Configuração da capa:
    ```json
    {"titulo": "Quem domina\nsua linguagem?", "nome": "Tassos Lycurgo", "foto": "quadro_tassos.png"}
    ```
 9. **Publicar (sem parar para perguntar)** — passo a passo testado:
-   - **Arquivo ≤ 10 MB:** o envio pelo navegador aceita no máximo 10 MB por arquivo. Recomprima cada Short em 1080×1920 com H.264 em **duas passagens** e taxa-alvo `9,2 MB × 8 ÷ duração − 130 kbps` (áudio AAC 128k): `comprimir_envio.py pasta`. Guarde a versão cheia; suba a comprimida.
-   - **Caminho do arquivo:** o envio só aceita arquivos de pasta conectada **trazidos para o ambiente de trabalho** (`/mnt/user-data/uploads/...`). Grave os comprimidos em `Downloads/shorts_[convidado]/envio/` no computador e traga-os (stage) antes de enviar. Arquivos só em `/mnt/user-data/outputs` ou com caminho do Mac são recusados — vale também para capas.
-   - **"file is hardlinked":** arquivo recém-gravado no Mac pode ser recusado ao ser trazido. Regrave no próprio Mac (`sips -s format jpeg -s formatOptions 93 entrada.jpg --out saida.jpg`; para vídeo, `cp` para outro nome), **espere ~50 s** e traga de novo. Não fique repetindo na hora.
+   - **Arquivo ≤ 10 MB:** o envio pelo navegador aceita no máximo 10 MB por arquivo. Recomprima cada Short em 1080×1920 com H.264 em **duas passagens** e taxa-alvo `9,2 MB × 8 ÷ duração − 130 kbps` (áudio AAC 128k). Guarde a versão cheia; suba a comprimida.
+   - **Caminho do arquivo:** o envio só aceita arquivos de pasta conectada **trazidos para o ambiente de trabalho** (`/mnt/user-data/uploads/...`). Grave os comprimidos em `Downloads/shorts_[convidado]/envio/` no computador e traga-os (stage) antes de enviar. Arquivos só em `/mnt/user-data/outputs` ou com caminho do Mac são recusados.
    - Studio → `.../videos/upload?d=ud` → localizar o `input type=file` e enviar o arquivo (nunca clicar no botão "Selecionar arquivos").
    - **Título e descrição:** o Studio preenche os padrões do canal alguns segundos depois de abrir a janela e sobrescreve o que foi digitado antes. Espere ~6 s, **clique de verdade no campo Título**, e só então substitua o conteúdo dos dois campos (selecionar o conteúdo do campo e inserir o texto). Releia os dois campos antes de avançar.
    - **Capa:** envie o JPG no `input type=file` da seção Miniatura.
@@ -442,7 +443,7 @@ Em blocos fáceis de copiar, nesta ordem:
     - Thumb sobre a arte do template: manchete planejada (≤ 38 caracteres, corpo ≥ 38), nome em 22–24, linha de apoio só se pedida, Inter itálico com letras coladas, bloco centralizado na faixa, foto tratada e bem recortada, versão escolhida por avaliação
     - Capa publicada no Studio
     - Original baixado pelo Studio (download liberado) e trechos cortados
-    - 3 a 5 Shorts no padrão Comunhão play (vídeo na área de 1260 px; título Inter corpo 22 / entrelinha 22 / tracking −35, até 30 caracteres em 2 linhas; nome corpo 11), com legenda e capa no modelo aprovado, publicados como privados, com vídeo relacionado
+    - 3 a 5 Shorts no corte limpo (vídeo em tela cheia 1080×1920, sem faixa nem rodapé; no alto, logo do programa à esquerda e quadradinho COM à direita, ou só o quadradinho quando não há programa; legenda dentro da área segura), com capa no modelo aprovado (título até 30 caracteres em 2 linhas e nome), publicados como privados, com vídeo relacionado
     - Tela final com o próximo vídeo da playlist da categoria + essa playlist + inscrição
     - Cards: perfil (canal), site (se liberado), playlist da categoria, próximo vídeo
     - Comentário fixado com site e Instagram @oficialcomunhao
@@ -459,10 +460,6 @@ Na execução completa, salve direto (ver "Execução completa"); em pedidos avu
 - **Teste A/B:** o Studio roda **um teste por vez** por vídeo. Com teste de título em andamento, a capa pode ser trocada normalmente (vale para todas as variantes); um teste de **miniatura** só começa depois que o de título terminar.
 - **Download do original (liberado):** ⋮ (Opções, ao lado de Salvar) → Baixar, sem pedir confirmação. Se o primeiro clique só fechar o menu, abra o menu de novo e clique em Baixar; confira em Downloads se surgiu o `.crdownload` e espere ele virar `.mp4` antes de cortar.
 - **Transcrição com minutagem:** se o painel de transcrição não abrir, ligue as legendas no player; a requisição de legenda (`timedtext`) traz o texto com tempos.
-- **Trocar a miniatura:** página de edição → localizar o `input type=file` da seção Miniatura (a página às vezes demora; espere ~8 s e procure de novo) → enviar o JPG trazido para `/mnt/user-data/uploads/...` → esperar ~5 s → **Salvar** → conferir que o botão Salvar voltou a ficar desativado. Vale também para vídeos não listados.
-- **Vídeo relacionado do Short:** no seletor, a busca pelo link mostra um cartão com a miniatura; clique no cartão (nem sempre há item com `role=option`) e salve.
-- **Short antigo substituído:** passe para **Privado** (Visibilidade → Privado → Concluir → Salvar) e confira em Conteúdo → Shorts. Nunca exclua.
-- **Legendas `.srt`:** o `cortar_shorts.py` aceita tempos com vírgula ou ponto (`00:00:02,000` ou `00:00:02.000`) e arquivos com quebra de linha do Windows.
 
 ## Execução completa ("rode a skill neste vídeo") — ponta a ponta, sem paradas
 
@@ -494,11 +491,3 @@ Se o download falhar (menu fecha, arquivo não aparece em Downloads, computador 
 ## Revisando vídeos antigos
 
 Aponte em uma linha o que está fraco (ex.: "palavra-chave só no fim", "começa com Comunhão Entrevista", "tags genéricas", "sem capítulos", "sem tela final", "sem os cards padrão", "sem comentário fixado", "fora da playlist da categoria") e entregue o pacote completo novo.
-
-### Troca de capas em lote (vídeos antigos)
-Mesmo processo da skill da ES Brasil:
-1. Liste os vídeos pela playlist do programa, do mais recente para o mais antigo, e separe **lotes de 10**. Pule duplicados (mesma capa vale para os dois vídeos do mesmo episódio), chamadas/promos e debates sem definição de capa — liste-os à parte para o Mário decidir.
-2. Para cada vídeo: quadros (12.5.1), recorte, manchete nova a partir do tema (≤ 38 caracteres, sem inventar), nome do convidado.
-3. Monte uma **grade** com as capas novas e, no canto de cada uma, a capa atual, e **mostre ao Mário antes de trocar**. Troque só depois do "pode trocar" daquele lote.
-4. Troque no Studio (nota "Trocar a miniatura") e confirme pelo botão Salvar desativado. O YouTube pode levar alguns minutos para mostrar a capa nova.
-5. Guarde as capas em `Downloads/comunhao_capas/<lote>/`. Nunca exclua nada; Short antigo substituído vai para Privado.
