@@ -15,12 +15,20 @@ O arquivo `youtube-comunhao-titulos.skill` distribuído ao time traz tudo o que 
 
 | Arquivo | Para quê |
 |---|---|
-| `scripts/gerar_thumb.py config.json saida.png` | Monta a thumb 1600×900 sobre a arte do template (manchete, nome, apoio opcional, foto). Centraliza o bloco na faixa sozinho (`"y0": "auto"`) e nunca deixa a manchete abaixo do corpo 38. Requer `pip install playwright` + Chromium. |
-| `scripts/tratar_foto.py quadro.png recorte.png [0.6]` | Tratamento da foto: restauração facial com IA (GFPGAN), recorte com refino de cabelo, cor, rim light. Requer `gfpgan`, `rembg` e os pesos `weights/GFPGANv1.4.pth` (instruções no topo do arquivo). |
-| `scripts/gerar_visual_short.py moldura\|capa config.json saida.png` | Visual dos Shorts no padrão **Comunhão play** (1080×1920 PNG): `moldura` saiu de uso em 18/11/2026 (os Shorts saem no corte limpo, Passo 13); `capa` gera o template antigo da miniatura (faixa laranja, logo play) e também saiu de uso: a capa do Short segue o modelo foto cheia (Passo 13, item 8). Requer `playwright` + Chromium. |
-| `scripts/cortar_shorts.py video.mp4 shorts.json pasta [legendas.srt]` | Versão antiga, com moldura: não usar para montar. A montagem do corte limpo é o comando ffmpeg do Passo 13, item 7. |
-| `assets/` | `base_clean.png` (template sem texto e sem a pessoa de exemplo), `template.jpg` (original), logos isolados (`logo_play.png`, `logo_entrevista.png`, `logo_comunhao.png` — só a palavra Comunhão, para a capa do Short) e fontes Inter ExtraBold/SemiBold Italic. Selos dos Shorts em `assets/selos/`: `com_quadrado.png` (quadradinho COM), `programa_[nome].png` (logos dos programas, fundo transparente) e as camadas prontas `selos_[programa].png` e `selos_so_marca.png` (1080×1920, transparentes). |
-| `exemplos/` | Caso real (Danielle Nazário): `thumb_danielle.json`, a foto tratada, a thumb final e `shorts_danielle.json`. Use como modelo de configuração. Modelos aprovados dos Shorts: `exemplos/modelo_short_interno.jpg` e `exemplos/modelo_short_capa.jpg` (atenção: a palavra "linguágem" nos modelos está com acento errado; o certo é "linguagem"). |
+| `scripts/gerar_thumb.py config.json saida.png` | Monta a thumb 1600×900 sobre a arte do template (manchete, nome, apoio opcional, foto). Centraliza o bloco na faixa sozinho (`"y0": "auto"`) e nunca deixa a manchete abaixo do mínimo (corpo 38 até 38 caracteres; 32 de 39 a 60). Com mais de 60 caracteres, 4 linhas ou corpo abaixo do mínimo, **para com um AVISO** pedindo manchete mais curta, sem cortar nem reduzir por conta própria. Requer `pip install playwright` + Chromium. |
+| `scripts/tratar_foto.py quadro.png recorte.png [0.6]` | Tratamento da foto: restauração facial com IA (GFPGAN, **opcional**), recorte com refino de cabelo, cor, rim light. Requer `rembg`. A restauração só roda se o pacote `gfpgan` e os pesos `weights/GFPGANv1.4.pth` existirem; sem eles, o script avisa "restauração PULADA" e segue (antes, a falta do gfpgan derrubava a geração inteira). |
+| `scripts/gerar_capa_short.py config.json saida.jpg` | Capa do Short 1080×1920 no modelo foto cheia (Passo 13, item 8), com as medidas e a trava do texto já embutidas: recorte do convidado com a cabeça centrada, véu na base, selos oficiais, filete, título (até 30 caracteres, 2 linhas, corpo 56–92), nome e cargo. Se o título não couber ou faltar o selo oficial, **para com AVISO** e não gera. JPG < 2 MB. Exemplo: `exemplos/capa_short_danielle.json`. Requer Pillow. |
+| `scripts/montar_selos.py saida.png [logo_programa.png] [--altura 100]` | Gera a camada de selos 1080×1920 transparente que vai por cima do vídeo (programa à esquerda + quadradinho COM à direita, ou só o quadradinho), com as medidas do Passo 13, item 7. Use quando entrar o logo de um programa novo: `python3 scripts/montar_selos.py assets/selos/selos_[programa].png assets/selos/programa_[nome].png`. |
+| `legado/` | Padrão antigo dos Shorts (moldura "Comunhão play"): `gerar_visual_short.py`, `cortar_shorts.py` e os modelos antigos. **Não usar**; ficam só como histórico (ver `legado/LEIA-ME.md`). |
+| `scripts/captura_quadros.js` | Trecho para o Chrome: salva 12 quadros em 1080p do vídeo, direto do player do YouTube, em Downloads. Para escolher a foto quando o original ainda não foi baixado (ver 12.5.1). |
+| `scripts/folha_de_contato.py saida.jpg quadros...` | Junta até 24 quadros numa folha numerada para escolher o melhor. |
+| `scripts/montar_dupla.py esq.png dir.png saida.png [0.25] [direita]` | Junta os recortes de dois convidados (rostos inteiros, quem está na frente cobre só cabelo/ombro do outro). |
+| `scripts/comprimir_envio.py pasta [9.2]` | Recomprime os Shorts para o envio pelo navegador (≤ 10 MB, H.264 em 2 passagens) em `pasta/envio/`. |
+| `references/studio.md` | Procedimentos testados no YouTube Studio e no Chrome: tela final, comentário fixado, download, legendas automáticas, envio dos Shorts, notas práticas. Ler antes de operar o Studio. |
+| `references/montagem_shorts.md` | Comandos ffmpeg do corte limpo: base, com gráficos do canal e webcam. |
+| `references/capas_lote.md` | Troca de capas em lote nos vídeos antigos. |
+| `assets/` | `base_clean.png` (template sem texto e sem a pessoa de exemplo), `template.jpg` (original), logos isolados (`logo_play.png`, `logo_entrevista.png`, `logo_comunhao.png` — só a palavra Comunhão, para a capa do Short) e fontes em `assets/fonts/`: Inter ExtraBold Italic e SemiBold Italic (thumb e legenda dos Shorts) e Inter ExtraBold, Bold e Regular sem itálico (capa do Short), licença OFL. Selos dos Shorts em `assets/selos/`: `com_quadrado.png` (quadradinho COM), `programa_[nome].png` (logos dos programas, fundo transparente) e as camadas prontas `selos_[programa].png` e `selos_so_marca.png` (1080×1920, transparentes). Em 18/11/2026 entraram o `com_quadrado.png` oficial e as camadas `selos_entrevista.png` e `selos_so_marca.png`. **Ainda faltam os logos dos outros programas** (Na Estrada, O Pastor Responde, Fim de Papo, Persona, Texto & Contexto): até chegarem, os Shorts desses programas saem só com o quadradinho. |
+| `exemplos/` | Caso real (Danielle Nazário): `thumb_danielle.json`, a foto tratada, a thumb final e `shorts_danielle.json` (seleção de trechos; o campo `gancho` era da moldura antiga) e `capa_short_danielle.json` (configuração da capa do Short). Use como modelo de configuração. |
 
 Se os scripts não estiverem disponíveis, reproduza o mesmo resultado com Python (Pillow, numpy, rembg, faster-whisper) e ffmpeg, seguindo as especificações dos Passos 12 e 13. A thumb já publicada de outro vídeo (ex.: `thumb_comunhao_danielle.jpg` no Drive) serve de referência para amostrar cores e copiar os selos.
 
@@ -201,7 +209,8 @@ Studio → vídeo → **Tela final**. Ela aparece nos últimos 5 a 20 segundos (
 Regras:
 - Não usar "Vídeo mais recente" nem "Melhor para o espectador" como substituto — a categoria é o que segura o espectador.
 - Os elementos ficam à esquerda e não cobrem rosto nem texto importante do encerramento; confira na prévia.
-- Se o canal tiver card/elemento de **Link** liberado (ver Passo 10), o modelo passa a ser "1 vídeo, 1 link, 1 botão de inscrição", com o link para comunhao.com.br.
+- Se o canal tiver card/elemento de **Link** liberado (ver Passo 10), o modelo passa a ser "1 vídeo, 1 link, 1 botão de inscrição", com o link para comunhao.com.br (UTM `utm_medium=telafinal`).
+- **Elemento de link:** só salva com "Mensagem personalizada" preenchida, e a imagem do link precisa de clique de mouse. Passo a passo em `references/studio.md` → "Tela final".
 
 ## Passo 10 — Cards (padrão fixo, nesta ordem)
 
@@ -231,6 +240,8 @@ Logo após publicar, comente no vídeo **como Revista Comunhão** e **fixe** o c
 🔔 Inscreva-se no canal e ative o sininho!
 ```
 Como fazer: página pública do vídeo → pause o player → role até os comentários e **espere carregar** (alguns segundos) → "Adicione um comentário…" → colar o texto → **Comentar** → ⋮ do comentário → **Fixar no topo** → confirmar. Confira se aparece "Fixado por @revistacomunhaooficial".
+
+Antes de comentar e fixar, leia `references/studio.md` → "Comentário fixado": os comentários só carregam com rolagem de verdade, e o menu ⋮, o "Fixar no topo" e a confirmação só respondem a clique de mouse.
 
 ## Passo 11 — Playlist por categoria (checagem obrigatória)
 
@@ -271,7 +282,12 @@ A thumb é uma **capa de revista**, não uma legenda. Ela vende a história em d
 
 O título da thumb é uma **manchete planejada**, escrita para a capa — não precisa ser uma frase dita pelo convidado. Ela tem de ser **muito boa**: é o que decide o clique.
 
-- **Máximo de 38 caracteres**, em **2 linhas** (padrão) ou 3 linhas, conforme a avaliação (12.6).
+- **Máximo de 60 caracteres**, contando espaços (regra de 18/11/2026; antes eram 38):
+  - **até 38 caracteres:** 2 linhas (padrão) ou 3, conforme a avaliação (12.6), corpo 44;
+  - **de 39 a 60 caracteres:** **3 linhas**, corpo entre 32 e 38 (sempre o maior que couber);
+  - **4 linhas, nunca.** Se não couber em 3 linhas no corpo 32, a manchete precisa ser reduzida.
+- Prefira a manchete curta quando ela disser o mesmo: os 60 caracteres são teto, não meta.
+- **Título sugerido pelo jornalista (ou pela equipe) que passe de 60 caracteres ou não caiba em 3 linhas no corpo 32:** não corte nem reescreva por conta própria. **Avise** que o título precisa ser reduzido, diga quantos caracteres tem e quantos precisa tirar, e **sugira uma ou duas versões mais curtas, fiéis ao original**, para o jornalista aprovar. O `gerar_thumb.py` faz essa checagem e para com o aviso.
 - Nasce da **virada da história**, do conflito central ou da promessa do vídeo. Pergunte: qual é o "antes e depois"? Qual é a frase que a pessoa contaria a um amigo depois de assistir?
 - Em testemunhos, prefira a **primeira pessoa, afirmativa e direta**: soa como a voz do convidado e cria identificação imediata. Ex.: "A fé me tirou da prostituição" — sem rodeios, sem "Como" quando a afirmação é mais forte.
 - Palavras concretas e verbos fortes; corte artigos e adjetivos vazios.
@@ -305,15 +321,16 @@ Entregue sempre **duas manchetes com fórmulas diferentes** (A = recomendada, B 
 ### 12.4 — Tipografia e diagramação: Inter ITÁLICO, grande, letras coladas, bloco centralizado
 | Linha | Fonte | Corpo | Entreletras (tracking) |
 |---|---|---|---|
-| 1 — manchete | Inter ExtraBold Italic (800) | **mínimo 38; padrão 44** | **apertado: −1,6** (letras quase coladas) |
+| 1 — manchete | Inter ExtraBold Italic (800) | **até 38 caracteres: mínimo 38, padrão 44 · de 39 a 60: 32 a 38** | **apertado: −1,6** (letras quase coladas) |
 | 2 — nome | Inter ExtraBold Italic (800) | **22 a 24** (padrão 24) | **apertado: −1,6** |
 | 3 — apoio (opcional) | Inter SemiBold Italic (600) | 13 a 14 | −0,6 |
 
 - **Sempre itálico, nunca reto.** As letras ficam **juntas, quase encostando** — é o entreletras que dá peso de capa.
-- O corpo **38 é piso, não teto.** Nunca reduza a manchete abaixo de 38. Se a linha não couber, afaste a foto do convidado para a direita ou reescreva a manchete.
+- O corpo mínimo é **piso, não teto**: 38 nas manchetes de até 38 caracteres e **32 nas de 39 a 60**. Nunca reduza abaixo disso. Se a linha não couber, afaste a foto do convidado para a direita, refaça as quebras ou reduza a manchete.
+- **Manchete longa (3 linhas):** entrelinha e entreletras continuam as mesmas (0,88 e −1,6): justas, mas sem acentos e descendentes de uma linha encostarem na outra. As linhas mais compridas chegam perto do rosto: **nenhuma letra pode encostar no rosto ou no cabelo** do convidado. Se encostar, aumente o recuo da foto (`foto_right` mais negativo) ou troque as quebras. Confira na capa reduzida a 320×180 que a manchete continua legível.
 - **Entrelinha da manchete ~0,88 do corpo**: justa, mas sem que descendentes e acentos de uma linha encostem na linha de baixo. Espaço entre manchete e nome ~0,34 do corpo da manchete.
 - **Bloco centralizado na faixa amarela:** o conjunto manchete + nome (+ apoio, se houver) fica **equilibrado no meio da faixa**, com a mesma folga em cima e embaixo. Nada encosta nas bordas da faixa, nada sai dela. Centro vertical da faixa na margem esquerda: y≈503 px.
-- Na arte 1600×900, 1 unidade ≈ 3,05 px (38 → 116 px; 44 → 134 px; 24 → 73 px; entreletras −1,6 → −4,9 px). Largura máxima da manchete: ~1.000 px.
+- Na arte 1600×900, 1 unidade ≈ 3,05 px (32 → 98 px; 38 → 116 px; 44 → 134 px; 24 → 73 px; entreletras −1,6 → −4,9 px). Largura máxima da manchete: ~1.000 px.
 - Cor creme (#FFF4DC), sombra suave laranja-escura, texto inclinado junto com a faixa (−4,95°), alinhado à esquerda em x≈70 px.
 
 ### 12.5 — Base e imagem
@@ -326,6 +343,14 @@ Entregue sempre **duas manchetes com fórmulas diferentes** (A = recomendada, B 
 4. **Tratamento de cor:** +10% de contraste, +8% de saturação, +5% de brilho, nitidez leve (unsharp mask) e tom levemente aquecido para conversar com o laranja da faixa.
 5. **Integração:** luz de recorte (rim light) laranja na borda, brilho laranja suave atrás do convidado e escurecimento leve na base para fundir com o fundo.
 6. **Posição:** à direita, ancorado na base, rosto no terço superior, altura ~860–880 px. O rosto nunca fica atrás do texto; se a manchete precisar de espaço, a foto vai para a direita.
+
+#### 12.5.1 — Quadros e composição (mesmos parâmetros técnicos da skill da ES Brasil, revisados com o Mário em 17/10/2026)
+- **Quadros em boa resolução sem baixar o original:** use `scripts/captura_quadros.js` no Chrome, na página pública do vídeo (o script força 1080p, pausa e salva 12 quadros entre 6% e 94% do vídeo em Downloads). Uma chamada por vídeo e verificação pelo título da aba (`CAPDONE`), porque o navegador corta chamadas longas. O servidor de trabalho não consegue baixar do YouTube; não insista por lá.
+- **Escolha numa folha de contato** (`folha_de_contato.py`), nunca às cegas. Se nenhum quadro servir, capture **mais 24 quadros** em outros pontos do vídeo antes de aceitar um ruim. Critérios: os do item 1 (foco, expressão, tom da pauta) e mais: rosto de frente ou 3/4, olhando para o centro da capa; **sem tarja de nome** (se só houver quadro com tarja, recorte acima dela); **sem microfone na frente do rosto**; cabeça inteira no quadro; nunca o apresentador.
+- **Recorte antes do rembg:** corte um retângulo de ~900–1.000 px de largura em volta da pessoa, deixando de fora microfone, copo e tarja; confira na folha que nada sobrou.
+- **Cabeça e ombros nunca cortados:** nem pelo topo da capa nem pelo outro convidado. Confira o recorte sobre fundo chapado e a capa reduzida a 320×180, lembrando que o selo de duração do YouTube cobre o canto inferior direito.
+- **Dois convidados:** recorte cada um separadamente e junte com `montar_dupla.py` (rostos inteiros, um ao lado do outro, olhando para o centro; quem está na frente cobre só cabelo ou ombro do outro). Na thumb, reduza a dupla (`foto_h` ~530–560) para o texto não passar por cima de cabeças; se ainda encostar, use nomes curtos ("Thiago e Thayná").
+- **Mostre a grade antes de trocar no canal** sempre que forem várias capas (ver "Troca de capas em lote").
 
 ### 12.6 — Avaliação obrigatória: gerar, comparar, escolher
 
@@ -348,7 +373,8 @@ Nunca entregue a primeira versão. Para cada thumb:
 5. Na entrega, mostre a versão escolhida e diga **em uma frase por que ela venceu** (ex.: "2 linhas no 44 ficou mais equilibrada que 3 linhas, que deixava 'A fé' isolado").
 
 ### 12.7 — Conferência final
-- Manchete com corpo ≥ 38 e nome entre 22 e 24 — confira o corpo **final** renderizado, não só o pedido.
+- Manchete com até 60 caracteres, no máximo 3 linhas, corpo ≥ 38 (até 38 caracteres) ou ≥ 32 (de 39 a 60), e nome entre 22 e 24 — confira o corpo **final** renderizado, não só o pedido.
+- Nenhuma letra encosta no rosto ou no cabelo do convidado. O `gerar_thumb.py` confere sozinho quando a foto é recorte com fundo transparente e para com AVISO se encostar (raspar um fio solto é aceito); com foto opaca, confira no olho.
 - Bloco de texto centralizado na faixa; nada encosta nos selos, no rosto nem nas bordas da faixa.
 - Rosto tratado e reconhecível; recorte sem restos de fundo.
 - Exportar JPG 1600×900 com menos de 2 MB.
@@ -369,52 +395,47 @@ Nunca entregue a primeira versão. Para cada thumb:
 
    #[Tema] #[Tema2] #RevistaComunhão
    ```
-5. **Arquivo original — download liberado, sem pergunta:** Studio → vídeo → ⋮ (Opções, ao lado de Salvar) → **Baixar**. **Não pergunte "posso baixar?"**: o download do original do próprio canal já está autorizado (ver "Download liberado", na Execução completa). Avise em uma linha o que está sendo baixado (nome do arquivo, origem e tamanho) e siga. O arquivo vai para **Downloads** do computador. Peça acesso à pasta Downloads uma vez. Se o envio direto do arquivo inteiro para o ambiente de trabalho for recusado (arquivo grande ou "hardlinked"), **corte os trechos brutos no próprio computador** com ffmpeg (`-ss início -t duração -c copy`, com 1 s de folga de cada lado) e traga só os trechos.
-6. **Tempo exato por palavra:** transcreva cada trecho com faster-whisper (modelo `small`, `language='pt'`, `word_timestamps=True`). Use os tempos das palavras para cortar no começo e no fim da frase e para as legendas. (Alternativa: `.srt` do Studio → Legendas → ⋮ → Baixar, com `cortar_shorts.py`.)
+5. **Arquivo original — download liberado, sem pergunta:** Studio → vídeo → ⋮ (Opções, ao lado de Salvar) → **Baixar**. **Não pergunte "posso baixar?"**: o download do original do próprio canal já está autorizado (ver "Download liberado", na Execução completa). Avise em uma linha o que está sendo baixado (nome do arquivo, origem e tamanho) e siga.
+   - **Como disparar:** clique de mouse em **Baixar**; o clique por código abre o menu mas não baixa. Detalhes e alternativa testada em `references/studio.md` → "Download do original".
+   - **Pasta de destino:** o Chrome do estúdio (computador estudio001-pc) salva em `C:\Users\estudio01\Downloads\Downloads do estudio001-pc`, ou direto no Drive em `G:\Meu Drive\Comunhão shorts\Originais\`. Confira a pasta a cada 30–60 s: primeiro aparece `Não confirmado ….crdownload`, depois o `.mp4`. Uma entrevista de 50 min (~340 MB, 720p) leva cerca de 1 minuto.
+   - Se em 3 minutos nada aparecer, clique em Baixar de novo uma vez; se ainda assim não vier, peça à pessoa para baixar manualmente para essa mesma pasta e siga assim que o arquivo chegar.
+   - Traga o arquivo para o ambiente de trabalho (stage; limite 400 MB por arquivo). Se for recusado (arquivo grande ou "hardlinked"), **corte os trechos brutos no próprio computador** com ffmpeg (`-ss início -t duração -c copy`, com 1 s de folga de cada lado) e traga só os trechos. Original maior que 400 MB: peça uma versão menor da mesma edição (ex.: export em 1080p) e confira que a duração bate com a do YouTube antes de usar os tempos da transcrição.
+6. **Tempo exato por palavra:** transcreva cada trecho com faster-whisper (modelo `small`, `language='pt'`, `word_timestamps=True`). Use os tempos das palavras para cortar no começo e no fim da frase e para as legendas. (Alternativa: `.srt` do Studio → Legendas → ⋮ → Baixar.)
+   - **Se o modelo não baixar** (erro 403 do proxy ao buscar no Hugging Face), use as legendas automáticas do YouTube com tempo por palavra (`timedtext`). Passo a passo em `references/studio.md` → "Transcrição pelas legendas automáticas".
+   - Monte as legendas a partir das palavras (blocos de até 4 palavras, quebra em pontuação ou pausa > 0,9 s), corrija erros óbvios do reconhecimento automático e **remova a palavra quando não tiver certeza do que foi dito** (nunca adivinhe). Remova gaguejos repetidos ("na na", "vou ser vou ser").
+   - **Ponto de corte:** confira o fim da frase também pelo nível do áudio (RMS a cada 50 ms; corte num vale abaixo de −35 dB), porque os tempos das legendas automáticas são aproximados.
 7. **Montagem 1080×1920 (30 fps, H.264 + AAC) no corte limpo — o mesmo padrão dos Reels e dos Shorts da ES Brasil (desde 18/11/2026, decisão do Mário Fernando):**
    - **Sem moldura:** nada de faixa laranja em cima nem rodapé vermelho com o logo play. O vídeo ocupa a tela inteira; por cima dele vão só os selos e a legenda. Título e nome do convidado ficam na capa do Short (item 8), no título e na descrição.
    - **Selos no alto, do começo ao fim do Short (estrutura casa, produto e programa):**
      - Short de programa (Comunhão Entrevista, Na Estrada, O Pastor Responde, Fim de Papo, Persona, Texto & Contexto e outros com logo próprio): **logo do programa no canto esquerdo** e **quadradinho da marca (COM) no canto direito**.
      - Short sem programa: **só o quadradinho COM, no canto direito**.
      - Medidas iguais às da ES Brasil: os dois com 120 px de altura, topo em y=220, a 48 px das bordas laterais, sombra leve; o quadradinho com cantos levemente arredondados (raio 14 px). Se um selo encostar no rosto, ajuste o `centro_x` ou reduza os dois para 100 px; nunca tire um só.
-     - Arquivos oficiais, nunca redesenhados: `assets/selos/com_quadrado.png` (o mesmo selo COM das artes da @oficialcomunhao) e `assets/selos/programa_[nome].png`; o do Comunhão Entrevista é o `logo_entrevista.png`. Monte uma vez por programa a camada `selos_[programa].png` (1080×1920 transparente, com os dois selos e a sombra) e reutilize. Programa sem logo oficial na pasta: use só o quadradinho e registre a pendência na mensagem ao administrador.
+     - Arquivos oficiais, nunca redesenhados: `assets/selos/com_quadrado.png` (o mesmo selo COM das artes da @oficialcomunhao) e `assets/selos/programa_[nome].png`; o do Comunhão Entrevista é o `logo_entrevista.png`. As camadas prontas ficam em `assets/selos/` (`selos_entrevista.png`, `selos_so_marca.png`); para outro programa, gere uma vez com `scripts/montar_selos.py` e reutilize. Programa sem logo oficial na pasta: use só o quadradinho e registre a pendência na mensagem ao administrador.
    - **Enquadramento:** corte vertical 9:16 na altura inteira do original (largura = altura × 9/16), centrado no rosto de quem fala (`centro_x`, de 0 a 1), escalado para 1080×1920 com lanczos. Em entrevistas com dois enquadramentos, o corte acompanha quem está falando. Monte sempre a partir do original baixado pelo Studio, na maior resolução disponível.
+     - **Estúdio da Comunhão (1080p, câmera fixa, cenário com a bandeira):** `centro_x` ~0,36 (caso Marcelo Santos, 20/10/2026). Confira na folha de quadros e ajuste por Short.
+     - **Entrevista por webcam (720p):** não use o corte na altura inteira. Ele aproveita só ~405 px de largura (ampliação de 2,7×, imagem mole) e deixa entrar a tarja de nome/cargo (canto inferior esquerdo, y > 525) e o selo do canto. Use o comando **webcam** de `references/montagem_shorts.md`: recorta só o alto do quadro (446×520 em 1280×720), centra o recorte na tela e preenche em cima e embaixo com uma cópia desfocada e escurecida. Esse recorte vem da versão com moldura (testado lá) e foi adaptado ao corte limpo em 18/11/2026, com teste só técnico: mostre o primeiro Short de webcam ao Mário antes de seguir com o lote.
    - **Legendas queimadas:** Inter ExtraBold Italic, creme (#FFF6D8) com contorno preto, blocos de até 4 palavras, centralizadas, com a base em y≈1450. A trava do texto vale aqui também: bloco que passe de 840 px (1080 − 2 × 120) quebra em duas linhas pelo próprio .ass (WrapStyle 0, o padrão), nunca em três e nunca para fora da tela; se fosse quebrar em três, divida o bloco. Deixe livres as áreas que o YouTube e o Instagram cobrem: 420 px de baixo, 220 px de cima e 120 px de cada lado.
    - Se a tarja com nome/cargo do vídeo original aparecer cortada no enquadramento vertical, **desfoque a tarja** no intervalo em que ela aparece. As marcas d'água dos cantos do original normalmente ficam fora do corte; se um pedaço entrar, ajuste o `centro_x`.
+     - Tarja branca grande desfocada costuma virar um borrão branco (testado em 09/11/2026 com `delogo`). Se ficar feio, prefira **terminar o Short antes da tarja entrar**, num fim de frase, ou começar depois que ela sai.
+   - **Gráficos do canal no original** (#revistacomunhao, @oficialcomunhao, inscreva-se, no canto superior esquerdo): se entrarem no corte, troque os pixels brancos pela cor da parede (`marca_branca`) e use `delogo` só na parte da parede onde nunca há cabelo. Os dois entram **antes do recorte**, no comando **com gráficos do canal** de `references/montagem_shorts.md`. Valores do estúdio da Comunhão, em coordenadas do quadro original (x, y, largura, altura): `marca_branca` 60, 35, 480, 120 com a cor `0xC6BDCC`, e `delogo` 60, 35, 390, 118. Não use só `delogo` largo: ele borra o cabelo nos planos fechados.
+   - **Antes de cortar, confira o enquadramento do trecho** (folha com 1 quadro a cada 2–5 s): evite **tela dividida** com o entrevistador, **imagens de apoio** (b-roll), **planos do apresentador** e **closes extremos**; comece o Short na resposta e termine antes de b-roll/close.
+   - Depois de montar, gere uma folha com 3 quadros de cada Short (início, meio, fim) e confira rosto, selos, legenda e sobras de gráficos antes de comprimir.
    - Fade de áudio de 0,15 s na entrada e 0,3 s na saída.
-   - Como fazer (ffmpeg): gere as legendas do trecho em `.ass` (tempos por palavra do item 6) com `PlayResX: 1080`, `PlayResY: 1920` e este estilo:
-     ```
-     Style: Legenda,Inter ExtraBold,96,&H00D8F6FF,&H00D8F6FF,&H00000000,&H64000000,0,-1,0,0,100,100,0,0,1,6,2,2,120,120,470,1
-     ```
-     e monte o Short com a camada de selos (CX = `centro_x`; DURACAO = FIM − INICIO, em segundos; SELOS = `selos_[programa].png` ou `selos_so_marca.png`):
-     ```
-     ffmpeg -ss INICIO -to FIM -i original.mp4 -i SELOS.png \
-       -filter_complex "[0:v]crop=w='ih*9/16':h=ih:x='min(max(iw*CX-ih*9/32,0),iw-ih*9/16)':y=0,scale=1080:1920:flags=lanczos,setsar=1[v];[v][1:v]overlay=0:0,subtitles=legendas.ass:fontsdir=assets/fonts[out]" \
-       -map "[out]" -map 0:a \
-       -af "afade=t=in:d=0.15,afade=t=out:st=DURACAO-0.3:d=0.3" \
-       -r 30 -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart short_01.mp4
-     ```
-     Comando e estilo testados em 18/11/2026 (o `fontsdir` aponta para as fontes do kit). O `cortar_shorts.py` aplica a moldura antiga: não use para montar.
+   - **Como fazer:** legendas em `.ass` (estilo fixo) + ffmpeg com a camada de selos. Use os comandos de `references/montagem_shorts.md`: **base** (estúdio), **com gráficos do canal** (`marca_branca` + `delogo` antes do recorte) e **webcam** (recorte do alto do quadro com fundo desfocado). Os scripts antigos de moldura estão em `legado/`: não use para montar.
    - **Um arquivo só para todas as redes:** o Short limpo é o mesmo que segue para Instagram, TikTok e Facebook (exportação da skill `youtube-lote-noturno-next`), sem versão separada.
-8. **Capa de cada Short (1080×1920), modelo foto cheia, o mesmo da ES Brasil (aprovado pelo Mário Fernando em 18/11/2026):** a capa leva título, nome e marca, já que o vídeo sai limpo, e serve também de capa no Reels e no TikTok. O template vermelho com faixa laranja e logo play (`exemplos/modelo_short_capa.jpg`) saiu de uso nos Shorts. Tudo o que importa fica no miolo 3:4 que a grade do Instagram mostra (y 240 a 1680).
+8. **Capa de cada Short (1080×1920), modelo foto cheia, o mesmo da ES Brasil (aprovado pelo Mário Fernando em 18/11/2026):** a capa leva título, nome e marca, já que o vídeo sai limpo, e serve também de capa no Reels e no TikTok. O template vermelho com faixa laranja e logo play (`legado/modelo_short_capa.jpg`) saiu de uso nos Shorts. Tudo o que importa fica no miolo 3:4 que a grade do Instagram mostra (y 240 a 1680).
    - Foto do convidado (escolhida pelos mesmos critérios da capa do vídeo, em "Escolha do quadro": focada, boa expressão e boa comunicação, nunca careta nem "caras e bocas", sóbria quando a pauta for séria, sem tarja; a foto aprovada para a capa do vídeo serve também para os Shorts; enquadre com pouco teto: recortada (rembg isnet-general-use) e assentada sobre o azul #00427B, com o topo da cabeça em y≈262, logo abaixo da linha dos selos, e rosto grande e centrado (x=540); Short sem convidado usa a foto do assunto em tela cheia; pode ser tratada com `tratar_foto.py`). **A foto tem de ser do próprio convidado do Short.**
    - **Véu só na base:** degradê de 760 px de altura, do transparente a 85% do azul-marinho (rgb 0, 25, 60) no pé da tela, para ler o texto. Nunca cobre o rosto nem apaga a foto.
    - **Selos no alto (casa, produto e programa):** logo do programa à esquerda (Comunhão Entrevista: `logo_entrevista.png`) e quadradinho COM à direita (`assets/selos/com_quadrado.png`), os dois com 132 px de altura, topo em y=272, a 56 px das bordas, sombra leve, cantos do quadradinho com raio de 16 px. Produto sem programa: só o quadradinho. Sempre os arquivos oficiais, nunca redesenhados.
    - **Bloco de texto**, alinhado à esquerda, a 96 px de cada lateral, com a base em y=1652: filete de 96×10 px amarelo-ouro (#FFC220), o **mesmo título** do Short (item 4: até 30 caracteres em 2 linhas), o nome (Inter Bold, 48 px, branco) e o cargo ou a linha de apoio (Inter Regular, 36 px, creme #FFF6D8). Espaço de 28 px entre filete, título e nome.
    - **Título:** Inter ExtraBold, sem itálico, em caixa normal, entreletras −2%, entrelinha 1,08, sombra leve (0 2 16 px, azul-marinho a 55%). Escrito como chamada, nunca rótulo.
-   - **Trava do texto (nada cortado, nada espremido):** meça cada linha com a fonte real (Pillow, `ImageFont.truetype("Inter-ExtraBold.otf", corpo).getlength(linha)`, descontando 2% do corpo por letra pelo entreletras; a fonte do sistema fica em `/usr/share/fonts/opentype/inter/`, e se faltar instale o pacote `fonts-inter`) e use o maior corpo, entre 56 e 92 px, em que a linha mais longa × 1,08 caiba em 888 px (1080 − 2 × 96). Os 8% de folga cobrem a diferença entre a medida e a renderização. Nunca encolha a margem, nunca deixe o texto passar da borda e nunca abra uma 3ª linha: se não couber em 56 px, reescreva o título mais curto. A mesma trava vale para nome e cargo (corpo mínimo de 30 px). Depois de gerar, confira a imagem: o último caractere de cada linha, inclusive "?" e "!", aparece inteiro, com sobra até a margem.
-   - Monte em Pillow com essas medidas (o modo `capa` do `gerar_visual_short.py` gera o template antigo: não use). Gere todas as capas e confira lado a lado, no tamanho real e reduzidas a 360×640; revise a acentuação do título antes de exportar. JPG com menos de 2 MB para o Studio.
+   - **Trava do texto (nada cortado, nada espremido):** meça cada linha com a fonte real (Pillow, `ImageFont.truetype("assets/fonts/Inter-ExtraBold.otf", corpo).getlength(linha)`, descontando 2% do corpo por letra pelo entreletras). Use sempre as fontes do kit (`Inter-ExtraBold.otf`, `Inter-Bold.otf`, `Inter-Regular.otf` em `assets/fonts/`), nunca a do sistema: assim a medida e o desenho batem em qualquer computador e use o maior corpo, entre 56 e 92 px, em que a linha mais longa × 1,08 caiba em 888 px (1080 − 2 × 96). Os 8% de folga cobrem a diferença entre a medida e a renderização. Nunca encolha a margem, nunca deixe o texto passar da borda e nunca abra uma 3ª linha: se não couber em 56 px, reescreva o título mais curto. A mesma trava vale para nome e cargo (corpo mínimo de 30 px). Depois de gerar, confira a imagem: o último caractere de cada linha, inclusive "?" e "!", aparece inteiro, com sobra até a margem.
+   - **Gere com `scripts/gerar_capa_short.py config.json capa_01.jpg`**: ele aplica todas as medidas acima, a trava do texto e o limite de 2 MB, e para com AVISO se o título passar de 30 caracteres, não couber em 2 linhas no corpo 56 ou faltar o selo oficial. Título do jornalista que não caiba: avise e sugira versão mais curta, como na capa horizontal (12.1). Gere todas as capas e confira lado a lado, no tamanho real e reduzidas a 360×640 (`folha_de_contato.py`); revise a acentuação do título antes de exportar.
 9. **Publicar (sem parar para perguntar)** — passo a passo testado:
-   - **Arquivo ≤ 10 MB:** o envio pelo navegador aceita no máximo 10 MB por arquivo. Recomprima cada Short em 1080×1920 com H.264 em **duas passagens** e taxa-alvo `9,2 MB × 8 ÷ duração − 130 kbps` (áudio AAC 128k). Guarde a versão cheia; suba a comprimida.
-   - **Caminho do arquivo:** o envio só aceita arquivos de pasta conectada **trazidos para o ambiente de trabalho** (`/mnt/user-data/uploads/...`). Grave os comprimidos em `Downloads/shorts_[convidado]/envio/` no computador e traga-os (stage) antes de enviar. Arquivos só em `/mnt/user-data/outputs` ou com caminho do Mac são recusados.
-   - Studio → `.../videos/upload?d=ud` → localizar o `input type=file` e enviar o arquivo (nunca clicar no botão "Selecionar arquivos").
-   - **Título e descrição:** o Studio preenche os padrões do canal alguns segundos depois de abrir a janela e sobrescreve o que foi digitado antes. Espere ~6 s, **clique de verdade no campo Título**, e só então substitua o conteúdo dos dois campos (selecionar o conteúdo do campo e inserir o texto). Releia os dois campos antes de avançar.
-   - **Capa:** envie o JPG no `input type=file` da seção Miniatura.
-   - Público: "Não é conteúdo para crianças" → Avançar ×3 → **Privado** → Salvar.
-   - **Vídeo relacionado** não aparece na janela de envio: depois de salvar, abra a página de edição de cada Short → campo **Vídeo relacionado** → buscar colando o **link** do vídeo completo (buscar pelo título novo costuma não achar) → escolher → Salvar. A janela de escolha às vezes abre duas vezes; digite na que está visível.
-   - **Conferência:** Conteúdo → aba Shorts. Todos devem estar "Privado" (se algum ficar "Rascunho", abra "Editar rascunho" e conclua). Se a miniatura de algum aparecer em branco, reenvie a capa na página de edição do Short e salve.
+   - Arquivo **≤ 10 MB** (`comprimir_envio.py pasta`; guarde a versão cheia e suba a comprimida), vindo de **`/mnt/user-data/uploads/...`**, com título, descrição, capa, vídeo relacionado, "Não é conteúdo para crianças" e **Privado** conferido antes de salvar.
+   - **Siga o passo a passo de `references/studio.md` → "Envio dos Shorts ao Studio"** (limites de tamanho, campo de arquivo com `aria-label`, "Unknown tool", título sobrescrito pelo Studio, vídeo relacionado na etapa Elementos do vídeo, Privado que às vezes vem Público, Short preso em "Salvando…", conferência pela lista filtrada).
    - Tornar público só com aprovação.
-10. Salve os Shorts e as capas também em `Downloads/shorts_[convidado]/` no computador.
+10. **Arquivos no Drive:** `G:\Meu Drive\Comunhão shorts\[Convidado]\` com Shorts (versão cheia), capas, legendas, pacote, `shorts_[convidado].md`/`.json` e `envio\` (versões ≤ 10 MB); original em `Originais\`. Arquivo acima de ~25 MB não vai direto ao computador: envie primeiro para a conversa e grave pelo identificador. Cada envio de arquivos para o computador aceita no máximo **100 MB somados**: com vários Shorts, divida em lotes. Ao terminar, atualize a linha do vídeo no **arquivo de progresso do lote** em `G:\Meu Drive\Comunhão shorts\` (no lote atual, `progresso_16_videos.md`; num lote novo, crie `progresso_[nome-do-lote].md` com uma linha por vídeo: status, Shorts, capa, pendências) e as pendências acumuladas; antes de gravar, traga a versão atual do arquivo e confira que o tamanho final no Drive é o esperado (o arquivo já voltou a uma versão antiga uma vez).
 
 ## Formato da entrega
 
@@ -438,7 +459,7 @@ Em blocos fáceis de copiar, nesta ordem:
     - Links do portal e do Spotify com UTM
     - Link do episódio no Spotify (ou programa, com aviso)
     - Vídeo na playlist de formato e na da categoria (ou pendência ao administrador)
-    - Thumb sobre a arte do template: manchete planejada (≤ 38 caracteres, corpo ≥ 38), nome em 22–24, linha de apoio só se pedida, Inter itálico com letras coladas, bloco centralizado na faixa, foto tratada e bem recortada, versão escolhida por avaliação
+    - Thumb sobre a arte do template: manchete planejada (≤ 60 caracteres, até 3 linhas, corpo ≥ 38 ou ≥ 32 nas longas; título do jornalista acima disso devolvido com aviso e sugestão), nome em 22–24, linha de apoio só se pedida, Inter itálico com letras coladas, bloco centralizado na faixa, foto tratada e bem recortada, versão escolhida por avaliação
     - Capa publicada no Studio
     - Original baixado pelo Studio (download liberado) e trechos cortados
     - 3 a 5 Shorts no corte limpo (vídeo em tela cheia 1080×1920, sem faixa nem rodapé; no alto, logo do programa à esquerda e quadradinho COM à direita, ou só o quadradinho quando não há programa; legenda dentro da área segura), com capa no modelo foto cheia (selos no alto, título até 30 caracteres em 2 linhas com a trava do texto, nada cortado, e nome), publicados como privados, com vídeo relacionado
@@ -450,14 +471,7 @@ Em blocos fáceis de copiar, nesta ordem:
 
 Na execução completa, salve direto (ver "Execução completa"); em pedidos avulsos, mostre o pacote antes de salvar. Depois de salvar, recarregar a página e conferir título, descrição, tags, tela final e cards (os cards podem levar alguns minutos para aparecer na página pública).
 
-**Notas práticas (aprendidas na execução):**
-- Título e descrição são campos editáveis do tipo `#textbox`. Selecione todo o conteúdo e substitua de uma vez; "Ctrl+A + digitar" pode inserir o texto no meio do antigo. Se isso acontecer, use **Desfazer alterações** e refaça.
-- Depois de clicar em **Salvar**, espere alguns segundos antes de recarregar — recarregar cedo demais descarta a alteração.
-- Tags ficam em **Mostrar mais** → Tags. O botão "Remover tudo" limpa as antigas.
-- Card: tempo em `MM:SS:QQ` e mensagem com até 30 caracteres (ver Passo 10).
-- **Teste A/B:** o Studio roda **um teste por vez** por vídeo. Com teste de título em andamento, a capa pode ser trocada normalmente (vale para todas as variantes); um teste de **miniatura** só começa depois que o de título terminar.
-- **Download do original (liberado):** ⋮ (Opções, ao lado de Salvar) → Baixar, sem pedir confirmação. Se o primeiro clique só fechar o menu, abra o menu de novo e clique em Baixar; confira em Downloads se surgiu o `.crdownload` e espere ele virar `.mp4` antes de cortar.
-- **Transcrição com minutagem:** se o painel de transcrição não abrir, ligue as legendas no player; a requisição de legenda (`timedtext`) traz o texto com tempos.
+**Notas práticas:** os detalhes de operação (extensão do Chrome instável, saída de código bloqueada, Studio com erro, troca de miniatura, teste A/B em andamento, Short antigo substituído) estão em `references/studio.md` → "Notas práticas". Leia antes de operar o Studio.
 
 ## Execução completa ("rode a skill neste vídeo") — ponta a ponta, sem paradas
 
@@ -468,7 +482,11 @@ Pedir para rodar a skill num vídeo **é a autorização** para fazer, sem parar
 3. Cards (Passo 10), tela final (Passo 9) e comentário fixado (10.1).
 4. Capa: tratar foto, gerar no mínimo 2 versões, avaliar (12.6) → **publicar a escolhida no Studio** (Miniatura → Enviar arquivo). Teste A/B de título em andamento não impede a troca: a capa vale para todas as variantes.
 5. Baixar o original (download liberado, sem pergunta) → Shorts + capas (Passo 13) → subir como privados → vídeo relacionado em cada um.
-6. Conferência final na página pública (título, capa, cards, tela final, comentário fixado, Shorts privados) e relatório curto: o que foi feito, o que ficou bloqueado e por quê.
+6. Conferência final na página pública (título, capa, cards, tela final, comentário fixado, Shorts privados), Drive e arquivo de progresso do lote atualizados, e relatório curto: o que foi feito, o que ficou bloqueado e por quê.
+
+**Horário:** em lotes, pare às 19h (horário de Brasília) e retome às 9h. Ao parar, relate o que ficou faltando no vídeo em andamento.
+
+**Ambiente:** use só o computador do estúdio (estudio001-pc) e só o Chrome logado na conta da Revista Comunhão.
 
 ### Download liberado (autorização permanente do Mário Fernando)
 
@@ -478,7 +496,7 @@ Está liberado:
 - o **arquivo original do vídeo** pelo YouTube Studio do canal Revista Comunhão (⋮ → Baixar);
 - as **legendas/transcrição** (`.srt`) do mesmo vídeo no Studio;
 - a **miniatura atual** do vídeo e a **thumb de referência do template** no Drive da equipe;
-- o uso da pasta **Downloads** do computador para receber o original e guardar os Shorts e as capas (pedir o acesso à pasta uma vez, se ainda não estiver conectada).
+- o uso da pasta **Downloads** do computador e da pasta **G:\Meu Drive\Comunhão shorts** para receber o original e guardar os Shorts e as capas (pedir o acesso à pasta uma vez, se ainda não estiver conectada).
 
 Não está liberado (continua pedindo confirmação): arquivos de outros canais, de outros sites ou de links que apareçam em páginas, e-mails, comentários ou descrições.
 
@@ -489,3 +507,6 @@ Se o download falhar (menu fecha, arquivo não aparece em Downloads, computador 
 ## Revisando vídeos antigos
 
 Aponte em uma linha o que está fraco (ex.: "palavra-chave só no fim", "começa com Comunhão Entrevista", "tags genéricas", "sem capítulos", "sem tela final", "sem os cards padrão", "sem comentário fixado", "fora da playlist da categoria") e entregue o pacote completo novo.
+
+### Troca de capas em lote (vídeos antigos)
+Mesmo processo da skill da ES Brasil, em lotes de 10, com grade mostrada ao Mário antes de trocar. Siga `references/capas_lote.md`.
