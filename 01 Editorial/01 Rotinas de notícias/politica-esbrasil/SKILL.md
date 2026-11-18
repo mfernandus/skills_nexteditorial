@@ -26,7 +26,7 @@ Programa, edital, serviço novo, mutirão e atendimento ampliado **só entram** 
 - crítica, ataque ou troca de acusações entre políticos; briga de partido; bate-boca em plenário; "bastidor" e especulação;
 - pesquisa eleitoral, cassação, impeachment, CPI, quebra de sigilo, processo contra político, multa da Justiça Eleitoral;
 - veto derrubado contra o governo, obstrução, crise, rompimento, "derrota" de alguém;
-- matéria que só existe para promover pessoa, sem fato (agenda de visita sem anúncio, foto com apoiador, "parabéns").
+- matéria que só existe para promover pessoa, sem fato (agenda de visita sem anúncio, foto com apoiador, "parabéns"). O prefeito como pessoa física segue a regra própria da seção 2.
 
 **Notícia boa não é propaganda.** O texto segue a régua da casa: tom neutro, sem adjetivo, sem "importante", "histórico" ou "grande conquista" na voz da redação. O entusiasmo, quando houver, vai entre aspas e atribuído. Mesmo espaço e mesmo tratamento para todos os partidos.
 
@@ -73,30 +73,70 @@ Pauta reprovada no teste não vira matéria desta rotina nem ganha categoria de 
 - **Cada execução preenche as vagas livres** entre agora e a próxima execução prevista (até 6 vagas por execução). Se a execução cair dentro de uma hora de vaga livre, a primeira sai "agora"; as demais são agendadas exatamente em HH:00. Vaga que já passou não é recuperada.
 - Uma matéria por vaga. Mais vale deixar uma vaga vazia que preencher com pauta fraca (ver seção 4).
 
-## 2. Parceiros (prioridade nas varreduras)
+## 2. Parceiros por nível (prioridade nas varreduras; decisão do Mário Fernando, 18/11/2026)
 
-Em toda execução, os parceiros são varridos primeiro. Parceiro com fato novo e positivo ganha a vaga antes de qualquer outra pauta. Relacionamento não substitui critério: sem fato novo, a vaga vai para a melhor notícia política do ES.
+Em toda execução, os parceiros são varridos primeiro, na ordem dos níveis abaixo. Parceiro com fato novo e positivo ganha a vaga antes de qualquer outra pauta. Relacionamento não substitui critério: sem fato novo, a vaga vai para a melhor notícia política do ES, de qualquer partido.
 
-**Confira sempre o cargo e o partido na fonte do dia.** Depois das eleições de outubro de 2026 muita gente está em transição: até a posse, escreva "deputado estadual eleito", "senador eleito", "governador eleito"; quem ainda exerce outro mandato é tratado pelo cargo atual (ex.: "o vereador Davi Esmael (Republicanos), eleito deputado estadual"). Posse dos deputados estaduais, federais e senadores: 1º/2/2027; do governador: 6/1/2027.
+**Confira sempre o cargo e o partido na fonte do dia.** Depois das eleições de outubro de 2026 muita gente está em transição: até a posse, escreva "deputado estadual eleito", "senador eleito", "governador eleito"; quem ainda exerce outro mandato é tratado pelo cargo atual (ex.: "o vereador Davi Esmael (Republicanos), eleito deputado estadual"). Posse dos deputados estaduais, federais e senadores: 1º/2/2027; do governador: 6/1/2027. Nomes de prefeitos e partidos das tabelas são referência de nov/2026: houve troca de partido em 2026 (ex.: o prefeito de Guarapari deixou o Republicanos), então nunca copie o partido da tabela sem conferir.
+
+**Nível 1 — prioritários** (varridos em toda execução, antes de todos)
+
+| Parceiro | Situação em nov/2026 | O que cobrir |
+|---|---|---|
+| Renato Casagrande (PSB) | Ex-governador; senador eleito em 2026, posse em 1º/2/2027 | Até a posse: diplomação, anúncio de recurso ou projeto para o ES feito por ele, decisão partidária formal (convenção, federação, cargo no partido), homenagem com conteúdo. Depois: mandato de senador (projetos, relatorias, votos, emendas a municípios). |
+| Ricardo Ferraço | Governador até a posse do sucessor, em 6/1/2027 | Atos de governador (sanção, decreto, convênio, ordem de serviço, entrega, nomeação), transição com o governo eleito e balanço oficial de gestão com números da fonte. Em 6/1/2027 sai do nível 1; depois, só com fato novo (cargo, nomeação, homenagem). |
+| Helder Salomão (PT) | Deputado federal até 31/1/2027; disputou o governo em 2026 e não volta à Câmara | Até 31/1/2027: projetos, relatorias, aprovações e emendas destinadas a municípios. Depois: só com fato novo (cargo, nomeação, função partidária, homenagem). Rever com o Mário Fernando em janeiro de 2027. |
+
+**Nível 2** (varridos em toda execução, logo depois do nível 1)
+
+| Parceiro | Situação em nov/2026 |
+|---|---|
+| Davi Esmael (Republicanos) | Vereador de Vitória e deputado estadual eleito (posse 1º/2/2027). Até lá, cobrir a atuação na Câmara de Vitória (foi relator do orçamento 2027 da capital). |
+| Coronel Ramalho (Republicanos) | Deputado federal eleito, primeiro mandato (posse 1º/2/2027). Confirmar se ainda ocupa cargo público antes de citar. |
+| Evair de Melo (Republicanos) | Deputado federal até 31/1/2027 e senador eleito (posse 1º/2/2027): cobrir os dois papéis. |
+| Victor Coelho (PSB) | Deputado estadual eleito em 2026; confirmar o mandato atual na fonte do dia. |
+| Manu (Emanuela Pedroso, PSB) | Deputada federal eleita (posse 1º/2/2027). Primeira menção: "a deputada federal eleita Manu (PSB)". |
+| João Coser (PT) | Deputado federal eleito (posse 1º/2/2027). |
+
+**Nível 3 — municípios e prefeitos** (a cidade, a prefeitura, a câmara municipal e o prefeito)
+
+| Município | Prefeito (confirmar na fonte do dia) | Observação |
+|---|---|---|
+| Conceição da Barra | Erivan Tavares | Prefeito também como pessoa física |
+| São Mateus | Marcus da Cozivip | Prefeito também como pessoa física |
+| Vila Velha | Arnaldinho Borgo | Prefeito também como pessoa física |
+| Serra | Weverson Meireles | |
+| Anchieta | Léo Português | |
+| Aracruz | Dr. Coutinho | Junto: a deputada estadual eleita Jeesala Coutinho (MDB), filha do prefeito (posse 1º/2/2027) |
+| Cariacica | Euclério Sampaio | |
+| Viana | Wanderson Bueno | |
+| Guarapari | Rodrigo Borges | |
+
+**Prefeito como pessoa física (Conceição da Barra, São Mateus e Vila Velha).** Além dos atos de governo municipal, entra o prefeito como figura pública quando houver fato: prêmio, título, homenagem ou comenda recebidos (quem dá e por quê); eleição ou nomeação para cargo em entidade (Amunes, CNM, consórcio intermunicipal, partido); fala ou anúncio em evento estadual, nacional ou internacional; entrevista ou artigo para os veículos da casa (**ES Brasil**, Destinos ES, ES Brasil Play); missão oficial com resultado. Continua fora: aniversário, "parabéns", agenda sem anúncio, foto com apoiador, vida privada e família (salvo ato público) e qualquer texto com cara de campanha. Antes do calendário eleitoral de 2028, rever esta regra com o Mário Fernando.
+
+**Fixos de cobertura institucional** (fora dos níveis, mas sempre varridos): governador eleito Lorenzo Pazolini e equipe de transição; Governo do ES (vice, secretarias, autarquias e empresas do Estado, só com ato político, seção 0.1); presidência da Ales.
+
+**Nível 4 — demais parceiros** (varridos em rodízio)
 
 | Grupo | Parceiros |
 |---|---|
-| **Assembleia Legislativa (Ales)** | Presidência (Marcelo Santos, presidente da Ales; eleito deputado federal em 2026); deputados Vandinho Leite, Dary Pagung, Delegado Danilo Bahiense, Alcântaro Filho, Mazinho dos Anjos, Jeesala Coutinho, Davi Esmael, Karla Coser, Fabrício Gandini, Capitão Assumção, Victor Coelho e Pastor Dinho Souza |
-| **Bancada federal** | Coronel Ramalho, Marcelo Santos, Manu, João Coser, Gilson Daniel, Jack Rocha e Helder Salomão |
-| **Senado** | Renato Casagrande e Evair de Melo (senadores eleitos em 2026) |
-| **Governo do ES** | Governador (Ricardo Ferraço até 6/1/2027), vice, secretarias, autarquias e empresas do Estado (Sesa, Sedu, Sesp, Seag, Sedurb, DER-ES, Detran, Cesan, Banestes, Bandes etc.); governador eleito Lorenzo Pazolini e equipe de transição |
-| **Prefeituras e câmaras** | Presidente Kennedy, Marataízes, Cachoeiro de Itapemirim, Venda Nova do Imigrante, Vargem Alta, Cariacica, Serra, Vila Velha, Vitória, Guarapari, Anchieta, Aracruz, Linhares, São Mateus, Conceição da Barra, Domingos Martins e Santa Teresa |
+| **Assembleia Legislativa (Ales)** | Presidência (Marcelo Santos, presidente da Ales; eleito deputado federal em 2026); deputados Vandinho Leite, Dary Pagung, Delegado Danilo Bahiense, Alcântaro Filho, Mazinho dos Anjos, Karla Coser, Fabrício Gandini, Capitão Assumção e Pastor Dinho Souza |
+| **Bancada federal** | Marcelo Santos, Gilson Daniel e Jack Rocha |
+| **Prefeituras e câmaras** | Presidente Kennedy, Marataízes, Cachoeiro de Itapemirim, Venda Nova do Imigrante, Vargem Alta, Vitória, Linhares, Domingos Martins e Santa Teresa |
 | **Judiciário** | Tribunal de Justiça (TJES): agenda institucional (posse, eleição da mesa, inauguração de fórum, ato ou programa criado por resolução, acordo com outro poder). Mutirão, conciliação e serviço ao cidadão são Serviço, não Política (seção 0.1). Nunca decisão contra pessoa, empresa ou político. |
 | **Tribunal de Contas (TCE-ES)** | Só boa notícia e importante, pela exceção da seção 2.1 da skill-base (decisão do Mário Fernando, 05/11/2026). |
 
 **TCE-ES — o que entra e o que não entra.** Esta rotina é a única autorizada a publicar matéria que nasce do TCE-ES, e só nestes casos: posse ou eleição de presidente e conselheiros; programa, capacitação ou ferramenta oferecida ao Estado ou aos municípios; prêmio, selo ou ranking positivo de gestão ou transparência (só o lado de quem foi bem); parecer ou decisão pela aprovação das contas do governador ou de prefeito, sem ressalvas; acordo de cooperação com outro poder. Precisa ser **importante**: afeta o Estado ou vários municípios, envolve parceiro ou é marco institucional. Curso, palestra ou evento de rotina fica fora. **Nunca:** auditoria, fiscalização, irregularidade, multa, rejeição de contas, ressalva, cautelar, suspensão de licitação, alerta ou recomendação a gestor, ranking de quem foi mal. Ministério Público, controladorias, TCU e os demais tribunais de contas continuam fora. No máximo 1 matéria do TCE-ES por dia; na dúvida, fica fora.
 
 **Regras do rodízio:**
-1. Ordem de preferência quando há mais de um fato forte: parceiro há mais tempo sem matéria na casa → Governo do ES → Ales → prefeituras parceiras → bancada federal e Senado → TJES e TCE-ES → demais municípios e câmaras.
-2. Não repita o mesmo parceiro ou órgão em duas vagas seguidas; no máximo 3 matérias do mesmo parceiro por dia.
-3. Ao longo do dia, equilibre Executivo, Legislativo e municípios; ao longo da semana, equilibre partidos.
-4. Matéria sobre parceiro é jornalismo: sem "parceiro" no texto, sem adjetivo promocional. Conteúdo pago é Conteúdo de Marca (categoria 13596) e não é feito por esta rotina.
-5. Fato que envolve parceiro mas cai na seção 0 ("nunca entra") ou na 2.1 da skill-base: fica fora e vai para o resumo, marcado "envolve parceiro".
+1. Ordem quando há mais de um fato forte: nível 1 → nível 2 → nível 3 → fixos institucionais (transição, Governo do ES, presidência da Ales) → nível 4 → TJES e TCE-ES → demais municípios e câmaras. Dentro do mesmo nível, vai primeiro quem está há mais tempo sem matéria na casa.
+2. Meta sem forçar: cada nome do nível 1 com pelo menos uma matéria por dia útil quando houver fato; cada nome do nível 2 e cada município do nível 3, ao menos uma por semana quando houver fato. Meta não autoriza matéria sem fato nem notícia requentada.
+3. Não repita o mesmo parceiro ou órgão em duas vagas seguidas; no máximo 3 matérias do mesmo parceiro por dia no nível 1 e 2 nos demais.
+4. A prioridade decide quais fatos entram primeiro, nunca o tom: texto neutro, sem adjetivo, o mesmo tratamento dado a qualquer político. Fato que envolve parceiro e não parceiro (votação, convênio, evento) cita os dois. As vagas que sobram continuam com a melhor notícia política do ES, de qualquer partido, para a editoria não virar vitrine de um grupo só. Ao longo do dia, equilibre Executivo, Legislativo e municípios.
+5. Matéria sobre parceiro é jornalismo: sem "parceiro" no texto, sem adjetivo promocional. Conteúdo pago é Conteúdo de Marca (categoria 13596) e não é feito por esta rotina.
+6. Fato que envolve parceiro mas cai na seção 0 ("nunca entra") ou na 2.1 da skill-base: fica fora e vai para o resumo, marcado "envolve parceiro".
+7. **Emendas aos municípios:** emenda parlamentar de nome do nível 1 ou 2 destinada a município do nível 3 é pauta de alta prioridade. Fonte oficial: site da Câmara ou do Senado, Portal da Transparência ou site da prefeitura que recebe; nunca só a rede social do parlamentar.
+8. **Calendário que muda a lista** (conferir a data na fonte): diplomação dos eleitos pelo TRE-ES em dezembro de 2026; 1º/1/2027, posse das novas mesas das câmaras municipais; 6/1/2027, posse de Lorenzo Pazolini e saída de Ricardo Ferraço do nível 1; 31/1/2027, fim dos mandatos federais de Helder Salomão e Evair de Melo; 1º/2/2027, posse de Renato Casagrande e Evair de Melo no Senado, de Coronel Ramalho, Manu e João Coser na Câmara e de Davi Esmael, Victor Coelho e Jeesala Coutinho na Ales. Na semana de cada data, o resumo avisa que as tabelas desta seção precisam ser atualizadas.
 
 ## 3. Varredura (fontes)
 
@@ -111,14 +151,17 @@ Ordem: lista do que já foi ao ar e rascunhos (trava da skill-base, seção 4) �
 | Prefeitura de Aracruz | aracruz.es.gov.br/noticias/ | WebFetch abre. |
 | Prefeituras de Linhares, Serra e Guarapari | sites oficiais | Linhares tem verificação anti-robô; Serra e Guarapari deram erro no WebFetch: navegador. |
 | Prefeituras de Cachoeiro, Cariacica, Marataízes e Vila Velha | sites oficiais | Bloqueiam leitura automática: navegador. |
-| Demais prefeituras parceiras | Presidente Kennedy, Venda Nova do Imigrante, Vargem Alta, Anchieta, São Mateus, Conceição da Barra, Domingos Martins, Santa Teresa | Testadas em 10/11/2026: Presidente Kennedy (presidentekennedy.es.gov.br/noticias) e Venda Nova (vendanova.es.gov.br/noticias) abrem por WebFetch; Anchieta deu erro e Domingos Martins bloqueia (robots): navegador. As demais ainda não testadas: tente WebFetch e registre no resumo como abriram. |
+| Demais prefeituras parceiras | Presidente Kennedy, Venda Nova do Imigrante, Vargem Alta, Anchieta, São Mateus, Conceição da Barra, Viana, Domingos Martins, Santa Teresa | Abrem por WebFetch (testadas em 10 e 18/11/2026): Presidente Kennedy (presidentekennedy.es.gov.br/noticias), Venda Nova (vendanova.es.gov.br/noticias), São Mateus (saomateus.es.gov.br/noticias) e Conceição da Barra (conceicaodabarra.es.gov.br/noticias). Anchieta, Vargem Alta e Santa Teresa deram erro e Domingos Martins bloqueia (robots): navegador. Viana ainda não testada: tente WebFetch e registre no resumo como abriu. |
+| Câmaras municipais | Vitória (vitoria.es.leg.br), Cariacica (cariacica.es.leg.br) e as dos demais municípios do nível 3 | Vitória e Cariacica bloqueiam leitura automática (robots): navegador. Orçamento (LOA), eleição de mesa e leis dos municípios do nível 3 entram por aqui. |
 | TJES | tjes.jus.br | WebFetch deu erro: navegador, ou notícia achada pela busca. |
 | TCE-ES | tcees.tc.br | Ainda não testado: na primeira execução, tente WebFetch; se não abrir, navegador. Só para a pauta permitida na seção 2. |
 | Câmara dos Deputados e Senado | camara.leg.br/noticias, senado.leg.br/noticias | Projetos, relatorias e aprovações da bancada capixaba. |
 | TRE-ES | tre-es.jus.br | Diplomação e calendário (só dado oficial). |
 | Imprensa capixaba | A Gazeta, Folha Vitória, ES Hoje, A Tribuna (Tribuna Online), Século Diário | Pista de pauta e aspas exclusivas (seção 5). ES Hoje bloqueia leitura automática do feed. |
 
-**Navegador na medida (economia do plano):** por execução, no máximo 4 listas no navegador — a Ales sempre, mais até 3 prefeituras em rodízio ao longo do dia, para que as 17 sejam vistas pelo menos uma vez por dia útil. Notícia de gabinete ou de prefeitura achada pela busca (WebSearch modo standard, com o nome do parceiro e o mês) também vale, desde que a fonte oficial seja aberta antes de escrever.
+**Navegador na medida (economia do plano):** por execução, no máximo 4 listas no navegador — a Ales sempre, mais até 3 prefeituras ou câmaras em rodízio, com prioridade para o nível 3 que só abre no navegador (Vila Velha, Serra, Cariacica, Guarapari e Anchieta, e as câmaras de Vitória e Cariacica quando houver votação ou eleição de mesa), para que cada uma seja vista pelo menos uma vez por dia útil; as do nível 4 que só abrem no navegador entram em rodízio ao longo da semana. Notícia de gabinete ou de prefeitura achada pela busca (WebSearch modo standard, com o nome do parceiro e o mês) também vale, desde que a fonte oficial seja aberta antes de escrever.
+
+**Sem navegador.** Se o Claude in Chrome não estiver conectado, não tente outro caminho para os sites bloqueados (nada de raspagem). Faça uma busca WebSearch (modo standard) com o nome de cada parceiro dos níveis 1 e 2, o mês e o ano, e escreva só o que tiver fonte oficial que abre por WebFetch. Pauta boa que depende de site bloqueado vai para o resumo em "Pendente de fonte oficial", com a pista e a data do fato, para a próxima rodada com navegador confirmar e publicar. Registre "navegador fora" em Pendências.
 
 **Validade do fato:** últimas 48 horas nos dias úteis; 72 horas na segunda-feira e no fim de semana. Até 7 dias só se a casa ainda não deu o fato e ele não perdeu o valor (ex.: lei publicada, ordem de serviço com etapas pela frente). Data do fato sempre no texto ("na quinta-feira (29)").
 
@@ -187,5 +230,7 @@ Parte própria:
 - **Vagas:** hora → título (link no ar ou "agendada"), chapéu, parceiro (sim/não e qual), fonte oficial, nota SEO, imagem (real / ilustrativa / IA);
 - **Aspas de outro veículo:** veículo, autor da declaração e matéria (ou "nenhuma");
 - **Parceiros varridos sem fato novo** e sites que não abriram;
+- **Prioritários:** quem dos níveis 1 e 2 teve matéria no dia e quem foi varrido sem fato; avisos do calendário da seção 2 (regra 8);
+- **Pendente de fonte oficial:** pauta boa que depende de site bloqueado (pista, data do fato e site que falta abrir);
 - **Fora:** título e motivo (linha editorial, outra editoria (<tema>), pauta proibida 2.1, duplicado, superado, sem fonte oficial), com "envolve parceiro" quando for o caso;
 - **Vagas sem fato novo.**
