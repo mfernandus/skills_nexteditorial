@@ -113,8 +113,9 @@ Qualquer computador em que a skill estiver rodando (pelo app do Claude vinculado
 4. Legendas em blocos de até 4 palavras, com revisão de nomes próprios, siglas e números; remova falas do entrevistador nas pontas.
 5. Tarja do vídeo original: detectar por cor nos quadros e desfocar só nos intervalos em que aparece; ajustar `centro_x` para não cortar o logo do canal pela metade.
 6. Montagem e capa, conforme o kit do canal:
-   - **ES Brasil e Destinos ES** (kit em `Documents/Claude Skills/youtube-esbrasil-titulos`): moldura com `gerar_short_esbrasil.py moldura` + montagem com `montar_short.py`; capa com `gerar_short_esbrasil.py capa` sobre quadro em 1080p.
-   - **Comunhão** (kit na própria skill `youtube-comunhao-titulos`): montagem com `cortar_shorts.py video.mp4 shorts.json pasta [legendas.srt]`, que chama `gerar_visual_short.py moldura`; capa com `gerar_visual_short.py capa` sobre quadro em 1080p. Não existe `montar_short.py` nesse kit.
+   - **Corte limpo nos dois canais (desde 18/11/2026):** nada de moldura. O vídeo ocupa a tela inteira e leva por cima só os selos e a legenda. Selos: logo do programa no canto esquerdo e quadradinho da marca (ESB ou COM) no direito; Short sem programa leva só o quadradinho. Programa sem logo oficial no kit vira pendência na Central e o Short sai só com o quadradinho.
+   - **ES Brasil e Destinos ES** (kit em `Documents/Claude Skills/youtube-esbrasil-titulos`): montagem pelo comando ffmpeg do Passo 13, item 7, da `youtube-esbrasil-titulos`, com a camada `selos_[programa].png`; `montar_short.py` e o modo `moldura` não se usam mais. Capa com `gerar_short_esbrasil.py capa` sobre quadro em 1080p.
+   - **Comunhão** (kit na própria skill `youtube-comunhao-titulos`): montagem pelo comando ffmpeg do Passo 13, item 7, da `youtube-comunhao-titulos`, com a camada `selos_[programa].png`; o `cortar_shorts.py` e o modo `moldura` não se usam mais para montar. Capa com `gerar_visual_short.py capa` sobre quadro em 1080p.
    - Nos dois casos, apague por inpaint o logo do canal que aparece no quadro usado na capa.
 7. Versão de envio ≤ 10 MB (H.264 duas passagens), gravada na máquina local e trazida para o envio.
 
@@ -138,7 +139,7 @@ Os mesmos cortes feitos para o YouTube ficam disponíveis para as outras redes n
 
 1. **Estrutura no Drive:** `Shorts Next/<canal>/<AAAA-MM-DD> <convidado>/` (canais: ES Brasil, Comunhão, Destinos ES, Next Editorial). Crie a pasta do convidado pelo conector do Google Drive se ela ainda não existir.
 2. **O que vai em cada pasta:**
-   - os Shorts em **qualidade máxima** (`short_01.mp4`…), não a versão de envio ≤ 10 MB: 1080×1920, H.264, AAC, legenda queimada;
+   - os Shorts em **qualidade máxima** (`short_01.mp4`…), não a versão de envio ≤ 10 MB: 1080×1920, H.264, AAC, corte limpo com selos e legenda queimada (o mesmo arquivo do YouTube);
    - as capas dos Shorts (`capa_short_01.jpg`…), que servem como capa no Reels e no TikTok;
    - um Google Doc **"Legendas para redes – <convidado>"** com, para cada Short: título curto, legenda para Instagram/Facebook, legenda para TikTok, hashtags e o link do vídeo completo.
 3. **Regras das legendas:**
