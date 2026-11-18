@@ -51,7 +51,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 ## 02 Distribuição
 
 - **youtube-comunhao-titulos** — Publica de ponta a ponta um vídeo da Revista Comunhão no YouTube: títulos A/B, descrição, tags, cards, tela final, capa publicada e 3 a 5 Shorts com capa, prontos no canal. Download do original já liberado.
-- **youtube-esbrasil-titulos** — Publica de ponta a ponta um vídeo do canal **revista ES Brasil** no YouTube: títulos A/B, descrição, capítulos, tags, cards, tela final, playlists, capa nos templates **ES Brasil** Entrevista, Destinos ES e **Café com Moqueca**, e 3 a 5 Shorts com moldura e capa oficiais. Pergunta o tipo de capa no início e pede ok antes de salvar no Studio. Download do original já liberado.
+- **youtube-esbrasil-titulos** — Publica de ponta a ponta um vídeo do canal **Revista ES Brasil** no YouTube: títulos A/B, descrição, capítulos, tags, cards, tela final, playlists, capa nos templates **ES Brasil** Entrevista, Destinos ES e **Café com Moqueca**, e 3 a 5 Shorts no corte limpo dos Reels, com capa oficial. Pergunta o tipo de capa no início e pede ok antes de salvar no Studio. Download do original já liberado.
 - **youtube-lote-noturno-next** — Roda em lote, por comando, a atualização dos vídeos dos canais da Next Editorial no YouTube em modo noturno, com teste A/B nativo de capas, Shorts exportados para as redes e a Central sempre atualizada.
 - **youtube-playlists-next** — Organiza e mantém as playlists e a página inicial dos canais **revista ES Brasil** e Revista Comunhão no YouTube, no modelo em camadas (programa, editoria, tema, especial, cortes): inventário, diagnóstico, plano para aprovação, aplicação no Studio depois do ok e manutenção semanal.
 

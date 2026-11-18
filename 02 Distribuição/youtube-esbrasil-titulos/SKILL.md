@@ -1,6 +1,6 @@
 ---
 name: "youtube-esbrasil-titulos"
-description: "Publica de ponta a ponta um vídeo do canal Revista ES Brasil no YouTube: títulos A/B, descrição, capítulos, tags, cards, tela final, playlists, capa nos templates ES Brasil Entrevista, Destinos ES e Café com Moqueca, e 3 a 5 Shorts com moldura e capa oficiais. Pergunta o tipo de capa no início e pede ok antes de salvar no Studio. Download do original já liberado."
+description: "Publica de ponta a ponta um vídeo do canal Revista ES Brasil no YouTube: títulos A/B, descrição, capítulos, tags, cards, tela final, playlists, capa nos templates ES Brasil Entrevista, Destinos ES e Café com Moqueca, e 3 a 5 Shorts no corte limpo dos Reels, com capa oficial. Pergunta o tipo de capa no início e pede ok antes de salvar no Studio. Download do original já liberado."
 ---
 
 # Pacote de publicação no YouTube — Revista ES Brasil
@@ -22,13 +22,13 @@ Use SEMPRE que alguém da equipe pedir título de vídeo, sugestão de título, 
 | `assets/thumbs/entrevista.png` | Base da capa **ES Brasil Entrevista** (1600×900), sem texto e sem convidado. Selos prontos. |
 | `assets/thumbs/destinos.png` | Base da capa **Destinos ES**: logo, apresentadora (Kamila Rangel) e ES BRASIL play prontos. |
 | `assets/thumbs/cafe.png` | Base da capa **Café com Moqueca**: logo, apresentador (Renzo Colnago) e ES BRASIL play prontos. |
-| `assets/shorts/moldura_esbrasil.png`, `moldura_destinos.png` | Molduras dos Shorts (1080×1920, PNG com a área do vídeo transparente). |
+| `assets/shorts/moldura_esbrasil.png`, `moldura_destinos.png` | Fora de uso desde 18/11/2026: os Shorts saem no corte limpo, sem moldura (Passo 13). Guardadas só como referência. |
 | `assets/shorts/capa_esbrasil.png`, `capa_destinos.png` | Bases das capas (thumbs) dos Shorts, com janela transparente para a foto. |
 | `assets/referencias/` | As artes originais enviadas pelo Mário (02/10/2026). São o gabarito visual. |
 | `assets/fonts/` | Inter ExtraBold Italic, Inter SemiBold Italic e Inter ExtraBold. |
 | `scripts/gerar_thumb_esbrasil.py config.json saida.png` | Monta a capa 1600×900 no template `entrevista`, `destinos` ou `cafe`. Avisa quando a manchete passa da largura útil. Requer `pip install playwright` + Chromium. |
-| `scripts/gerar_short_esbrasil.py moldura\|capa config.json saida.png` | Gera a moldura do Short (título + nome, para aplicar sobre o vídeo) e a capa do Short (foto + título + nome). Marca `esbrasil` ou `destinos`. |
-| `scripts/montar_short.py video.mp4 INICIO FIM moldura.png saida.mp4 [centro_x] [legendas.srt]` | Corta o trecho, põe o vídeo na área livre, aplica a moldura e queima as legendas. Requer `ffmpeg`. |
+| `scripts/gerar_short_esbrasil.py moldura\|capa config.json saida.png` | Gera a capa do Short (foto + título + nome), marca `esbrasil` ou `destinos`. O modo `moldura` saiu de uso em 18/11/2026 (corte limpo). |
+| `scripts/montar_short.py video.mp4 INICIO FIM moldura.png saida.mp4 [centro_x] [legendas.srt]` | Versão antiga, com moldura: não usar. A montagem do corte limpo é o comando ffmpeg do Passo 13, item 7. |
 | `scripts/tratar_foto_esbrasil.py quadro.png recorte.png [0.6]` | Restauração do rosto (GFPGAN, opcional), recorte com refino de cabelo e cor neutra. Requer `rembg`; para a restauração, `gfpgan` e os pesos em `weights/GFPGANv1.4.pth`. |
 | `exemplos/` | Configurações e artes de teste de cada template. |
 
@@ -93,11 +93,11 @@ Se só vier o tema, entregue assim mesmo e indique o que melhoraria com mais inf
 
 **1. No início, pergunte o tipo de capa.** Antes de qualquer outra etapa, pergunte (uma vez só) qual é o tipo do vídeo, porque cada tipo tem a sua arte:
 
-| Resposta | Capa do vídeo | Shorts (moldura e capa) |
+| Resposta | Capa do vídeo | Capa dos Shorts |
 |---|---|---|
 | **ES Brasil Entrevista** | Template `entrevista` — a skill gera e publica. | ES Brasil (azul) |
 | **Destinos ES** | Template `destinos` — a skill gera e publica. | Destinos ES (rosa/roxo) |
-| **Café com Moqueca** | Template `cafe` — a skill gera e publica. | ES Brasil (azul), até existir moldura própria |
+| **Café com Moqueca** | Template `cafe` — a skill gera e publica. | ES Brasil (azul), até existir capa própria |
 | **Coluna** | Arte própria das colunas, ainda não incluída — entregar só textos e foto tratada. | ES Brasil (azul) |
 | **Outro programa ou quadro** (ES Brasil Debate, Diálogos ES Brasil, Direito ao Direito, reportagem, evento) | Arte própria, ainda não incluída — entregar só textos e foto tratada. | ES Brasil (azul) |
 
@@ -559,7 +559,7 @@ Nunca entregue a primeira versão. Para cada capa:
 2. Duração ideal de **30 a 60 segundos** (máximo 90). Corte no início e no fim de frases completas.
 3. **O que rende Short na ES Brasil:** um dado com a explicação junto, uma previsão ou tendência, um conselho prático para quem empreende ou administra, uma tese forte de quem tem autoridade no assunto, uma explicação didática de tema técnico.
    **O que evitar:** número sem o contexto (período, fonte, base de comparação); crítica ou acusação a pessoa ou empresa nomeada; fala política que soe como pedido de voto, ataque a adversário ou previsão de resultado; pesquisa eleitoral sem instituto e recorte; trecho que funcione como propaganda da empresa do convidado; informação que o convidado tratou como reservada; falas fora de contexto.
-4. Para cada Short: tempos, duração, título do YouTube (até 40 caracteres, palavra-chave no início, terminando em #Shorts), **título da moldura (2 linhas, máximo de 30 caracteres no total)** e descrição neste modelo:
+4. Para cada Short: tempos, duração, título do YouTube (até 40 caracteres, palavra-chave no início, terminando em #Shorts), **título da capa do Short (2 linhas, máximo de 30 caracteres no total)** e descrição neste modelo:
    ```
    [1–2 frases com a palavra-chave, o nome e o cargo do convidado]
 
@@ -571,17 +571,34 @@ Nunca entregue a primeira versão. Para cada capa:
    ```
 5. **Arquivo original — download liberado, sem pergunta:** Studio → vídeo → ⋮ (Opções, ao lado de Salvar) → **Baixar**. **Não pergunte "posso baixar?"**: o download do original do próprio canal já está autorizado (ver "Download liberado", na Execução completa). Avise em uma linha o que está sendo baixado (nome do arquivo, origem e tamanho) e siga. O arquivo vai para **Downloads** do computador. Peça acesso à pasta Downloads uma vez. Se o envio direto do arquivo inteiro para o ambiente de trabalho for recusado (arquivo grande ou "hardlinked"), **corte os trechos brutos no próprio computador** com ffmpeg (`-ss início -t duração -c copy`, com 1 s de folga de cada lado) e traga só os trechos.
 6. **Tempo exato por palavra:** transcreva cada trecho com faster-whisper (modelo `small`, `language='pt'`, `word_timestamps=True`). Use os tempos das palavras para cortar no começo e no fim da frase e para as legendas. Confira a grafia de nomes próprios, empresas, siglas e números nas legendas — o reconhecimento automático erra justamente neles. (Alternativa: `.srt` do Studio → Legendas → ⋮ → Baixar.)
-7. **Montagem 1080×1920 (30 fps, H.264 + AAC) com a moldura oficial:**
-   - **Moldura** (PNG 1080×1920, com a área do vídeo transparente): `moldura_esbrasil.png` (azul) para os programas da ES Brasil; `moldura_destinos.png` (rosa/roxo) só para Destinos ES. Café com Moqueca usa a azul até existir moldura própria.
-   - **Área livre para o vídeo: 1080×1260**, de y=352 a y=1612. O vídeo é escalado para 1260 px de altura e cortado em 1080 px centrado no rosto (`centro_x`); a moldura vai por cima. Em debates e entrevistas com dois enquadramentos, o corte acompanha quem está falando.
-   - **Título** (faixa de cima): 2 linhas, Inter ExtraBold Italic, **corpo 22** (91,67 px), entrelinha 22, entreletras −35, **máximo de 30 caracteres**, centralizado, branco, inclinado a −4,85°.
-   - **Nome**: 1 linha, Inter SemiBold Italic, **corpo 11** (45,83 px), entreletras −35, centralizado, abaixo do título.
-   - Corpo em pontos a 300 dpi (1 pt = 4,1667 px); entreletras em milésimos do corpo. O rodapé com **ES BRASIL play** já vem na moldura.
-   - **Legendas queimadas** dentro da área do vídeo: Inter ExtraBold, ~80 px, brancas com contorno escuro, blocos de até 4 palavras, logo acima do rodapé.
-   - Se a tarja com nome/cargo do vídeo original aparecer cortada no enquadramento vertical, **desfoque a tarja** no intervalo em que ela aparece.
+7. **Montagem 1080×1920 (30 fps, H.264 + AAC) no corte limpo — o mesmo padrão dos Reels da ES Brasil no Instagram (desde 18/11/2026, decisão do Mário Fernando):**
+   - **Sem moldura:** nada de faixa de título em cima nem rodapé com a marca. O vídeo ocupa a tela inteira e o único elemento sobre ele é a legenda. Título, nome do convidado e marca ficam na capa do Short (item 8), no título e na descrição.
+   - **Enquadramento:** corte vertical 9:16 na altura inteira do original (largura = altura × 9/16), centrado no rosto de quem fala (`centro_x`, de 0 a 1), escalado para 1080×1920 com lanczos. Em debates e entrevistas com dois enquadramentos, o corte acompanha quem está falando (divida o trecho em partes e troque o `centro_x` em cada uma). Plano aberto com duas pessoas não funciona no vertical: prefira trechos em plano fechado.
+   - **Qualidade:** monte sempre a partir do original baixado pelo Studio, na maior resolução disponível. O corte vertical amplia o quadro (num original 1080p, 1,78×); nunca use cópia comprimida.
+   - **Legendas queimadas:** Inter ExtraBold, brancas com contorno escuro, blocos de até 4 palavras, centralizadas, com a base em y≈1450. Deixe livres as áreas que o YouTube e o Instagram cobrem com botões e textos: 420 px de baixo, 220 px de cima e 120 px de cada lado.
+   - Se a tarja com nome/cargo do vídeo original aparecer cortada no enquadramento vertical, **desfoque a tarja** no intervalo em que ela aparece. As marcas d'água dos cantos do original (logo do programa, marca ES Brasil) normalmente ficam fora do corte; se um pedaço entrar, ajuste o `centro_x` para tirá-lo.
    - Fade de áudio de 0,15 s na entrada e 0,3 s na saída.
-   - Como fazer: `gerar_short_esbrasil.py moldura` gera a moldura com o título e o nome daquele Short; `montar_short.py` corta o trecho, encaixa o vídeo e aplica a moldura e as legendas.
-8. **Capa de cada Short (1080×1920):** base `capa_esbrasil.png` ou `capa_destinos.png`, conforme a moldura. Logo no alto; foto do convidado na janela (de y=357 até a faixa inclinada); faixa com o **mesmo título da moldura** (2 linhas, máximo de 30 caracteres) e o nome; ES BRASIL play embaixo.
+   - Como fazer (ffmpeg, sem depender do kit): gere as legendas do trecho em `.ass` (tempos por palavra do item 6) com este cabeçalho e estilo:
+     ```
+     [Script Info]
+     ScriptType: v4.00+
+     PlayResX: 1080
+     PlayResY: 1920
+
+     [V4+ Styles]
+     Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding
+     Style: Legenda,Inter ExtraBold,96,&H00FFFFFF,&H00FFFFFF,&H00201010,&H64000000,0,0,0,0,100,100,0,0,1,6,2,2,120,120,470,1
+     ```
+     e monte o Short (CX = `centro_x`; DURACAO = FIM − INICIO, em segundos):
+     ```
+     ffmpeg -ss INICIO -to FIM -i original.mp4 \
+       -vf "crop=w='ih*9/16':h=ih:x='min(max(iw*CX-ih*9/32,0),iw-ih*9/16)':y=0,scale=1080:1920:flags=lanczos,setsar=1,subtitles=legendas.ass" \
+       -af "afade=t=in:d=0.15,afade=t=out:st=DURACAO-0.3:d=0.3" \
+       -r 30 -c:v libx264 -preset veryfast -crf 18 -pix_fmt yuv420p -c:a aac -b:a 128k -movflags +faststart short_01.mp4
+     ```
+     Comando testado em 18/11/2026. O `montar_short.py` do kit aplica a moldura antiga: não use.
+   - **Um arquivo só para todas as redes:** o Short limpo é o mesmo que segue para Instagram, TikTok e Facebook (exportação da skill `youtube-lote-noturno-next`), sem versão separada.
+8. **Capa de cada Short (1080×1920):** base `capa_esbrasil.png` (azul) ou `capa_destinos.png` (rosa/roxo, só Destinos ES), conforme a tabela de "Antes de executar". A capa continua no template: é ela que leva título, nome e marca, já que o vídeo sai limpo, e serve também de capa no Reels e no TikTok. Logo no alto; foto do convidado na janela (de y=357 até a faixa inclinada); faixa com o **título da capa do Short** (item 4: 2 linhas, máximo de 30 caracteres) e o nome; ES BRASIL play embaixo.
    - Título: Inter ExtraBold Italic, corpo 29 (120 px), entrelinha 1,0, entreletras −35. Nome: Inter SemiBold Italic, corpo 14 (58 px). Centralizados e inclinados a −4,85°. Essas medidas foram tiradas da arte de referência.
    - Foto: quadro do convidado com olhos abertos e sem tarja, rosto no centro da janela (`centro_x`, `centro_y`). Não precisa recortar o fundo.
    - Como fazer: `gerar_short_esbrasil.py capa`. Exporte em JPG com menos de 2 MB para enviar ao Studio. Gere todas as capas e confira lado a lado com `assets/referencias/`.
@@ -613,7 +630,7 @@ Em blocos fáceis de copiar, nesta ordem:
 8. Cards: tabela no padrão do Passo 10 (perfil/canal, site, playlist da categoria, próximo vídeo) + comentário fixado com site e Instagram
 9. Playlists: marcadas x corretas (programa + categoria + tema, se houver), pendências e mensagem ao administrador (se houver)
 10. Capa: tipo de capa respondido no início; manchetes A e B, nome e foto tratada. Para ES Brasil Entrevista, Destinos ES e Café com Moqueca, a capa escolhida após a avaliação 12.6, com a frase que explica por que venceu; para colunas e outros quadros, a pendência do template
-11. Shorts: tabela com 3 a 5 recortes (tempos, título do YouTube, título da moldura, playlist de cortes que recebe o Short quando ficar público) + capas
+11. Shorts: tabela com 3 a 5 recortes (tempos, título do YouTube, título da capa, `centro_x`, playlist de cortes que recebe o Short quando ficar público) + capas
 12. Checklist de publicação:
     - Palavra-chave no título, na 1ª linha da descrição, em um capítulo e nas tags
     - Título não começa com o nome do programa
@@ -627,7 +644,7 @@ Em blocos fáceis de copiar, nesta ordem:
     - Capa no template do programa (entrevista: até 3 linhas, ≤ 42 caracteres; Destinos ES: 2 linhas, até 6 palavras, ≤ 34 caracteres, nenhuma linha acima de 945 px, entrelinha 0,92; Café com Moqueca: 2 linhas, ≤ 34), Inter itálico, elementos fixos intactos, foto tratada sem luz colorida, versão escolhida por avaliação. Colunas e outros quadros: só textos e foto, com pendência
     - Ok final recebido antes de salvar qualquer coisa no Studio
     - Original baixado pelo Studio (download liberado) e trechos cortados
-    - 3 a 5 Shorts na moldura oficial (vídeo na área de 1080×1260, título em 2 linhas com até 30 caracteres, nome), com legenda e capa no template, publicados como privados, com vídeo relacionado
+    - 3 a 5 Shorts no corte limpo (vídeo em tela cheia 1080×1920, sem faixa de título nem rodapé, só a legenda dentro da área segura), com capa no template (título em 2 linhas com até 30 caracteres e nome), publicados como privados, com vídeo relacionado
     - Short que ficar público: na playlist de cortes do programa (Cortes | [programa]), e em nenhuma playlist de vídeo longo
     - Tela final com o próximo vídeo da playlist da categoria + essa playlist + inscrição
     - Cards: perfil (canal), site (se liberado), playlist da categoria, próximo vídeo
@@ -657,7 +674,7 @@ A execução completa tem **duas paradas obrigatórias** e nenhuma outra: a perg
 2. Passos 1 a 8: palavra-chave, títulos, par A/B, capítulos, Spotify, UTMs, descrição e tags.
 3. Plano de cards (Passo 10), tela final (Passo 9), comentário fixado (10.1) e checagem de playlists (Passo 11).
 4. Capa (Passo 12). ES Brasil Entrevista, Destinos ES ou Café com Moqueca: tratar a foto, gerar no mínimo 2 versões no template do programa, avaliar (12.6) e escolher. Coluna ou outro quadro: manchetes, nome e foto tratada, com a pendência do template.
-5. Baixar o original (download liberado, sem pergunta), montar os Shorts na moldura oficial e gerar as capas deles (Passo 13), guardando tudo em `Downloads/shorts_esbrasil_[convidado]/`.
+5. Baixar o original (download liberado, sem pergunta), montar os Shorts no corte limpo e gerar as capas deles (Passo 13), guardando tudo em `Downloads/shorts_esbrasil_[convidado]/`.
 
 **Fase 3 — Mostrar o pacote e pedir o ok.** Apresente o pacote no "Formato da entrega", com a capa e as capas dos Shorts à vista, e pergunte se pode salvar no Studio. Se vierem ajustes, refaça só o que foi pedido e mostre de novo.
 
@@ -698,4 +715,4 @@ Aponte em uma linha o que está fraco e entregue o pacote completo novo. Os prob
 - sem tela final, sem os cards padrão, sem comentário fixado;
 - fora da playlist da categoria (só em ES Brasil Entrevista ou na antiga HOME - ESBRASIL), ou em duas editorias, ou na playlist de outro programa;
 - capa no padrão antigo, com o nome ocupando tudo e o tema ilegível no celular (em ES Brasil Entrevista, Destinos ES e Café com Moqueca, refazer no template novo);
-- Shorts sem a moldura oficial ou sem capa no template.
+- Shorts sem capa no template. (Shorts antigos com moldura não precisam ser refeitos; o corte limpo vale para os novos.)
