@@ -1,6 +1,6 @@
 ---
 name: "atualizacao-mapas-destinos-es"
-description: "Atualiza pontos turísticos do mapas.nx.tv.br (Destinos ES): locais próximos novos (comer, ficar, serviços, fazer), fotos NX Fotos e Google com crédito, tags de experiência, textos e informações. Plano antes de gravar."
+description: "Atualiza e enriquece locais do mapas.nx.tv.br (Destinos ES) em qualquer modelo de lote, no padrão único: fotos tratadas e creditadas, curadoria automática e aviso de checagem ao fim."
 ---
 
 # Atualização dos pontos turísticos — mapas.nx.tv.br (Destinos ES)
@@ -9,6 +9,18 @@ Use quando Mário pedir para atualizar, enriquecer ou revisar locais do mapas.nx
 locais próximos novos (restaurantes, cafés, hotéis, pousadas, serviços, atrações), fotos
 (NX Fotos e Google), tags de experiência, descrições e informações importantes.
 Responder sempre em pt-BR.
+
+**Padrão único (19/11/2026).** Esta skill é a cópia que roda do "Padrão de enriquecimento do
+Destinos ES" (arquivo de leitura: `claude/padrao-enriquecimento-destinos-es.md` no projeto Site
+Destinos ES (Novo)). Regra mudou num, muda no outro no mesmo dia. Vale para os seis modelos de
+lote (Passo 1); o modelo muda só a fonte e o escopo — fases, critérios, fotos, curadoria e aviso
+são sempre os mesmos:
+
+escopo e custo → auditoria → plano (ok) → teste no primeiro local → execução → fotos tratadas →
+textos e tags → curadoria automática → fila de curadoria → checagem de fechamento, aviso e registro.
+
+**Todo lote termina com a curadoria (Passo 9) e o aviso de checagem (Passo 10)**, sem Mário
+precisar pedir (regras de 19/11/2026).
 
 ## O sistema
 
@@ -84,7 +96,22 @@ window.api = async function api(path, {method='GET', body}={}) {
 
 ## Passo 1 — Escopo
 
-Entrada aceita: um ponto (nome ou id), um município, uma região, ou "fila".
+Primeiro, dizer qual é o modelo do lote:
+
+| Modelo | Quando | Escopo da curadoria |
+|---|---|---|
+| A · Ponto ou fila | completar pontos turísticos com lacunas | o ponto e os vinculados novos |
+| B · Cidade | enriquecer um município inteiro (varredura por centros e por tipo) | todos os locais do município, antigos inclusive |
+| C · Lista externa | associados de entidade, CNPJ da Receita, lista de parceiro | os locais da lista e as duplicatas achadas |
+| D · Plataforma | notas do Booking/Hotels.com, WhatsApp oficial, Instagram | os locais tocados |
+| E · Fonte editorial de fotos | livro (100 Praias), portal de prefeitura, programa de TV | os locais que receberam foto |
+| F · Vínculos | pontos turísticos sem locais relacionados | o ponto e os vinculados |
+
+Depois, a estimativa de custo do Google (tabela da API antiga: buscas, detalhes e fotos;
+franquia mensal de 5.000 buscas e 5.000 detalhes — o custo real fica nas fotos) e do plano
+Claude (lote grande = várias sessões). Vai no plano (Passo 7).
+
+Entrada aceita no modelo A: um ponto (nome ou id), um município, uma região, ou "fila".
 Sem escopo → **fila**: os 10 pontos com maior pontuação de lacuna:
 
 | Lacuna | Pontos |
@@ -147,55 +174,79 @@ esta linha de base no relatório.
 ## Passo 3 — Locais próximos novos
 
 1. Carregar uma vez por execução a base inteira (`/api/mapa?page=1..N`) para deduplicar.
-2. Buscar pelo servidor:
-   `GET /api/mapa/external-nearby-places-by-category` com
-   `lat`, `lng`, `radius_km`, `category` (`onde_comer` | `onde_ficar` | `servicos` | `o_que_fazer`),
-   `limit` (50), `offset`. Raio: 5 km; se não atingir a meta, 10 km; em serra/rural, até 15 km.
+2. Buscar pelo servidor (rotas que funcionam desde 14/11/2026):
+   `GET /api/google-api/place/nearby?latitude&longitude&radius&use_cache` (as 4 categorias de uma
+   vez, até ~300 lugares por chamada) e `GET /api/google-api/place/textsearch?query&language&region`
+   (20 por consulta: tipo + localidade); detalhe por `GET /api/google-api/place/details?place_id`.
+   `/api/mapa/external-nearby-places*` devolveu zero em 14/11: não usar. Modelo B: varrer por
+   centros (sede, bairros, orla, distritos, vilas) e por tipo em cada centro.
    O site mostra a distância de cada vinculado, então ela tem de ser real.
 3. Filtrar:
-   - aberto/operando; dentro do ES; registrar a distância até o ponto;
-   - **Onde comer** (restaurantes, cafés, padarias, bares com comida): nota ≥ 4,0 com ≥ 15
-     avaliações (cidade pequena: ≥ 4,5 com ≥ 5);
-   - **Onde ficar** (hotéis, pousadas, chalés, campings): nota ≥ 4,0 com ≥ 10 avaliações;
-     sem motel, salvo pedido;
-   - **Serviços**: o essencial mais próximo de cada tipo — farmácia, posto, caixa 24h,
-     hospital/UPA, supermercado, estacionamento, delegacia;
+   - aberto/operando; dentro do ES e no município certo (endereço do Google e coordenada;
+     cuidado com homônimos: bairro São Mateus em SP, Mucuri-BA, Martins-RN); registrar a
+     distância até o ponto;
+   - **Onde comer**: 4,0+ com 10+ avaliações. Sede de cidade com mais de 100 mil habitantes:
+     restaurante 4,2+ com 20+ (ou 4,0+ com 80+); bar, padaria, lanchonete, açaí e sorveteria
+     4,2+ com 40+. Vila ou zona rural com menos de 3 opções que passem: 4,5+ com 5+;
+   - **Onde ficar** (hotéis, pousadas, chalés, campings): aberta com 5+ avaliações, sem corte
+     de nota; sem motel, salvo lista de associado (modelo C) ou pedido de Mário;
+   - **Serviços**: o essencial por localidade. Sede: até 4 farmácias, 3 postos, 3
+     supermercados, 4 bancos ou caixas 24h, hospital/UPA, delegacia ou polícia, rodoviária.
+     Distrito ou vila: 1 a 2 de cada;
    - **O que fazer**: atrações que ainda não existem na base. Se parecer relevante como
      ponto turístico, só **sugerir** a promoção — não marcar `pontoturistico` sozinho.
      Lembrar que a promoção muda a contagem de atrações da cidade no site (ex.: o Grande Buda,
      id 6251, está no carrossel da home mas não é ponto turístico, e Ibiraçu aparece com zero).
 4. Deduplicar contra a base: mesmo `cid`/place id, ou nome normalizado (sem acento, sem
-   "restaurante/pousada/hotel/café") a menos de 150 m. Já existe mas não vinculado → só vincular.
+   "restaurante/pousada/hotel/café") a até 250 m. Já existe → não cria: completa e vincula.
 5. Todo local vinculado precisa de categoria com `tipo_categoria` (O que fazer · Onde comer ·
    Onde ficar · Serviços): sem isso o site o esconde. O site também esconde vinculado com o
    mesmo nome do ponto.
-6. Metas por execução e por ponto: até 5 comer, 3 ficar, 4 serviços, 3 fazer.
+6. Vínculos (todo modelo): cada local vai para os pontos turísticos a até 10 km (15 km em serra
+   e zona rural), no máximo 8 pontos por local, os mais próximos; ponto novo ou sem relacionados
+   recebe todos os locais do raio. Só no modelo A valem as metas por ponto: até 5 comer, 3 ficar,
+   4 serviços, 3 fazer.
 7. Nunca inventar estabelecimento: só entra o que veio da busca, com endereço e coordenadas.
+8. **Ficha mínima de todo local novo ou completado**: título do Google em português sem sufixo
+   de SEO; endereço e coordenadas; categoria com tipo, a mais representativa primeiro; celular
+   de 9 dígitos começando por 9 como WhatsApp (fixo só com link wa.me no site do lugar); site do
+   próprio lugar; horário no formato do painel; faixa de preço pelo price_level; nota, total e
+   link do Google no resumo de avaliações (Booking e Hotels.com em `breakdown_data`: nota,
+   avaliacoes, link, coletado_em — só o que bate em nome e cidade); resumo de card e tags
+   (Passos 5 e 6); fotos (Passo 4); vínculos (item 6); verificação desmarcada com a observação
+   no formato do Passo 8.
 
 ## Passo 4 — Fotos (NX Fotos primeiro, Google depois, sempre com crédito e tratadas)
 
 O site mostra legenda e crédito em cada foto e promete imagens "sempre creditadas".
 
-Vale para **todo local**, não só ponto turístico: restaurante, hospedagem, serviço ou atração
-sempre passa primeiro pelo NX Fotos; Google só quando o NX Fotos não tiver o lugar.
-Toda foto, do NX Fotos ou do Google, passa pelo tratamento (item 7) antes de subir.
+Vale para **todo local e todo modelo de lote**, não só ponto turístico: restaurante, hospedagem,
+serviço ou atração sempre passa primeiro pelo NX Fotos. Origem, nesta ordem (decisão de Mário,
+19/11/2026): NX Fotos (Claude escolhe as melhores) → Google com autor → outros meios, quando os
+dois não bastam: Instagram do próprio local, parceiro com cessão por escrito (prefeitura, livro,
+programa) e guia cadastrado. Nunca busca de imagens da web nem imagem de IA em lugar real.
+**Instagram do local**: só fotos publicadas pelo perfil oficial do estabelecimento ou da
+atração, que mostrem o lugar (nada de repost de cliente ou de influenciador, nem foto de agência
+ou banco de imagem); crédito "@perfil / Instagram". Escolha pontual, perfil a perfil, no Chrome
+de Mário — sem varredura em massa, porque o Instagram bloqueia robôs. O instagram.com precisa
+estar liberado na extensão (em 14/11 o acesso foi barrado pela permissão da sessão).
+Toda foto que a rodada sobe passa pelo tratamento (item 7), ganha a marca no nome do arquivo
+(item 3) e fica com cópia local (item 2). Mínimo de 5 fotos em ponto turístico (máximo 12) e 3
+nos demais locais (do Google, até 3 por local).
 
 1. **Escolher no NX Fotos** (MCP `NXFOTOS`): `buscar` com `q` = nome do ponto; depois nome +
    município; depois `sugestoes_de_filtro` para achar o `local` exato; olhar com
    `mostrar_imagens`. Aceitar só fotos que sejam do lugar (título, descrição, tags ou
    geolocalização batem). Preferir horizontal, largura ≥ 1600, licença `rf`. Até 4 novas por
    ponto; total do ponto até 12.
-2. **Gravar cópia local** (padrão da casa: todas as fotos dos pontos ficam em mapas.nx.tv.br):
-   - caminho preferido, a importação do próprio painel:
-     `POST /api/photoprism/search` `{query, count, offset}` →
-     `POST /api/photoprism/save-images-optimized`
-     `{images:[{uid, hash, url, name, width, height}], optimization_level:"cache_full"}` →
-     URL local. Em 07/11 essas rotas responderam erro sem login: testar logado no primeiro
-     ponto da rodada;
-   - se a importação falhar: `POST /api/mapa/{id}/images` com a URL `src.large` do CDN do
-     NX Fotos e conferir em `GET /api/mapa/{id}/images` se virou URL local; se continuar no
-     CDN, registrar no relatório.
-   - **caminho que funciona (17/11/2026)**: o CDN do NX Fotos não libera leitura pelo
+2. **Cópia local obrigatória** (toda foto fica em mapas.nx.tv.br; nunca anexar endereço do CDN
+   do NX Fotos nem do Google direto — as 42 fotos de Conceição da Barra de 14/11 que apontam
+   para o CDN vão para a fila de curadoria). As rotas de importação do painel
+   (`/api/photoprism/*`) e a gravação de foto do Google pelo servidor estão quebradas (pedido
+   ao Brendew): não usar até ele avisar.
+   - **Google**: `GET /api/google-api/photo?photo_reference&maxwidth` → tratar no canvas →
+     `POST /api/upload-image` (campo `image`) → `POST /api/mapa/{id}/images` (`source: upload`).
+   - **NX Fotos (caminho que funciona desde 17/11/2026)**: o CDN do NX Fotos não libera leitura pelo
      mapas (sem CORS). Numa aba do mapas logada, `window.open` da imagem do CDN; na aba do
      CDN, `fetch('/pub/...@w1600.webp')` e `window.opener.postMessage({key, blob},
      'https://mapas.nx.tv.br')`; na aba do mapas, tratar o blob no canvas (item 7), subir por
@@ -203,15 +254,21 @@ Toda foto, do NX Fotos ou do Google, passa pelo tratamento (item 7) antes de sub
      (`source: upload`). Assim a foto fica tratada e com cópia local.
 3. Campos de cada foto nova: `alt_text` "<título> — <município> (ES)", `legenda` = descrição
    da foto, **`autoria` obrigatória** (NX Fotos: `author`; Google: nome do colaborador que vem
-   na própria foto), `is_main: false`, `file_name`. Não repetir foto já existente.
-4. **Google**: estabelecimentos novos chegam com as fotos do Google pelo próprio sistema.
-   Para ponto com < 5 fotos e sem NX Fotos, usar as fotos do Google Places da busca do
-   servidor, com crédito. **Não usar** `/api/google-images` (busca de imagens da web, direitos
-   desconhecidos).
+   na própria foto, no formato "Nome / Google Maps"; Instagram do local: "@perfil / Instagram";
+   parceiro ou guia: "Nome / instituição"),
+   `is_main: false` e `file_name` com a **marca de tratamento**:
+   `{id}-{slug}-{origem}-{n}-t{k×10}.jpg` (origem nx, google, instagram, parceiro ou guia; ex.:
+   `3206-praia-da-bugia-nx-1-t8.jpg`; `t0` = analisada e dispensada). É a marca que a curadoria
+   usa para saber que a foto foi tratada. Foto do NX Fotos sem autor: "Acervo Next Editorial" e
+   pendência de crédito. Não repetir foto já existente.
+4. **Google**: só quando o NX Fotos não tiver o lugar. Fotos do Google Places pelo caminho do
+   item 2 (nunca pela importação automática do sistema, que sobe sem tratamento), com crédito.
+   **Não usar** `/api/google-images` (busca de imagens da web, direitos desconhecidos).
 5. **Fotos antigas sem crédito**: preencher `autoria` (`PUT /api/mapa/{id}/images/{imgId}`)
    só quando o autor for conhecido com certeza; senão, listar no relatório.
-6. **Foto principal**: propor trocar só se não houver principal, ou se a atual for Google e
-   houver NX Fotos horizontal ≥ 1600 (`POST /api/mapa/{id}/images/{imgId}/set-main`).
+6. **Foto principal**: trocar só se não houver principal, ou se a atual for Google ou imprópria
+   e houver NX Fotos do lugar horizontal ≥ 1600 (`POST /api/mapa/{id}/images/{imgId}/set-main`).
+   Na rodada, a troca entra no plano; na curadoria (9.2), é feita direto.
 7. **Tratamento (regra de Mário, 11/11/2026, todas as rotinas)**: analisar cada foto. Se
    estiver crua, tratar no padrão das revistas impressas: mais viva, um pouco mais cítrica e
    quente, azuis mais quentes. Se já estiver tratada e boa, não mexer. Receita usada em
@@ -219,7 +276,12 @@ Toda foto, do NX Fotos ou do Google, passa pelo tratamento (item 7) antes de sub
    contraste ×(1+0,09k) em torno de 0,5; vivacidade 0,55k×(1−saturação); R ×(1+0,04k),
    G ×(1+0,022k), B ×(1−0,012k); nos azuis (d = B−R > 0) G +0,05k·d e B −0,01k·d;
    gama 1−0,05k; JPEG 0,9. Não tirar azul do céu: esquentar puxando para o turquesa.
-8. **Não repetir foto**: antes de anexar, comparar cada candidata com as fotos que o local já
+   k = 0 quando a foto já está tratada e boa: sobe sem mexer, com `t0` no nome. Google entra
+   com k = 0,8. Foto antiga já cadastrada sem marca, sem crédito ou fora da cópia local não é
+   apagada pela rodada: vai para a fila com a proposta de troca pela versão tratada; com o
+   "sim" de Mário, sobe a nova e apaga a antiga, conferindo depois.
+8. **Não repetir foto** (nem no mesmo local, nem em locais diferentes): antes de anexar,
+   comparar cada candidata com as fotos que o local já
    tem (miniatura 16×16 em tons de cinza, hash médio; distância ≤ 20 = mesma foto). As
    fotos do Google já usadas numa rodada anterior voltam primeiro na busca.
 9. **A foto tem de mostrar o lugar**: nada de logotipo, selfie ou paisagem que não mostre o
@@ -265,12 +327,18 @@ das mesmas tags.
    companhia e uma de intenção — **só as que forem verdade para o lugar** (fonte: textos da
    ficha, fotos, categoria, avaliações). Pode partir do prompt da casa
    (`/prompts/tipo/tags` + `POST /api/ai/generate-tags`) e filtrar pelo vocabulário acima.
-2. Tags de comodidade (TV, wi-fi, ar-condicionado, estacionamento etc.) não aparecem no site:
+2. Serviços ficam sem tag. Tags de comodidade (TV, wi-fi, ar-condicionado, estacionamento etc.) não aparecem no site:
    não gastar a rodada com elas nos pontos turísticos.
 3. **Primeira categoria = selo do card**: a mais representativa vem primeiro (ex.: "Cachoeira"
    antes de "Estacionamento"). Propor a reordenação quando estiver errada.
 
 ## Passo 6 — Textos (prompts da casa)
+
+**Resumo de card de local** (restaurante, hospedagem, serviço, atração simples): uma frase
+escrita a partir do tipo, da localidade conferida pela coordenada e do que se repete nas
+avaliações do Google; sem nota, sem preço, sem comodidade inventada; tom neutro quando as
+avaliações são ruins. Pode sair do prompt da casa no servidor com as avaliações no conteúdo,
+revisando uma amostra antes de gravar em massa.
 
 Preencher **só campos vazios, com menos de 20 caracteres ou com rótulo genérico**. Reescrever
 texto existente apenas se Mário pedir "reescrever".
@@ -312,11 +380,20 @@ acrescentar (com o eixo de cada uma), ordem de categorias, textos propostos (cam
 créditos a preencher e troca de foto principal. Fechar com totais e pedir **ok**
 ("aplicar tudo", "aplicar só X", "pular Y").
 
+O plano traz o modelo do lote (Passo 1) e a estimativa de custo, e avisa que o lote fecha com a
+curadoria (Passo 9) e o aviso de checagem (Passo 10). O ok do lote vale também para as
+correções seguras dela (9.2); as decisões da curadoria vão para a fila, não para este ok.
+
 Execução agendada / sem Mário presente: fazer auditoria e plano, não gravar, entregar o plano.
 
 ## Passo 8 — Aplicar (após o ok)
 
-Ordem: novos locais → vínculos → fotos → tags e categorias → textos → verificação.
+Ordem: teste no primeiro local → novos locais → vínculos → fotos → tags e categorias → textos →
+verificação → curadoria (Passo 9) → checagem de fechamento, aviso e registro (Passo 10).
+
+**Retomada**: o progresso fica no localStorage da aba, numa chave por lote (`DET_<sigla>`), por
+place_id. Se o computador dormir ou a aba recarregar, recriar as funções e rodar de novo: o que
+já foi criado é pulado. Computador acordado, Chrome aberto e painel logado são pré-requisitos.
 
 1. Novo local: `POST /api/mapa` com `title`, `address`, `latitude`, `longitude`,
    `municipio_id`, `categories` (com tipo), `pontoturistico:false`, `telefones`/`websites`/`emails`
@@ -325,8 +402,13 @@ Ordem: novos locais → vínculos → fotos → tags e categorias → textos →
 2. Vincular ao ponto: `POST /api/admin/all-locations/{novoId}/local-secundario`
    `{local_primario_id: pontoId}`.
 3. Conferir se entrou como **pendente** em `GET /api/revisao/estabelecimentos`. Se não entrou,
-   marcar `PUT /api/mapa/{novoId}/verificacao` `{verificado:false, observacoes:"Inserido pela
-   rotina em <data> — revisar"}`. **Nunca aprovar na fila de revisão sem Mário mandar.**
+   marcar `PUT /api/mapa/{novoId}/verificacao` `{verificado:false, observacoes}`. Observação
+   padrão, uma linha por assunto (a de curadoria sempre a última; limite ~1.000 caracteres):
+   `Inserido pela rotina de atualização em dd/mm/aaaa (fonte; nota X com N avaliações) — revisar`;
+   em hospedagem casada com a Receita, `Receita Federal (base mm/aaaa): CNPJ … · razão social …
+   · nome fantasia … · CNAE principal/secundário · ativa, início em …` (nunca CPF);
+   `Curadoria dd/mm/aaaa: <nível> · pendências: …` (9.4).
+   **Nunca aprovar na fila de revisão sem Mário mandar.**
 4. Fotos e créditos: Passo 4.
 5. Tags, categorias e textos: `GET /api/mapa/{id}` → mesclar só o que foi aprovado →
    `PUT /api/mapa/{id}` com o objeto completo no formato do painel (nunca PUT parcial). No
@@ -334,7 +416,106 @@ Ordem: novos locais → vínculos → fotos → tags e categorias → textos →
    de seguir.
 6. Rodar uma vez, sem retentativa cega: erro → registrar e seguir para o próximo ponto.
 
-## Passo 9 — Conferir no site e relatar
+## Passo 9 — Curadoria (padrão ao fim de todo lote)
+
+Regra de Mário (19/11/2026): todo enriquecimento em lote (cidade, região, lista ou fila) termina
+com a curadoria, sem ele precisar pedir. Escopo: **todos os locais do escopo do lote**, não só os
+que a rodada criou, conforme o modelo (tabela do Passo 1): A, o ponto e os vinculados novos;
+B, a base inteira do município, antigos inclusive; C, os locais da lista e as duplicatas achadas;
+D, os locais tocados; E, os locais que receberam foto; F, o ponto e os vinculados. Lotes
+anteriores a 19/11 (Conceição da Barra, Sindihotéis-ES, CNPJs de hospedagem) passam pela
+curadoria na próxima rodada de cada cidade. Foto bonita de lugar fechado, duplicado
+ou na cidade errada é pior do que nenhuma: a curadoria cobre o lugar, os dados e as fotos.
+
+### 9.1 Checagens
+
+| Camada | O que conferir |
+|---|---|
+| Lugar | existe e está aberto (situação no Google; hospedagem também pelo CNPJ ativo da observação) |
+| Lugar | está no município certo (município do endereço do Google × `municipio_id`; coordenada dentro do município) |
+| Lugar | não é duplicata (mesmo cid/place id, ou nome normalizado a até 250 m) |
+| Lugar | merece estar no site (critérios de nota do Passo 3; sobra de importação sem dados; tema que não é lugar) |
+| Dados | coordenadas, endereço, categoria com tipo e primeira categoria representativa |
+| Dados | telefone (celular de 9 dígitos começando por 9 = WhatsApp), horário, site que abre e é do próprio lugar |
+| Dados | resumo do card (`ai_description` ou `about`) presente, sem nota e sem comodidade inventada; título sem sufixo de SEO |
+| Dados | tags verdadeiras (nada de "Cachoeiras" em rio nem tag de comodidade em praia ou igreja) |
+| Fotos | principal existe, é horizontal e mostra o lugar; sem logo, selfie, texto por cima ou paisagem que não é do lugar |
+| Fotos | todas com `autoria`, `legenda` e `alt_text`; nenhuma repetida (hash 16×16, distância ≤ 20); todas com marca de tratamento no nome do arquivo e cópia local em mapas.nx.tv.br |
+| Fotos | mínimo de 5 em ponto turístico e 3 nos demais locais |
+| Fotos | origem da principal, nesta ordem: NX Fotos → Google com autor → outros meios (Instagram do próprio local, parceiro com cessão por escrito, guia); imagem de IA nunca em lugar real |
+
+- **Folha de contato**: no ambiente de trabalho, montar grades de ~40 fotos principais (miniatura,
+  id e nome) e olhar cada grade. É o jeito barato de achar logo, selfie e foto que não mostra o
+  lugar.
+- **Situação no Google**: os locais criados na rodada já vêm conferidos; os antigos pedem um
+  detalhe cada (sem place id: busca por texto + detalhe, conferindo o cid, como no método de
+  17/11). Cabe na franquia mensal de 5.000 detalhes. A curadoria não compra foto nova.
+
+### 9.2 O que a curadoria corrige sozinha (coberto pelo ok do lote)
+
+Só o que não apaga nada e se desfaz:
+- crédito, legenda e alt de foto quando o autor é conhecido com certeza;
+- foto principal: definir quando falta; trocar quando a atual é imprópria, ou é do Google e o
+  NX Fotos tem foto do lugar horizontal ≥ 1600. A rodada escolhe sozinha, pela beleza, pela
+  informação que a foto traz e pela atualidade (Mário não quer escolher foto), e lista a troca
+  no relatório;
+- ordem das categorias e título sem sufixo de SEO;
+- celular marcado como WhatsApp pelo critério acima;
+- situação "Fechado permanentemente" só quando os sinais concordam: Google fechado e nenhuma
+  avaliação nos últimos 12 meses (hospedagem: também nenhum CNPJ ativo). Sinais em conflito
+  (ex.: Google fechado e hóspede recente) → fila;
+- o registro do nível (9.4).
+
+Execução agendada ou sem Mário presente: checar e montar a fila, sem gravar (como no Passo 7).
+
+### 9.3 Fila de curadoria (decisão de pessoa)
+
+Vai para a fila o que apaga, junta ou é dúvida: duplicata, local fora do município, coordenada
+suspeita, fechado com sinais em conflito, foto imprópria ou repetida a apagar, tag errada, sobra
+de importação sem dados, local sem correspondência no Google, foto antiga a trocar pela versão
+tratada (sem marca, sem crédito ou fora da cópia local), divergência de crédito entre fontes,
+candidato a ponto turístico e candidato a destaque.
+
+- **Onde**: planilha "Fila de curadoria — Destinos ES" (tipo Sheets do Artifact; se a sessão não
+  oferecer, .xlsx enviado no chat), criada na primeira rodada, com uma aba por lote
+  ("<cidade> — dd/mm"). Registrar o link em `claude/curadoria-destinos-es.md` no projeto
+  Site Destinos ES (Novo).
+- **Colunas**: id · local · painel (`/admin/locais/{id}/edicao`) · página pública · camada ·
+  problema · proposta · decisão (sim / não / outra) · quem decidiu · observação. Pontos
+  turísticos primeiro, depois o que mais aparece no site.
+- **Aplicar**: quando Mário mandar ("aplica a curadoria de <cidade>") ou na próxima rodada da
+  mesma cidade, ler a coluna decisão e executar só as linhas com "sim" decididas por Mário ou por
+  quem ele designar. Duplicata decidida: completar o cadastro que fica (dados, fotos e vínculos
+  que faltam nele) e listar o outro para Mário apagar no painel — a skill nunca apaga local.
+  Apagar foto segue a regra de ordem expressa (Regras invioláveis).
+
+### 9.4 Nível de cada local
+
+| Nível | Quando |
+|---|---|
+| bruto | falha em alguma checagem do lugar, ou está sem categoria com tipo ou sem coordenadas |
+| conferido | passou nas checagens do lugar e dos dados, tem foto principal adequada com crédito e resumo de card; pode faltar quantidade de fotos |
+| curado | conferido e aprovado por pessoa na fila; só aí `verificado = true` |
+| destaque | escolha editorial de Mário (livro 100 Praias, experiência assinada por guia, vitrine); a skill só propõe |
+
+- **Onde gravar** (até o mapas ter campo próprio): uma linha no fim da observação da
+  verificação, substituindo a linha de curadoria anterior, sem tirar o resto (CNPJ, "Inserido
+  pela rotina…"): `Curadoria dd/mm/aaaa: conferido · pendências: fotos 2/3, horário`. Limite do
+  campo: ~1.000 caracteres. O PUT da verificação regrava "verificado por" e a data: mandar
+  `verificado` com o valor que já estava.
+- A rodada nunca marca `verificado = true` por conta própria.
+- **Pedido ao Brendew** (repetir no relatório até existir): campos de nível, curado por e curado
+  em; marca de foto principal aprovada; tela de fila de curadoria no painel (a revisão de
+  estabelecimentos pode servir de base); e o site usar o nível — destaque e curado primeiro na
+  vitrine, bruto fora dos trilhos e do Guia com IA.
+
+### 9.5 No relatório do lote
+
+Quantos locais ficaram em cada nível (e a comparação com a curadoria anterior da cidade, se
+houver), correções feitas pela curadoria, tamanho da fila com o link e as 5 decisões que Mário
+deve olhar primeiro.
+
+## Passo 10 — Conferir no site, checagem de fechamento, aviso e registro
 
 1. Abrir `https://mapas.nx.tv.br/publico/destino/{id}` e confirmar: foto principal, crédito
    das fotos, blocos e informações importantes, vinculados com distância.
@@ -345,6 +526,37 @@ Ordem: novos locais → vínculos → fotos → tags e categorias → textos →
    Links: página pública, `https://mapas.nx.tv.br/admin/locais/{id}/edicao` e
    `https://mapas.nx.tv.br/admin/revisao-estabelecimentos` (pendentes para aprovar).
    O histórico de cada local fica em `/admin/locais/{id}/historico`.
+4. Fechar o relatório com o bloco da curadoria (9.5) e o link da fila.
+5. **Checagem de fechamento** (antes do aviso). O lote só é dado como concluído se passar tudo:
+   1. 100% dos locais do escopo com a linha de curadoria do dia;
+   2. nenhuma foto subida pela rodada sem autoria, legenda, alt ou marca de tratamento, nem
+      fora da cópia local;
+   3. nenhum local novo sem categoria com tipo ou sem coordenadas;
+   4. fila gravada, com link que abre;
+   5. amostra de 10 páginas públicas conferidas (3 pontos turísticos + 7 sorteados): foto
+      principal, créditos, resumo, vinculados com distância;
+   6. modelo B: total de lugares da página da cidade bate com a base.
+   Se algo falhar, o aviso sai como "curadoria incompleta", com o que faltou e por quê.
+6. **Aviso de checagem**: no chat (mensagem final; em sessão sem Mário, por SendUserMessage) e
+   como notificação no celular pelo app Claude (PushNotification, quando a sessão tiver). Sem
+   e-mail (regra de 27/10/2026). A notificação leva só a primeira linha, os níveis e o tamanho
+   da fila. Sempre neste modelo:
+   ```
+   Curadoria concluída · <cidade ou lote> · modelo <A–F> · dd/mm/aaaa
+   Escopo: N locais (N novos, N completados, N antigos)
+   Níveis: N destaque · N curados · N conferidos · N brutos (antes: …)
+   Correções automáticas: N créditos · N principais · N WhatsApp · N títulos · N fechados
+   Fotos: N subidas, todas tratadas, creditadas e com cópia local · N locais abaixo do mínimo
+   Fila: N decisões → <link>
+   Olhe primeiro: 1) … 2) … 3) … 4) … 5) …
+   Pendente com o Brendew: …
+   Custo: Google US$ … de tabela · real ≈ US$ …
+   ```
+7. **Registro no projeto** Site Destinos ES (Novo): um doc por cidade ou lote,
+   `claude/enriquecimento-<cidade-ou-lote>.md` (rodada nova da mesma cidade = seção nova), com
+   as seções Pedido e aprovação · Execução · Números antes e depois · Curadoria · Custo ·
+   Pendências · Decisões de Mário. Link da fila em `claude/curadoria-destinos-es.md`; pedidos
+   ao Brendew em `claude/mapas-nx-estrutura-e-auditoria.md`.
 
 ## Regras invioláveis
 
@@ -352,10 +564,15 @@ Ordem: novos locais → vínculos → fotos → tags e categorias → textos →
   Única exceção, e só com ordem expressa de Mário na hora: apagar foto que a própria rodada
   criou (cópia repetida, versão sem tratamento trocada pela tratada, foto imprópria) com
   `DELETE /api/mapa/{id}/images/{imgId}`, conferindo depois que a original continua.
-- Nunca subir foto sem tratamento (Passo 4, item 7).
+- Nunca subir foto sem tratamento e sem a marca no nome do arquivo (Passo 4, itens 3 e 7), nem
+  anexar foto fora da cópia local (endereço do CDN do NX Fotos ou do Google direto).
+- Nunca dar o lote por concluído sem a checagem de fechamento (Passo 10, item 5).
 - Nunca sobrescrever texto preenchido sem pedido explícito.
 - Nunca aprovar/recusar na fila de revisão sem ordem de Mário.
-- Nunca criar, renomear nem desativar tag ou categoria.
+- A curadoria nunca apaga, desvincula nem marca `verificado = true` sozinha: verificado só com
+  decisão de Mário (ou de quem ele designar) na fila de curadoria.
+- Nunca criar, renomear nem desativar tag ou categoria sem decisão de Mário (selo novo, como o
+  do Sindihotéis-ES, é decisão dele).
 - Nunca gravar foto sem crédito, nem foto de busca de imagens da web.
 - Nunca gravar tradução à mão.
 - Nunca digitar senha nem criar conta; sem sessão, parar e pedir login.

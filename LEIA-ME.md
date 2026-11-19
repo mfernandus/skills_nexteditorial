@@ -72,7 +72,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 ## 06 Plataformas e dados
 
 - **atualizacao-cnpj-templos** — Atualização mensal dos CNPJs de organizações religiosas do Datafé (datafe.com.br): baixa a base da Receita, classifica, carrega pela função templos-ingest e confere os números.
-- **atualizacao-mapas-destinos-es** — Atualiza pontos turísticos do mapas.nx.tv.br (Destinos ES): locais próximos novos (comer, ficar, serviços, fazer), fotos NX Fotos e Google com crédito, tags de experiência, textos e informações. Plano antes de gravar.
+- **atualizacao-mapas-destinos-es** — Atualiza e enriquece locais do mapas.nx.tv.br (Destinos ES) em qualquer modelo de lote, no padrão único: fotos tratadas e creditadas, curadoria automática e aviso de checagem ao fim.
 - **verificacao-es-em-numeros** — Verifica o site ES em Números (esemnumeros.esbrasil.com.br): erros, números novos nas fontes oficiais, coletores quebrados e fotos novas do NX Fotos. Use para a rodada semanal ou mensal.
 - **validacao-diaria-datafe** — Validação diária dos números do Datafé (datafe.com.br): confere o banco, uma amostra de municípios contra o IBGE (SIDRA) e o site publicado, e acusa igreja escondida, soma errada, dado vencido e erro de texto. Só lê.
 - **cidade-em-numeros-procidade** — Gera o site "{Cidade} em Números" (Prócidade, by NextLab) para um município do ES a partir do modelo de Conceição da Barra e Piúma, com as mesmas fontes, NX Fotos, mapa com relevo e ligação ao Destinos ES.
