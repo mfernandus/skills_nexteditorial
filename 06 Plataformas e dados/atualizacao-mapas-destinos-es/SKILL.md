@@ -104,7 +104,7 @@ Primeiro, dizer qual é o modelo do lote:
 | B · Cidade | enriquecer um município inteiro (varredura por centros e por tipo) | todos os locais do município, antigos inclusive |
 | C · Lista externa | associados de entidade, CNPJ da Receita, lista de parceiro | os locais da lista e as duplicatas achadas |
 | D · Plataforma | notas do Booking/Hotels.com, WhatsApp oficial, Instagram | os locais tocados |
-| E · Fonte editorial de fotos | livro (100 Praias), portal de prefeitura, programa de TV | os locais que receberam foto |
+| E · Fonte editorial de fotos | livro (100 Praias): conferir se cada local do livro está no mapas e usar as mesmas fotos do NX Fotos, tratadas (Passo 4, item 10); portal de prefeitura; programa de TV | os locais do livro ou da fonte, e os que receberam foto |
 | F · Vínculos | pontos turísticos sem locais relacionados | o ponto e os vinculados |
 
 Depois, a estimativa de custo do Google (tabela da API antiga: buscas, detalhes e fotos;
@@ -215,6 +215,29 @@ esta linha de base no relatório.
    avaliacoes, link, coletado_em — só o que bate em nome e cidade); resumo de card e tags
    (Passos 5 e 6); fotos (Passo 4); vínculos (item 6); verificação desmarcada com a observação
    no formato do Passo 8.
+9. **CNPJ — API CNPJ Aberto** (fonte padrão desde 19/11/2026, decisão de Mário; mesma base
+   aberta da Receita, atualizada todo mês). Base `https://cnpjaberto.com.br`, chave no cabeçalho
+   `X-API-Key` — a chave fica na memória do Claude, **nunca nesta skill** (o repositório de
+   skills é público).
+   - `GET /api/cnpj/{cnpj}` (14 dígitos): situação e data, CNAEs, endereço, telefone, e-mail.
+   - `GET /api/busca-avancada?uf=ES&municipio=<NOME>&cnae=<7 dígitos>&situacao=ativa&page&per_page`
+     (até 50 por página): lista por cidade e atividade; filtra só pelo CNAE principal e não traz
+     telefone nem endereço (para casar, uma consulta da ficha por CNPJ).
+   - CNAEs: hospedagem 5510801, 5510802, 5510803, 5590601, 5590602, 5590603, 5590699;
+     alimentação 5611201, 5611203, 5611204, 5611205.
+   - Plano gratuito (testado em 19/11): 200 requisições por dia e só os 20 primeiros resultados
+     de cada busca. Pro (R$ 47/mês): 10.000/dia, lista completa e rotas por cidade, endereço e
+     contato (`/api/empresas-cidade`, `/api/endereco/empresas`, `/api/contato/empresas`).
+   - Modelo B: CNPJs ativos de hospedagem (sempre) e de alimentação (quando a cota permitir)
+     viram checklist da varredura; CNPJ que não apareceu no Google é buscado pelo nome no Google
+     Places e só entra se confirmado lá. Modelo C: fonte dos CNPJs. Curadoria: situação do CNPJ
+     dos locais que já têm CNPJ na observação.
+   - Casamento: telefone, e-mail, nome + endereço ou o mesmo lugar no Google; casado só por
+     telefone ou e-mail, com outro nome: "(ligado só pelo telefone ou e-mail — conferir)". Nunca
+     CPF (MEI antigo traz CPF na razão social: retirar).
+   - Cache por cidade no ambiente de trabalho (a base muda uma vez por mês). Em 429, parar e
+     seguir no dia seguinte. A base aberta da Receita baixada inteira fica só de reserva para
+     varredura estadual que não cabe na cota.
 
 ## Passo 4 — Fotos (NX Fotos primeiro, Google depois, sempre com crédito e tratadas)
 
@@ -287,6 +310,16 @@ nos demais locais (do Google, até 3 por local).
 9. **A foto tem de mostrar o lugar**: nada de logotipo, selfie ou paisagem que não mostre o
    estabelecimento. Foto do NX Fotos sem GPS e com título genérico ("praça central",
    "calçadão") só entra depois de comparar com as fotos que o local já tem.
+10. **Livro da casa** (As 100 mais belas praias do Espírito Santo e outros; modelo E):
+   listar todos os locais do livro a partir do PDF (com o município de cada um) e conferir, um a
+   um, se estão no mapas — mesmo lugar, município certo, com coordenadas; o que falta é criado
+   (Passo 3) e o incompleto é completado. Praia do livro que não é ponto turístico vai para a fila
+   como candidata (como a Bugia e Riacho Doce em 14/11); os locais do livro são candidatos a
+   destaque. Fotos: as mesmas do livro, achadas no NX Fotos por comparação de imagem (SIFT +
+   homografia contra as páginas do PDF), tratadas (item 7), com cópia local (item 2) e crédito; a
+   do livro vira a principal quando é horizontal e mostra o lugar, e as melhores das mesmas saídas
+   fotográficas completam a galeria. Foto do livro que não está no NX Fotos vai para as
+   pendências; divergência de crédito livro × NX Fotos vai para a fila.
 
 ## Passo 5 — Tags e categorias (o que põe o ponto nas experiências do site)
 
@@ -405,7 +438,7 @@ já foi criado é pulado. Computador acordado, Chrome aberto e painel logado sã
    marcar `PUT /api/mapa/{novoId}/verificacao` `{verificado:false, observacoes}`. Observação
    padrão, uma linha por assunto (a de curadoria sempre a última; limite ~1.000 caracteres):
    `Inserido pela rotina de atualização em dd/mm/aaaa (fonte; nota X com N avaliações) — revisar`;
-   em hospedagem casada com a Receita, `Receita Federal (base mm/aaaa): CNPJ … · razão social …
+   em local casado com a Receita (Passo 3, item 9), `Receita Federal via CNPJ Aberto (base mm/aaaa): CNPJ … · razão social …
    · nome fantasia … · CNAE principal/secundário · ativa, início em …` (nunca CPF);
    `Curadoria dd/mm/aaaa: <nível> · pendências: …` (9.4).
    **Nunca aprovar na fila de revisão sem Mário mandar.**
@@ -431,7 +464,7 @@ ou na cidade errada é pior do que nenhuma: a curadoria cobre o lugar, os dados 
 
 | Camada | O que conferir |
 |---|---|
-| Lugar | existe e está aberto (situação no Google; hospedagem também pelo CNPJ ativo da observação) |
+| Lugar | existe e está aberto (situação no Google; local com CNPJ na observação também pela situação do CNPJ na API CNPJ Aberto) |
 | Lugar | está no município certo (município do endereço do Google × `municipio_id`; coordenada dentro do município) |
 | Lugar | não é duplicata (mesmo cid/place id, ou nome normalizado a até 250 m) |
 | Lugar | merece estar no site (critérios de nota do Passo 3; sobra de importação sem dados; tema que não é lugar) |
