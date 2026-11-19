@@ -42,6 +42,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 - **materia-igrejas-abertas-comunhao** — Matéria mensal da Comunhão sobre CNPJs de igrejas evangélicas abertos e baixados, com os números do Evangélicos em Números, logo depois da carga mensal do CNPJ.
 - **retrospectiva-esbrasil** — Produz capítulos da Retrospectiva 2026 da **revista ES Brasil** (ESB 238) para qualquer editoria, da ficha às páginas de 20,5 x 27,5 cm com texto encaixado e dados sempre na divulgação mais recente, e, depois da aprovação, pergunta se gera o pacote do InDesign (IDML com vínculos e pasta para o time).
 - **datafe-manchetes-semana** — Rotina de toda segunda (5h36) que troca as 4 a 6 manchetes de números que giram no topo da home do Datafé, a partir das matérias do Datafé publicadas na Comunhão, com números reconsultados no banco.
+- **artigos-retrospectiva-2026** — Diagrama artigo assinado da Retrospectiva 2026 da **revista ES Brasil** no modelo do artigo do Sidemar Acosta: pergunta a página, trata a foto, gera o QR, encaixa o texto e entrega PDF e InDesign.
 
 ## 01 Editorial / 04 Pesquisa e apuração
 
