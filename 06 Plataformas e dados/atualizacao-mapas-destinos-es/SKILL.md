@@ -74,7 +74,9 @@ revisão** de estabelecimentos (lotes comida/hospedagem). A skill usa essas peç
   **Claude in Chrome** numa aba de `https://mapas.nx.tv.br` com Mário logado. Checar com
   `GET /api/me`: 401 → pedir para Mário entrar no painel no Chrome dele. **Nunca digitar senha.**
 - **Limite: 120 requisições/min.** Espaçar ~550 ms; em 429, esperar `Retry-After` (≈30 s).
-  Varreduras longas: laço em segundo plano na página (`window.__job`) e consultar.
+  Varreduras longas: laço em segundo plano na página (`window.__job`) e consultar. Mais de um
+  laço na mesma aba: fila global na função `api`, com 700 ms entre o início de duas chamadas
+  (em 20/11, dois laços de 550 ms cada estouraram o limite e caíram em esperas de 30 s).
 - O retorno do javascript_tool é bloqueado se contiver `?`, `&` ou `=` (URLs, query strings):
   devolver só os campos necessários e trocar esses caracteres antes de retornar.
 
@@ -208,7 +210,9 @@ esta linha de base no relatório.
    4 serviços, 3 fazer.
 7. Nunca inventar estabelecimento: só entra o que veio da busca, com endereço e coordenadas.
 8. **Ficha mínima de todo local novo ou completado**: título do Google em português sem sufixo
-   de SEO; endereço e coordenadas; categoria com tipo, a mais representativa primeiro; celular
+   de SEO (nome do Google só com sinais, como ".", não serve: buscar o nome real na placa das
+   fotos, no site ou no Booking; sem confirmação, título descritivo provisório, como "Pousada em
+   Guriri Norte", nível bruto e fila); endereço e coordenadas; categoria com tipo, a mais representativa primeiro; celular
    de 9 dígitos começando por 9 como WhatsApp (fixo só com link wa.me no site do lugar); site do
    próprio lugar; horário no formato do painel; faixa de preço pelo price_level; nota, total e
    link do Google no resumo de avaliações (Booking e Hotels.com em `breakdown_data`: nota,
@@ -470,7 +474,8 @@ ou na cidade errada é pior do que nenhuma: a curadoria cobre o lugar, os dados 
 | Lugar | merece estar no site (critérios de nota do Passo 3; sobra de importação sem dados; tema que não é lugar) |
 | Dados | coordenadas, endereço, categoria com tipo e primeira categoria representativa |
 | Dados | telefone (celular de 9 dígitos começando por 9 = WhatsApp), horário, site que abre e é do próprio lugar |
-| Dados | resumo do card (`ai_description` ou `about`) presente, sem nota e sem comodidade inventada; título sem sufixo de SEO |
+| Dados | resumo do card (`ai_description` ou `about`) presente, sem nota e sem comodidade inventada; título sem sufixo de SEO e com nome de verdade (título só com sinais reprova o lugar) |
+| Dados | textos dos pontos turísticos coerentes com o município do cadastro (erro de fato em texto preenchido → fila; com o ok, corrige só os trechos errados) |
 | Dados | tags verdadeiras (nada de "Cachoeiras" em rio nem tag de comodidade em praia ou igreja) |
 | Fotos | principal existe, é horizontal e mostra o lugar; sem logo, selfie, texto por cima ou paisagem que não é do lugar |
 | Fotos | todas com `autoria`, `legenda` e `alt_text`; nenhuma repetida (hash 16×16, distância ≤ 20); todas com marca de tratamento no nome do arquivo e cópia local em mapas.nx.tv.br |
@@ -482,7 +487,11 @@ ou na cidade errada é pior do que nenhuma: a curadoria cobre o lugar, os dados 
   lugar.
 - **Situação no Google**: os locais criados na rodada já vêm conferidos; os antigos pedem um
   detalhe cada (sem place id: busca por texto + detalhe, conferindo o cid, como no método de
-  17/11). Cabe na franquia mensal de 5.000 detalhes. A curadoria não compra foto nova.
+  17/11). Cabe na franquia mensal de 5.000 detalhes. O detalhe devolve as 5 avaliações "mais
+  relevantes", não as mais recentes: "última avaliação" antiga é sinal fraco e, sozinha, só vai
+  para a fila. A curadoria não compra foto nova.
+- **Marca de tratamento em foto antiga já tratada**: o `PUT /api/mapa/{id}/images/{imgId}` aceita
+  `file_name` (mandar autoria, legenda e alt iguais) sem mexer na URL nem na principal.
 
 ### 9.2 O que a curadoria corrige sozinha (coberto pelo ok do lote)
 
@@ -494,9 +503,13 @@ Só o que não apaga nada e se desfaz:
   no relatório;
 - ordem das categorias e título sem sufixo de SEO;
 - celular marcado como WhatsApp pelo critério acima;
+- situação "Fechado temporariamente" em local já cadastrado quando o Google diz fechado
+  temporariamente; o nível cai para bruto até a reabertura ser confirmada;
+- título descritivo provisório quando o Google não tem nome (Passo 3, item 8), com fila;
 - situação "Fechado permanentemente" só quando os sinais concordam: Google fechado e nenhuma
   avaliação nos últimos 12 meses (hospedagem: também nenhum CNPJ ativo). Sinais em conflito
-  (ex.: Google fechado e hóspede recente) → fila;
+  (ex.: Google fechado e hóspede recente) → fila; atrativo natural (cachoeira, praia) marcado
+  como fechado também vai para a fila, porque ali "fechado" costuma ser o acesso;
 - o registro do nível (9.4).
 
 Execução agendada ou sem Mário presente: checar e montar a fila, sem gravar (como no Passo 7).
