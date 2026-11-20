@@ -318,6 +318,14 @@
     "sha": "ffa5d121d3004e0b851d37810928a8b840a7e9103e949788517553d3d9c82148",
     "updatedAt": "2026-11-11T17:23:13.226173Z"
   },
+  "sincronizar-projetos-drive": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "06 Plataformas e dados/sincronizar-projetos-drive",
+    "sha": "d138b8c03a7188076887add9bc4adf648cb2b70aaab2997dfbb7eb5b7dbc282c",
+    "updatedAt": "2026-11-20T14:36:06.585726Z"
+  },
   "validacao-diaria-datafe": {
     "arquivos": [
       "SKILL.md"
