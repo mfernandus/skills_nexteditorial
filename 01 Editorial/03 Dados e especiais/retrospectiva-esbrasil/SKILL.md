@@ -16,11 +16,11 @@ O trabalho tem três momentos:
 
 ## Kit da skill (modelo das páginas e scripts)
 
-O kit (modelo das páginas, base da revista e scripts) vai junto com a skill, na pasta `kit/` ao lado deste SKILL.md, quando ela é instalada pelo pacote .zip ou pelo GitHub (https://github.com/mfernandus/skills_nexteditorial, pasta `retrospectiva-esbrasil`). Antes da etapa 7b (montagem das páginas) e da etapa 10, copie essa pasta `kit/` para a pasta de trabalho. Ela traz `scripts/` (exportar_indesign.py, idml.py, extrair.js, embutir_imagens.py, nxtab_grafico.py), `assets/` (modelo-capitulo.html, grade-esb2026.css, base-materia-esb2026-inter.idml, selo-retrospectiva.png, logo-es-em-numeros.png) e `nxtab.html`, uma cópia do NXtab. O NXtab mais recente fica no artefato público “NXtab” (https://claude.ai/artifact/G5Zau8SX9BaWydqLmndR7Z): se a ferramenta de artefatos estiver disponível, baixe o `index.html` dele para `kit/nxtab.html`; senão, use a cópia do kit. Tabelas e linhas do tempo pedem as versões de 20/11/2026 do NXtab (modelos `t-retro`, `i-tempo-fotos` e `i-tempo-pictos`) e do `nxtab_grafico.py` (vaga `tabela`, campos `fotos` e `icones`): se `grep -q '"tabela"' kit/scripts/nxtab_grafico.py` falhar ou o `kit/nxtab.html` não tiver `t-retro`, baixe os dois dos artefatos, como no passo 1 abaixo.
+O kit (modelo das páginas, base da revista e scripts) vai junto com a skill, na pasta `kit/` ao lado deste SKILL.md, quando ela é instalada pelo pacote .zip ou pelo GitHub (https://github.com/mfernandus/skills_nexteditorial, pasta `retrospectiva-esbrasil`). Antes da etapa 7b (montagem das páginas) e da etapa 10, copie essa pasta `kit/` para a pasta de trabalho. Ela traz `scripts/` (exportar_indesign.py, idml.py, extrair.js, embutir_imagens.py, nxtab_grafico.py), `assets/` (modelo-capitulo.html, grade-esb2026.css, base-retrospectiva-2026-v5.idml, selo-retrospectiva.png, logo-es-brasil.png, logo-es-em-numeros.png) e `nxtab.html`, uma cópia do NXtab. O NXtab mais recente fica no artefato público “NXtab” (https://claude.ai/artifact/G5Zau8SX9BaWydqLmndR7Z): se a ferramenta de artefatos estiver disponível, baixe o `index.html` dele para `kit/nxtab.html`; senão, use a cópia do kit. Tabelas e linhas do tempo pedem as versões de 20/11/2026 do NXtab (modelos `t-retro`, `i-tempo-fotos` e `i-tempo-pictos`) e do `nxtab_grafico.py` (vaga `tabela`, campos `fotos` e `icones`): se `grep -q '"tabela"' kit/scripts/nxtab_grafico.py` falhar ou o `kit/nxtab.html` não tiver `t-retro`, baixe os dois dos artefatos, como no passo 1 abaixo.
 
 Se a skill estiver instalada sem a pasta `kit/`, baixe o kit do artefato **“Retrospectiva 2026 · kit do exportador InDesign”**, slug `2662af95-77ba-43d3-8205-463326509342`:
 
-1. Chame a ferramenta de artefatos `read_file` com esse slug e `paths`: `scripts/exportar_indesign.py.txt`, `scripts/extrair.js`, `scripts/idml.py.txt`, `scripts/embutir_imagens.py.txt`, `scripts/nxtab_grafico.py.txt`, `assets/modelo-capitulo.html`, `assets/grade-esb2026.css`, `assets/base-materia-esb2026-inter.idml.b64.txt`, `assets/selo-retrospectiva.png`, `assets/logo-es-em-numeros.png`. A base da revista vai em base64 porque o artefato não serve `.idml`; o exportador a restaura sozinho em `kit/assets/base-materia-esb2026-inter.idml`.
+1. Chame a ferramenta de artefatos `read_file` com esse slug e `paths`: `scripts/exportar_indesign.py.txt`, `scripts/extrair.js`, `scripts/idml.py.txt`, `scripts/embutir_imagens.py.txt`, `scripts/nxtab_grafico.py.txt`, `assets/modelo-capitulo.html`, `assets/grade-esb2026.css`, `assets/base-retrospectiva-2026-v5.idml.b64.txt`, `assets/selo-retrospectiva.png`, `assets/logo-es-brasil.png`, `assets/logo-es-em-numeros.png`. A base da revista vai em base64 porque o artefato não serve `.idml`; o exportador a restaura sozinho em `kit/assets/base-retrospectiva-2026-v5.idml`. Se o kit ainda trouxer `base-materia-esb2026-inter.idml`, ele é anterior a 21/11/2026: baixe o kit de novo.
 2. Copie cada arquivo salvo para `kit/` na pasta de trabalho, com o mesmo caminho, tirando o `.txt` final dos `.py` (`kit/scripts/exportar_indesign.py`, `kit/scripts/idml.py`, `kit/scripts/embutir_imagens.py`, `kit/scripts/nxtab_grafico.py`, `kit/scripts/extrair.js`, `kit/assets/...`). Para os gráficos, baixe também o NXtab, o construtor de gráficos da Next: `read_file` no artefato “NXtab”, slug `7a1c22c8-3982-455a-ab9a-cac69d588c8c`, com `paths: ["index.html"]`, e copie para `kit/nxtab.html`.
 3. Dependências: `pip install --break-system-packages playwright pymupdf pillow openpyxl python-docx segno` e um Chrome ou Chromium (`python3 -m playwright install chromium` se não houver Chrome no sistema).
 4. Se nada disso estiver disponível, peça ao Mário o .zip da skill (`retrospectiva-esbrasil.zip`), que já traz o kit.
@@ -75,9 +75,9 @@ Na mesma mensagem, peça (opcionais, com padrão): **repórter** (padrão: “Po
 **Prioridade:** (1) infográficos da **ES Brasil** em 2026 (especiais do ano, como o Especial Rochas, ed. 235); (2) Retrospectiva 2025; (3) Retrospectiva 2024, liberada para gráficos e tabelas relevantes que 2025 e 2026 não tenham; (4) 2023 só como série histórica (base NEIA).
 
 **Estrutura de página: Retrospectiva 2025 (edição 231)** — https://esbrasil.com.br/edicao-231-retrospectiva/
-- Cartola da editoria no alto, à esquerda, com barra rosa, em caixa alta e com tracking de 0,5 px (a única exceção à regra de caixa baixa); selo oficial “Retrospectiva” no alto, à direita, 15% maior que o original (27,6 px de altura na prova).
-- Abertura com foto grande (cerca de metade da página), QR Code no canto superior esquerdo (“Acesse o QR Code e leia a matéria em esbrasil.com.br”) e crédito da foto.
-- Título em branco sobre a foto; linha fina em azul logo abaixo.
+- **Cabeçalho da página-mestre da base V5** (“A-Master” de “MATÉRIA 1 - RETROSPECTIVA 2026 - ESB V5”, enviada pelo Mário Fernando em 21/11/2026), em todas as páginas, sobre o fundo da Retrospectiva (“BG Retrospectiva 2025.psd”): na página esquerda, retranca “RETROSPECTIVA 2026” (estilo “Retranca 2026”, Inter Black 12, azul, caixa alta, a 10 mm do refile e 6,8 mm do topo) e selo da Retrospectiva do lado da lombada (a 155 mm, 33,8 × 19,4 mm); na direita, logo da **ES Brasil** do lado da lombada (a 14,8 mm) e retranca da editoria em caixa alta, alinhada à direita, terminando a 10 mm do refile; nas duas, aba de cor de 5 × 5,6 mm na sangria, a 6 mm do topo. A retranca é a única exceção à regra de caixa baixa.
+- Abertura com foto grande (cerca de metade da página) e crédito da foto. QR Code num quadro branco de 18 mm com fio de 0,5 pt, no alto, do lado da lombada, com “Acesse o QR Code e leia a matéria em esbrasil.com.br” embaixo (“Legenda dentro foto 2026” em Roboto Condensed Bold 9 pt, centralizado).
+- Título em branco sobre a foto, centralizado na própria moldura (“Título 36pt 2026”); linha fina logo abaixo da foto.
 - Gráfico do NXtab que pode sobrepor a foto, aplicado direto sobre ela, sem moldura branca e sem sombra.
 - Texto em 3 colunas com capitular; intertítulos em azul, em caixa alta e baixa (regra da casa: nada em caixa alta); **aspas sempre dentro do texto corrido**, sem olhos destacados.
 - Rodapé no padrão do paginador da revista: na página par, número e redes (revistaesbrasil • esbrasil • @esbrasil) do lado de fora; na ímpar, radio.esbrasil.com.br e o número. No InDesign ele vem da página-mestre.
@@ -88,11 +88,11 @@ Na mesma mensagem, peça (opcionais, com padrão): **repórter** (padrão: “Po
 - Páginas internas com foto lateral e legenda, e intertítulos que separam os blocos.
 
 **Modelos de página** (estão prontos em `kit/assets/modelo-capitulo.html`)
-1. Abertura: foto grande com título, QR Code, painel de dados sobreposto, linha fina e texto em 3 colunas.
+1. Abertura: foto grande com título, QR Code, linha fina, texto e o box “[Segmento] em Números” (ver etapa 6), obrigatório na primeira página de todo capítulo. O box vai sobre a foto, do lado de fora, e o título fica na parte livre da foto, do lado da lombada, sem se cruzar com o box nem com o QR Code.
 2. Dados: tabela padrão no alto, texto em 2 colunas e coluna lateral com foto e gráfico.
 3. Contexto: foto em faixa, texto em 2 colunas, gráfico lateral e linha do tempo acima do rodapé.
 4. Eventos: foto, tabela de feiras, eventos ou marcos do ano (conforme o perfil), texto em 2 colunas e gráficos na lateral.
-5. Fechamento: foto, fim do texto e box “2026 em Números” na lateral.
+5. Fechamento: foto, fim do texto e peça de dados do NXtab na lateral (o box de números vai na abertura).
 - A quantidade de modelos segue o número de páginas da ficha. Capítulos menores juntam modelos (2 páginas = abertura + fechamento com tabela padrão; 1 página = abertura compacta com tabela ou gráfico, box e linha do tempo compactos). A linha do tempo e o box nunca saem.
 - Nível 1 com 6 páginas repete o modelo 2 ou 4.
 
@@ -117,6 +117,9 @@ Antes de qualquer outra fonte, verifique se a **ES Brasil** publicou edição es
 - Valor calculado (ex.: base de 2025 derivada de variação) leva asterisco e nota.
 - Divergência entre fontes: o número da entidade oficial vai no título e no texto; a tabela padrão usa a base oficial primária, com nota de metodologia.
 - Todo número diz o recorte: ES ou Brasil, período e unidade.
+- **Dupla checagem:** todo número, nome, cargo e fato do texto, do box, das tabelas e dos gráficos é conferido na publicação da **ES Brasil** usada como base e em pelo menos um site oficial ou confiável (órgão público, entidade do setor, empresa, base estatística). O dossiê registra os dois links. Número que só aparece numa fonte vai para “Para o fechamento” como pendência rosa.
+- **Sem crédito à ES Brasil no texto:** as publicações da **ES Brasil** são fonte de apuração, não personagem. O texto usa a informação sem dizer em que edição, especial ou matéria ela saiu (nada de “como registrou o Anuário Verde”, “afirmou à ES Brasil” ou “segundo a edição de agro”). A origem fica só no dossiê e no banco de aspas.
+- **Boxes, tabelas e gráficos fiéis ao texto:** cada peça ilustra o que o texto diz ou o complementa com dado confiável, com os mesmos números, recortes e períodos. Número de peça que contradiz o texto é erro de checagem.
 
 ## Etapa 3d · Dados quentes (sempre a referência mais recente)
 
@@ -169,7 +172,10 @@ Toda tabela, gráfico, box, linha fina e número do texto usa a **divulgação m
 - Toda aspa leva a origem: veículo, data e link (ou edição e página).
 - **Aspa verificada:** texto literal, sem alterar palavras; pode ser cortada só entre frases inteiras. Na prova, entra marcada em azul-claro.
 - **Aspa montada:** quando faltar fala, pode-se redigir a partir de declarações já publicadas da mesma pessoa. Entra marcada em laranja e só vira definitiva depois de confirmada com a pessoa. **Proibida** nos perfis que a vetam (Política; vítimas ou casos policiais em Políticas públicas).
-- **Onde entram:** sempre no texto corrido, com nome, cargo e verbo de atribuição (“afirma”, “explica”, “avalia”), no parágrafo do assunto. Sem olhos e sem aspas soltas em box.
+- **Aspas das publicações-base:** usar as falas que estavam nos textos da **ES Brasil** que serviram de base, desde que não corram risco de ter perdido a atualidade (fala sobre previsão já vencida, número superado, cargo que a pessoa não ocupa mais ficam de fora).
+- **Onde entram:** sempre no texto corrido, com nome, cargo e verbo de atribuição (“afirma”, “explica”, “avalia”). Sem olhos e sem aspas soltas em box.
+- **Toda aspa abre parágrafo próprio.** Nunca como continuação do parágrafo anterior. O parágrafo começa pela fala ou pelo atribuidor (“Para o presidente da Findes, Paulo Baraona, “…””) e o contexto fica no parágrafo de antes.
+- **Fontes a ouvir:** em cada capítulo, indicar até duas fontes para entrevista, entre as principais autoridades do setor. Para cada uma: nome, cargo, teor da aspa esperada e o ponto exato do texto onde ela entra, para manter coesão, coerência e fluidez. Na diagramação, o espaço já fica reservado: um parágrafo próprio `p.vaga-aspa` com `span.tbd` (“Aspa a colher: [nome, cargo], sobre [teor] · cerca de [n] linhas”), no lugar em que a fala vai entrar.
 - Aspa sem origem localizada sai do texto até confirmação.
 - Entregar a tabela “Banco de aspas” (situação, quem, aspa, origem, uso no capítulo) junto com as páginas.
 
@@ -187,14 +193,18 @@ Toda tabela, gráfico, box, linha fina e número do texto usa a **divulgação m
 - Aspas na quantidade da ficha, distribuídas pelas seções.
 - Fecho com perspectivas para 2027 (metas do setor, agenda do governo eleito, projetos e calendário, conforme o perfil).
 - Tom informativo e analítico, sem opinião da revista; adjetivos só atribuídos a fontes.
+- **Estilo da Retrospectiva** (referência: capítulos das Retrospectivas 2024 e 2025, eds. 225 e 231): o primeiro parágrafo dá o fato e o número do ano; a fala da liderança vem logo depois, em parágrafo próprio; frases diretas, na ordem sujeito-verbo-complemento; transições simples (“Mas”, “Entre os desafios”, “Para 2027”); intertítulos curtos e informativos.
+- **Escrita humana:** evitar clichês, jargões e marcas de texto gerado por IA, como “em um cenário de”, “não apenas… mas também”, “vale destacar”, “é importante ressaltar”, “nesse contexto”, “cada vez mais”, “desafios e oportunidades”, “um marco”, “divisor de águas”, “virar a chave”, “jornada”, “ecossistema” (fora do sentido técnico), “robusto”, “alavancar”, “potencializar”, “sinergia”, trios de adjetivos, frases de efeito no fim do parágrafo, dois-pontos dramáticos e travessões em série. Antes de entregar, reler o texto inteiro procurando essas marcas (falas literais de fontes ficam como foram ditas).
+- **Sem abreviaturas no texto corrido:** quilômetro, quilo, tonelada, hectare, metro cúbico, milhão, bilhão (“R$ 1,4 bilhão”, “12 mil hectares”). Abreviaturas e símbolos só em tópicos, tabelas, gráficos e boxes. Siglas de instituições seguem a regra da casa (nome por extenso na primeira menção, quando não forem consagradas).
 - Nada em caixa alta (título, intertítulo, título de gráfico, etiquetas): caixa alta e baixa sempre, exceto siglas e a cartola da editoria, que vai em caixa alta (escrita já em maiúsculas no HTML, para chegar assim ao InDesign).
 
 ## Etapa 6 · Elementos fixos de todo capítulo
 
-**Box “2026 em Números”** (assinado pela plataforma ES em Números)
-- Logomarca **ES em Números** no topo, numa faixa clara (a marca não entra vazada sobre fundo escuro); corpo do box em navy.
-- 5 indicadores, cada um com etiqueta ES ou BR; sempre que existir, o dado vem da plataforma ES em Números.
-- QR Code para esemnumeros.esbrasil.com.br e linha de fontes.
+**Box “[Segmento] em Números”, sempre na primeira página** (decisão do Mário Fernando, 20/11/2026; ex.: “Agro em Números”, “ESG em Números”, “Mercado Imobiliário em Números”)
+- Todo capítulo traz, na página de abertura, um box com os principais números do segmento, com o nome adaptado ao tema.
+- **5 indicadores** nas verticais da **ES Brasil** e nas editorias grandes (níveis 1 e 2), se houver cinco bons; **3 indicadores** nas histórias menores (níveis 3 e 4). Melhor três números fortes do que cinco fracos.
+- Números de 2026, na divulgação mais recente (etapa 3d), cada um com etiqueta ES ou BR e conferidos pela dupla checagem; sempre que existir, o dado vem da plataforma **ES em Números**. Texto de cada indicador em uma ou duas linhas.
+- Layout padronizado para todos os capítulos, adaptado a cada segmento só no nome e nos números. O desenho oficial do box será enviado pelo Mário; até lá, usar o box provisório do modelo (logomarca **ES em Números** numa faixa clara, corpo em navy, QR Code para esemnumeros.esbrasil.com.br e linha de fontes), com os estilos de box da base V5 (título em Inter Black 12, números em Inter Black 15/15, textos em Roboto Condensed Light 9,5/11, sem caixa alta), e avisar na nota da prova que o layout é provisório.
 - Se a plataforma ainda não tiver o indicador do tema, registrar em “Para o fechamento” como pauta para alimentá-la.
 
 **Linha do tempo do ano** (sai do NXtab, como os gráficos e as tabelas)
@@ -221,19 +231,23 @@ Toda tabela, gráfico, box, linha fina e número do texto usa a **divulgação m
 - No pacote do InDesign, tabela e linha do tempo do NXtab vão como peças vetoriais vinculadas em `Links/`, como os gráficos, e não mais como tabelas nativas; os dados de cada peça saem no `<id>.csv` do `nxtab_grafico.py` e vão para `Textos/`.
 
 **Escala tipográfica dos boxes, gráficos e tabelas** (px na prova de 900 px · pt no impresso)
-- Título do box: 12 px · 7,7 pt, Inter Black. Subtítulo: 10,5 px · 6,8 pt. Dados (rótulos, valores, células das tabelas, legendas dos números): 10 px · 6,5 pt. Número em destaque: 18 px · 11,6 pt, Inter Black. Miúdos (fonte, eixos, notas, etiquetas ES/BR, detalhe da linha do tempo): 9 px · 5,8 pt.
+- Peças do NXtab (gráficos, tabelas e linha do tempo): dados perto de 10 px · 6,5 pt; miúdos (fonte, eixos, notas, detalhe da linha do tempo) em 9 px · 5,8 pt.
+- Box “[Segmento] em Números”: estilos de box da base V5 (“Título de box 2026” Inter Black 12 pt · 18,6 px; “Texto destaque números box 2026” Inter Black 15/15 · 23,2 px; “Texto de box 2026” Roboto Condensed Light 9,5/11 · 14,7 px), sem caixa alta.
 - O modelo do kit já traz essa escala. Os gráficos do NXtab seguem a hierarquia do próprio NXtab, com os dados na mesma faixa de 6,5 pt; na tabela `t-retro`, as células saem perto de 5,8 pt.
 
 **Regras de página**
 - **Toda página tem, no mínimo, uma foto e um elemento de dados** (gráfico, tabela, infográfico ou linha do tempo).
+- **Manual de estilo:** toda a diagramação (texto, tabelas, boxes e gráficos) segue o manual de estilo da **ES Brasil**: os estilos de parágrafo, espaçamentos, fontes e páginas-mestre da base V5 do InDesign (já traduzidos em `kit/assets/grade-esb2026.css` e no modelo) e o Brand System 2026 (paleta da **ES Brasil**). Capítulo montado fora do modelo do kit não serve: refazer sobre ele.
 - Paleta **ES Brasil**: azul #00427B e navy dos infográficos #0F2D5C, ciano #18A6E6, rosa #E01E70 (destaques e pendências), azul-pastel #A2D2FF.
-- Tipografia: a da base da revista (“MATÉRIA 1 - BASE - ESB2026”, versão com Inter). Texto corrido em **Minion Pro Cond 11/12** (estilo “Texto geral 2026”; na prova, Crimson Pro em 15,79 px, calibrada para ocupar a mesma largura); abertura com capitular de 3 linhas; intertítulo em Inter Black 11/12, azul, em caixa alta e baixa; título sobre a foto em Inter Black 36 pt; linha fina em Inter Bold 16/16; assinatura em Inter Black 11; legendas em Inter 9,5/11; créditos em Inter Light 7, na vertical, à direita da foto; retranca (editoria) em Inter Black 12, em caixa alta. Tabelas, boxes, linha do tempo e gráficos seguem a escala tipográfica dos boxes, em **Inter**.
+- Tipografia: a da base da Retrospectiva (“MATÉRIA 1 - RETROSPECTIVA 2026 - ESB V5”, de 21/11/2026), pelos nomes dos estilos. Texto corrido em **Minion Pro Cond 11/12**, tracking -15, recuo de 8,5 pt (“Texto geral 2026”; na prova, Crimson Pro em 15,79 px, calibrada para ocupar a mesma largura); abertura com capitular de 3 linhas (“Texto fatual cap 3 linhas 2026”); intertítulo em Inter Black 11/12, azul, tracking -20, em caixa alta e baixa (“Intertexto 2026”, já sem caixa alta na V5); título sobre a foto em Inter Black 35,1/32,3 pt, branco, centralizado, tracking -25 (“Título 36pt 2026”); linha fina em Inter Bold 16/16 (“Lead 2026”); assinatura em Inter Black 11/11,5 (“Assinatura 2026”); legendas em **Roboto Condensed** 9,5/11, tracking -25, preto 90% (“Legenda 2026”) e, sobre a foto, Roboto Condensed Light 9,5/11, preto 90%, sobre fundo claro (“Legenda dentro foto 2026”); créditos em Roboto Condensed Light 7/7, tracking -10, na vertical, à direita da foto (“Créditos 2026”); retranca em Inter Black 12, tracking -20, em caixa alta (“Retranca 2026”, na página-mestre). Peças do NXtab seguem a escala tipográfica das peças, em **Inter**.
 - Formato e grade: 20,5 × 27,5 cm, páginas espelhadas, sangria de 3 mm; margens de 22 mm em cima, 15 mm embaixo, 17 mm na lombada e 12 mm do lado de fora; 3 colunas de 55,8 mm com 4 mm entre elas. Abertura com texto em 3 colunas; internas com texto em 2 colunas e a coluna lateral de 55,8 mm. O modelo traz tudo isso em `kit/assets/grade-esb2026.css`. A primeira página do capítulo é par (esquerda); se o espelho abrir em página ímpar, troque as classes `esq`/`dir`.
 - Sempre em destaque: **ES Brasil**, **revista ES Brasil**, **Café com Moqueca**.
 
 ## Etapa 7 · Fotos
 
-- **Ordem de busca:** (1) originais das edições da **ES Brasil** (pasta de links do InDesign da edição especial e da 231) e banco NX Fotos; (2) fotos oficiais de entidades e assessorias; (3) organizadoras das feiras; (4) Adobe Stock licenciado.
+- **Ordem de busca:** (1) banco **NX Fotos** (`buscar`, `link_do_original` para o arquivo em resolução cheia); (2) fotos do site esbrasil.com.br e das publicações da **ES Brasil** que serviram de base ao capítulo (originais na pasta de links do InDesign da edição); (3) fotos oficiais de entidades e assessorias; (4) organizadoras das feiras; (5) Adobe Stock licenciado.
+- **Escolha por espaço:** cada vaga (abertura, faixa, lateral, fechamento) recebe a foto que conta aquela parte do texto, escolhida por beleza, informação contida na foto e atualidade. Tratar todas (recorte para a proporção da vaga, nível, luz e cor, nitidez) antes de aplicar.
+- **Foto não tapa buraco.** Foto entra por função editorial, numa vaga do modelo; nunca para preencher sobra de página ou de coluna lateral. Sobra se resolve com texto (o texto cresce com apuração já feita) ou com peça de dados do NXtab.
 - **Resolução mínima:** 300 dpi no tamanho de uso (abertura de página inteira: cerca de 2.500 px de largura). Nunca ampliar foto de site.
 - Foto provisória é permitida com a etiqueta rosa **“Buscar original”** dizendo onde está a certa: “ES Brasil [nº], p. [x] — pedir original a [fonte]” ou “esbrasil.com.br, matéria de [data]”.
 - Crédito no padrão “Foto: [autor]/[veículo ou Divulgação]”; conferir licença antes de reusar imagem de banco.
@@ -243,7 +257,7 @@ Toda tabela, gráfico, box, linha fina e número do texto usa a **divulgação m
 - Montar as páginas **a partir de `kit/assets/modelo-capitulo.html`**, no tamanho fixo da revista (20,5 × 27,5 cm, 900 × 1207 px na tela). O modelo já traz o fluxo do texto entre as caixas, a medição de ocupação e as classes que o exportador do InDesign lê (ver “Contrato das páginas”). Não renomear classes nem trocar a estrutura.
 - Trabalhar com as fotos em arquivos ao lado do HTML (caminhos relativos). Antes de publicar a prova, rodar `python3 kit/scripts/embutir_imagens.py capitulo.html capitulo-prova.html --qr-materia URL_DA_MATERIA`, que embute as imagens e gera os QR Codes; publicar o arquivo resultante como artefato.
 - Corpo do texto corrido: 11 pt com entrelinha de 12 pt (Minion Pro Cond), como na base da revista.
-- O texto corrido flui de página em página e o aviso de ocupação no alto da prova diz se cabe ou quantos caracteres sobram. Nunca preencher sobra com espaço em branco: página com buraco recebe foto maior, gráfico ou painel de números.
+- O texto corrido flui de página em página e o aviso de ocupação no alto da prova diz se cabe ou quantos caracteres sobram. Nunca preencher sobra com espaço em branco nem com foto: página com buraco recebe texto ou peça de dados do NXtab (gráfico, tabela, painel de números). A coluna lateral é conferida também: nenhuma lateral termina com buraco.
 
 **1. Capacidade das páginas** (medida em Portos, versão 4, na grade da revista com corpo 11/12, aspas no texto, sem olhos)
 - Abertura: cerca de **2.000** caracteres; página interna só com foto: **2.800**; interna com a tabela padrão ou a tabela de eventos: **2.000 a 2.150**; página com a linha do tempo: **1.950**; fechamento com o box: **2.350**.
@@ -262,15 +276,15 @@ Toda tabela, gráfico, box, linha fina e número do texto usa a **divulgação m
 
 **2. Encaixar o texto nas páginas (obrigatório)**
 - O texto termina na última página, com a última coluna cheia: sem buraco e sem sobra. Tolerância: cerca de 5 linhas vazias (≈ 250 caracteres).
-- Sobrou espaço: primeiro ajustar elementos (foto maior, gráfico relevante, painel de números); se ainda faltar mais de 1/4 de página, escrever mais com apuração já feita.
-- Faltou espaço: primeiro editar o texto (enxugar, tirar número repetido de tabela ou gráfico); só depois reduzir foto. Se exceder mais de meia página, ir para a faixa seguinte, se o nível e o espelho permitirem.
+- Sobrou espaço: escrever mais com apuração já feita ou acrescentar peça de dados do NXtab relevante. Foto maior não resolve sobra.
+- Faltou espaço: o número de páginas cresce para o conteúdo caber; não cortar texto só para encaixar (decisão do Mário Fernando). Enxugar só o que for repetição ou número já dito em tabela ou gráfico. Se a página extra passar da faixa do nível ou do espelho, avisar o editor e propor a página a mais.
 - Ordem de corte: detalhes de outros estados e do exterior, listas de nomes, números repetidos. Guardar a versão integral para o site.
 - Só entregar com o texto encaixado.
 
 ## Etapa 8 · Entregáveis para aprovação
 
 1. Página HTML com as N páginas da ficha, publicada como artefato (arquivo único, saído de `embutir_imagens.py`), com o texto encaixado.
-2. PDF das páginas.
+2. PDF das páginas, sempre em vetor e no tamanho real da revista: 205 × 275 mm por página (Chromium `page.pdf` com `width: 205mm`, `height: 275mm`, `scale` ≈ 0,8609, sem margens, uma `.pagebox` por página, sem nota, banco de aspas e pendências). Nunca juntar capturas de tela em PDF: a escala sai errada e tudo fica maior. Antes de entregar, medir no PDF (PyMuPDF) que a legenda saiu em 9,5 pt e o crédito em 7 pt, como na base V5.
 3. Texto corrido separado, com contagem de caracteres com espaços.
 4. Lista de fotos com etiqueta “Buscar original” (origem, página, contato).
 5. Pauta de entrevistas, artigo assinado e lista para o comercial (etapa 4).
@@ -287,6 +301,11 @@ Texto em .docx, tabelas em .xlsx e gráficos em SVG não são feitos à mão: sa
 - Conferir se toda página tem foto e elemento de dados, box e linha do tempo.
 - Conferir caracteres (dentro da faixa do nível), número de páginas (igual à ficha ou ao espelho) e encaixe (aviso de ocupação “cabe”).
 - Conferir nomes e cargos (presidentes de entidades mudam).
+- Conferir a dupla checagem de cada número (publicação-base e site oficial) e se box, tabelas e gráficos dizem o mesmo que o texto.
+- Conferir o box “[Segmento] em Números” na primeira página, com 5 ou 3 indicadores conforme o nível, sem cruzar com o título nem com o QR Code.
+- Conferir que nenhuma aspa começa no meio de parágrafo, que as até duas vagas de aspa estão reservadas (`p.vaga-aspa`) e que o texto não credita a **ES Brasil** como fonte.
+- Reler procurando clichês, jargões, marcas de texto gerado por IA e abreviaturas no texto corrido.
+- Conferir que nenhuma foto foi usada para tapar buraco e que nenhuma coluna lateral terminou com sobra.
 - Validar todas as aspas: cada azul-claro conferida palavra por palavra com a origem; cada laranja confirmada com a pessoa (ou retirada).
 - Dados quentes (etapa 3d): no dia do fechamento, conferir de novo se saiu divulgação mais nova de cada número; cada nota de fonte diz a edição ou o período e a data de divulgação; tirar o verde-claro dos números conferidos.
 
@@ -300,14 +319,14 @@ Opções: “Sim, gerar o pacote (Recomendado)” e “Ainda não”. Não gere 
 1. Tenha o HTML aprovado em disco. Se ele estiver só no artefato, baixe com `read_file` (slug do capítulo, `paths: ["index.html"]`) e copie para a pasta de trabalho. A tabela “Capítulos já produzidos” traz os slugs.
 2. Baixe o kit (seção “Kit da skill”) e rode:
    `python3 kit/scripts/exportar_indesign.py capitulo.html saida --nome Retrospectiva2026_[Editoria]`
-   O script imprime um resumo em JSON (páginas, fotos, gráficos, caracteres, ocupação na prova e avisos). Ele monta o pacote **sobre a base da revista** (`kit/assets/base-materia-esb2026-inter.idml`): mantém estilos, amostras CMYK, camadas, preferências e páginas-mestre da casa, tira as páginas de exemplo e cria a página-mestre “R-Retrospectiva 2026” (cópia da mestre de 3 colunas só com o paginador). Use `--pagina N` com o número da primeira página no espelho do NX Pages; `--sem-base` gera o arquivo antigo, do zero.
+   O script imprime um resumo em JSON (páginas, fotos, gráficos, caracteres, ocupação na prova e avisos). Ele monta o pacote **sobre a base da Retrospectiva** (`kit/assets/base-retrospectiva-2026-v5.idml`, “MATÉRIA 1 - RETROSPECTIVA 2026 - ESB V5”): mantém estilos, amostras CMYK, camadas, preferências e páginas-mestre da casa, tira as páginas de exemplo e cria a página-mestre “R-Retrospectiva 2026”, cópia inteira da “A-Master” da V5 (fundo, retranca “retrospectiva 2026”, selo, logo da **ES Brasil**, abas de cor e paginador) com a retranca da página direita trocada pela editoria (tirada do `.tag` das páginas direitas da prova), alinhada à direita a 10 mm do refile. Cabeçalho, selo e logo da prova não vão para as páginas: vêm da mestre. Use `--pagina N` com o número da primeira página no espelho do NX Pages; `--sem-base` gera o arquivo antigo, do zero.
 3. Conferência, quando o conector da Adobe estiver disponível: envie o .idml ao Creative Cloud (`asset_initialize_file_upload`, PUT do arquivo, `asset_finalize_file_upload`) e renderize com `document_render_layout` em PDF. Compare com `Referencia/` da pasta: páginas, texto encadeado, tabelas, box e linha do tempo devem estar no lugar. O servidor da Adobe não tem a Inter nem a Minion e não recebe os Links, então fontes trocadas e fotos em branco nessa prévia são esperadas. Se a renderização falhar, corrija o script antes de entregar.
 4. Entregue o .zip com SendUserFile e um resumo curto: páginas, fotos provisórias que ainda precisam do original, avisos do script. Oferecer salvar no Drive só se ele pedir.
 
 **O que vai no pacote** (pasta `Retrospectiva2026_[Editoria]`, também compactada em .zip)
-- `.idml`: abre no InDesign 2018 ou mais novo. Páginas espelhadas de 20,5 × 27,5 cm com sangria de 3 mm, grade e páginas-mestre da revista; texto corrido numa história só, encadeada por todas as páginas, nos estilos da casa (“Texto geral 2026”, “Texto fatual cap 3 linhas 2026”, “Intertexto 2026 - caixa alta e baixa”); título, linha fina, assinatura, retranca, legendas e créditos nos estilos da casa (“Título 36pt 2026 - sobre foto”, “Lead 2026”, “Assinatura 2026”, “Retranca 2026 - Retrospectiva”, “Legenda 2026”, “Legenda dentro foto 2026”, “Créditos 2026”); box em estilos “Retro 2026 - …”; tabelas e linha do tempo do NXtab como peças vinculadas; azul, rosa, preto e branco nas amostras CMYK da casa; camadas TEXTOS, FUNDOS E IMAGENS e “Prova (não imprime)”. O rodapé do HTML não vai: o paginador vem da página-mestre.
+- `.idml`: abre no InDesign 2018 ou mais novo. Páginas espelhadas de 20,5 × 27,5 cm com sangria de 3 mm, grade e páginas-mestre da revista; texto corrido numa história só, encadeada por todas as páginas, nos estilos da casa (“Texto geral 2026”, “Texto fatual cap 3 linhas 2026”, “Intertexto 2026”); título, linha fina, assinatura, legendas e créditos nos estilos da casa, pelo nome e sem derivados (“Título 36pt 2026”, “Lead 2026”, “Assinatura 2026”, “Legenda 2026”, “Legenda dentro foto 2026”, “Créditos 2026”); retranca na página-mestre (“Retranca 2026”); box em estilos “Retro 2026 - …” com as fontes da V5 (Inter e Roboto Condensed); tabelas e linha do tempo do NXtab como peças vinculadas; azul, rosa, preto e branco nas amostras CMYK da casa; camadas TEXTOS, FUNDOS E IMAGENS e “Prova (não imprime)”. O rodapé do HTML não vai: o paginador vem da página-mestre.
 - `Links/`: fotos, selo, QR Codes e gráficos (PDF vetorial + SVG).
-- Fontes: Inter e Minion Pro vêm do Adobe Fonts, com ativação pelo próprio documento (a pasta `Document fonts/` só existe no modo `--sem-base`).
+- Fontes: Inter, Minion Pro e Roboto Condensed vêm do Adobe Fonts, com ativação pelo próprio documento (a pasta `Document fonts/` só existe no modo `--sem-base`). A página-mestre usa os arquivos da revista (fundo “BG Retrospectiva 2025.psd”, selo, logo e paginador), vinculados nas pastas da revista no servidor.
 - `Referencia/`: a prova aprovada em PDF e JPG.
 - `Textos/`: texto corrido (.docx e .txt), tabelas (os `<id>.csv` das tabelas e da linha do tempo, copiados da pasta `graficos/` depois de rodar o exportador), banco de aspas (.xlsx), fotos a buscar e pendências do fechamento.
 - `Leia-me.txt`: como abrir, revincular, trocar fontes e limpar as marcações de prova.
@@ -324,7 +343,8 @@ O exportador mede o HTML no Chromium e converte o que vê. Para o pacote sair ce
 - Linha do tempo antiga (`figure.tempo` com `li.esc-es`, `li.esc-br` ou `li.esc-mundo`): só nos capítulos já fechados nesse modelo; os novos usam `figure.nxtab`.
 - Box: `section.esn` com `.esn-top`, `.esn-body`, `.n` (i, b, span), `.esn-qr` e `.esn-src`.
 - Dado atualizado: classe `novo` (em `span` no texto, na linha fina e no box; nas peças do NXtab, em `span.novo` no `p.src` logo abaixo da peça); no texto corrido, o exportador o converte no estilo de caractere “Prova - dado atualizado”.
-- Outros: `header.top` (`.tag` do lado de fora e `img.selo` do lado da lombada), `p.fina`, `p.by`, `p.legenda`, `footer.foot` (`.pn` e `.redes`, só na prova), `section.apur`, `section.banco` e `section.atual` (registro das atualizações de dados) fora das páginas.
+- Cabeçalho (só na prova; no InDesign vem da mestre): na página esquerda, `header.top` com `span.tag` “RETROSPECTIVA 2026” e `img.selo`; na direita, `header.top` com `img.logo-esb` e `span.tag` com a editoria em caixa alta. O exportador lê a editoria desse `.tag` para a retranca da mestre.
+- Outros: `p.fina`, `p.by`, `p.legenda`, `p.vaga-aspa` (vaga de aspa a colher, com `span.tbd`), `footer.foot` (`.pn` e `.redes`, só na prova), `section.apur`, `section.banco` e `section.atual` (registro das atualizações de dados) fora das páginas.
 
 ## Perfis de editoria
 
@@ -411,6 +431,6 @@ O tamanho é decidido pela importância do tema para a **ES Brasil** e por ele e
 | Rochas (piloto) | 1 | 5 | 14.321 | 16 + 2 | `3b2bf292-ec05-4374-9fc0-0c7feaca790b` |
 | Portos e Logística | 1 | 6 | 12.960 (versão 4, grade da revista, 11/11; integral de 17.424 para o site) | 10 + 2 | `b0b7bc09-b799-4e69-bb03-519322f39235` |
 | Energia, Petróleo e Gás | 1 | 5 | cerca de 13.600 | 18 no banco | `b033b5eb-ebb6-493f-ac41-04e8ae22ed95` |
-| ESG e Meio Ambiente | 2 | 4 | cerca de 10.900 | 13 + 0 | `d6ed8533-1b39-4ce4-ab28-152126b27468` |
+| ESG e Meio Ambiente | 2 | 5 | cerca de 9.600 (versão 3, base V5, 21/11) | 12 + 0, mais 2 vagas a colher | `d6ed8533-1b39-4ce4-ab28-152126b27468` |
 
 Ao terminar um capítulo novo, informe ao Mário a linha que ele pode acrescentar a esta tabela.
