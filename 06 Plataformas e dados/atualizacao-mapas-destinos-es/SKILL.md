@@ -195,8 +195,11 @@ esta linha de base no relatório.
    - **Serviços**: o essencial por localidade. Sede: até 4 farmácias, 3 postos, 3
      supermercados, 4 bancos ou caixas 24h, hospital/UPA, delegacia ou polícia, rodoviária.
      Distrito ou vila: 1 a 2 de cada;
-   - **O que fazer**: atrações que ainda não existem na base. Se parecer relevante como
-     ponto turístico, só **sugerir** a promoção — não marcar `pontoturistico` sozinho.
+   - **O que fazer**: atrações que ainda não existem na base. **Praia com coordenada vira
+     ponto turístico, em todos os municípios** (decisão de Mário, 21/11/2026), com a categoria
+     Praia em primeiro lugar; praia que parece duplicata de outra ou está sem município vai para
+     a fila antes. Os demais atrativos: se parecer relevante como ponto turístico, só **sugerir**
+     a promoção — não marcar `pontoturistico` sozinho.
      Lembrar que a promoção muda a contagem de atrações da cidade no site (ex.: o Grande Buda,
      id 6251, está no carrossel da home mas não é ponto turístico, e Ibiraçu aparece com zero).
 4. Deduplicar contra a base: mesmo `cid`/place id, ou nome normalizado (sem acento, sem
@@ -317,9 +320,9 @@ nos demais locais (do Google, até 3 por local).
 10. **Livro da casa** (As 100 mais belas praias do Espírito Santo e outros; modelo E):
    listar todos os locais do livro a partir do PDF (com o município de cada um) e conferir, um a
    um, se estão no mapas — mesmo lugar, município certo, com coordenadas; o que falta é criado
-   (Passo 3) e o incompleto é completado. Praia do livro que não é ponto turístico vai para a fila
-   como candidata (como a Bugia e Riacho Doce em 14/11); os locais do livro são candidatos a
-   destaque. Fotos: as mesmas do livro, achadas no NX Fotos por comparação de imagem (SIFT +
+   (Passo 3) e o incompleto é completado. Praia do livro que não é ponto turístico vira ponto
+   turístico (decisão de Mário de 21/11/2026, vale para toda praia com coordenada); os locais do
+   livro são candidatos a destaque. Fotos: as mesmas do livro, achadas no NX Fotos por comparação de imagem (SIFT +
    homografia contra as páginas do PDF), tratadas (item 7), com cópia local (item 2) e crédito; a
    do livro vira a principal quando é horizontal e mostra o lugar, e as melhores das mesmas saídas
    fotográficas completam a galeria. Foto do livro que não está no NX Fotos vai para as
@@ -520,7 +523,10 @@ Vai para a fila o que apaga, junta ou é dúvida: duplicata, local fora do munic
 suspeita, fechado com sinais em conflito, foto imprópria ou repetida a apagar, tag errada, sobra
 de importação sem dados, local sem correspondência no Google, foto antiga a trocar pela versão
 tratada (sem marca, sem crédito ou fora da cópia local), divergência de crédito entre fontes,
-candidato a ponto turístico e candidato a destaque.
+candidato a ponto turístico (que não seja praia: praia com coordenada já vira ponto) e
+candidato a destaque. Situação do lugar: só "Fechado temporariamente" ou "Fechado
+permanentemente" contam como fechado; o campo de situação de muitos locais guarda o horário
+do Google ("Fechado · Abre qui. às 08:00"), que não é fechamento.
 
 - **Onde**: planilha "Fila de curadoria — Destinos ES" (tipo Sheets do Artifact; se a sessão não
   oferecer, .xlsx enviado no chat), criada na primeira rodada, com uma aba por lote
