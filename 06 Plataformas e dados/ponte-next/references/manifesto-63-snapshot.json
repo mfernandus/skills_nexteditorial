@@ -1,0 +1,443 @@
+[
+  {
+    "id": "plan-27",
+    "nome": "Plan 27",
+    "documento_id": "1BpkTJYS_I-VY054L77oxUMq0DJc1OvT5qssbnWFnY-A",
+    "url": "https://docs.google.com/document/d/1BpkTJYS_I-VY054L77oxUMq0DJc1OvT5qssbnWFnY-A/edit",
+    "situacao": "existente"
+  },
+  {
+    "id": "datafe",
+    "nome": "DataFé",
+    "documento_id": "15TCFZZjqHUnwaAy7ptvBsAy8lr3pjL7tkFrzDmjNcjs",
+    "url": "https://docs.google.com/document/d/15TCFZZjqHUnwaAy7ptvBsAy8lr3pjL7tkFrzDmjNcjs/edit",
+    "situacao": "existente"
+  },
+  {
+    "id": "comunhao",
+    "nome": "Comunhão",
+    "documento_id": "154-k4qFO-Ax1gF0WK4ax_M3kPnSgHkowYj_oOFfSkzA",
+    "url": "https://docs.google.com/document/d/154-k4qFO-Ax1gF0WK4ax_M3kPnSgHkowYj_oOFfSkzA/edit",
+    "situacao": "existente"
+  },
+  {
+    "id": "es-brasil",
+    "nome": "ES Brasil",
+    "documento_id": "11d1xBjqPmzHJpBh1TvieheKLawzGHFENVdnOQrDCNB8",
+    "url": "https://docs.google.com/document/d/11d1xBjqPmzHJpBh1TvieheKLawzGHFENVdnOQrDCNB8/edit",
+    "situacao": "existente"
+  },
+  {
+    "id": "comunhao-30",
+    "nome": "Comunhão 30 anos",
+    "documento_id": "1OzgUX9MhF4OqQN8MotJFGOHqsVKH9ArvqLaHV-tugl8",
+    "url": "https://docs.google.com/document/d/1OzgUX9MhF4OqQN8MotJFGOHqsVKH9ArvqLaHV-tugl8/edit",
+    "situacao": "existente"
+  },
+  {
+    "id": "es-atlas",
+    "nome": "ES Atlas",
+    "documento_id": "1Yj_LgwFBOYRfYnUMVffZKCmyoOUKIlS8KYmh18B15PU",
+    "url": "https://docs.google.com/document/d/1Yj_LgwFBOYRfYnUMVffZKCmyoOUKIlS8KYmh18B15PU/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "procidade-site",
+    "nome": "PróCidade — Site Municipal",
+    "documento_id": "1qgURwKGrFRfvvFzVvbuzc6CNIb7m57DQCaBAHhSCXjw",
+    "url": "https://docs.google.com/document/d/1qgURwKGrFRfvvFzVvbuzc6CNIb7m57DQCaBAHhSCXjw/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "destinos-es-site",
+    "nome": "Destinos ES — Portal",
+    "documento_id": "1-QLziD9_muoRfKIQ3kj2wio8O1bQjpGYRMThTvyWHyw",
+    "url": "https://docs.google.com/document/d/1-QLziD9_muoRfKIQ3kj2wio8O1bQjpGYRMThTvyWHyw/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "retrospectiva-2026",
+    "nome": "ES Brasil — Retrospectiva 2026",
+    "documento_id": "1Jt1EmOZry-_Pla0Klp-hsNR4aiY2Vyziuzyu8pa2LpU",
+    "url": "https://docs.google.com/document/d/1Jt1EmOZry-_Pla0Klp-hsNR4aiY2Vyziuzyu8pa2LpU/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "mudancas-26-27",
+    "nome": "Mudanças 2026–2027",
+    "documento_id": "1BlxiXRb-FGaJVRtFLyWk6gFyTTRCGtvyI-j1xReBojE",
+    "url": "https://docs.google.com/document/d/1BlxiXRb-FGaJVRtFLyWk6gFyTTRCGtvyI-j1xReBojE/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "mkt-26-27",
+    "nome": "Marketing 2026–2027",
+    "documento_id": "15ZS9iZ-F7JM8Ni7ST_pgTtTXrN65-F5cvIPOjb55o4k",
+    "url": "https://docs.google.com/document/d/15ZS9iZ-F7JM8Ni7ST_pgTtTXrN65-F5cvIPOjb55o4k/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "nx-pages",
+    "nome": "NX Pages",
+    "documento_id": "15rqG7E1lUuaAVZw88rPE91mUgJpp3EhoHQu99L4b3Ko",
+    "url": "https://docs.google.com/document/d/15rqG7E1lUuaAVZw88rPE91mUgJpp3EhoHQu99L4b3Ko/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "skills-editoriais",
+    "nome": "Skills Editoriais",
+    "documento_id": "1ZQLb7NAKm-tbSnGvFS9uJ-gk2Xud_8tbdH5PnmB6shs",
+    "url": "https://docs.google.com/document/d/1ZQLb7NAKm-tbSnGvFS9uJ-gk2Xud_8tbdH5PnmB6shs/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "skills-de-trabalho",
+    "nome": "Skills de Trabalho",
+    "documento_id": "1WR_ogytOV-QvCsY2KoZ_y836s-6Cq8wOmXpkonrcqQI",
+    "url": "https://docs.google.com/document/d/1WR_ogytOV-QvCsY2KoZ_y836s-6Cq8wOmXpkonrcqQI/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "prompts-imagens",
+    "nome": "Prompts e Imagens",
+    "documento_id": "1W-iv49rAcR3EOtqUHgxDPR3ItnWqv6wm7Mh823Mvjb8",
+    "url": "https://docs.google.com/document/d/1W-iv49rAcR3EOtqUHgxDPR3ItnWqv6wm7Mh823Mvjb8/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "es-brasil-site-2026",
+    "nome": "ES Brasil — Site 2026",
+    "documento_id": "1ohB-3vsdO8xyY8QGt1WcqdrZvhLEIivO77mSjYRL9ww",
+    "url": "https://docs.google.com/document/d/1ohB-3vsdO8xyY8QGt1WcqdrZvhLEIivO77mSjYRL9ww/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "seo-wp-sites",
+    "nome": "SEO e WordPress",
+    "documento_id": "13CqGqS_poRQoaPU7LQBy81if3nSJEpeUnN1EDKfyysU",
+    "url": "https://docs.google.com/document/d/13CqGqS_poRQoaPU7LQBy81if3nSJEpeUnN1EDKfyysU/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "serenatas",
+    "nome": "Serenatas de Natal e Escolas",
+    "documento_id": "1XJN8EA9tTi_6OUj7UgvnfYxhiiq4HTQABVIIxJtNXzs",
+    "url": "https://docs.google.com/document/d/1XJN8EA9tTi_6OUj7UgvnfYxhiiq4HTQABVIIxJtNXzs/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "nx-radar",
+    "nome": "NX Radar",
+    "documento_id": "12DWK5oscnZOpSlt9f88r3sjVatlG_vnwmkD4mG-0hxo",
+    "url": "https://docs.google.com/document/d/12DWK5oscnZOpSlt9f88r3sjVatlG_vnwmkD4mG-0hxo/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "nextor",
+    "nome": "Nextor",
+    "documento_id": "1TSjwx1HDki5I5bJFjWDJG6EZ1M22q_1RAmb1MUX6EjA",
+    "url": "https://docs.google.com/document/d/1TSjwx1HDki5I5bJFjWDJG6EZ1M22q_1RAmb1MUX6EjA/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "destinos-es",
+    "nome": "Destinos ES — Operação",
+    "documento_id": "1VaVsUA-CR-1Cc13yiJybENliFDt2wkJ_13MjeDI414w",
+    "url": "https://docs.google.com/document/d/1VaVsUA-CR-1Cc13yiJybENliFDt2wkJ_13MjeDI414w/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "procidade",
+    "nome": "PróCidade — Operação",
+    "documento_id": "1FjOWFo6ot0kCRYJcHUAbhddfwPXLm5JHkGXBdrH-xAw",
+    "url": "https://docs.google.com/document/d/1FjOWFo6ot0kCRYJcHUAbhddfwPXLm5JHkGXBdrH-xAw/edit",
+    "situacao": "criado"
+  },
+  {
+    "id": "seo-geo",
+    "nome": "SEO/GEO",
+    "documento_id": "1LvKalbxMhzirT7K0FOBdL1ECQWKKeKXDzkwwJiOnr4A",
+    "url": "https://docs.google.com/document/d/1LvKalbxMhzirT7K0FOBdL1ECQWKKeKXDzkwwJiOnr4A/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "nextor-posvendas",
+    "nome": "Pós-vendas Nextor",
+    "documento_id": "106wmEDqjc7jqH9Z_zoSNNhwCe3WfFHtsEFwhWC_y9MU",
+    "url": "https://docs.google.com/document/d/106wmEDqjc7jqH9Z_zoSNNhwCe3WfFHtsEFwhWC_y9MU/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "pauta-workflow",
+    "nome": "Construtor pré e pós-pauta",
+    "documento_id": "1NGp2V9BrtKY4PAVsPI8Rw9mKWminPUCwduYbeJ8XCRo",
+    "url": "https://docs.google.com/document/d/1NGp2V9BrtKY4PAVsPI8Rw9mKWminPUCwduYbeJ8XCRo/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "esbrasil-canais",
+    "nome": "ES Brasil — Canais",
+    "documento_id": "1g9RiSBUmA-8YFayAdnswVyQppicqJye1vGWvc3H-epA",
+    "url": "https://docs.google.com/document/d/1g9RiSBUmA-8YFayAdnswVyQppicqJye1vGWvc3H-epA/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "esbrasil-agro-2026",
+    "nome": "ES Brasil Agro 2026",
+    "documento_id": "1xP8L2d2ZprD9OhZH3SsuCAY5XGJxz0J5CpKyfZ822nA",
+    "url": "https://docs.google.com/document/d/1xP8L2d2ZprD9OhZH3SsuCAY5XGJxz0J5CpKyfZ822nA/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "es-em-acao",
+    "nome": "ES em Ação",
+    "documento_id": "1X9ApMMDWa6Q-QdF6NUHOzav8KdE9p1lyDw5yofkjojA",
+    "url": "https://docs.google.com/document/d/1X9ApMMDWa6Q-QdF6NUHOzav8KdE9p1lyDw5yofkjojA/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "mercado-imobiliario-2026",
+    "nome": "Mercado Imobiliário 2026",
+    "documento_id": "1zg7ytLWBp3AWH9zn179cAbu_DDcbBa97WL1-Kyo8zYY",
+    "url": "https://docs.google.com/document/d/1zg7ytLWBp3AWH9zn179cAbu_DDcbBa97WL1-Kyo8zYY/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "radios-next",
+    "nome": "Rádios Next",
+    "documento_id": "1SQlGeuddZ-9S9dkBcDhdLE4YzeWovnUmvLZ4oEonMns",
+    "url": "https://docs.google.com/document/d/1SQlGeuddZ-9S9dkBcDhdLE4YzeWovnUmvLZ4oEonMns/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "automacao-2026",
+    "nome": "Automação 2026",
+    "documento_id": "1HTqXx0bUDpRB08SdgKCsTTBeSuPK2MGIyFWkBHH6qng",
+    "url": "https://docs.google.com/document/d/1HTqXx0bUDpRB08SdgKCsTTBeSuPK2MGIyFWkBHH6qng/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "anuario-verde-2026",
+    "nome": "Anuário Verde 2026",
+    "documento_id": "1I6cOE1UdQsUGEtFHrpREJrE9O10Yy8ip4ug8qyY2p2c",
+    "url": "https://docs.google.com/document/d/1I6cOE1UdQsUGEtFHrpREJrE9O10Yy8ip4ug8qyY2p2c/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "devocional-comunhao-2026",
+    "nome": "Devocional Comunhão 2026",
+    "documento_id": "1IevW6qHSE43fNNfYFJqOwOKJ-NkVrVUE3dov_2CMqmE",
+    "url": "https://docs.google.com/document/d/1IevW6qHSE43fNNfYFJqOwOKJ-NkVrVUE3dov_2CMqmE/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "revista-esx-sebrae",
+    "nome": "Revista ESX Sebrae",
+    "documento_id": "1wxRPNYYkmcjdUmrFhekTCaXU3QuBgStISuSJlmiKPIs",
+    "url": "https://docs.google.com/document/d/1wxRPNYYkmcjdUmrFhekTCaXU3QuBgStISuSJlmiKPIs/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "revista-fit-sebrae",
+    "nome": "Revista FIT Sebrae",
+    "documento_id": "188u-Hfrub_2ek8Ya0AI5Jt1ogRVDrN1AOqzkAawnbkg",
+    "url": "https://docs.google.com/document/d/188u-Hfrub_2ek8Ya0AI5Jt1ogRVDrN1AOqzkAawnbkg/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "comunhao-328",
+    "nome": "Comunhão — edição 328",
+    "documento_id": "1g0VHmok6Ga24ySjYNp0GOy7o2DGnQWz-L8V0bSdAJdg",
+    "url": "https://docs.google.com/document/d/1g0VHmok6Ga24ySjYNp0GOy7o2DGnQWz-L8V0bSdAJdg/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "next-branding-template-ai",
+    "nome": "Next Branding Template AI",
+    "documento_id": "1b_BsaoeoydoGVKn1vz8UkKLyxwOnCWLfYWjw215qpOQ",
+    "url": "https://docs.google.com/document/d/1b_BsaoeoydoGVKn1vz8UkKLyxwOnCWLfYWjw215qpOQ/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "esbrasil-rochas",
+    "nome": "ES Brasil — Edição Rochas",
+    "documento_id": "1r6wvWcbbZ8uMZdyc5aQu4DciXqWN9Z7q11S7O4riCeQ",
+    "url": "https://docs.google.com/document/d/1r6wvWcbbZ8uMZdyc5aQu4DciXqWN9Z7q11S7O4riCeQ/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "redes-esbrasil-2026",
+    "nome": "Redes Sociais ES Brasil 2026",
+    "documento_id": "1tv3_mwyZ5l5dqSEYrlzxUEcY1DuRFS4kDr3nyzo0g-E",
+    "url": "https://docs.google.com/document/d/1tv3_mwyZ5l5dqSEYrlzxUEcY1DuRFS4kDr3nyzo0g-E/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "redes-comunhao-2026",
+    "nome": "Redes Sociais Comunhão 2026",
+    "documento_id": "1lQZfCF68owe5n8efs9VoHEpyruDqP51MSgvniWIgqKY",
+    "url": "https://docs.google.com/document/d/1lQZfCF68owe5n8efs9VoHEpyruDqP51MSgvniWIgqKY/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "personagens-reais",
+    "nome": "Personagens reais",
+    "documento_id": "1p6SA61kFxfck8i4T68J9U7_hnvgCqjj-pOZtVsfK-Iw",
+    "url": "https://docs.google.com/document/d/1p6SA61kFxfck8i4T68J9U7_hnvgCqjj-pOZtVsfK-Iw/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "plan-editorial-2026",
+    "nome": "Plano Editorial 2026",
+    "documento_id": "1f4Hlw1VCAb6e89wOOrljwKEZ3xlRJ9_3VPEAv-yuNDw",
+    "url": "https://docs.google.com/document/d/1f4Hlw1VCAb6e89wOOrljwKEZ3xlRJ9_3VPEAv-yuNDw/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "papers-2026",
+    "nome": "Papers 2026",
+    "documento_id": "1LyfJEShsw5qfm2rHR6kEeqybC-P98jN0YZh6D2_ykug",
+    "url": "https://docs.google.com/document/d/1LyfJEShsw5qfm2rHR6kEeqybC-P98jN0YZh6D2_ykug/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "lancamento-livro-destinos-2025",
+    "nome": "Lançamento Livro Destinos 2025",
+    "documento_id": "1LeMLN3Mq54Tjy1kmIjlcpuGr8yyR5yQhpVfI8Kl2z1A",
+    "url": "https://docs.google.com/document/d/1LeMLN3Mq54Tjy1kmIjlcpuGr8yyR5yQhpVfI8Kl2z1A/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "politicos-evangelicos-br",
+    "nome": "Políticos Evangélicos BR",
+    "documento_id": "10gfjkLeOet1pYTxMgCJ79xuSwn0hJKq2sI6q1J6Xv_w",
+    "url": "https://docs.google.com/document/d/10gfjkLeOet1pYTxMgCJ79xuSwn0hJKq2sI6q1J6Xv_w/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "folder-guarapari",
+    "nome": "Folder Guarapari",
+    "documento_id": "1vfXNOjEUpfQTd_3cHXzFGVDtH0C5pgc4xdDEYQMxUF4",
+    "url": "https://docs.google.com/document/d/1vfXNOjEUpfQTd_3cHXzFGVDtH0C5pgc4xdDEYQMxUF4/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "retrospectiva-2025",
+    "nome": "Retrospectiva 2025",
+    "documento_id": "14-yHfOe-D5SDrmRfKxu6y-TQRbC6FDzJCsIYNhwchRA",
+    "url": "https://docs.google.com/document/d/14-yHfOe-D5SDrmRfKxu6y-TQRbC6FDzJCsIYNhwchRA/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "ebooks-comunhao",
+    "nome": "E-books Comunhão",
+    "documento_id": "1grGxyy1hkYMZBi1xrepiqHzygNwtjrFmC6hCpkhJEN4",
+    "url": "https://docs.google.com/document/d/1grGxyy1hkYMZBi1xrepiqHzygNwtjrFmC6hCpkhJEN4/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "site-next-2025",
+    "nome": "Site Next 2025",
+    "documento_id": "12F7p77o6flF4_KtdXIaflSpAeofnW8oxiH9-mx0-NME",
+    "url": "https://docs.google.com/document/d/12F7p77o6flF4_KtdXIaflSpAeofnW8oxiH9-mx0-NME/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "email-mkt",
+    "nome": "E-mail Marketing",
+    "documento_id": "17Dco4nfSEe_3TL1dGT-GIIpn4G4PSNih4PCV3Q8fy4o",
+    "url": "https://docs.google.com/document/d/17Dco4nfSEe_3TL1dGT-GIIpn4G4PSNih4PCV3Q8fy4o/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "livros-turismo-2025-2026",
+    "nome": "Livros Turismo 2025/2026",
+    "documento_id": "1uNRvISYo7FJmUkD3O9vuakosfgig7qXvmHxrbtTTDTA",
+    "url": "https://docs.google.com/document/d/1uNRvISYo7FJmUkD3O9vuakosfgig7qXvmHxrbtTTDTA/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "folder-turismo",
+    "nome": "Folder Turismo",
+    "documento_id": "1pBOjq7P-m4KNpKi615LGoi6QXKquhzxpmz34vU_beOI",
+    "url": "https://docs.google.com/document/d/1pBOjq7P-m4KNpKi615LGoi6QXKquhzxpmz34vU_beOI/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "endereco-da-historia",
+    "nome": "Endereço da História",
+    "documento_id": "1Iu4Yu-Rb-YXSK4-tnkFkxPS240cf-uFcejtmfd_6Mos",
+    "url": "https://docs.google.com/document/d/1Iu4Yu-Rb-YXSK4-tnkFkxPS240cf-uFcejtmfd_6Mos/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "estudos-biblicos",
+    "nome": "Estudos Bíblicos",
+    "documento_id": "1_63IbSlEe2mIiEKbQKBilR-cYF4KSym4YR6Lp6YG3ak",
+    "url": "https://docs.google.com/document/d/1_63IbSlEe2mIiEKbQKBilR-cYF4KSym4YR6Lp6YG3ak/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "assinatura-recorrente",
+    "nome": "Assinatura em Recorrência",
+    "documento_id": "1zLLhkvBHf_EKT6HLXoy6O7LPD9493YR_11hHWXqXYUU",
+    "url": "https://docs.google.com/document/d/1zLLhkvBHf_EKT6HLXoy6O7LPD9493YR_11hHWXqXYUU/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "reguas-automacao",
+    "nome": "Réguas de Automação",
+    "documento_id": "1aRuS2bN-UEQlJD8uLpVgRnjwNtngAOUnef6XW-JAJwM",
+    "url": "https://docs.google.com/document/d/1aRuS2bN-UEQlJD8uLpVgRnjwNtngAOUnef6XW-JAJwM/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "redes-sociais-nxte",
+    "nome": "Redes Sociais Next Editorial",
+    "documento_id": "1sz1AiCOdGCAyKoUA8X0GL01i4IzGbE0orPAswlIyurw",
+    "url": "https://docs.google.com/document/d/1sz1AiCOdGCAyKoUA8X0GL01i4IzGbE0orPAswlIyurw/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "estudos-biblicos-comunhao",
+    "nome": "Estudos Bíblicos — Comunhão",
+    "documento_id": "1aPlUEohF2m2z2TzJayNFYcfjBZ3eeO9zM5G0LHbFgGY",
+    "url": "https://docs.google.com/document/d/1aPlUEohF2m2z2TzJayNFYcfjBZ3eeO9zM5G0LHbFgGY/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "30anos-next-editorial",
+    "nome": "30 anos Next Editorial",
+    "documento_id": "1aDaSFhA9I1YJu2dL9O1DiuLxT89fPQxka-TLo1uLDNs",
+    "url": "https://docs.google.com/document/d/1aDaSFhA9I1YJu2dL9O1DiuLxT89fPQxka-TLo1uLDNs/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "maquina-de-vendas",
+    "nome": "Máquina de Vendas",
+    "documento_id": "1IINFAahEH9OaUpVyzbZKcB3aJqyT62HI7Ha7d8G6IRo",
+    "url": "https://docs.google.com/document/d/1IINFAahEH9OaUpVyzbZKcB3aJqyT62HI7Ha7d8G6IRo/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "editorial-2026-arquitetura",
+    "nome": "Editorial 2026 — Arquitetura",
+    "documento_id": "1pEPrvA-_sDj6zVgBsVjWuhkfDboV9ReC9XyTOFKhLLE",
+    "url": "https://docs.google.com/document/d/1pEPrvA-_sDj6zVgBsVjWuhkfDboV9ReC9XyTOFKhLLE/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "alter-eu",
+    "nome": "ALTER/EU",
+    "documento_id": "1e7sOwlzSPGdfw3vullHdgzbtnI9_wmZEXpo7k3w5NI4",
+    "url": "https://docs.google.com/document/d/1e7sOwlzSPGdfw3vullHdgzbtnI9_wmZEXpo7k3w5NI4/edit",
+    "situacao": "novo_21_11_2026"
+  },
+  {
+    "id": "onerpm-suno",
+    "nome": "OneRPM e Suno",
+    "documento_id": "1V74cXOgJaQ97RYt3E1N8uNUG-bnQC4sfb6av60fMfR8",
+    "url": "https://docs.google.com/document/d/1V74cXOgJaQ97RYt3E1N8uNUG-bnQC4sfb6av60fMfR8/edit",
+    "situacao": "novo_21_11_2026"
+  }
+]

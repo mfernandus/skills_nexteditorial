@@ -294,6 +294,17 @@
     "sha": "4fe89c0b594b2300b8e8f27390b08a0e0588f1ae906c0c316c6f204e1a687423",
     "updatedAt": "2026-11-18T10:00:20.594914Z"
   },
+  "ponte-next": {
+    "arquivos": [
+      "SKILL.md",
+      "references/instalacao.md",
+      "references/manifesto-63-snapshot.json",
+      "templates/estado-atual.md"
+    ],
+    "pasta": "06 Plataformas e dados/ponte-next",
+    "sha": "c65453a50ba53d9c6abb0fb2cdaf06ed56ead75802660e3162934f3dcb1b95ad",
+    "updatedAt": "2026-11-21T17:13:55.130102Z"
+  },
   "previsao-tempo-esbrasil": {
     "arquivos": [
       "SKILL.md"
