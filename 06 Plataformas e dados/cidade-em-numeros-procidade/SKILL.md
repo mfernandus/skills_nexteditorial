@@ -9,11 +9,9 @@ Use quando Mário pedir um site "{Cidade} em Números" ou disser "faz igual ao d
 
 ## Modelo
 
-- Nunca remixar. Toda cidade entra na plataforma única **Prócidade** (projeto Lovable `eefc77b7-2f49-43bc-9992-fdf24df5497d`, workspace Mario2), publicada em `procidade.com/{slug}`.
-- Cidade nova = pasta `src/cidades/{slug}/` (identidade, cor, mídia, território, mapa, Destinos ES, textos editoriais, SEO, assistente) + linha na tabela `cidades` (começa com `ativo = false`) + carga por SQL com a coluna `cidade` preenchida. Slug sem acento, com hífen.
-- Modelo de referência: **Conceição da Barra** (`src/cidades/conceicao-da-barra`), a mais completa. Piúma é o segundo exemplo.
+- Remixar o projeto mais novo: **Piúma em Números** (`ba2d01b2-9467-440e-8df4-2a6522e9e37c`). Ele já tem a camada de área urbanizada e a ligação com o Destinos ES. O original é **Conceição da Barra em Números** (`a03465d6-3b84-4138-946c-b21759b79baa`).
 - A estrutura, o layout, os coletores e as fontes ficam iguais. Tudo o mais é da nova cidade: números, textos, fotos, vídeos, mapa, relevo, brasão, cores do brasão, créditos e testes.
-- Acrescentar a cidade na seção "Cidades" do conhecimento do projeto Prócidade (`get_project_knowledge` e depois `set_project_knowledge` com o texto inteiro), sem apagar as outras.
+- Logo depois do remix, reescrever o conhecimento do projeto (`set_project_knowledge`) com os dados da cidade e as regras da casa abaixo.
 
 ## 1. Identificação da cidade
 
@@ -44,7 +42,6 @@ Sem dado oficial, o card fica pendente. Nunca inventar número.
   - `link_do_original` aceita cerca de 4 chamadas por minuto e o link vale 15 minutos.
   - Baixar um arquivo por vez e conferir cada um abrindo com o PIL.
   - Tratar e exportar em webp nos tamanhos 2400 (capa), 1600 e 640.
-  - Foto de capa (hero) sempre tratada: levemente aquecida, clara e viva, nunca escurecida nem coberta por overlay escuro. O componente de hero da plataforma já aplica o tratamento; a foto escolhida não pode ser escura de origem.
 - **Vídeos do NX Fotos:**
   - capa: 4 trechos com transição de 0,5 s, cerca de 16 s;
   - faixa da cidade: 1 trecho de 10 s.
@@ -76,7 +73,7 @@ Todo destino do mapa liga à ficha do Destinos ES, o guia turístico da Next. Va
    - Na dúvida, não ligar.
    - Ponto do Destinos ES que falta no mapa pode entrar com a posição do Destinos ES.
 3. **Slug:** vem do endereço público. `https://mapas.nx.tv.br/publico/destino/{id}` redireciona para `https://destinoses.com/destino/{id}/{slug}`.
-4. **Configuração no projeto:** `src/cidades/{slug}/destinos.ts`, com `municipioId`, `municipioSlug`, `municipioNome` e UTM `utm_source=procidade&utm_medium=cidade-em-numeros&utm_campaign={slug}`. Cada item do mapa leva `destino: { id, slug }`.
+4. **Configuração no projeto:** `src/config/destinos.ts`, com `municipioId`, `municipioSlug`, `municipioNome` e UTM `utm_source=procidade&utm_medium=cidade-em-numeros&utm_campaign={slug}`. Cada item do mapa leva `destino: { id, slug }`.
 5. **Painel do item selecionado**, lido ao vivo de `GET /api/mapa/{id}`:
    - foto principal com crédito "Foto: Autor / Destinos ES" (nunca foto com autoria do Google Places) e o subtítulo;
    - os blocos o que fazer, onde comer e onde ficar: headline, texto curto e até 3 lugares vinculados mais próximos, com a distância;
@@ -85,18 +82,17 @@ Todo destino do mapa liga à ficha do Destinos ES, o guia turístico da Next. Va
 6. **Bloco "{Cidade} no Destinos ES":** chips com os pontos turísticos ao vivo e o link `https://destinoses.com/{slug}`.
 7. **Fichas magras:** conferir quais fichas estão sem textos ou com poucos lugares vinculados e avisar Mário. A skill atualizacao-mapas-destinos-es enriquece essas fichas.
 
-## 6. Banco, lake e coletores
+## 6. Banco e coletores
 
-- **Os números abertos já existem:** o lake central fica no ES em Números (schema `lake`) e cobre os 78 municípios, com Brasil, ES, regiões, microrregiões e Grande Vitória ao lado. A Prócidade é espelho dele (`lake.fatos` e `lake.fatos_contexto`). Não criar coletor de IBGE ou Siconfi por cidade.
-- **Carga própria da cidade por SQL** (`query_database`), sempre com `cidade = '{slug}'`: indicadores, series, ranking_es, obras, emendas, noticias, eleicoes_totais, eleicoes_resultados, vereadores e fotos.
+- **Trocar a carga da cidade anterior por SQL** (`query_database`) nas tabelas indicadores, series, ranking_es, obras, emendas, noticias, eleicoes_totais, eleicoes_resultados, vereadores e fotos.
   - O app lê `series` sem ordenação: inserir a composição da cidade e a do ES na mesma ordem.
   - Tabela `fotos`: as 20 linhas apontam para as URLs dos assets 1600 e 640, lidas dos `.asset.json` do projeto.
-- **Dados exclusivos da prefeitura** (obras, emendas, vereadores, notícias, uploads do painel) vão para o lake central com selo "exclusivo do município" e não aparecem no site do ES em Números. Demandas ficam só na Prócidade e só para usuários logados.
-- **Ativação:** só depois da conferência, `cidades.ativo = true`. A cidade aparece sozinha na página inicial da Prócidade com o selo "portal ativo".
+  - Tabela `coletores`: atualizar o campo `fonte` com o nome da nova cidade.
+- **Coletores:** pedir ao agente que rode sync-ibge, sync-siconfi e sync-noticias e confira os agendamentos, que um remix pode perder. Comparar as séries antes e depois.
 
 ## 7. Conferência e entrega
 
-- Nenhum nome, número ou texto da cidade fora de `src/cidades/{slug}/` e do banco, e nenhum texto de outra cidade dentro da pasta nova. A única exceção é outra cidade quando aparece num ranking estadual.
+- Busca sem resultado pelos nomes da cidade anterior, dos distritos, das praias, dos códigos e dos prefixos de asset. A única exceção é a cidade anterior quando aparece num ranking estadual.
 - Build e testes passando.
 - Prévia em 390 px e em 1440 px:
   - capa com vídeo, ticker e cartões;
