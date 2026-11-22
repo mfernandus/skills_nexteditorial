@@ -89,10 +89,10 @@ Na mesma mensagem, peça (opcionais, com padrão): **repórter** (padrão: “Po
 
 **Modelos de página** (estão prontos em `kit/assets/modelo-capitulo.html`)
 1. Abertura: foto de no máximo meia página com título, QR Code, linha fina e texto em 3 colunas; pode levar uma tabela ou um gráfico do NXtab ligeiramente sobreposto à foto, alinhado à última coluna da direita. O título fica na parte livre da foto, sem se cruzar com a peça nem com o QR Code. O box “[Segmento] em Números” não vai na abertura (ver etapa 6).
-2. Dados: tabela padrão no alto, texto em 2 colunas e coluna lateral com foto e gráfico.
+2. Dados: tabela padrão no alto, texto em 3 colunas (a terceira na lateral, acima das peças) e gráfico ou lista do NXtab no pé da lateral. Sem foto: a tabela padrão já é o elemento visual da página.
 3. Contexto: foto em faixa, texto em 2 colunas, gráfico lateral e linha do tempo acima do rodapé.
 4. Eventos: foto, tabela de feiras, eventos ou marcos do ano (conforme o perfil), texto em 2 colunas e gráficos na lateral.
-5. Fechamento: foto (no máximo meia página), fim do texto e o box “[Segmento] em Números” na coluna lateral, ocupando uma coluna, fora da foto; se sobrar altura na lateral, uma peça de dados do NXtab embaixo do box.
+5. Fechamento: foto (no máximo meia página), fim do texto e o box “[Segmento] em Números” no pé da coluna lateral, ocupando uma coluna, fora da foto, como último elemento da página. Acima do box, na lateral, sobe o fim do texto (caixa `.flow.c1` com o `data-flow` seguinte); nenhuma peça vai embaixo do box. O gráfico ou a tabela que ocuparia a lateral vai para a página do assunto.
 - A quantidade de modelos segue o número de páginas da ficha. Capítulos menores juntam modelos (2 páginas = abertura + fechamento com tabela padrão; 1 página = abertura compacta com tabela ou gráfico, box e linha do tempo compactos). A linha do tempo e o box nunca saem.
 - Nível 1 com 6 páginas repete o modelo 2 ou 4.
 
@@ -202,9 +202,10 @@ Toda tabela, gráfico, box, linha fina e número do texto usa a **divulgação m
 
 **Box “[Segmento] em Números”, sempre numa coluna, fora da foto, de preferência na última página** (decisão do Mário Fernando, 20/11/2026, revista por ele em 21/11/2026; ex.: “Agro em Números”, “ESG em Números”, “Mercado Imobiliário em Números”)
 - Todo capítulo traz um box com os principais números do segmento, com o nome adaptado ao tema.
-- O box ocupa sempre uma coluna da grade (a coluna lateral, 55,8 mm), nunca vai sobre a foto nem dentro de outra tabela, e fica de preferência na última página do capítulo (fechamento), na lateral. Em capítulo de uma página, vai na lateral da própria página, fora da foto.
+- O box ocupa sempre uma coluna da grade (a coluna lateral, 55,8 mm), nunca vai sobre a foto nem dentro de outra tabela, e fica de preferência na última página do capítulo (fechamento), no pé da lateral, como **última coisa da página** (regra do Mário Fernando, 21/11/2026). Em capítulo de uma página, vai no pé da lateral da própria página, fora da foto.
+- Box compacto, mais achatado que comprido (cerca de 9 cm de altura no impresso com 5 indicadores): logomarca pequena sobre o título; cada indicador em duas linhas (etiqueta e número na primeira, descrição de até uma linha embaixo, na largura toda); rodapé curto com QR Code e “Mais indicadores em esemnumeros.esbrasil.com.br”.
 - **5 indicadores** nas verticais da **ES Brasil** e nas editorias grandes (níveis 1 e 2), se houver cinco bons; **3 indicadores** nas histórias menores (níveis 3 e 4). Melhor três números fortes do que cinco fracos.
-- Números de 2026, na divulgação mais recente (etapa 3d), cada um com etiqueta ES ou BR e conferidos pela dupla checagem; sempre que existir, o dado vem da plataforma **ES em Números**. Texto de cada indicador em uma ou duas linhas.
+- Números de 2026, na divulgação mais recente (etapa 3d), cada um com etiqueta ES ou BR e conferidos pela dupla checagem; sempre que existir, o dado vem da plataforma **ES em Números**. Texto de cada indicador em uma linha (cerca de 40 caracteres).
 - Layout padronizado para todos os capítulos, adaptado a cada segmento só no nome e nos números. O desenho oficial do box será enviado pelo Mário; até lá, usar o box provisório do modelo (logomarca **ES em Números** numa faixa clara, corpo em navy, QR Code para esemnumeros.esbrasil.com.br e linha de fontes), com os estilos de box da base V5 (título em Inter Black 12, números em Inter Black 15/15, textos em Roboto Condensed Light 9,5/11, sem caixa alta), e avisar na nota da prova que o layout é provisório.
 - Se a plataforma ainda não tiver o indicador do tema, registrar em “Para o fechamento” como pauta para alimentá-la.
 
@@ -237,7 +238,7 @@ Toda tabela, gráfico, box, linha fina e número do texto usa a **divulgação m
 - O modelo do kit já traz essa escala. Os gráficos do NXtab seguem a hierarquia do próprio NXtab, com os dados na mesma faixa de 6,5 pt; na tabela `t-retro`, as células saem perto de 5,8 pt.
 
 **Regras de página**
-- **Toda página tem, no mínimo, uma foto e um elemento de dados** (gráfico, tabela, infográfico ou linha do tempo).
+- **Toda página tem, no mínimo, um elemento de dados** (gráfico, tabela, infográfico ou linha do tempo). Foto só onde ilustra o assunto da página; página sem foto é aceita (regra do Mário Fernando, 21/11/2026).
 - **Manual de estilo:** toda a diagramação (texto, tabelas, boxes e gráficos) segue o manual de estilo da **ES Brasil**: os estilos de parágrafo, espaçamentos, fontes e páginas-mestre da base V5 do InDesign (já traduzidos em `kit/assets/grade-esb2026.css` e no modelo) e o Brand System 2026 (paleta da **ES Brasil**). Capítulo montado fora do modelo do kit não serve: refazer sobre ele.
 - Paleta **ES Brasil**: azul #00427B e navy dos infográficos #0F2D5C, ciano #18A6E6, rosa #E01E70 (destaques e pendências), azul-pastel #A2D2FF.
 - Tipografia: a da base da Retrospectiva (“MATÉRIA 1 - RETROSPECTIVA 2026 - ESB V5”, de 21/11/2026), pelos nomes dos estilos. Texto corrido em **Minion Pro Cond 11/12**, tracking -15, recuo de 8,5 pt (“Texto geral 2026”; na prova, Crimson Pro em 15,79 px, calibrada para ocupar a mesma largura); abertura com capitular de 3 linhas (“Texto fatual cap 3 linhas 2026”); intertítulo em Inter Black 11/12, azul, tracking -20, em caixa alta e baixa (“Intertexto 2026”, já sem caixa alta na V5); título sobre a foto em Inter Black 35,1/32,3 pt, branco, centralizado, tracking -25 (“Título 36pt 2026”); linha fina em Inter Bold 16/16 (“Lead 2026”); assinatura em Inter Black 11/11,5 (“Assinatura 2026”); legendas em **Roboto Condensed** 9,5/11, tracking -25, preto 90% (“Legenda 2026”) e, sobre a foto, Roboto Condensed Light 9,5/11, preto 90%, sobre fundo claro (“Legenda dentro foto 2026”); créditos em Roboto Condensed Light 7/7, tracking -10, na vertical, à direita da foto (“Créditos 2026”); retranca em Inter Black 12, tracking -20, em caixa alta (“Retranca 2026”, na página-mestre). Peças do NXtab seguem a escala tipográfica das peças, em **Inter**.
@@ -248,7 +249,7 @@ Toda tabela, gráfico, box, linha fina e número do texto usa a **divulgação m
 
 - **Ordem de busca:** (1) banco **NX Fotos** (`buscar`, `link_do_original` para o arquivo em resolução cheia); (2) fotos do site esbrasil.com.br e das publicações da **ES Brasil** que serviram de base ao capítulo (originais na pasta de links do InDesign da edição); (3) fotos oficiais de entidades e assessorias; (4) organizadoras das feiras; (5) Adobe Stock licenciado.
 - **Escolha por espaço:** cada vaga (abertura, faixa, lateral, fechamento) recebe a foto que conta aquela parte do texto, escolhida por beleza, informação contida na foto e atualidade. Tratar todas (recorte para a proporção da vaga, nível, luz e cor, nitidez) antes de aplicar.
-- **Foto não tapa buraco.** Foto entra por função editorial, numa vaga do modelo; nunca para preencher sobra de página ou de coluna lateral. Sobra se resolve com texto (o texto cresce com apuração já feita) ou com peça de dados do NXtab.
+- **Foto não tapa buraco.** Foto entra por função editorial, numa vaga do modelo; nunca para preencher sobra de página ou de coluna lateral, nem cresce para compensar falta de texto (reforçado pelo Mário Fernando em 21/11/2026). Quando uma foto sai, o texto sobe para o lugar dela. Sobra se resolve com texto (o texto cresce com apuração já feita) ou com peça de dados do NXtab.
 - **Resolução mínima:** 300 dpi no tamanho de uso (abertura de página inteira: cerca de 2.500 px de largura). Nunca ampliar foto de site.
 - Foto provisória é permitida com a etiqueta rosa **“Buscar original”** dizendo onde está a certa: “ES Brasil [nº], p. [x] — pedir original a [fonte]” ou “esbrasil.com.br, matéria de [data]”.
 - Crédito no padrão “Foto: [autor]/[veículo ou Divulgação]”; conferir licença antes de reusar imagem de banco.
@@ -299,11 +300,12 @@ Texto em .docx, tabelas em .xlsx e gráficos em SVG não são feitos à mão: sa
 
 - Conferir cada número contra a fonte e refazer as contas em código.
 - Conferir recorte (ES ou Brasil), período e unidade de cada número.
-- Conferir se toda página tem foto e elemento de dados, box e linha do tempo.
+- Conferir se toda página tem elemento de dados, se o capítulo tem box e linha do tempo e se cada foto ilustra o assunto da sua página.
 - Conferir caracteres (dentro da faixa do nível), número de páginas (igual à ficha ou ao espelho) e encaixe (aviso de ocupação “cabe”).
 - Conferir nomes e cargos (presidentes de entidades mudam).
 - Conferir a dupla checagem de cada número (publicação-base e site oficial) e se box, tabelas e gráficos dizem o mesmo que o texto.
-- Conferir o box “[Segmento] em Números”: uma coluna de largura, fora da foto, de preferência na lateral da última página, com 5 ou 3 indicadores conforme o nível.
+- Conferir o box “[Segmento] em Números”: uma coluna de largura, fora da foto, compacto, no pé da lateral da última página e como último elemento dela, com 5 ou 3 indicadores conforme o nível.
+- Conferir peça por peça (tabelas, gráficos, linha do tempo, box, legendas e linha fina) contra o texto: o mesmo número, recorte e período quando aparece nos dois; o que só a peça mostra é complemento da mesma fonte e não pode contradizer o texto. Registrar o resultado em “Para o fechamento”.
 - Conferir que nenhuma foto passa de meia página e que a peça sobre a foto de abertura, se houver, está alinhada à última coluna da direita, sem cruzar com o título nem com o QR Code.
 - Conferir que nenhuma aspa começa no meio de parágrafo, que as até duas vagas de aspa estão reservadas (`p.vaga-aspa`) e que o texto não credita a **ES Brasil** como fonte.
 - Reler procurando clichês, jargões, marcas de texto gerado por IA e abreviaturas no texto corrido.
