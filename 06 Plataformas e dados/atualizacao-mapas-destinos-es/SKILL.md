@@ -74,9 +74,7 @@ revisão** de estabelecimentos (lotes comida/hospedagem). A skill usa essas peç
   **Claude in Chrome** numa aba de `https://mapas.nx.tv.br` com Mário logado. Checar com
   `GET /api/me`: 401 → pedir para Mário entrar no painel no Chrome dele. **Nunca digitar senha.**
 - **Limite: 120 requisições/min.** Espaçar ~550 ms; em 429, esperar `Retry-After` (≈30 s).
-  Varreduras longas: laço em segundo plano na página (`window.__job`) e consultar. Mais de um
-  laço na mesma aba: fila global na função `api`, com 700 ms entre o início de duas chamadas
-  (em 20/11, dois laços de 550 ms cada estouraram o limite e caíram em esperas de 30 s).
+  Varreduras longas: laço em segundo plano na página (`window.__job`) e consultar.
 - O retorno do javascript_tool é bloqueado se contiver `?`, `&` ou `=` (URLs, query strings):
   devolver só os campos necessários e trocar esses caracteres antes de retornar.
 
@@ -195,11 +193,8 @@ esta linha de base no relatório.
    - **Serviços**: o essencial por localidade. Sede: até 4 farmácias, 3 postos, 3
      supermercados, 4 bancos ou caixas 24h, hospital/UPA, delegacia ou polícia, rodoviária.
      Distrito ou vila: 1 a 2 de cada;
-   - **O que fazer**: atrações que ainda não existem na base. **Praia com coordenada vira
-     ponto turístico, em todos os municípios** (decisão de Mário, 21/11/2026), com a categoria
-     Praia em primeiro lugar; praia que parece duplicata de outra ou está sem município vai para
-     a fila antes. Os demais atrativos: se parecer relevante como ponto turístico, só **sugerir**
-     a promoção — não marcar `pontoturistico` sozinho.
+   - **O que fazer**: atrações que ainda não existem na base. Se parecer relevante como
+     ponto turístico, só **sugerir** a promoção — não marcar `pontoturistico` sozinho.
      Lembrar que a promoção muda a contagem de atrações da cidade no site (ex.: o Grande Buda,
      id 6251, está no carrossel da home mas não é ponto turístico, e Ibiraçu aparece com zero).
 4. Deduplicar contra a base: mesmo `cid`/place id, ou nome normalizado (sem acento, sem
@@ -213,9 +208,7 @@ esta linha de base no relatório.
    4 serviços, 3 fazer.
 7. Nunca inventar estabelecimento: só entra o que veio da busca, com endereço e coordenadas.
 8. **Ficha mínima de todo local novo ou completado**: título do Google em português sem sufixo
-   de SEO (nome do Google só com sinais, como ".", não serve: buscar o nome real na placa das
-   fotos, no site ou no Booking; sem confirmação, título descritivo provisório, como "Pousada em
-   Guriri Norte", nível bruto e fila); endereço e coordenadas; categoria com tipo, a mais representativa primeiro; celular
+   de SEO; endereço e coordenadas; categoria com tipo, a mais representativa primeiro; celular
    de 9 dígitos começando por 9 como WhatsApp (fixo só com link wa.me no site do lugar); site do
    próprio lugar; horário no formato do painel; faixa de preço pelo price_level; nota, total e
    link do Google no resumo de avaliações (Booking e Hotels.com em `breakdown_data`: nota,
@@ -320,9 +313,9 @@ nos demais locais (do Google, até 3 por local).
 10. **Livro da casa** (As 100 mais belas praias do Espírito Santo e outros; modelo E):
    listar todos os locais do livro a partir do PDF (com o município de cada um) e conferir, um a
    um, se estão no mapas — mesmo lugar, município certo, com coordenadas; o que falta é criado
-   (Passo 3) e o incompleto é completado. Praia do livro que não é ponto turístico vira ponto
-   turístico (decisão de Mário de 21/11/2026, vale para toda praia com coordenada); os locais do
-   livro são candidatos a destaque. Fotos: as mesmas do livro, achadas no NX Fotos por comparação de imagem (SIFT +
+   (Passo 3) e o incompleto é completado. Praia do livro que não é ponto turístico vai para a fila
+   como candidata (como a Bugia e Riacho Doce em 14/11); os locais do livro são candidatos a
+   destaque. Fotos: as mesmas do livro, achadas no NX Fotos por comparação de imagem (SIFT +
    homografia contra as páginas do PDF), tratadas (item 7), com cópia local (item 2) e crédito; a
    do livro vira a principal quando é horizontal e mostra o lugar, e as melhores das mesmas saídas
    fotográficas completam a galeria. Foto do livro que não está no NX Fotos vai para as
@@ -477,8 +470,7 @@ ou na cidade errada é pior do que nenhuma: a curadoria cobre o lugar, os dados 
 | Lugar | merece estar no site (critérios de nota do Passo 3; sobra de importação sem dados; tema que não é lugar) |
 | Dados | coordenadas, endereço, categoria com tipo e primeira categoria representativa |
 | Dados | telefone (celular de 9 dígitos começando por 9 = WhatsApp), horário, site que abre e é do próprio lugar |
-| Dados | resumo do card (`ai_description` ou `about`) presente, sem nota e sem comodidade inventada; título sem sufixo de SEO e com nome de verdade (título só com sinais reprova o lugar) |
-| Dados | textos dos pontos turísticos coerentes com o município do cadastro (erro de fato em texto preenchido → fila; com o ok, corrige só os trechos errados) |
+| Dados | resumo do card (`ai_description` ou `about`) presente, sem nota e sem comodidade inventada; título sem sufixo de SEO |
 | Dados | tags verdadeiras (nada de "Cachoeiras" em rio nem tag de comodidade em praia ou igreja) |
 | Fotos | principal existe, é horizontal e mostra o lugar; sem logo, selfie, texto por cima ou paisagem que não é do lugar |
 | Fotos | todas com `autoria`, `legenda` e `alt_text`; nenhuma repetida (hash 16×16, distância ≤ 20); todas com marca de tratamento no nome do arquivo e cópia local em mapas.nx.tv.br |
@@ -490,11 +482,7 @@ ou na cidade errada é pior do que nenhuma: a curadoria cobre o lugar, os dados 
   lugar.
 - **Situação no Google**: os locais criados na rodada já vêm conferidos; os antigos pedem um
   detalhe cada (sem place id: busca por texto + detalhe, conferindo o cid, como no método de
-  17/11). Cabe na franquia mensal de 5.000 detalhes. O detalhe devolve as 5 avaliações "mais
-  relevantes", não as mais recentes: "última avaliação" antiga é sinal fraco e, sozinha, só vai
-  para a fila. A curadoria não compra foto nova.
-- **Marca de tratamento em foto antiga já tratada**: o `PUT /api/mapa/{id}/images/{imgId}` aceita
-  `file_name` (mandar autoria, legenda e alt iguais) sem mexer na URL nem na principal.
+  17/11). Cabe na franquia mensal de 5.000 detalhes. A curadoria não compra foto nova.
 
 ### 9.2 O que a curadoria corrige sozinha (coberto pelo ok do lote)
 
@@ -506,13 +494,9 @@ Só o que não apaga nada e se desfaz:
   no relatório;
 - ordem das categorias e título sem sufixo de SEO;
 - celular marcado como WhatsApp pelo critério acima;
-- situação "Fechado temporariamente" em local já cadastrado quando o Google diz fechado
-  temporariamente; o nível cai para bruto até a reabertura ser confirmada;
-- título descritivo provisório quando o Google não tem nome (Passo 3, item 8), com fila;
 - situação "Fechado permanentemente" só quando os sinais concordam: Google fechado e nenhuma
   avaliação nos últimos 12 meses (hospedagem: também nenhum CNPJ ativo). Sinais em conflito
-  (ex.: Google fechado e hóspede recente) → fila; atrativo natural (cachoeira, praia) marcado
-  como fechado também vai para a fila, porque ali "fechado" costuma ser o acesso;
+  (ex.: Google fechado e hóspede recente) → fila;
 - o registro do nível (9.4).
 
 Execução agendada ou sem Mário presente: checar e montar a fila, sem gravar (como no Passo 7).
@@ -523,10 +507,7 @@ Vai para a fila o que apaga, junta ou é dúvida: duplicata, local fora do munic
 suspeita, fechado com sinais em conflito, foto imprópria ou repetida a apagar, tag errada, sobra
 de importação sem dados, local sem correspondência no Google, foto antiga a trocar pela versão
 tratada (sem marca, sem crédito ou fora da cópia local), divergência de crédito entre fontes,
-candidato a ponto turístico (que não seja praia: praia com coordenada já vira ponto) e
-candidato a destaque. Situação do lugar: só "Fechado temporariamente" ou "Fechado
-permanentemente" contam como fechado; o campo de situação de muitos locais guarda o horário
-do Google ("Fechado · Abre qui. às 08:00"), que não é fechamento.
+candidato a ponto turístico e candidato a destaque.
 
 - **Onde**: planilha "Fila de curadoria — Destinos ES" (tipo Sheets do Artifact; se a sessão não
   oferecer, .xlsx enviado no chat), criada na primeira rodada, com uma aba por lote
