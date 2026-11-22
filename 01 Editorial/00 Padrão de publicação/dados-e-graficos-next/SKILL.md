@@ -22,7 +22,7 @@ Estas são as seções 12 e 13 da skill `padrao-publicacao-next`, separadas em 1
 3. **Paleta do veículo.** Campo `marca`: `"esb"` na **ES Brasil** (portal 1: azul em degradê e destaque magenta) e `"com"` na Comunhão (portal 4: azul com o amarelo e o laranja da marca). Destinos ES usa `"des"` e Prócidade, `"pro"`. Matéria que vai aos dois portais leva uma peça para cada um, cada qual na sua marca. Nunca misture marcas numa peça.
 4. **Regras da peça** (o NXtab e o script já aplicam; decisões do Mário Fernando de 20 a 22/11/2026):
    - título de todo infográfico (gráfico, tabela, linha do tempo) em **caixa alta**, no azul da marca e no peso mais forte (Inter Black);
-   - linha de apoio logo abaixo do título em **Myriad Condensed**, no mesmo corpo, sem quebra quando couber numa linha; o detalhe dos marcos da linha do tempo também;
+   - linha de apoio logo abaixo do título em **Arial Narrow Bold**, num corpo maior que o texto da lista e das células (15 px nas peças estreitas e 16 px nas largas, contra 14 px da lista), sem quebra quando couber numa linha (decisão do Mário Fernando, 22/11/2026, que substituiu a Myriad Condensed light; o NXtab publicado já aplica, com Roboto Condensed Bold de reserva onde a Arial Narrow não estiver instalada); o detalhe dos marcos da linha do tempo continua em Myriad Condensed;
    - linha de fonte e créditos em **Roboto Condensed**, sempre numa linha só; dados em Inter;
    - na **ES Brasil**, barrinha rosa no topo de toda peça;
    - peças um pouco achatadas e letras um pouco mais juntas; tabelas no desenho compacto aprovado na Retrospectiva (nem as linhas altas antigas, nem apertado demais); rosca compacta, com o percentual de todas as fatias na legenda; linha do tempo vertical estreita (até 560 px de desenho);
