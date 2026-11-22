@@ -78,6 +78,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 - **cidade-em-numeros-procidade** — Gera o site "{Cidade} em Números" (Prócidade, by NextLab) para um município do ES a partir do modelo de Conceição da Barra e Piúma, com as mesmas fontes, NX Fotos, mapa com relevo e ligação ao Destinos ES.
 - **sincronizar-projetos-drive** — Compartilhar conhecimento de projetos entre ChatGPT e Claude pelo Google Drive privado da Next Editorial. Use para retomar um projeto no outro assistente, sincronizar ou salvar contexto, registrar decisões, ditados, arquivos e pendências, parear projetos, auditar divergências ou migrar um acervo identificado. Não use para exportar conversas sem escopo ou inferir um projeto só pela marca.
 - **ponte-next** — Inventaria projetos corporativos, consulta o Manifesto Canônico da Ponte Next no Google Drive, consolida decisões e conclusões com fontes e prepara sincronização auditável entre Claude e ChatGPT. Use quando o usuário pedir Ponte Next, sincronização de projetos, memória compartilhada, estado atual, inventário, auditoria de conhecimentos ou cadastro de projeto novo.
+- **busca-empresas-cnpj-next** — Busca de empresas pela API do CNPJ Aberto (CNPJ, razão social, situação, CNAE, endereço, contato, sócios, empresas por cidade) em tudo da Next. Diz onde fica a chave: na memória, nunca na skill.
 
 ## 99 Arquivadas
 
