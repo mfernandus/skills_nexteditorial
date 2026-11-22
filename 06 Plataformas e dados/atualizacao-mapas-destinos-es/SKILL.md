@@ -217,8 +217,10 @@ esta linha de base no relatório.
    no formato do Passo 8.
 9. **CNPJ — API CNPJ Aberto** (fonte padrão desde 19/11/2026, decisão de Mário; mesma base
    aberta da Receita, atualizada todo mês). Base `https://cnpjaberto.com.br`, chave no cabeçalho
-   `X-API-Key` — a chave fica na memória do Claude, **nunca nesta skill** (o repositório de
-   skills é público).
+   `X-API-Key` — a chave fica na memória do Claude (`/areas/cnpj-aberto-api.md`; no projeto Site
+   Destinos ES (Novo), também na memória do projeto), **nunca nesta skill** (o repositório de
+   skills é público). Regras gerais de uso, cota compartilhada e cuidados: skill
+   `busca-empresas-cnpj-next`; aqui ficam só as regras do mapas.
    - `GET /api/cnpj/{cnpj}` (14 dígitos): situação e data, CNAEs, endereço, telefone, e-mail.
    - `GET /api/busca-avancada?uf=ES&municipio=<NOME>&cnae=<7 dígitos>&situacao=ativa&page&per_page`
      (até 50 por página): lista por cidade e atividade; filtra só pelo CNAE principal e não traz
