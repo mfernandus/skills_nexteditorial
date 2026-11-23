@@ -46,7 +46,7 @@ Projeto Lovable `bd496ff6-6711-470b-aef0-fc1c2b6a611e`, ferramenta `query_databa
   - fonte oficial: Receita Federal, dados abertos do CNPJ, base AAAA-MM. Link externo: https://arquivos.receitafederal.gov.br/index.php/s/gn672Ad4CF8N6TK
   - link para o portal, que é da casa: https://evangelicosbr.lovable.app/templos
 - **Rodapé:** `<p><em>Com informações da Receita Federal e do Evangélicos em Números, da Revista Comunhão</em></p>`
-- **Texto:** 350 a 550 palavras, dois ou três intertítulos (h2), uma tabela simples com os 5 estados, autor "Redação".
+- **Texto:** 350 a 550 palavras, dois ou três intertítulos (h2), uma peça do NXtab no lugar da tabela simples, com os 5 estados e o Espírito Santo (decisão do Mário Fernando, 23/11/2026; `c-barras`, marca `com`, ES em destaque, subtítulo com a janela de 12 meses e fonte "Receita Federal, CNPJ, base AAAA-MM; Evangélicos em Números."), autor "Redação". Segunda leitura: rode de novo a consulta do item 4 dos Dados e monte o `conferencia.json` a partir desse segundo resultado (url https://evangelicosbr.lovable.app/templos); confira pela seção 12 da `dados-e-graficos-next`.
 - **Título:** até 60 caracteres, com o número do Brasil nos 12 meses. Exemplo de forma: "Brasil abriu 6,1 mil CNPJs de igrejas evangélicas em 12 meses".
 - **Palavra-chave SEO:** "igrejas evangélicas abertas".
 - **Duplicidade:** se a equipe já publicou o mesmo levantamento no mês, não publique e registre "coberto pela equipe".
@@ -60,3 +60,10 @@ Projeto Lovable `bd496ff6-6711-470b-aef0-fc1c2b6a611e`, ferramenta `query_databa
 ## Resumo
 
 Título do resumo: "Matéria mensal: igrejas abertas". Siga a seção 10 do padrão e acrescente uma linha com o total dos 12 meses, o mês consolidado e a variação.
+
+## Modelo recomendado
+- Nível: Sonnet
+- Nota: 7/12 (raciocínio 1, fontes 1, texto 1, números 2, fluxo 1, risco 1)
+- Motivo: uma base fixa e consultas prontas, mas com janelas e variações a calcular; publica direto, o que barra o Haiku.
+- Teste: não testado, primeira execução monitorada na próxima carga mensal.
+- Subir para Opus se: comparação de janelas ou variação errada for ao ar.
