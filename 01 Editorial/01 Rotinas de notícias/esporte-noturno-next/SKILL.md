@@ -70,7 +70,7 @@ Total: até 12 matérias de esporte por dia. Rodada sem nada relevante no esport
 - **Os 12 clubes:** Flamengo, Vasco, Fluminense, Botafogo, Atlético Mineiro, Cruzeiro, Corinthians, Palmeiras, São Paulo, Santos, Grêmio e Internacional. Todo jogo oficial aparece, com matéria própria (passo 5) ou com placar e contexto na matéria-resumo. Fatos grandes fora de campo (troca de técnico, contratação de impacto, lesão grave de titular, punição) também.
 - **Libertadores** (inclusive feminina): todo jogo de clube brasileiro, com matéria própria.
 - **Copa do Brasil:** todo jogo dos 12 clubes e tudo das quartas em diante, com matéria própria.
-- **Brasileirão Série A:** todos os placares na matéria-resumo, com líder, G-4/G-6 e Z-4.
+- **Brasileirão Série A:** todos os placares na matéria-resumo, com líder, G-4/G-6 e Z-4. A matéria-resumo leva a classificação depois dos jogos do dia numa peça do NXtab (decisão do Mário Fernando, 23/11/2026): modelo `t-comparativo`, primeira coluna com posição e clube juntos ("1º Clube"), depois pontos, jogos e saldo, do líder ao 6º e do 17º ao 20º; uma peça por portal, cada uma na sua marca (`esb` ou `com`). Os números vêm da tabela oficial da CBF (cbf.com.br; se abrir vazia, pela `raspagem-web-next`) e passam pela conferência reforçada da seção 12 da `dados-e-graficos-next` (segunda leitura, `conferir_pecas.py`, olho no PNG). Rodada incompleta: subtítulo "parcial, após os jogos de DD/MM". Classificação que não bate com a CBF: a peça não entra e o texto fica com líder, G-4 e Z-4 conferidos.
 - **Seleção Brasileira** (principal e base, masculina e feminina): todo jogo e toda convocação.
 - **Futebol capixaba:** Rio Branco, Desportiva, Vitória-ES e o Capixabão.
 
@@ -139,4 +139,11 @@ Parte do esporte no resumo:
 - publicadas (título, portal, link no ar, imagem real ou IA);
 - não publicadas, com o motivo; prévias atualizadas; o que saiu da 44517 e da categoria 1 da Comunhão;
 - itens de esporte nas agências e quantos foram aproveitados;
-- conferência da cobertura obrigatória (12 clubes, Libertadores, Copa do Brasil), tabela do Brasileirão (líder, G-4, Z-4) e o que falta jogar.
+- conferência da cobertura obrigatória (12 clubes, Libertadores, Copa do Brasil), tabela do Brasileirão (líder, G-4, Z-4) e o que falta jogar; se a peça da classificação entrou ou o motivo de ter ficado fora.
+
+## Modelo recomendado
+- Nível: Sonnet
+- Nota: 8/12 (raciocínio 1, fontes 2, texto 1, números 1, fluxo 2, risco 1)
+- Motivo: muitas fontes e fluxo longo, mas com critérios escritos para pauta, teto e cobertura; publica direto, o que barra o Haiku.
+- Teste: pendente; a soma fica a um ponto do corte do Opus, então rodar em modo ensaio na próxima revisão semanal.
+- Subir para Opus se: placar, classificação ou peça errados forem ao ar por falha de leitura, ou a rodada deixar de cumprir a cobertura obrigatória.
