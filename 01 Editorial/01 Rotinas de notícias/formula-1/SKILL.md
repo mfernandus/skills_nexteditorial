@@ -28,6 +28,7 @@ A skill não guarda calendário nem classificação: tudo é refeito **toda sema
 - No máximo **1 matéria por execução**.
 - **Teto do fim de semana:** 3 matérias de F1 na **ES Brasil** (4 em fim de semana com sprint), contando todas as matérias de F1 da casa desde sexta 00h (`listar_materias` portal=1, estado publicado, categoria 21861, data_de = sexta do fim de semana), inclusive as da equipe e de outras rotinas.
 - O que entra, nesta ordem: (a) resultado da corrida (sempre); (b) classificação e grid; (c) resultado da sprint, só em fim de semana com sprint; (d) fato muito relevante: título decidido, brasileiro (Gabriel Bortoleto) no pódio ou na pole, acidente grave, punição que muda o resultado. Repercussão e falas entram como atualização da matéria do resultado, não como matéria nova.
+- **Peça do Mundial** (decisão do Mário Fernando, 23/11/2026). A matéria do resultado da corrida, e a da sprint quando houver, leva o Mundial de Pilotos atualizado numa peça do NXtab: `c-barras`, marca `esb`, rótulo com posição e piloto juntos ("1º Nome do Piloto"), top 5 e Gabriel Bortoleto em destaque, com pontos. Quando couber, uma segunda peça com o Mundial de Construtores (top 3 e a Audi). Os pontos são relidos em formula1.com depois do resultado oficial e passam pela conferência reforçada da seção 12 da `dados-e-graficos-next`. A peça vai dentro da matéria do resultado: não é "matéria de números" e não conta no teto.
 - Não entra: boletim de treino livre, guia da pista, cenários, números, histórico, clima, pneus, bastidor ou pauta para preencher. Sexta-feira só publica com fato muito relevante.
 - Execução sem sessão encerrada nem fato muito relevante desde a anterior: responda "Sem movimentação nova na F1" e pare, sem notificação.
 - Nos dias do fim de semana de GP, a F1 é só desta rotina: a rotina de esporte (`esporte-noturno-next`) não escreve sobre F1 de sexta a domingo.
@@ -58,4 +59,11 @@ Buscas "F1", "Fórmula 1", o nome do GP, "Bortoleto" e o piloto principal, data_
 
 ## 8. Resumo
 
-`SendUserMessage`, curto, para celular, título "F1 – <GP> – <dia> <hora>": publicada (título, link no ar, crédito da foto), quantas matérias de F1 a casa já tem no fim de semana e quanto falta do teto, próxima sessão (horário de Brasília). Na primeira execução da semana, acrescente a "Ficha do GP". Notificação só com matéria nova ou problema.
+`SendUserMessage`, curto, para celular, título "F1 – <GP> – <dia> <hora>": publicada (título, link no ar, crédito da foto), quantas matérias de F1 a casa já tem no fim de semana e quanto falta do teto, próxima sessão (horário de Brasília). Na primeira execução da semana, acrescente a "Ficha do GP". Notificação só com matéria nova ou problema. Na matéria do resultado, diga se a peça do Mundial entrou ou o motivo de ter ficado fora.
+
+## Modelo recomendado
+- Nível: Sonnet
+- Nota: 6/12 (raciocínio 1, fontes 1, texto 1, números 1, fluxo 1, risco 1)
+- Motivo: fontes oficiais fixas, teto e pauta definidos por regra; publica direto, o que barra o Haiku.
+- Teste: não testado, primeira execução monitorada no próximo fim de semana de GP.
+- Subir para Opus se: resultado ou pontuação errados forem ao ar por falha de leitura.
