@@ -1,11 +1,11 @@
 ---
 name: "padrao-publicacao-next"
-description: "Regras comuns das rotinas que publicam nos sites ES Brasil e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem e avisos). Carregar antes de cada rotina."
+description: "Regras comuns das rotinas que publicam nos sites ES Brasil e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem, avisos e dados em peça do NXtab). Carregar antes de cada rotina."
 ---
 
 # Padrão de publicação Next — ES Brasil e Comunhão
 
-Regras que valem para **toda** rotina de conteúdo dos sites (turno noturno, Estilo, esporte, Panorama e as que vierem). Cada rotina carrega esta skill primeiro e traz só o que é dela: pauta, rodadas, tetos, categorias e o título do resumo. Onde a rotina disser algo diferente, vale a rotina naquele ponto, **salvo as seções 2.1 (pautas proibidas), 2.2 (matéria agendada) e 2.3 (feed do Instagram só manual) e a regra de caixa alta da seção 7, que valem acima de qualquer rotina e de qualquer tarefa agendada**. Onde uma rotina ainda pedir chapéu "em maiúsculas", escreva em caixa alta e baixa. A seção 11 (economia do plano) vale como padrão para todas: a rotina só a contraria quando disser expressamente que precisa do contrário naquele ponto. **Mudança de regra comum se faz só aqui.**
+Regras que valem para **toda** rotina de conteúdo dos sites (turno noturno, Estilo, esporte, Panorama e as que vierem). Cada rotina carrega esta skill primeiro e traz só o que é dela: pauta, rodadas, tetos, categorias e o título do resumo. Onde a rotina disser algo diferente, vale a rotina naquele ponto, **salvo as seções 2.1 (pautas proibidas), 2.2 (matéria agendada) e 2.3 (feed do Instagram só manual), a regra de caixa alta da seção 7 e a seção 12 (dados em peça do NXtab), que valem acima de qualquer rotina e de qualquer tarefa agendada**. Onde uma rotina ainda pedir chapéu "em maiúsculas", escreva em caixa alta e baixa. A seção 11 (economia do plano) vale como padrão para todas: a rotina só a contraria quando disser expressamente que precisa do contrário naquele ponto. **Mudança de regra comum se faz só aqui.**
 
 ## 1. Portais e idioma
 
@@ -207,7 +207,7 @@ if __name__ == "__main__":
    - **Publicadas:** título com o link no ar, portal e categoria;
    - **Imagens de IA para validar:** link da matéria, link da imagem e a legenda-fato (ou "legenda sem fato novo"), com a frase "Se precisar, troque no NX Feed.";
    - **Também na rodada:** o que não foi publicado e o motivo (fora por regra de pauta, duplicado, superado, erro técnico), ajustes em matérias da redação, casos marcados "envolve parceiro";
-   - **Pendências:** erro técnico, SEO abaixo de 85, categoria recusada, dado não confirmado, conector fora, foto sem tratamento, lacuna no banco de fotos.
+   - **Pendências:** erro técnico, SEO abaixo de 85, categoria recusada, dado não confirmado, conector fora, foto sem tratamento, lacuna no banco de fotos, peça do NXtab fora.
    - Seção sem itens: "nenhuma". A rotina pode acrescentar a parte própria dela (tabelas, metas, contagens).
 2. **Notificação do app Claude:** só quando houver matéria nova ou problema (a rotina pode pedir sempre). Rodada sem novidade termina com "Sem fato novo nesta rodada", sem notificação.
 
@@ -223,3 +223,19 @@ As rotinas dividem o mesmo limite de uso do plano com tudo o que o Mário faz no
 6. **Sair cedo.** Sem pauta que passe na régua da rotina depois da varredura, não procure pauta para preencher: vá ao resumo com "Sem fato novo nesta rodada". Pauta descartada não volta a ser aberta na mesma rodada.
 7. **Uma vez cada.** Carregue cada skill uma vez por execução e não a releia. `prompt_do_nxfeed` uma vez por matéria e tipo, de novo só se a matéria mudou. `regras_de_arte` uma vez por rodada.
 8. **Resumo curto.** O resumo da seção 10 traz títulos, links e motivos; não copia texto de matéria nem listagens inteiras.
+
+## 12. Dados em peça do NXtab: decisão automática (decisão do Mário Fernando, 23/11/2026)
+
+**Esta seção vale acima de qualquer rotina e de qualquer tarefa agendada, para toda skill de notícias, atual ou futura.** Em toda matéria, depois da apuração e antes de escrever, a rotina decide sozinha, sem perguntar e sem esperar pedido, se os dados pedem tabela, gráfico ou infográfico. Pedem quando a fonte oficial publica o dado em tabela ou gráfico; quando a matéria tem série no tempo, ranking, comparação entre itens, participação no todo, três a seis números-chave ou etapas em ordem; e quando a rotina pede "tabela" (inclusive "tabela simples"). Número solto e dado que muda no mesmo dia (horário de sessão, placar ao vivo) ficam no texto.
+
+1. **Se pedem,** carregue a skill `dados-e-graficos-next` (uma vez por execução) e monte a peça no NXtab, pela seção 12 dela. Nunca tabela HTML à mão, gráfico de outra biblioteca, print de outro site ou imagem de IA com números. Única exceção: o quadro da `previsao-tempo-esbrasil`.
+2. **Conferência reforçada.** Como a decisão é automática e nada passa por revisão antes de ir ao ar, a peça só entra depois da conferência do item 5 da seção 12 daquela skill: fonte aberta na rodada, mesma régua, segunda leitura da fonte, script `conferir_pecas.py`, peça igual ao texto e olho no PNG. A economia do plano (seção 11) não autoriza pular nenhuma etapa.
+3. **Republicação** carrega sempre a `dados-e-graficos-next` (seção 13 dela).
+4. **Peça barrada na conferência:** a matéria vai ao ar com os números conferidos no texto, e o resumo registra em Pendências "peça do NXtab fora: dado não confirmado ([qual])".
+
+## Modelo recomendado
+- Nível: Sonnet
+- Nota: 7/12 (raciocínio 1, fontes 1, texto 1, números 1, fluxo 1, risco 2)
+- Motivo: regras escritas de apuração, redação e publicação direta; o risco é alto (pautas proibidas, parceiros), mas o julgamento é guiado por regra, e publicar sem revisão barra o Haiku.
+- Teste: não testado, primeira execução monitorada.
+- Subir para Opus se: falha repetida ligada ao modelo nas pautas proibidas, na trava de duplicidade ou na conferência de dados.

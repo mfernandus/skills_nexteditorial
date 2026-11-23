@@ -6,7 +6,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 
 ## 01 Editorial / 00 Padrão de publicação
 
-- **padrao-publicacao-next** — Regras comuns das rotinas que publicam nos sites **ES Brasil** e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem e avisos). Carregar antes de cada rotina.
+- **padrao-publicacao-next** — Regras comuns das rotinas que publicam nos sites **ES Brasil** e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem, avisos e dados em peça do NXtab). Carregar antes de cada rotina.
 - **imagem-ia-next** — Apoio da padrao-publicacao-next (9.1 e 9.2): imagem por IA na Krea e legenda-fato. Carregar só quando nenhuma foto real com direito de uso servir para a matéria.
 - **dados-e-graficos-next** — Apoio da padrao-publicacao-next (seções 12 e 13): peça do NXtab decidida sozinha em toda matéria com dados, conferência reforçada dos números e dados atualizados na republicação.
 - **raspagem-web-next** — Raspagem na web pela API do Firecrawl, com até três contas usadas em ordem até acabar o limite de cada uma (sem Apify desde 20/11/2026). Vale para tudo da Next que precise de raspagem: rotinas e skills da **ES Brasil**, da Comunhão, do Datafé, do Destinos ES e do Prócidade, e as conversas e buscas do Mário. Use sempre que uma página não abrir na leitura comum por ser feita em JavaScript, quando for preciso descobrir as páginas de um site ou trazer o texto de vários resultados de busca de uma vez. Diz onde ficam as chaves (na memória, nunca na skill) e traz o script raspar.py, os tetos de crédito, o que nunca se raspa e os avisos de crédito baixo ou esgotado.
