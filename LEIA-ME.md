@@ -38,7 +38,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 
 ## 01 Editorial / 03 Dados e especiais
 
-- **datafe-materia-diaria-comunhao** — Matéria diária da Comunhão (editoria Igreja) com os números do Datafé: uma revelação por dia sobre o Brasil evangélico, com chamada provocativa à igreja do leitor, análise, peça do NXtab e fecho com link para o portal Datafé.
+- **datafe-materia-diaria-comunhao** — Matéria diária da Comunhão (editoria Igreja) com os números do Datafé: uma revelação por dia sobre o Brasil evangélico, com título claro e chamada para ação, imagem de capa de impacto, análise, peça do NXtab e fecho com link para o portal Datafé.
 - **materia-igrejas-abertas-comunhao** — Matéria mensal da Comunhão sobre CNPJs de igrejas evangélicas abertos e baixados, com os números do Evangélicos em Números, logo depois da carga mensal do CNPJ.
 - **retrospectiva-esbrasil** — Produz capítulos da Retrospectiva 2026 da **revista ES Brasil** (ESB 238) para qualquer editoria, da ficha às páginas de 20,5 x 27,5 cm com texto encaixado e dados sempre na divulgação mais recente, e, depois da aprovação, pergunta se gera o pacote do InDesign (IDML com vínculos e pasta para o time).
 - **datafe-manchetes-semana** — Rotina de toda segunda (5h36) que troca as 4 a 6 manchetes de números que giram no topo da home do Datafé, a partir das matérias do Datafé publicadas na Comunhão, com números reconsultados no banco.

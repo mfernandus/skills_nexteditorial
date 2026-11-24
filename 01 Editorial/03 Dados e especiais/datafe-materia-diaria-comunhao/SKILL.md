@@ -1,6 +1,6 @@
 ---
 name: "datafe-materia-diaria-comunhao"
-description: "Matéria diária da Comunhão (editoria Igreja) com os números do Datafé: uma revelação por dia sobre o Brasil evangélico, com chamada provocativa à igreja do leitor, análise, peça do NXtab e fecho com link para o portal Datafé."
+description: "Matéria diária da Comunhão (editoria Igreja) com os números do Datafé: uma revelação por dia sobre o Brasil evangélico, com título claro e chamada para ação, imagem de capa de impacto, análise, peça do NXtab e fecho com link para o portal Datafé."
 ---
 
 # Datafé · matéria do dia na Comunhão
@@ -90,9 +90,9 @@ A comparação é o que faz o leitor sentir o tamanho do número. Use uma, no m�
 
 **Estrutura (nesta ordem):**
 
-1. **Título** (até 60 caracteres): a chamada que faz o leitor parar e clicar, pela seção 6.1.
-2. **Linha fina** (até 20 palavras): o número exato, a fonte e o convite, pela seção 6.1.
-3. **Abertura** (25 a 70 palavras): a prova, com a fonte e o ano.
+1. **Título** (até 60 caracteres): claro à primeira leitura e com gancho, pela seção 6.1. O leitor entende o assunto sem decifrar nada.
+2. **Linha fina** (até 20 palavras): o número exato, a fonte e **o convite (CTA obrigatório)**, pela seção 6.1.
+3. **Abertura** (25 a 70 palavras): a prova, com a fonte e o ano. Ela retoma o assunto do título logo na primeira frase (a Nota SEO confere isso).
 4. **Segundo parágrafo:** de onde vem (o Datafé, "o portal de dados da Revista Comunhão") e o contexto mínimo.
 5. **Peça do NXtab** (seção 12 do padrão, `marca` "com", `fundo` "none"): logo depois do parágrafo com os dados. Até duas peças. `c-faixa` para três a cinco números-chave; `c-barras` para ranking de estados ou cidades (pode ter "Brasil" como barra de referência, em destaque); `c-percentual` ou `c-colunas` para série no tempo.
 6. **Dois intertítulos (h2) com o porquê:** onde o número é maior e menor, o que explica, o que mudou. Um deles leva a palavra-chave.
@@ -105,7 +105,7 @@ A comparação é o que faz o leitor sentir o tamanho do número. Use uma, no m�
    - **Uma linha só:** a barra vai inteira numa linha, sem quebra dentro. Com quebra de linha, o WordPress enfia `<p>` e `<br>` no meio e a barra desmonta.
    - **Texto:** `{PERGUNTA}` com até 80 caracteres; `{PROMESSA}`, uma frase de até 110 caracteres com o que o leitor vai achar no Datafé. Escreva `"` como `&quot;` e `&` como `&amp;`.
    - Depois de `criar_materia`, confira com `ver_materia` (formato html) que a barra chegou inteira e numa linha.
-   - **A pergunta da barra é genérica** (pedido de Mário Fernando, 16/11/2026): fala com qualquer leitor, em "você", "sua cidade", "sua igreja", sem chamar um grupo (nada de "Pastor,", "Líder," ou "Jovem,"). É diferente da pergunta do título ou da linha fina. Padrão: "Você conhece os números da igreja evangélica na sua cidade?". Varie só quando o eixo combinar melhor: igrejas ("Quantas igrejas evangélicas existem na sua cidade?"), ranking ("Em que posição a sua cidade está no ranking?"), checagem ("Antes de repassar aquele número no WhatsApp, você conferiu o oficial?"), movimento ("Como estará a igreja da sua cidade em 2030?"), família ("Na sua cidade, casa-se mais ou menos que a média?").
+   - **A pergunta da barra é genérica** (pedido de Mário Fernando, 16/11/2026): fala com qualquer leitor, em "você", "sua cidade", "sua igreja", sem chamar um grupo (nada de "Pastor,", "Líder," ou "Jovem,"). É diferente da pergunta do título ou da linha fina. Padrão: "Você conhece os números da igreja evangélica na sua cidade?". Varie só quando o eixo combinar melhor: igrejas ("Quantas igrejas evangélicas existem na sua cidade?"), ranking ("Em que posição a sua cidade está no ranking?"), checagem ("Antes de repassar aquele número no WhatsApp, você conferiu o oficial?"), movimento ("Como estará a igreja da sua cidade em 2030?" ou "Quantos evangélicos a sua cidade terá em 2030?"), família ("Na sua cidade, casa-se mais ou menos que a média?"). Quando o título já pergunta "Como será a igreja…", a barra pergunta outra coisa (em 24/11/2026: "Quantos evangélicos a sua cidade terá em 2030?").
    - O link vai para a página que responde à pergunta: https://datafe.com.br/municipios (busca da cidade), /templos, /igrejas-abertas, /projecoes, /denominacoes, /pesquisas, /familia, /movimento, /biblia-e-livro, /musica-gospel, /mercado, /estados, /estado/<slug> ou /municipio/<slug>. Confira que a página abre e mostra conteúdo: no WebFetch só aparece o cabeçalho (o site é feito em JavaScript), então leia com `scrape` da `raspagem-web-next` (1 crédito); sem crédito, basta o título da página no WebFetch. Se não abrir, use https://datafe.com.br.
    - A barra não conta como intertítulo para a Nota SEO. Um aviso de "trecho sem intertítulo" no fim do texto é aceitável se a nota ficar em 85 ou mais.
    - O plugin nx-relacionados do WordPress põe barras automáticas no texto ("Ouça", "Leia também") e pode pôr uma logo acima da barra do Datafé. Isso se resolve no plugin (pedido ao Jhonatan em 16/11/2026); não tente tirar pelo texto da matéria.
@@ -115,42 +115,51 @@ A comparação é o que faz o leitor sentir o tamanho do número. Use uma, no m�
 
 **Tamanho:** 500 a 750 palavras.
 
-### 6.1 Título e linha fina: chamada que faz clicar (pedido de Mário Fernando, 17/11/2026)
+### 6.1 Título e linha fina: claros, com gancho e com chamada (pedidos de Mário Fernando, 17/11 e 24/11/2026)
 
-Os títulos estavam certos, mas frios e sem convite, como "Crescimento evangélico: 1.700 por dia, menos de 2 por igreja". O título tem um trabalho só: fazer o leitor da Comunhão parar no meio da rolagem e querer saber mais. O Google fica com o **título SEO**, que é outro campo e continua começando pela palavra-chave (seção 6, SEO).
+Em 17/11 os títulos frios ("Crescimento evangélico: 1.700 por dia, menos de 2 por igreja") foram trocados por títulos com gancho. Em 24/11 Mário apontou o defeito do outro lado: "O que levou 12 anos para os evangélicos deve levar 28" é esperto demais. O leitor não sabe do que se trata, tem de fazer a conta de cabeça, e a linha fina não o convidava a nada. O título tem um trabalho só: fazer o leitor da Comunhão parar na rolagem, **entender de cara** o que vai encontrar e querer clicar. O Google fica com o **título SEO**, que é outro campo e continua começando pela palavra-chave (seção 6, SEO).
 
-**1. Do frio para o que chama.** O número vira uma imagem que o leitor sente (gente, relógio, a sala de aula, a rua, o vizinho, a igreja dele), e a frase tem gancho: contraste, surpresa, desafio ou convite.
+**0. Regra de ouro: claro antes de esperto.** Teste dos três segundos: alguém que só leu o título sabe sobre o que é a matéria e por que isso interessa a ele? O assunto (evangélicos, a igreja evangélica, a sua igreja, a sua cidade) e o tema (2050, o maior grupo, os jovens) estão no título, com palavras que qualquer pessoa usa. Se o leitor precisa decifrar uma conta, uma comparação que só a matéria explica ou uma charada, reescreva. A conta ("12 anos contra 28") é a análise: vai para o texto e para a peça, nunca para o título.
 
-| Frio (não fazer mais) | Com chamada |
-|---|---|
-| Crescimento evangélico: 1.700 por dia, menos de 2 por igreja | O Brasil ganha 1.700 crentes por dia. E a sua igreja? |
-| Quase 1 em cada 3 adolescentes do Brasil é evangélico | Numa turma de 30 adolescentes, quase 10 são evangélicos |
-| Cidade mais evangélica do Brasil: quase 9 em 10 moradores | A cidade onde quase 9 em cada 10 vizinhos são evangélicos |
-| Mais de 1 em cada 7 Bíblias do mundo ficou no Brasil | Uma Bíblia a cada 9 segundos põe o Brasil em 1º no mundo |
-| Brasil tem quase duas igrejas evangélicas para cada escola | Para cada escola, quase duas igrejas. E na sua cidade? |
+**1. Do frio para o que chama, sem virar charada.** O número vira uma imagem que o leitor sente (gente, relógio, a sala de aula, a rua, o vizinho, a igreja dele), ou vira uma pergunta que ele quer ver respondida.
+
+| Frio (não fazer) | Charada (não fazer) | Com chamada e claro |
+|---|---|---|
+| Crescimento evangélico: 1.700 por dia, menos de 2 por igreja | | O Brasil ganha 1.700 crentes por dia. E a sua igreja? |
+| Quase 1 em cada 3 adolescentes do Brasil é evangélico | | Numa turma de 30 adolescentes, quase 10 são evangélicos |
+| Cidade mais evangélica do Brasil: quase 9 em 10 moradores | | A cidade onde quase 9 em cada 10 vizinhos são evangélicos |
+| Mais de 1 em cada 7 Bíblias do mundo ficou no Brasil | | Uma Bíblia a cada 9 segundos põe o Brasil em 1º no mundo |
+| Brasil tem quase duas igrejas evangélicas para cada escola | | Para cada escola, quase duas igrejas. E na sua cidade? |
+| Projeção do Datafé: evangélicos chegam a 32,2% em 2050 | O que levou 12 anos para os evangélicos deve levar 28 (24/11) | Como será a igreja evangélica em 2050? / Evangélicos deverão ser 32% da população em 2050 |
 
 **2. Fórmulas** (escolha a que o número do dia pede; varie de um dia para o outro):
+- **Pergunta que a matéria responde:** "Como será a igreja evangélica em 2050?", "Quantos evangélicos terá a sua cidade em 2030?". É a fórmula natural para projeções, mapas e rankings.
+- **Número direto, na língua do leitor:** "Evangélicos deverão ser 32% da população em 2050" (projeção leva "deverão", "devem" ou "cerca de"; a linha fina traz "estimativa do Datafé" e a faixa, se couber).
 - **Gente e relógio:** "O Brasil ganha 1.700 crentes por dia"; "Um crente a mais a cada 50 segundos".
 - **Escala que cabe no olho:** a turma de 30 alunos, a rua, o ônibus, o estádio, a cidade do leitor.
-- **Contraste:** o país contra a igreja local, o maior contra o menor, antes contra agora.
+- **Contraste:** o país contra a igreja local, o maior contra o menor, antes contra agora, dito com palavras simples.
 - **Desafio à igreja do leitor:** "E a sua igreja?", "Sua igreja está pronta?", "Faça a conta da sua".
 - **Virada:** a previsão que errou, o número que circula e não é o oficial, o lugar que ninguém esperava.
 - **Convite direto:** "Descubra quantos evangélicos vivem na sua cidade", "Veja em que lugar ficou o seu estado".
 
-**3. Chamada para ação sempre.** O título ou a linha fina convidam o leitor a fazer algo: ver, descobrir, comparar, conferir, procurar a cidade, fazer a conta da igreja dele. A barra do Datafé no fecho é onde o convite se cumpre.
+**3. Chamada para ação obrigatória.** Matéria sem convite não vai ao ar. O título ou, no mínimo, a linha fina convidam o leitor a fazer algo: ver, descobrir, comparar, conferir, procurar a cidade, fazer a conta da igreja dele. O convite aponta para algo que a matéria entrega (a peça, o ranking, o mapa de estados) ou para a barra do Datafé do fecho, onde ele se cumpre.
 
-**4. Linha fina** (até 20 palavras, uma ou duas frases curtas): não repete o título nem o número dele; traz o número exato e a fonte quando o título arredondou ("estimativa do Datafé", "segundo o Censo 2022") e termina no convite. Ex.: "Pela estimativa do Datafé, isso dá menos de duas pessoas por igreja a cada ano. Faça a conta da sua."
+**4. Linha fina** (até 20 palavras, uma ou duas frases curtas): não repete o título. Traz o número exato e a fonte quando o título arredondou ou não tem número ("estimativa do Datafé", "segundo o Censo 2022"), e **termina no convite**, com verbo no imperativo. Exemplos:
+- "Pela estimativa do Datafé, isso dá menos de duas pessoas por igreja a cada ano. Faça a conta da sua."
+- Título "Como será a igreja evangélica em 2050?": "Estimativa do Datafé: cerca de 32% dos brasileiros serão evangélicos em 2050. Veja onde devem ser o maior grupo." (24/11/2026)
 
-**5. Como escolher.** Escreva seis títulos de fórmulas diferentes. Risque os que passam de 60 caracteres, os que prometem o que a abertura não entrega e os que mudam o sentido do número. Fica o que dá mais vontade de clicar sem mentir. O resumo leva o escolhido e mais dois.
+**5. Como escolher.** Escreva seis títulos de fórmulas diferentes. Risque os que passam de 60 caracteres, os que não passam no teste dos três segundos, os que prometem o que a abertura não entrega e os que mudam o sentido do número. Entre os que sobram, fica o que dá mais vontade de clicar sem mentir, e a linha fina é escrita para ele já com o convite. O resumo leva o escolhido e mais dois.
 
 **6. Criativo, nunca falso:**
 - Saldo é saldo: "ganha", "a mais", "crentes a mais". "Novos convertidos" ou "novos crentes" só quando o número for de conversões de fato (batismos, decisões declaradas).
-- Arredondar pode ("a cada 9 segundos" para 9,4), mudar o sentido não. Estimativa no título pede "estimativa" ou "cerca de" na linha fina.
+- Arredondar pode ("a cada 9 segundos" para 9,4), mudar o sentido não. Estimativa no título pede "estimativa", "deverão" ou "cerca de" no título ou na linha fina.
 - A resposta do gancho está na abertura. Nada de "você não vai acreditar", "chocante", "o segredo", exclamação ou reticências de suspense.
 - Pergunta que provoca, não que acusa: "E a sua igreja?" pode; "Sua igreja está morrendo?" não.
 - Valem as regras da seção 1 e da análise: sem "explosão", "boom", "crise"; comparação com católicos mede, não compete; nada em caixa alta.
 
-**7. SEO.** O título SEO começa pela palavra-chave e pode ser diferente do título. Se a palavra-chave couber natural no título, melhor. Se a Nota SEO cair abaixo de 85 por causa do título, ajuste a palavra-chave ou o título SEO; nunca volte ao título frio.
+**7. SEO.** O título SEO começa pela palavra-chave e pode ser diferente do título, mas fala do mesmo fato (a Nota SEO confere). Título SEO e meta description só levam números escritos no texto, com a mesma grafia: se o texto diz 32,2%, o SEO não diz 32%. Se a palavra-chave couber natural no título, melhor. Se a Nota SEO cair abaixo de 85 por causa do título, ajuste a palavra-chave ou o título SEO; nunca volte ao título frio nem à charada.
+
+**8. A pergunta da barra do Datafé é outra.** A pergunta da barra do fecho nunca repete a pergunta do título ou da linha fina (seção 6, item 8).
 
 **A chamada provocativa (pedido de Mário Fernando, 14/11/2026):**
 - Toda matéria fala diretamente com a igreja do leitor em dois lugares: no título ou na linha fina (seção 6.1), e no fecho. Use "sua igreja", "sua cidade", "sua denominação", "o pastor da sua igreja", "os jovens da sua igreja".
@@ -175,14 +184,23 @@ Os títulos estavam certos, mas frios e sem convite, como "Crescimento evangéli
 
 **SEO:** palavra-chave de 2 a 4 palavras (ex.: "igrejas evangélicas", "evangélicos no Brasil"); título SEO começando por ela; meta description ≤ 155 caracteres só com números do texto; slug ≤ 51; 6 a 10 tags, sempre com "Datafé". Nota ≥ 85 (seção 8 do padrão).
 
-**Imagem destacada:** seção 9 do padrão. NX Fotos primeiro (`buscar` com termos como "igreja evangélica culto", "fachada igreja evangélica", "Bíblia", "família igreja"); foto real que mostre a igreja evangélica, o culto ou o tema, com "imagem ilustrativa" e "foto de arquivo" na descrição quando for o caso. Nunca templo, símbolo ou celebração católica. A descrição não afirma o que o texto não prova. Original maior que o WordPress aceita: reduza para 2.000 px de largura, trate (9.3) e suba ao Studio.
+**Imagem destacada (pedido de Mário Fernando, 24/11/2026: a capa precisa ter a força dos evangélicos):** a foto da capa mostra a igreja evangélica com **gente, movimento, cor viva e luz boa**. Foto crua, desbotada, escura, de salão com pouca gente ou de cor que não combina com a Comunhão não serve, mesmo sendo real e com direito de uso (a foto de arquivo da matéria de 24/11 era pálida e foi trocada). Para esta rotina, valem estas regras no lugar da ordem da seção 9 do padrão:
+1. **NX Fotos primeiro** (`buscar` com termos como "igreja evangélica culto", "louvor", "multidão culto", "família igreja"). Olhe as fotos de verdade (`mostrar_imagens`): cor, luz, quantidade de gente, enquadramento. Só serve foto real **forte**. Foto fraca não é aproveitada por ser a única.
+2. **Sem foto real forte, imagem por IA, sem esperar "último recurso"** (a seção 9.1 do padrão continua valendo para as proibições). Ferramenta: `mcp__Krea_AI__generate_image` (carregue com ToolSearch), modelo `krea/krea-2/large`, `aspect_ratio` 16:9, `resolution` 1K, `sync` true. Olhe a imagem antes de gravar; com defeito visível (mãos, rostos, objetos deformados, texto), gere de novo uma vez.
+3. **Cor da casa:** azul-marinho profundo com luz dourada e laranja (a paleta da Comunhão e do Datafé), cores ricas e saturadas, profundidade, sensação de união, força e esperança. Cena genérica e ilustrativa, de costas ou em silhueta, sem rosto reconhecível.
+4. **Prompt-base** (em inglês; adapte a cena ao eixo do dia: multidão no culto, jovens em roda, família à mesa, cidade ao amanhecer com igrejas ao fundo): "Epic wide shot from behind of a huge, diverse Brazilian congregation worshipping together in a vast modern auditorium, hundreds of people with hands raised, silhouetted against a glowing stage with golden-orange light beams cutting through soft haze, deep navy blue atmosphere with warm amber highlights, rich vibrant saturated colors, powerful sense of unity, strength and hope, dramatic depth, shallow depth of field on the crowd, photorealistic editorial photo, natural light, no text, no logos, no recognizable faces" (usado em 24/11/2026, com bom resultado).
+5. **Proibido** (como na 9.1): pessoa real ou identificável, símbolo, templo ou celebração de denominação específica, qualquer coisa católica, marca ou logotipo, lugar reconhecível como se fosse foto real, recriar fato noticiado.
+6. **Gravação** com `definir_imagem_destacada` e `tratamento` "nao" (a imagem de IA já sai com a cor final): `fonte` "Imagem gerada por IA", `autor` "Krea AI / Comunhão", título curto com o assunto, `descricao` = legenda-fato (9.2 do padrão), `legenda` (alt) de até 125 caracteres terminando com "(imagem ilustrativa gerada por IA)". Se a Krea falhar, vale a melhor foto real e o resumo diz o motivo.
+7. **Legenda-fato** sai do banco do Datafé, consultado no dia, com atribuição ("segundo estimativa do Datafé com base no CNEFE 2022, do IBGE"), e traz um dado que **não** está no texto (por exemplo, o número de locais de culto evangélicos do CNEFE, de `mv_templos_municipio`; 24/11: 339.281). 100 a 220 caracteres, uma frase, sem adjetivo.
+8. Foto real forte: legenda com "foto de arquivo" quando for o caso, nunca templo, símbolo ou celebração católica, e a descrição não afirma o que o texto não prova. Original maior que o WordPress aceita: reduza para 2.000 px de largura, trate (9.3) e suba ao Studio.
+9. Toda imagem de IA entra no resumo, em "Imagens de IA para validar", com a legenda-fato. É validação, não aprovação.
 
 ## 7. Publicação e resumo
 
-1. `criar_materia` (portal 4, categoria da seção 2, chapéu "Datafé", autor "Redação") → peças do NXtab enviadas ao Studio e postas no texto → `definir_imagem_destacada` → `ver_nota_seo`.
+1. `criar_materia` (portal 4, categoria da seção 2, chapéu "Datafé", autor "Redação") → peças do NXtab enviadas ao Studio e postas no texto → imagem de capa (foto real forte ou imagem de IA, pela seção 6) com `definir_imagem_destacada` → `ver_nota_seo`.
 2. Reconferência de duplicidade (seção 4 do padrão) → `conferir_publicacao` → `publicar_no_wordpress` com `quando` 09:30 do dia (ou "agora", seção 2) e o `codigo_confirmacao` (a decisão de Mário Fernando de 13/11/2026 vale como o "sim").
 3. Nada de redes antes de a matéria ir ao ar (2.2 do padrão). Feed do Instagram nunca (2.3). O story automático do NX Feed segue a cota do canal.
-4. **Resumo** (seção 10 do padrão), título "Datafé · matéria do dia · DD/MM": título com link (ou horário em que vai ao ar), eixo do dia, o "não sabia" em uma linha, o título escolhido e as duas opções que ficaram de fora (seção 6.1), a pergunta da chamada e a do fecho, as peças do NXtab, a foto, a linha da raspagem quando usada (seção 6 da `raspagem-web-next`) e Pendências.
+4. **Resumo** (seção 10 do padrão), título "Datafé · matéria do dia · DD/MM": título com link (ou horário em que vai ao ar), eixo do dia, o "não sabia" em uma linha, o título escolhido e as duas opções que ficaram de fora (seção 6.1), o convite da linha fina, a pergunta da chamada e a do fecho (diferentes entre si), as peças do NXtab, a imagem de capa (e, se for de IA, a seção "Imagens de IA para validar" com a legenda-fato), a linha da raspagem quando usada (seção 6 da `raspagem-web-next`) e Pendências.
 
 ## 8. Banco de pautas (ponto de partida)
 
@@ -197,10 +215,11 @@ Marque no resumo qual pauta foi usada. Números abaixo são do levantamento de 1
 - A Assembleia de Deus sozinha tem o tamanho do estado do Rio (estimativa de 17,3 milhões, faixa de 15,3 a 17,5 milhões).
 - *Usada em 13/11/2026:* quase duas igrejas evangélicas para cada escola (339.281 locais; 139 fiéis por local).
 
-**Movimento**
+**Movimento** (as projeções foram atualizadas em 23/11/2026: reconsulte os números e as datas desta lista)
 - Cerca de 1.700 brasileiros a mais por dia viraram evangélicos de 2010 a 2022, além do que a demografia explica (saldo; `decomposicao_avanco`, estimativa).
 - A previsão mais repetida da década errou por cerca de 9 milhões de pessoas: previa 31,8% em 2022; o Censo mediu 26,8%.
-- O Brasil evangélico de 2050 tende a ser um terço, não metade: 33,4% no cenário central (30,6% com freio forte e 41,6% no ritmo de 2010–2022).
+- O Brasil evangélico de 2050 tende a ser cerca de um terço, não metade: 32,2% no cenário central, com faixa de 25,1% a 39,2% (projeção atualizada em 23/11/2026; o número de 13/11, 33,4%, ficou para trás). Reconsulte.
+- *Usada em 24/11/2026:* "Como será a igreja evangélica em 2050?" (ritmo de 0,43 para 0,19 ponto por ano; 8 estados com mais evangélicos que católicos em 2050).
 - No Rio, no ES e no DF, quase metade do avanço veio do berço; no Acre, no Maranhão e no Tocantins, quase tudo de conversão.
 - De 58 para cerca de 137 cidades de maioria evangélica em 2030 (faixa de 119 a 183).
 - Um novo CNPJ de igreja evangélica a cada 80 minutos em 2025 (não usar na semana da matéria mensal do CNPJ).
