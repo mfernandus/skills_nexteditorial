@@ -226,37 +226,51 @@ Articulista vivo: a mesma estrutura, com a minibio no presente e sem "In memoria
 
 Toda destacada com pessoa sai no mesmo padrão, seja qual for a foto de partida (estúdio, cena ou montagem antiga): **a pessoa recortada sobre uma foto do tema bem desfocada (o fundo é sempre trocado), em 1600x900 (16:9), com a cabeça sempre do mesmo tamanho e na mesma altura**: do alto do cabelo ao queixo, metade da altura da imagem; o alto do cabelo a 7% do topo; o rosto no centro; o corte na altura dos braços. Substitui as regras de enquadramento e de fundo neutro de 13 e 14/11/2026: o fundo agora é trocado sempre, não só quando é neutro. Em 16:9, com o rosto no centro e a cabeça logo abaixo do topo, os cortes do tema dos sites (destaque grande 5:3, blocos de 70% e miniaturas quadradas) nunca pegam a cabeça.
 
-1. **Foto da pessoa, com corpo.** No NX Fotos (pelo nome do articulista), escolha uma foto em que apareçam o peito e os ombros, e baixe a original (`link_do_original`) ou a versão de 1600 px do CDN. Retrato fechado, com a cabeça ocupando quase a foto toda, não serve: para a cabeça ficar com metade da altura, o corpo tem de descer até a base. Montagem antiga da rotina também serve de fonte, se tiver corpo. Foto com objeto ou outra pessoa encostada (carro, cadeira, parede pintada com sombra) dá recorte sujo: prefira outra.
+1. **A foto mais recente da pessoa (decisão do Mário Fernando, 16/11/2026).** Procure em todas as fontes e fique com a mais recente que sirva, pela data: o acervo WordPress da revista (no navegador, com o site aberto: `/wp-json/wp/v2/media?search=<sobrenome>&orderby=date&order=desc&per_page=30&_fields=date,source_url`; sem navegador, `buscar_imagens` com `fonte` "editoriais" e o nome, que traz a mesma biblioteca; o ano e o mês estão no caminho `wp-content/uploads/AAAA/MM`), o NX Fotos (pasta "Articulistas" e `buscar` pelo nome; campo `data`) e a destacada de posts antigos dele. As fotos de cdn.esbrasil.com.br e cdn.comunhao.com.br baixam direto pelo terminal. Fora: montagem antiga da rotina (nome terminado em "-HHMMSS.webp", fundo já desfocado) quando houver o original, arte com texto, foto de evento (palco, microfone, grupo) e foto com objeto ou outra pessoa encostada (carro, cadeira, haste de microfone, parede com sombra). Confira que é a mesma pessoa das fotos antigas. Prefira a que mostra peito e ombros; foto recente fechada no peito ainda serve (o script resolve, item 4), mas, se o resultado ficar só cabeça e gola, use a mais recente que tenha corpo.
 2. **Fundo do tema, no NX Fotos** (`buscar`, `orientacao` "h", `tipo` "foto"): foto real, horizontal, ligada ao tema do artigo. Exemplos: gestão, carreira e liderança → escritório; ESG, sustentabilidade e meio ambiente → área verde; urbanismo e cidades → Centro de Vitória, orla ou Terceira Ponte; mobilidade → trânsito na cidade; economia, indústria e logística → porto ou fábrica; agro e mundo rural → lavouras capixabas; turismo → cartão-postal capixaba. Prefira a biblioteca dos fotógrafos da casa (Sidney Pagotto, Claudio Alves e demais). Nunca foto oculta (`visibilidade` "oculta", banco de imagem comprado), de outro veículo ou da Reuters, nem com texto, logotipo ou pessoa em primeiro plano. A versão de 1600 px do CDN basta, porque o fundo vai desfocado.
-3. Grave o script abaixo como `padronizar_retrato.py` e rode `python3 padronizar_retrato.py foto.jpg fundo.jpg destacada.jpg --altura 0.45 --folha folha.jpg` (`--altura`, de 0 a 1, escolhe a faixa da foto do tema que fica atrás da pessoa). Ele recorta a pessoa (rembg; se faltar, `pip install --break-system-packages "rembg[cpu]" opencv-python-headless`), acha o rosto, iguala a cabeça e compõe sobre o tema desfocado.
+3. Grave o script abaixo como `padronizar_retrato.py` e rode `python3 padronizar_retrato.py foto.jpg fundo.jpg destacada.jpg --altura 0.45 --folha folha.jpg` (`--altura`, de 0 a 1, escolhe a faixa da foto do tema que fica atrás da pessoa). Ele recorta a pessoa (rembg; se faltar, `pip install --break-system-packages "rembg[cpu]" opencv-python-headless`), acha o rosto (YuNet), trata a foto, iguala a cabeça e compõe sobre o tema desfocado. **Tratamento (decisão do Mário Fernando, 16/11/2026):** é medido no rosto de cada foto, não é filtro fixo: foto escura clareia, pele avermelhada ou alaranjada volta ao tom natural, terno preto ganha detalhe e pele morena ou negra não é clareada à força. Nunca aplique ao retrato o tratamento quente das matérias (`padrao-publicacao-next` 9.3) nem o do NX Feed: a destacada sobe com `tratamento` "nao".
 4. Leia o JSON. Com `ok` true, siga. Com problema:
-   - "corpo curto": a foto acaba antes da base. Troque por outra foto da pessoa, com mais corpo. Sem outra, rode de novo com `--aceitar-cabeca-maior` (a cabeça cresce só o necessário e o alto continua a 7%) e registre "cabeça maior que o padrão" em Pendências.
+   - "tratamento": a pele do rosto antes e depois (L, a, b). Bom: L 158 a 184, a 14 a 18, b 12 a 22. Pele morena ou negra pode fechar com L menor (o JSON traz "claros_ja_certos"): está certo. "rosto ainda escuro": olhe; se continuar escuro, troque a foto.
+   - "foto fechada" e "tronco esfumado" (em "ajuste" e "ajuste_base"): a foto acaba no peito; a cabeça cresceu até 56% e o tronco some num degradê para a base escurecida do fundo. Olhe a saída.
+   - "corpo curto demais": falta mais de 16% da altura mesmo com a cabeça em 56%. Se o esfumado deixar só cabeça e gola, troque pela foto mais recente que tenha corpo. `--aceitar-cabeca-maior` (cabeça maior, sem esfumado) só quando não houver outra; registre "cabeça maior que o padrão" em Pendências.
    - "corte lateral esfumado": a foto original corta o ombro ou o braço, e o script esfuma o corte. Se o degradê ficar estranho, troque a foto.
    - "sem rosto detectado" ou "ampliação alta": troque a foto. Sem outra, mantenha a destacada que houver e registre "foto fora do padrão" em Pendências.
-5. Olhe com Read a saída e a folha (cortes 5:3, 70% e quadrado): cabeça inteira, alto do cabelo logo abaixo do topo, recorte limpo, sem halo, sem pedaço do fundo antigo ou de objeto grudado na pessoa, sem orelha, óculos ou ombro comidos. Com defeito, troque a foto ou o fundo.
+5. Olhe com Read a saída e a folha (cortes 5:3, 70% e quadrado): cabeça inteira, alto do cabelo logo abaixo do topo, recorte limpo, sem halo, sem pedaço do fundo antigo ou de objeto grudado na pessoa, sem orelha, óculos ou ombro comidos, sem fio ou haste grudado no ombro; pele com cor natural (nem escura, nem avermelhada, nem alaranjada) e terno com detalhe, não um bloco preto. Com defeito, troque a foto ou o fundo.
 6. Suba com `pedir_link_de_envio` (`tipo` "imagem", `tratamento` "nao", `materia_id`) e `curl -T`, e grave a URL que o envio devolve com `definir_imagem_destacada` (`tratamento` "nao"). O link de envio é de uso único: não mostre nem guarde. Campos: título "<Nome>, articulista da ES Brasil"; fonte, a da foto da pessoa; autor "<crédito da foto da pessoa>; fundo: <autor do fundo>/NX Fotos"; descrição "<Nome>, autor do artigo[, em <ano da foto>]; foto de arquivo, em montagem com fundo ilustrativo de <cena>"; legenda (alt) com o que se vê, terminando em "diante de <cena> desfocada".
 7. Vale para toda foto de pessoa na destacada (articulista ou personagem do título). Foto de tema sem pessoa e imagem de IA (gerada em 16:9) não passam pelo script.
+8. **Foto nova vai para o NX Fotos.** Quando a foto da pessoa veio do acervo WordPress e ainda não está no NX Fotos, rode o script também com `--retrato retrato.jpg` (a foto inteira, com o fundo original, tratada) e salve-a na pasta "Articulistas" do NX Fotos (id 1450): no navegador, Gerenciador de Mídia (nxfotos.com.br/admin/midia), arquivo no campo de envio (`file_upload`) e "Enviar"; depois `listar_biblioteca` (texto: o nome do arquivo) para achar o `mediaId`, `editar_midia` (título "<Nome>, articulista da ES Brasil (<ano>)", autor "Arquivo ES Brasil", descrição com roupa e ano, palavras-chave com nome, articulista, revista e retrato, e a URL de origem em notas) e `mover_para_pasta` com a pasta 1450. Sem navegador na sessão, registre em Pendências "foto nova de <Nome> para o NX Fotos: <URL>".
 
 ```python
 #!/usr/bin/env python3
-"""Padrão de foto dos artigos: recorta o articulista, troca SEMPRE o fundo e iguala a cabeça.
+"""Padrão de foto dos artigos: recorta o articulista, TRATA a foto, troca SEMPRE o fundo e iguala a cabeça.
 
-Decisão do Mário Fernando (16/11/2026): toda destacada de artigo sai no mesmo padrão,
+Decisões do Mário Fernando (16/11/2026): toda destacada de artigo sai no mesmo padrão,
 seja qual for a foto de partida (estúdio, cena, montagem antiga):
+  - a foto mais recente do articulista (acervo WordPress das revistas, NX Fotos);
+  - tratamento adaptativo, medido no rosto de cada foto: foto escura clareia, pele avermelhada
+    ou alaranjada volta ao tom natural, terno preto "empapado" ganha detalhe; pele morena ou
+    negra não é clareada à força (o tratamento quente das matérias não vale para retrato);
   - a pessoa recortada (rembg) sobre uma foto do tema bem desfocada (o fundo é sempre trocado);
   - 1600x900 (16:9);
   - a cabeça sempre do mesmo tamanho e na mesma altura: do alto do cabelo ao queixo = 50%
     da altura; alto do cabelo a 7% do topo; rosto no centro; corte na altura dos braços.
+    Foto recente fechada no peito: a cabeça cresce até 56% e o que faltar vira esfumado do
+    tronco para a base escurecida do fundo.
 
 Uso:
   python3 padronizar_retrato.py foto.jpg fundo.jpg saida.jpg [--altura 0.45] [--folha folha.jpg]
   fundo.jpg: foto do tema (NX Fotos, horizontal). Use "cinza" só para testar.
   --altura: de 0 (alto) a 1 (baixo), a faixa da foto do tema que fica atrás da pessoa.
   --aceitar-cabeca-maior: foto fechada demais e nenhuma outra do articulista: a cabeça cresce
-    só o necessário para o corpo chegar à base (o alto da cabeça continua a 7%).
-Imprime um JSON. "ok": false lista os problemas (corpo curto, corte lateral, ampliação alta,
-sem rosto): nesse caso escolha outra foto do articulista em vez de subir esta.
+    o necessário para o corpo chegar à base (o alto da cabeça continua a 7%), sem esfumado.
+  --sem-tratamento: só para foto que já veio tratada.
+  --retrato r.jpg: grava também a foto inteira, com o fundo original, tratada (para o NX Fotos).
+Imprime um JSON. "tratamento" traz a pele do rosto antes e depois (L, a, b do Lab de 8 bits):
+rosto bom fica com L 158 a 184, a 14 a 18, b 12 a 22. "ok": false lista os problemas (corpo
+curto demais, corte lateral, ampliação alta, sem rosto, rosto ainda escuro): confira a saída e,
+se ficar ruim, escolha outra foto do articulista.
 Precisa de: pip install --break-system-packages "rembg[cpu]" opencv-python-headless
+(o detector de rosto YuNet é baixado na primeira vez para a pasta modelos/).
 """
 import json, os, sys, urllib.request
 import numpy as np
@@ -268,8 +282,13 @@ CABECA = 0.50    # do alto do cabelo ao queixo, em fração da altura (metade da
 AMPLIAR = False  # --aceitar-cabeca-maior: só quando não houver outra foto do articulista
 FOLGA = 0.04     # se o corpo não chegar à base por até 4% da altura, a pessoa desce esse tanto
 CENTRO_X = 0.50  # centro do rosto
+CABECA_MAX = 0.56  # foto fechada: a cabeça pode crescer até aqui antes de esfumar o tronco
+TRATAR = True    # tratamento adaptativo do retrato (--sem-tratamento desliga)
+
 
 HAAR_BASE = "https://raw.githubusercontent.com/opencv/opencv/4.x/data/haarcascades/"
+YUNET_URL = ("https://media.githubusercontent.com/media/opencv/opencv_zoo/main/models/"
+             "face_detection_yunet/face_detection_yunet_2023mar.onnx")
 MODELOS = os.path.join(os.path.dirname(os.path.abspath(__file__)), "modelos")
 
 
@@ -286,9 +305,29 @@ def achar_rosto(im, mask):
     """Maior rosto dentro da pessoa e com largura de rosto (pelo menos 45% da largura da
     silhueta na altura dos olhos), para não pegar botão, óculos ou mão."""
     import cv2
+    w, h = im.size
+    # 1º YuNet (rede neural do OpenCV, bem mais confiável que o Haar em foto fechada)
+    yn = os.path.join(MODELOS, "yunet.onnx")
+    if not os.path.exists(yn):
+        try:
+            os.makedirs(MODELOS, exist_ok=True)
+            urllib.request.urlretrieve(YUNET_URL, yn)
+        except Exception:
+            pass
+    if os.path.exists(yn) and hasattr(cv2, "FaceDetectorYN"):
+        bgr = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2BGR)
+        det = cv2.FaceDetectorYN.create(yn, "", (w, h), 0.7, 0.3, 5000)
+        _, faces = det.detect(bgr)
+        if faces is not None and len(faces):
+            boas = [f for f in faces if mask[min(h - 1, int(f[1] + f[3] / 2)), min(w - 1, int(f[0] + f[2] / 2))]]
+            if boas:
+                f = max(boas, key=lambda f: f[2] * f[3] * f[14])
+                x, y, fw, fh = (float(v) for v in f[:4])
+                # caixa do YuNet vai da testa ao queixo; converte para a geometria do Haar
+                # (queixo = y + 1,07 * altura), que o resto do script usa
+                return int(x), int(y), int(fw), int(fh / 1.07)
     g = cv2.cvtColor(np.array(im), cv2.COLOR_RGB2GRAY)
     g = cv2.equalizeHist(g)
-    w, h = im.size
     for nome in ("haarcascade_frontalface_default.xml", "haarcascade_frontalface_alt2.xml"):
         cas = cascata(nome)
         for viz in (6, 4, 3):
@@ -314,6 +353,123 @@ def maior_componente(alfa):
     keep = (lab == k).astype(np.uint8)
     keep = cv2.dilate(keep, np.ones((9, 9), np.uint8))       # mantém a borda suave
     return (alfa * keep).astype(np.uint8)
+
+
+PELE_L = (158, 184)   # luminância do rosto (Lab 8 bits do OpenCV): abaixo é escuro, acima estoura
+PELE_A, PELE_B = 14, 16   # tom de pele de referência (a*, b* a partir do neutro 128)
+TOL_A, TOL_B = 4, 5       # dentro da tolerância, a cor da pele não é mexida
+
+
+def medir_pele(lab, rosto, mask):
+    """Mediana de L, a, b na pele do rosto (bochechas, nariz, testa baixa), só dentro do recorte."""
+    fx, fy, fw, fh = rosto
+    hh, ww = mask.shape
+    x0, x1 = max(0, int(fx + .22 * fw)), min(ww, int(fx + .78 * fw))
+    y0, y1 = max(0, int(fy + .30 * fh)), min(hh, int(fy + .85 * fh))
+    reg = lab[y0:y1, x0:x1].reshape(-1, 3)
+    m = mask[y0:y1, x0:x1].reshape(-1)
+    reg = reg[m]
+    if len(reg) < 50:
+        return None
+    L = reg[:, 0]
+    reg = reg[(L > np.percentile(L, 15)) & (L < np.percentile(L, 95))]   # tira sombra e brilho
+    med = np.median(reg, axis=0)
+    return float(med[0]), float(med[1] - 128), float(med[2] - 128)
+
+
+def tratar_pessoa(rgb, mask, rosto):
+    """Tratamento adaptativo do retrato, medido no rosto de cada foto (não é filtro fixo):
+    1) exposição: leva a luz do rosto para a faixa PELE_L (foto escura clareia, estourada escurece);
+    2) sombras: terno preto 'empapado' ganha um pouco de detalhe;
+    3) cor: dominante geral pelos brancos da roupa; pele avermelhada/alaranjada volta ao tom natural;
+    4) contraste local suave (CLAHE) só na pessoa.
+    O tratamento quente e saturado das matérias (padrao-publicacao-next 9.3) NÃO vale para rosto."""
+    import cv2
+    lab = cv2.cvtColor(rgb, cv2.COLOR_RGB2LAB).astype(np.float32)
+    antes = medir_pele(lab, rosto, mask) if rosto else None
+    rel = {"antes": [round(v) for v in antes] if antes else None, "passos": []}
+    if not antes:
+        return rgb, rel
+    L, A, B = lab[..., 0], lab[..., 1], lab[..., 2]
+
+    # 1) exposição pelo rosto (gamma no L)
+    lf = antes[0]
+    alvo = None
+    if lf < PELE_L[0]:
+        alvo = PELE_L[0] + 6
+    elif lf > PELE_L[1]:
+        alvo = PELE_L[1] - 4
+    p98 = float(np.percentile(L[mask], 98)) if mask.any() else 255
+    if alvo and alvo > lf and p98 >= 235:
+        # os claros da foto já estão certos (camisa branca bem exposta): o rosto escuro é
+        # sombra ou pele morena/negra; clareia com moderação, sem "embranquecer" a pele
+        alvo = min(alvo, lf + 40)
+        gmin = 0.70
+        rel["claros_ja_certos"] = True
+    else:
+        gmin = 0.55
+    if alvo:
+        g = float(np.clip(np.log(alvo / 255) / np.log(max(lf, 20) / 255), gmin, 1.35))
+        L[:] = 255 * (L / 255) ** g
+        rel["passos"].append(f"exposição gamma {g:.2f}")
+
+    # 2) sombras do corpo (abaixo do queixo)
+    fx, fy, fw, fh = rosto
+    corpo = mask.copy(); corpo[:int(fy + 1.1 * fh)] = False
+    if corpo.sum() > 500:
+        preto = float((L[corpo] < 45).mean())
+        if preto > 0.18:
+            lift = 16 + 14 * min(1.0, (preto - 0.18) / 0.4)
+            x = np.clip(1 - L / 110, 0, 1)
+            L[:] = L + lift * x ** 2
+            rel["passos"].append(f"sombras +{lift:.0f} ({preto:.0%} do corpo quase preto)")
+
+    # 3a) dominante geral: brancos e cinzas claros da pessoa (camisa) devem ser neutros
+    C = np.hypot(A - 128, B - 128)
+    neutro = mask & (L > 175) & (C < 10)
+    if neutro.mean() > 0.004 and neutro.sum() > 400:
+        da = float(np.median(A[neutro]) - 128); db = float(np.median(B[neutro]) - 128)
+        # só corrige no sentido que também leva a pele ao tom natural (camisa azul-clara
+        # não pode esquentar uma pele que já está quente)
+        pele = medir_pele(np.dstack([L, A, B]), rosto, mask)
+        sa = -np.clip(.7 * da, -6, 6) if abs(da) > 2.5 else 0.0
+        sb = -np.clip(.7 * db, -6, 6) if abs(db) > 2.5 else 0.0
+        if pele:
+            if sa * (PELE_A - pele[1]) <= 0: sa = 0.0
+            if sb * (PELE_B - pele[2]) <= 0: sb = 0.0
+        if sa or sb:
+            A += sa; B += sb
+            rel["passos"].append(f"dominante geral a{sa:+.1f} b{sb:+.1f}")
+
+    # 3b) pele: só os tons parecidos com a pele do rosto são puxados para o tom natural
+    agora = medir_pele(np.dstack([L, A, B]), rosto, mask)
+    if agora:
+        _, ca, cb = agora
+        ea, eb = ca - PELE_A, cb - PELE_B
+        if abs(ea) > TOL_A or abs(eb) > TOL_B:
+            # corrige o excesso além da tolerância (ex.: a+35 vira ~a+18); não zera a cor
+            sa = -np.sign(ea) * max(0.0, abs(ea) - TOL_A) * 0.85
+            sb = -np.sign(eb) * max(0.0, abs(eb) - TOL_B) * 0.85
+            d2 = (A - 128 - ca) ** 2 + (B - 128 - cb) ** 2
+            peso = np.exp(-d2 / (2 * 14.0 ** 2)) * mask
+            A += sa * peso; B += sb * peso
+            rel["passos"].append(f"pele a{sa:+.1f} b{sb:+.1f}")
+        elif np.hypot(ca, cb) < 12:      # rosto acinzentado: devolve um pouco de cor
+            f = min(1.25, 16 / max(np.hypot(ca, cb), 1))
+            peso = mask.astype(np.float32)
+            A[:] = 128 + (A - 128) * (1 + (f - 1) * peso); B[:] = 128 + (B - 128) * (1 + (f - 1) * peso)
+            rel["passos"].append(f"cor da pele x{f:.2f}")
+
+    # 4) contraste local suave
+    l8 = np.clip(L, 0, 255).astype(np.uint8)
+    cl = cv2.createCLAHE(clipLimit=1.6, tileGridSize=(8, 8)).apply(l8).astype(np.float32)
+    L[:] = np.where(mask, .65 * L + .35 * cl, L)
+
+    lab = np.dstack([np.clip(L, 0, 255), np.clip(A, 0, 255), np.clip(B, 0, 255)]).astype(np.uint8)
+    out = cv2.cvtColor(lab, cv2.COLOR_LAB2RGB)
+    depois = medir_pele(cv2.cvtColor(out, cv2.COLOR_RGB2LAB).astype(np.float32), rosto, mask)
+    rel["depois"] = [round(v) for v in depois] if depois else None
+    return out, rel
 
 
 def fundo_tema(caminho, altura):
@@ -352,14 +508,19 @@ def folha(img, saida):
 
 def main():
     a = sys.argv[1:]
-    global AMPLIAR
+    global AMPLIAR, TRATAR
     altura, folha_saida = 0.45, None
+    if "--sem-tratamento" in a:
+        a.remove("--sem-tratamento"); TRATAR = False
     if "--aceitar-cabeca-maior" in a:
         a.remove("--aceitar-cabeca-maior"); AMPLIAR = True
     if "--altura" in a:
         i = a.index("--altura"); altura = float(a[i + 1]); del a[i:i + 2]
     if "--folha" in a:
         i = a.index("--folha"); folha_saida = a[i + 1]; del a[i:i + 2]
+    retrato_saida = None
+    if "--retrato" in a:
+        i = a.index("--retrato"); retrato_saida = a[i + 1]; del a[i:i + 2]
     ent, fundo_p, sai = a[0], a[1], a[2]
 
     im = ImageOps.exif_transpose(Image.open(ent)).convert("RGB")
@@ -403,6 +564,39 @@ def main():
     oy = TOPO * H - topo * s
     info.update(rosto=bool(rosto), escala=round(s, 2), cabeca_px_original=int(cabeca))
 
+    if rosto:                       # tira fios, cabos e hastes presos ao corpo (abaixo do queixo)
+        import cv2
+        arr = np.array(pessoa)
+        al = arr[:, :, 3]
+        y0 = int(min(h - 1, queixo))
+        k = max(7, int(w * 0.02)) | 1
+        bin_ = (al[y0:] > 20).astype(np.uint8)
+        aberto = cv2.morphologyEx(bin_, cv2.MORPH_OPEN, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k)))
+        manter = cv2.dilate(aberto, np.ones((3, 3), np.uint8)) > 0
+        fino = (bin_ > 0) & ~manter
+        if fino.sum() > 0:
+            sub = al[y0:]
+            sub[~manter] = 0
+            arr[:, :, 3] = al
+            pessoa = Image.fromarray(arr)
+            mask = arr[:, :, 3] > 128
+            info["limpeza"] = f"{int(fino.sum())} px de detalhes finos removidos abaixo do queixo"
+
+    if TRATAR and rosto:            # tratamento adaptativo da pessoa, antes de compor
+        arr = np.array(pessoa)
+        rgb, rel = tratar_pessoa(np.ascontiguousarray(arr[:, :, :3]), mask, rosto)
+        arr[:, :, :3] = rgb
+        pessoa = Image.fromarray(arr)
+        info["tratamento"] = rel
+        if retrato_saida:          # a foto inteira, com o fundo original, tratada (para o NX Fotos)
+            al = arr[:, :, 3:4].astype(np.float32) / 255
+            Image.fromarray((rgb * al + np.array(im) * (1 - al)).astype(np.uint8)).save(
+                retrato_saida, "JPEG", quality=93)
+            info["retrato"] = retrato_saida
+        dep = rel.get("depois")
+        if dep and not rel.get("claros_ja_certos") and not (PELE_L[0] - 8 <= dep[0] <= PELE_L[1] + 6):
+            info["problemas"].append(f"rosto ainda {'escuro' if dep[0] < PELE_L[0] else 'claro'} (L {dep[0]}) depois do tratamento: confira")
+
     # Conferências: a pessoa tem de chegar à base, sem corte reto visível nas laterais
     base_y = oy + h * s
     toca_base = mask[-3:, :].any()
@@ -419,7 +613,28 @@ def main():
         info["ajuste"] = f"foto fechada: cabeça em {c_min:.0%} da altura, acima do padrão de {CABECA:.0%}"
         info["problemas"].append("cabeça maior que o padrão (não há corpo para a cabeça de 50%)")
         info["escala"] = round(s, 2)
-    if toca_base and base_y < H - 2:
+    esfumar_base = False
+    if toca_base and base_y < H - 2 and not AMPLIAR:
+        # foto recente fechada demais: a cabeça cresce no máximo até CABECA_MAX (diferença
+        # quase imperceptível) e o que ainda faltar vira um esfumado do tronco para o fundo
+        b = h - queixo
+        c_min = (1 - TOPO) * cabeca / (b + cabeca) + 0.005
+        c_use = min(c_min, CABECA_MAX)
+        if c_use > CABECA:
+            s = c_use * H / cabeca
+            ox = CENTRO_X * W - cx * s
+            oy = TOPO * H - topo * s
+            base_y = oy + h * s
+            info["escala"] = round(s, 2)
+            info["ajuste"] = f"foto fechada: cabeça em {c_use:.0%} da altura"
+        if H - 2 > base_y >= H * (1 - FOLGA):              # falta pouco: desce a pessoa
+            oy += H - base_y; base_y = H
+        if base_y < H - 2:
+            esfumar_base = True
+            info["ajuste_base"] = f"tronco esfumado para o fundo (a foto acaba {int(H - base_y)} px acima da base)"
+            if H - base_y > 0.16 * H:
+                info["problemas"].append(f"corpo curto demais: a foto acaba {int(H - base_y)} px acima da base mesmo com a cabeça em {c_use:.0%}; confira o esfumado ou troque a foto")
+    elif toca_base and base_y < H - 2:
         info["problemas"].append(f"corpo curto: a foto acaba {int(H - base_y)} px acima da base")
     if not toca_base:
         info["problemas"].append("a pessoa não chega à borda de baixo da foto original")
@@ -447,6 +662,23 @@ def main():
 
     out = fundo_tema(fundo_p, altura).convert("RGBA")
     p2 = pessoa.resize((max(1, int(w * s + .5)), max(1, int(h * s + .5))), Image.LANCZOS)
+    if esfumar_base:
+        # o tronco some aos poucos e a base do fundo escurece em degradê: o corte da foto
+        # original não aparece e a pessoa "assenta" na imagem
+        a2 = np.array(p2).astype(np.float32)
+        hh2 = a2.shape[0]
+        qy = queixo * s                                  # queixo dentro da camada redimensionada
+        ini = int(qy + 0.30 * (hh2 - qy))
+        if hh2 - ini > 4:
+            r = (1 - np.linspace(0.0, 1.0, hh2 - ini)) ** 1.4
+            a2[ini:, :, 3] *= r[:, None]
+        p2 = Image.fromarray(a2.clip(0, 255).astype(np.uint8))
+        fa = np.array(out.convert("RGB")).astype(np.float32)
+        y0 = int(max(0, oy + ini - 0.05 * H))
+        g = np.ones(H, np.float32)
+        g[y0:] = 1 - 0.55 * np.linspace(0, 1, H - y0) ** 1.2
+        fa *= g[:, None, None]
+        out = Image.fromarray(fa.clip(0, 255).astype(np.uint8)).convert("RGBA")
     camada = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     camada.paste(p2, (int(round(ox)), int(round(oy))))
     out.alpha_composite(camada)
