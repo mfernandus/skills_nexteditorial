@@ -1,11 +1,17 @@
 ---
 name: "padrao-publicacao-next"
-description: "Regras comuns das rotinas que publicam nos sites ES Brasil e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem, avisos e dados em peça do NXtab). Carregar antes de cada rotina."
+description: "Regras comuns das rotinas que publicam nos sites ES Brasil e Comunhão via NX Feed (publicação, pautas proibidas, matéria agendada, feed só manual, duplicidade, fontes, direitos, SEO, imagem e avisos). Carregar antes de cada rotina; gráficos, republicação e imagem por IA ficam nas skills de apoio."
 ---
 
 # Padrão de publicação Next — ES Brasil e Comunhão
 
-Regras que valem para **toda** rotina de conteúdo dos sites (turno noturno, Estilo, esporte, Panorama e as que vierem). Cada rotina carrega esta skill primeiro e traz só o que é dela: pauta, rodadas, tetos, categorias e o título do resumo. Onde a rotina disser algo diferente, vale a rotina naquele ponto, **salvo as seções 2.1 (pautas proibidas), 2.2 (matéria agendada) e 2.3 (feed do Instagram só manual), a regra de caixa alta da seção 7 e a seção 12 (dados em peça do NXtab), que valem acima de qualquer rotina e de qualquer tarefa agendada**. Onde uma rotina ainda pedir chapéu "em maiúsculas", escreva em caixa alta e baixa. A seção 11 (economia do plano) vale como padrão para todas: a rotina só a contraria quando disser expressamente que precisa do contrário naquele ponto. **Mudança de regra comum se faz só aqui.**
+Regras que valem para **toda** rotina de conteúdo dos sites (turno noturno, Estilo, esporte, Panorama e as que vierem). Cada rotina carrega esta skill primeiro e traz só o que é dela: pauta, rodadas, tetos, categorias e o título do resumo. Onde a rotina disser algo diferente, vale a rotina naquele ponto, **salvo as seções 2.1 (pautas proibidas), 2.2 (matéria agendada), 2.3 (feed do Instagram só manual), 12 (gráficos e tabelas no NXtab) e 13 (dados atualizados na republicação) e a regra de caixa alta da seção 7, que valem acima de qualquer rotina e de qualquer tarefa agendada**. Onde uma rotina ainda pedir chapéu "em maiúsculas", escreva em caixa alta e baixa. A seção 11 (economia do plano) vale como padrão para todas: a rotina só a contraria quando disser expressamente que precisa do contrário naquele ponto. **Mudança de regra comum se faz só aqui** (e nas skills de apoio abaixo).
+
+**Skills de apoio** (economia do plano, decisão do Mário Fernando de 17/11/2026). Partes deste padrão que nem toda rodada usa ficam em skills próprias, carregadas só quando a rodada precisa delas, uma vez por execução (11.7). Valem com a mesma força que se estivessem aqui:
+- **`dados-e-graficos-next`** (seções 12 e 13): carregue antes de montar qualquer tabela, gráfico ou infográfico e, sempre, nas rotinas de republicação (`acervo-esbrasil`, `acervo-comunhao`, `artigos-acervo-esbrasil`, `artigos-acervo-comunhao`, `artigos-acervo-next`).
+- **`imagem-ia-next`** (9.1 e 9.2): carregue só quando nenhuma foto real com direito de uso servir, antes de gerar a imagem.
+- **`raspagem-web-next`** (busca e leitura de páginas pelo Firecrawl, com o Apify de reserva; decisão do Mário Fernando de 17/11/2026): carregue só nas rotinas que a citam. A seção 3 dela (o que nunca se raspa) vale acima de qualquer rotina, e a seção 5 diz quando avisar que os créditos estão baixos ou acabaram.
+- **`pauta-local-next`** (pauta de contexto local a partir de número nacional ou internacional; decisão do Mário Fernando de 17/11/2026): carregue só quando uma matéria publicada na rodada passar no filtro rápido da seção 10, item 0.
 
 ## 1. Portais e idioma
 
@@ -67,8 +73,9 @@ Na dúvida, fica fora. Registre no resumo, em "Também na rodada", como "aguarda
 - `editar_materia` com "categorias" **substitui as categorias de todos os portais**: leia antes com `ver_materia` (pegue a `versao`) e mande as categorias de todos os portais já com a mudança. Ao reenviar, passe `portais` só com os portais em que a matéria já tem post (senão o NX Feed cria rascunho no outro).
 - Para atualizar um post no ar sem mudar o status: `enviar_rascunho_ao_wordpress` (ou `atualizar_no_wordpress` num portal só).
 - Mexa só nas matérias da própria rotina (criadas ou editadas via Claude; `historico_da_materia` mostra), nunca nos rascunhos da equipe, a não ser que a rotina diga o contrário. Matéria agendada da equipe nunca: seção 2.2.
+- **Rascunho com chapéu "Pauta local"** é pauta sugerida à equipe pela `pauta-local-next`, não matéria de rotina, mesmo criado via Claude: nenhuma rotina o publica, edita, apaga, trata como pendência ou usa como link interno. Na trava de duplicidade (seção 4) ele não barra notícia factual: indica só que a equipe vai fazer aquela reportagem.
 - Id de categoria recusado: rode `listar_categorias_wordpress` no portal, use o id atual da **mesma** categoria e avise no resumo. Nunca grave em categoria aproximada.
-- **Destaques** (11966 na ES Brasil, 44517 na Comunhão) é da redação e de só quatro rotinas (decisão do Mário Fernando, 30/10, 02/11, 05/11 e 12/11/2026): (1) a **rotina de Destaques**, de hora em hora, que põe e tira as matérias automáticas, inclusive o esporte, com mais espaço nos fins de semana, feriados e noites de jogo; (2) as **rotinas de acervo** (`acervo-comunhao` e `acervo-esbrasil`), que agendam a matéria das 22h já com Destaques e a deixam lá até o meio-dia seguinte; (3) a rotina **`comunhao-na-esbrasil`**, que agenda as matérias de sábado, domingo e feriado para as 7h já com Destaques na **ES Brasil**, e a saída delas fica com a rotina de Destaques, pelas regras de fim de semana e feriado; (4) a rotina **`previsao-tempo-esbrasil`**, que agenda o Post A da previsão do tempo (chapéu "Previsão do tempo", em caixa alta e baixa desde 19/11/2026; nos posts até 18/11, PREVISÃO DO TEMPO; categoria Tempo 32602, no ar às 00h01) já com Destaques na **ES Brasil**; nenhum destaque manual o empurra, e a saída, na rodada das 12h20 do mesmo dia, fica com a rotina de Destaques (o Post B da previsão não vai para o Destaques). Nenhuma outra rotina, nem a de esporte, marca ou tira Destaques.
+- **Destaques** (11966 na ES Brasil, 44517 na Comunhão) é da redação e só das rotinas que o tratam expressamente, cada uma pela sua regra (decisões do Mário Fernando de 30/10, 02/11, 05/11 e 12/11/2026): a **rotina de Destaques**, as **rotinas de acervo** (matéria das 22h), a **`comunhao-na-esbrasil`** (sábado, domingo e feriado) e a da **previsão do tempo** (Post A das 00h01). Nenhuma outra rotina, nem a de esporte, marca ou tira Destaques.
 
 ## 4. Trava de duplicidade
 
@@ -86,12 +93,11 @@ Se a casa já tem o mesmo fato, publicado ou em rascunho da equipe, não escreva
 
 ## 5. Fontes e apuração
 
-- A fonte oficial ou primária (órgão público, entidade, documento, release no site da própria empresa, dado público) é a fonte de verdade. Órgão de controle (Ministério Público, Tribunal de Contas, controladoria) não serve de fonte (2.1), salvo o TCE-ES na exceção da rotina `politica-esbrasil`, e só na própria matéria do TCE-ES. Abra com WebFetch antes de escrever; nunca redija a partir de snippet. Fonte que não abre: procure outra ou troque a pauta. Não use curl ou Python para burlar página bloqueada.
-- **Raspagem (decisão do Mário Fernando, 20/11/2026):** página que o WebFetch abre vazia ou só com o cabeçalho porque é feita em JavaScript, site cujas páginas é preciso descobrir ou busca que precisa trazer o texto de vários resultados de uma vez: carregue a skill `raspagem-web-next` (Firecrawl, com as contas usadas em ordem) e use o teto da rotina ou, sem teto próprio, 2 créditos por rodada. O WebFetch e o WebSearch continuam em primeiro lugar, porque não gastam crédito, e a raspagem nunca serve para abrir página bloqueada (seção 3 daquela skill).
+- A fonte oficial ou primária (órgão público, entidade, documento, release no site da própria empresa, dado público) é a fonte de verdade. Órgão de controle (Ministério Público, Tribunal de Contas, controladoria) não serve de fonte (2.1), salvo o TCE-ES na exceção da rotina `politica-esbrasil`, e só na própria matéria do TCE-ES. Abra com WebFetch antes de escrever; nunca redija a partir de snippet. Fonte que não abre: procure outra ou troque a pauta. Não use curl, Python, Firecrawl ou Apify para burlar página bloqueada (`raspagem-web-next`, seção 3).
 - Imprensa serve só de pista e de conferência. **Não dê crédito a outro veículo:** não cite, não linke, não escreva "segundo o jornal X". A atribuição vai para a fonte oficial.
-- **ES Hoje (eshoje.com.br): só pista, jamais fonte** (decisão do Mário Fernando, 23/11/2026). Pode indicar a pauta ou onde procurar, mas nenhum número, fala, data ou fato da matéria sai dele: tudo se confirma na fonte oficial aberta na rodada. Número do ES Hoje que não aparecer na fonte oficial fica fora e vai para o resumo.
 - Agências contratadas que chegam no NX Feed (Agência Brasil, Estadão Conteúdo e as demais cadastradas) podem ser aproveitadas, com o crédito no rodapé.
 - O que só existe no outro veículo (entrevista exclusiva, levantamento próprio, bastidor) não entra. Se o fato depende disso, troque a pauta.
+- **Comunhão: nenhum veículo do Espírito Santo** (pedido da Joviana, repassado pelo Mário Fernando, 16/11/2026). Matéria da Comunhão não menciona veículo jornalístico capixaba de fora da casa (A Gazeta, Folha Vitória, ES Hoje, A Tribuna/Tribuna Online, Século Diário, TV Gazeta, TV Vitória, TV Tribuna, CBN Vitória e afins) em lugar nenhum: texto, rodapé "Com informações de", link, legenda ou crédito, nem como "reproduzido por". Vale também quando o site capixaba só republicou agência nacional (Folhapress, Estadão Conteúdo, Agência Brasil): vá à fonte primária ou à agência no original e atribua a ela. Personagem ou entrevista que só existe nessa reportagem não entra; troque por dado ou serviço da fonte oficial. **Única exceção:** factual urgente (acidente, tragédia, desastre, alerta de chuva ou da Defesa Civil, emergência) quando o veículo capixaba é a única fonte disponível do fato naquele momento; assim que a fonte oficial (Defesa Civil, Bombeiros, PRF, Sesa, prefeitura) publicar, a atribuição passa para ela.
 - Dado que não bate: vale o oficial. Dado que não deu para confirmar: fica de fora e vai para o resumo.
 - Nunca invente fala, número ou data. Citação só quando a fonte a publicou, curta e atribuída.
 - Na apuração, guarde um ou dois dados conferidos que **não** vão entrar no texto: se a matéria acabar com imagem por IA, um deles vira a legenda-fato (9.2).
@@ -134,34 +140,9 @@ Se a casa já tem o mesmo fato, publicado ou em rascunho da equipe, não escreva
 - Recusa por "dimensões muito grandes": use a versão reduzida que o WordPress do próprio site gera (o mesmo arquivo com sufixo como -1536x1024).
 - Nunca rosto de menor identificável em contexto sensível.
 
-### 9.1 Imagem por IA (último recurso; autorizada em 26/10/2026 para todas as rotinas)
+### 9.1 e 9.2 Imagem por IA e legenda-fato (autorizada em 26/10/2026 para todas as rotinas)
 
-Só quando nenhuma foto real com direito de uso servir:
-
-- Krea: `mcp__Krea_AI__generate_image` (carregue com ToolSearch), modelo `krea/krea-2/large`, `aspect_ratio` 16:9, `resolution` 1K, `sync` = true.
-- Prompt em inglês, com uma cena **genérica e ilustrativa** do tema, terminando com: "photorealistic editorial photo, natural light, no text, no logos, no recognizable faces".
-- **Proibido gerar:** pessoa real ou identificável; rosto de personagem da matéria; criança em contexto sensível; marca, logotipo, fachada, produto ou coleção de empresa real; escudo, uniforme ou patrocinador de clube real; símbolo ou templo de denominação específica; lugar reconhecível como se fosse foto real; recriar o próprio fato (gol, ataque, acidente, discurso, evento noticiado) como se fosse foto; procedimento, remédio ou dose; animal em sofrimento.
-- Olhe a imagem antes de gravar. Com defeito visível (mãos, rostos, objetos deformados, texto), gere de novo **uma** vez.
-- Grave com `definir_imagem_destacada`: fonte "Imagem gerada por IA"; autor "Krea AI / ES Brasil" (só Comunhão: "Krea AI / Comunhão"); título curto com o assunto da matéria; **descrição = a legenda-fato (9.2)**; legenda (alt) com até 125 caracteres dizendo o que a ilustração mostra, terminando com "(imagem ilustrativa gerada por IA)".
-- Se a Krea falhar (saldo ou erro), publique sem imagem e avise.
-- Toda imagem de IA entra no resumo, na seção "Imagens de IA para validar", com a legenda-fato. É validação, não aprovação: não espere resposta.
-
-### 9.2 Legenda-fato da imagem por IA (decisão do Mário Fernando, 26/10/2026)
-
-A descrição é o texto que aparece embaixo da imagem no site, seguido do crédito "Foto: Imagem gerada por IA/Krea AI / …", que já avisa que é ilustração. Por isso ela **não descreve a imagem**: entrega ao leitor um dado a mais sobre o assunto da matéria.
-
-1. **Assunto, não cena.** Fala do tema da matéria, nunca do que a ilustração mostra. Nada de "na imagem", "na foto", "ilustração de".
-2. **Fato novo.** Não está no título, na linha fina nem no texto: dado, número, data, regra, histórico ou serviço. Antes de gravar, confira que os números e os termos-chave da frase não aparecem no texto.
-3. **Conferido e atribuído.** Vem de fonte oficial aberta com WebFetch e leva a atribuição na frase ("segundo o IBGE", "de acordo com a Anvisa"). Nunca de memória, nunca inventado.
-4. **Coerente.** Não contradiz o texto nem muda o foco da matéria.
-5. **Uma frase de 100 a 220 caracteres**, informativa: sem pergunta, chamada, exclamação ou adjetivo de propaganda.
-6. **Saúde e pet:** sem dose nem prescrição. **Política:** dado oficial e neutro.
-7. **Sem fato novo** conferido depois de duas buscas extras: use o dado de serviço mais útil da própria matéria (data, local, horário, prazo, canal de atendimento) e marque "legenda sem fato novo" no resumo.
-
-Exemplos (matéria sobre apreensão de lote falsificado de toxina botulínica):
-- Errado (descreve a imagem): "Sala de clínica de estética vazia, com cadeira reclinável branca e janela com cortinas claras."
-- Errado (repete a matéria): "Anvisa manda apreender novo lote falsificado de toxina botulínica."
-- Certo (forma): "<fato que o texto não traz, com número ou data>, segundo <fonte oficial>." Por exemplo: "O Espírito Santo tem N estabelecimentos de estética licenciados pela Vigilância Sanitária, segundo a Sesa." O número e a fonte vêm sempre da apuração do dia.
+Último recurso, só quando nenhuma foto real com direito de uso servir: carregue a skill **`imagem-ia-next`** e siga-a (Krea, prompt, o que é proibido gerar, gravação, legenda-fato e resumo). Se ela não estiver disponível, publique sem imagem e registre em Pendências "imagem por IA: skill de apoio indisponível".
 
 ### 9.3 Conferência e tratamento da foto (decisão do Mário Fernando, 11/11/2026)
 
@@ -202,11 +183,13 @@ if __name__ == "__main__":
 
 ## 10. Avisos ao fim da rodada
 
-**Não envie e-mail** (decisão do Mário Fernando, 27/10/2026). O aviso da rodada é o resumo na conversa e a notificação do app.
+**Não envie e-mail** (decisão do Mário Fernando, 27/10/2026). O aviso da rodada é o resumo na conversa e a notificação do app. Única exceção: o e-mail da `pauta-local-next` à Joviana com a pauta local.
 
+0. **Pauta local** (decisão do Mário Fernando, 17/11/2026). Antes do resumo, olhe as matérias que a rodada publicou, sem busca nova. Filtro rápido: a matéria traz **número nacional ou internacional** (pesquisa, índice, ranking, variação, balanço oficial) com fonte identificável, sobre tema que **também acontece no Espírito Santo** (ES Brasil) ou **na igreja brasileira** (Comunhão, que circula no país inteiro: número de fora do Brasil, ou nacional sem o recorte da igreja). Se ao menos uma passar, carregue a **`pauta-local-next`** e siga-a; se nenhuma passar, não carregue. Fora do filtro: matéria que já é do ES, esporte, previsão do tempo, Diversão e Arte, republicação de acervo, artigos e pesquisa eleitoral; na Comunhão, também a que já traz o recorte da igreja no Brasil.
 1. **Resumo na conversa** (SendUserMessage), curto, para celular, com o título que a rotina define. Se a execução rodar mais de uma rotina, um resumo só, com uma parte por rotina. Seções, nesta ordem:
    - **Publicadas:** título com o link no ar, portal e categoria;
    - **Imagens de IA para validar:** link da matéria, link da imagem e a legenda-fato (ou "legenda sem fato novo"), com a frase "Se precisar, troque no NX Feed.";
+   - **Pautas locais:** só quando houver; veículo, ângulo, link do painel e o e-mail à Joviana (seção 7 da `pauta-local-next`);
    - **Também na rodada:** o que não foi publicado e o motivo (fora por regra de pauta, duplicado, superado, erro técnico), ajustes em matérias da redação, casos marcados "envolve parceiro";
    - **Pendências:** erro técnico, SEO abaixo de 85, categoria recusada, dado não confirmado, conector fora, foto sem tratamento, lacuna no banco de fotos, peça do NXtab fora.
    - Seção sem itens: "nenhuma". A rotina pode acrescentar a parte própria dela (tabelas, metas, contagens).
@@ -218,25 +201,17 @@ As rotinas dividem o mesmo limite de uso do plano com tudo o que o Mário faz no
 
 1. **Uma varredura por execução.** Quando duas rotinas rodam na mesma execução (ex.: esporte e Panorama), faça uma só listagem do feed, uma só listagem de rascunhos e pendências e uma só listagem do que já foi ao ar em cada portal, e reparta os itens entre as rotinas. Listagem que já está na conversa não se repete; a exceção é a reconferência antes de publicar (seção 4).
 2. **Listagens enxutas.** `listar_materias` sempre com `formato` compacto e `data_de` no início da janela da rodada; "todas as páginas" quer dizer até a lista sair da janela. `ver_materia` só nas matérias que a rodada vai usar ou que a regra manda conferir.
-3. **Web na medida.** WebSearch no modo standard; o extended só quando o standard vier vazio, fora do assunto ou desatualizado. WebFetch só nas páginas que sustentam a matéria ou conferem um dado. Para saber "o que está grande no dia", uma ou duas páginas bastam. Site que a skill diz que não abre por leitura automática: não tente.
+3. **Web na medida.** WebSearch no modo standard; o extended só quando o standard vier vazio, fora do assunto ou desatualizado. WebFetch só nas páginas que sustentam a matéria ou conferem um dado. Para saber "o que está grande no dia", uma ou duas páginas bastam. Site que a skill diz que não abre por leitura automática: não tente, nem pela raspagem. Firecrawl e Apify (`raspagem-web-next`) só nas rotinas que os citam, dentro do teto de créditos de cada uma.
 4. **Navegador só para confirmar.** Claude in Chrome só para ler uma página específica que confirma uma pauta já escolhida e que não abre por WebFetch (ex.: o perfil oficial do evento). Nunca para varrer perfis, feeds ou listas: cada tela do navegador custa muitas vezes uma leitura de página.
 5. **Imagem pela ordem.** Siga a ordem de busca da seção 9 e só passe para a fonte seguinte quando nenhuma opção da fonte da vez atender aos critérios. Imagem por IA: uma geração, e a segunda só com defeito visível (9.1).
 6. **Sair cedo.** Sem pauta que passe na régua da rotina depois da varredura, não procure pauta para preencher: vá ao resumo com "Sem fato novo nesta rodada". Pauta descartada não volta a ser aberta na mesma rodada.
 7. **Uma vez cada.** Carregue cada skill uma vez por execução e não a releia. `prompt_do_nxfeed` uma vez por matéria e tipo, de novo só se a matéria mudou. `regras_de_arte` uma vez por rodada.
 8. **Resumo curto.** O resumo da seção 10 traz títulos, links e motivos; não copia texto de matéria nem listagens inteiras.
 
-## 12. Dados em peça do NXtab: decisão automática (decisão do Mário Fernando, 23/11/2026)
+## 12. Gráficos, tabelas e infográficos: sempre no NXtab (decisão do Mário Fernando, 13/11/2026)
 
-**Esta seção vale acima de qualquer rotina e de qualquer tarefa agendada, para toda skill de notícias, atual ou futura.** Em toda matéria, depois da apuração e antes de escrever, a rotina decide sozinha, sem perguntar e sem esperar pedido, se os dados pedem tabela, gráfico ou infográfico. Pedem quando a fonte oficial publica o dado em tabela ou gráfico; quando a matéria tem série no tempo, ranking, comparação entre itens, participação no todo, três a seis números-chave ou etapas em ordem; e quando a rotina pede "tabela" (inclusive "tabela simples"). Número solto e dado que muda no mesmo dia (horário de sessão, placar ao vivo) ficam no texto.
+**Vale acima de qualquer rotina e de qualquer tarefa agendada.** Toda tabela, gráfico ou infográfico de matéria dos sites sai do NXtab, na paleta do veículo. Nada de tabela HTML feita à mão, gráfico de outra biblioteca, imagem de IA com números ou print de outro site (única exceção: o quadro da previsão do tempo). As regras completas (quando entra, modelo pela natureza do dado, paleta, como gerar e como entra na matéria) estão na skill **`dados-e-graficos-next`**: carregue-a antes de montar a primeira peça. Se ela não estiver disponível, a matéria vai sem peça, com os números no texto, e o resumo registra em Pendências "peça do NXtab fora: skill de apoio indisponível".
 
-1. **Se pedem,** carregue a skill `dados-e-graficos-next` (uma vez por execução) e monte a peça no NXtab, pela seção 12 dela. Nunca tabela HTML à mão, gráfico de outra biblioteca, print de outro site ou imagem de IA com números. Única exceção: o quadro da `previsao-tempo-esbrasil`.
-2. **Conferência reforçada.** Como a decisão é automática e nada passa por revisão antes de ir ao ar, a peça só entra depois da conferência do item 5 da seção 12 daquela skill: fonte aberta na rodada, mesma régua, segunda leitura da fonte, script `conferir_pecas.py`, peça igual ao texto e olho no PNG. A economia do plano (seção 11) não autoriza pular nenhuma etapa.
-3. **Republicação** carrega sempre a `dados-e-graficos-next` (seção 13 dela).
-4. **Peça barrada na conferência:** a matéria vai ao ar com os números conferidos no texto, e o resumo registra em Pendências "peça do NXtab fora: dado não confirmado ([qual])".
+## 13. Republicação: dados sempre atualizados (decisão do Mário Fernando, 13/11/2026)
 
-## Modelo recomendado
-- Nível: Sonnet
-- Nota: 7/12 (raciocínio 1, fontes 1, texto 1, números 1, fluxo 1, risco 2)
-- Motivo: regras escritas de apuração, redação e publicação direta; o risco é alto (pautas proibidas, parceiros), mas o julgamento é guiado por regra, e publicar sem revisão barra o Haiku.
-- Teste: não testado, primeira execução monitorada.
-- Subir para Opus se: falha repetida ligada ao modelo nas pautas proibidas, na trava de duplicidade ou na conferência de dados.
+**Vale acima de qualquer rotina e de qualquer tarefa agendada**, para toda matéria que volta ao ar (`acervo-esbrasil`, `acervo-comunhao`, `artigos-acervo-esbrasil`, `artigos-acervo-comunhao`, `artigos-acervo-next` e as que vierem): todo dado datado do texto é procurado na fonte oficial mais recente. As regras completas estão na skill **`dados-e-graficos-next`**, que essas rotinas carregam sempre. Se ela não estiver disponível, siga a regra de dados da própria rotina e registre em Pendências "republicação: skill de apoio indisponível".
