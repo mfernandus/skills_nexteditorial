@@ -7,7 +7,9 @@ description: "Produz capítulos da Retrospectiva 2026 da revista ES Brasil (ESB 
 
 Um único fluxo para **todas as editorias** da Retrospectiva (setores econômicos, infraestrutura, economia geral, política, políticas públicas, municípios, turismo e cultura, meio ambiente e inovação). Baseado no prompt universal v10 (13/10/2026). O que é próprio de cada tema (números, fotos, marcos, aspas) entra no dossiê e nas páginas, nunca nesta skill.
 
-**Edição:** ESB 238 · fechamento comercial 29/11 · envio de material 03/12 · circulação 09/12/2026.
+**Edição:** ESB 238 (204 páginas). As datas valem sempre pelo calendário executivo do NX Pages (`get_calendario_executivo`); em 25/11/2026 eram: entrega de textos 03/12 · diagramação 04/12 · fechamento da diagramação, fechamento comercial e entrega de material 10/12 · gráfica 11/12 · circulação impressa 14/12 · digital 16/12/2026. Confira no NX Pages antes de citar qualquer prazo.
+
+**Quem decide (desde 23/11/2026):** a equipe toca os capítulos sem depender do Mário Fernando; a palavra final (aprovação, cortes, fotos, mudança de regra) é da Kamila, da produção. A versão animada dos gráficos para o site sai pelo NXtab publicado (Exportar → Senha da equipe → Publicar na web), sem chaves do R2 para a equipe.
 
 O trabalho tem três momentos:
 1. **Gerar o capítulo** (etapas 0 a 9): ficha, apuração, banco de aspas, páginas no formato da revista.
@@ -23,7 +25,7 @@ Se a skill estiver instalada sem a pasta `kit/`, baixe o kit do artefato **“Re
 1. Chame a ferramenta de artefatos `read_file` com esse slug e `paths`: `scripts/exportar_indesign.py.txt`, `scripts/extrair.js`, `scripts/idml.py.txt`, `scripts/embutir_imagens.py.txt`, `scripts/nxtab_grafico.py.txt`, `assets/modelo-capitulo.html`, `assets/grade-esb2026.css`, `assets/base-retrospectiva-2026-v5.idml.b64.txt`, `assets/selo-retrospectiva.png`, `assets/logo-es-brasil.png`, `assets/logo-es-em-numeros.png`. A base da revista vai em base64 porque o artefato não serve `.idml`; o exportador a restaura sozinho em `kit/assets/base-retrospectiva-2026-v5.idml`. Se o kit ainda trouxer `base-materia-esb2026-inter.idml`, ele é anterior a 21/11/2026: baixe o kit de novo.
 2. Copie cada arquivo salvo para `kit/` na pasta de trabalho, com o mesmo caminho, tirando o `.txt` final dos `.py` (`kit/scripts/exportar_indesign.py`, `kit/scripts/idml.py`, `kit/scripts/embutir_imagens.py`, `kit/scripts/nxtab_grafico.py`, `kit/scripts/extrair.js`, `kit/assets/...`). Para os gráficos, baixe também o NXtab, o construtor de gráficos da Next: `read_file` no artefato “NXtab”, slug `7a1c22c8-3982-455a-ab9a-cac69d588c8c`, com `paths: ["index.html"]`, e copie para `kit/nxtab.html`.
 3. Dependências: `pip install --break-system-packages playwright pymupdf pillow openpyxl python-docx segno` e um Chrome ou Chromium (`python3 -m playwright install chromium` se não houver Chrome no sistema).
-4. Se nada disso estiver disponível, peça ao Mário o .zip da skill (`retrospectiva-esbrasil.zip`), que já traz o kit.
+4. Se nada disso estiver disponível, use o .zip da skill (`retrospectiva-esbrasil.zip`) do pacote da equipe (pasta do Drive “Retrospectiva 2026 · pacote da equipe”), que já traz o kit.
 
 **Fontes do texto (desde 23/11/2026):** a família Minion Pro (16 arquivos .otf, enviados pelo Mário Fernando em `Minion.rar`) fica em `kit/assets/fonts/` do .zip da skill. Se a pasta não vier, peça o `Minion.rar` ao Mário e extraia com `pip install --break-system-packages libarchive-c` e `libarchive.extract_file` (não há unrar no ambiente). A Minion é fonte licenciada da Adobe: nunca a publique em artefato, página, repositório público ou pasta compartilhada; ela vai só embutida no PDF de prova e no pacote do InDesign.
 
@@ -188,7 +190,7 @@ Toda tabela, gráfico, box, linha fina e número do texto usa a **divulgação m
 
 - Lista de quem ouvir, com 3 perguntas por fonte e prazo de retorno até 25/11.
 - **Artigo assinado** de uma liderança da editoria, como em 2025 (presidente de sindicato ou associação nos setores; gestor, pesquisador ou liderança da sociedade civil nos demais; em Política, só especialista sem mandato nem candidatura), com tema sugerido e tamanho. Não conta no texto corrido; trechos podem virar aspas verificadas.
-- Empresas e entidades com potencial de **publieditorial** ou cota, para a área comercial (fechamento comercial 29/11), **só nos perfis que permitem**. Anúncio nunca encosta em matéria sobre o próprio anunciante sem a etiqueta de publicidade.
+- Empresas e entidades com potencial de **publieditorial** ou cota, para a área comercial (fechamento comercial pelo NX Pages: 10/12/2026 na consulta de 25/11), **só nos perfis que permitem**. Anúncio nunca encosta em matéria sobre o próprio anunciante sem a etiqueta de publicidade.
 
 ## Etapa 5 · Estrutura editorial
 
