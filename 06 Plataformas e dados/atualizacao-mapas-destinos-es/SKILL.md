@@ -138,6 +138,7 @@ Empate: priorizar região/município que Mário estiver trabalhando no momento.
   blocos e as 6 informações importantes): vazio, < 20 caracteres, rótulo genérico no lugar do
   texto (ex.: "Descrição") ou headline/subtítulo entre aspas;
 - fotos: total, quantas do Google, principal, quais sem `autoria`, `legenda` ou `alt_text`;
+  nos vinculados de hospedagem e restaurante, a cobertura por categoria (Passo 4, item 11);
 - tags nos 4 eixos do site (Passo 5) e qual é a **primeira categoria**;
 - vinculados por tipo, e se algum vinculado está sem tipo de categoria (não aparece no site);
 - verificação, coordenadas, data da última edição;
@@ -215,6 +216,13 @@ esta linha de base no relatório.
    avaliacoes, link, coletado_em — só o que bate em nome e cidade); resumo de card e tags
    (Passos 5 e 6); fotos (Passo 4); vínculos (item 6); verificação desmarcada com a observação
    no formato do Passo 8.
+   Hospedagem e restaurante levam ainda, só com o que estiver nas fontes (Google, site e
+   Instagram do lugar, Booking): hospedagem — tipos de quarto, comodidades verdadeiras como tags
+   existentes (piscina, café incluso, estacionamento, wi-fi, ar-condicionado, pet,
+   acessibilidade, pé na areia), check-in e check-out; restaurante — tipo de cozinha (categoria),
+   prato-assinatura, link do cardápio e opções (vegetariano, sem glúten, kids, pet, reserva).
+   O que o mapas ainda não tem campo para guardar não vai para lugar improvisado: fica no
+   relatório até os campos novos existirem (spec de 25/11/2026).
 9. **CNPJ — API CNPJ Aberto** (fonte padrão desde 19/11/2026, decisão de Mário; mesma base
    aberta da Receita, atualizada todo mês). Base `https://cnpjaberto.com.br`, chave no cabeçalho
    `X-API-Key` — a chave fica na memória do Claude (`/areas/cnpj-aberto-api.md`; no projeto Site
@@ -256,8 +264,10 @@ ou banco de imagem); crédito "@perfil / Instagram". Escolha pontual, perfil a p
 de Mário — sem varredura em massa, porque o Instagram bloqueia robôs. O instagram.com precisa
 estar liberado na extensão (em 14/11 o acesso foi barrado pela permissão da sessão).
 Toda foto que a rodada sobe passa pelo tratamento (item 7), ganha a marca no nome do arquivo
-(item 3) e fica com cópia local (item 2). Mínimo de 5 fotos em ponto turístico (máximo 12) e 3
-nos demais locais (do Google, até 3 por local).
+(item 3) e fica com cópia local (item 2). Mínimo de 5 fotos em ponto turístico (máximo 12);
+hospedagem e restaurante seguem a galeria por tipo (item 11): mínimo de 6 e 5, máximo 12; 3 nos
+demais locais. Do Google, até 3 por local (até 6 em hospedagem e restaurante, só para cobrir
+categoria que falta).
 
 1. **Escolher no NX Fotos** (MCP `NXFOTOS`): `buscar` com `q` = nome do ponto; depois nome +
    município; depois `sugestoes_de_filtro` para achar o `local` exato; olhar com
@@ -322,6 +332,38 @@ nos demais locais (do Google, até 3 por local).
    do livro vira a principal quando é horizontal e mostra o lugar, e as melhores das mesmas saídas
    fotográficas completam a galeria. Foto do livro que não está no NX Fotos vai para as
    pendências; divergência de crédito livro × NX Fotos vai para a fila.
+11. **Galeria por tipo: hospedagem e restaurante** (regra de Mário, 25/11/2026). O site passa a
+   mostrar mosaico com filtro por categoria (spec enviada ao Claude Code em 25/11/2026): hotel ou
+   pousada só com fachada e restaurante sem comida não atraem o turista.
+   - Categorias (campo `categoria` da foto, quando existir no mapas): hospedagem — fachada,
+     quarto, banheiro, areas_comuns, piscina_lazer, cafe_da_manha, restaurante, vista, entorno;
+     restaurante — fachada, ambiente_interno, area_externa, prato, prato_assinatura, sobremesa,
+     drinks, cozinha_equipe, vista.
+   - Cobertura mínima: hospedagem, 6 fotos — fachada ou vista, 2 de quarto (tipos de quarto
+     diferentes quando houver) e 3 entre áreas comuns, piscina/lazer, café da manhã e vista;
+     restaurante, 5 fotos — fachada ou ambiente, ambiente interno, 2 pratos (o prato-assinatura,
+     se houver) e 1 entre drinks, sobremesa ou área externa.
+   - Busca por categoria, na ordem das fontes deste passo: no NX Fotos, nome do local + "quarto",
+     "suíte", "café da manhã", "piscina", "prato", "restaurante", e as demais fotos da mesma saída
+     fotográfica; no Google Places, todas as referências de foto do detalhe, classificando cada
+     uma olhando a imagem; no Instagram oficial do local (onde mais aparecem quarto e prato),
+     com as regras do início deste passo.
+   - A foto tem de mostrar o que a categoria diz e ser do próprio lugar: prato servido na casa
+     (nada de foto genérica de prato, cardápio impresso ou banco de imagens); quarto do próprio
+     hotel (nada de quarto de outra unidade da rede). Na dúvida, fica de fora.
+   - Ordem (`order`): hospedagem — principal → quarto → piscina_lazer/vista → cafe_da_manha →
+     areas_comuns → demais; restaurante — principal → prato_assinatura → ambiente_interno →
+     prato → drinks → demais.
+   - Principal: a foto que mais atrai e identifica o lugar, não necessariamente a fachada.
+     Hospedagem: fachada bonita, vista ou piscina. Restaurante: ambiente ou prato-assinatura com
+     algo da casa no quadro. Close de prato sem nada da casa não vira principal.
+   - Enquanto o campo `categoria` não existir: a `legenda` começa pelo rótulo da categoria
+     ("Quarto — suíte com varanda", "Prato — moqueca capixaba") e a ordem segue a regra acima;
+     quando o campo chegar, a categoria sai desse rótulo, sem retrabalho. A marca no nome do
+     arquivo (item 3) não muda.
+   - Faltou categoria depois das fontes → pendência no relatório e linha na fila ("pedir fotos de
+     quarto ao hotel"), com o contato do local; a skill não pede foto ao estabelecimento por
+     conta própria.
 
 ## Passo 5 — Tags e categorias (o que põe o ponto nas experiências do site)
 
@@ -363,7 +405,8 @@ das mesmas tags.
    ficha, fotos, categoria, avaliações). Pode partir do prompt da casa
    (`/prompts/tipo/tags` + `POST /api/ai/generate-tags`) e filtrar pelo vocabulário acima.
 2. Serviços ficam sem tag. Tags de comodidade (TV, wi-fi, ar-condicionado, estacionamento etc.) não aparecem no site:
-   não gastar a rodada com elas nos pontos turísticos.
+   não gastar a rodada com elas nos pontos turísticos. Em hospedagem e restaurante, as
+   comodidades verdadeiras entram, porque viram selos e ícones no novo layout (25/11/2026).
 3. **Primeira categoria = selo do card**: a mais representativa vem primeiro (ex.: "Cachoeira"
    antes de "Estacionamento"). Propor a reordenação quando estiver errada.
 
@@ -476,7 +519,7 @@ ou na cidade errada é pior do que nenhuma: a curadoria cobre o lugar, os dados 
 | Dados | tags verdadeiras (nada de "Cachoeiras" em rio nem tag de comodidade em praia ou igreja) |
 | Fotos | principal existe, é horizontal e mostra o lugar; sem logo, selfie, texto por cima ou paisagem que não é do lugar |
 | Fotos | todas com `autoria`, `legenda` e `alt_text`; nenhuma repetida (hash 16×16, distância ≤ 20); todas com marca de tratamento no nome do arquivo e cópia local em mapas.nx.tv.br |
-| Fotos | mínimo de 5 em ponto turístico e 3 nos demais locais |
+| Fotos | mínimo de 5 em ponto turístico, 6 em hospedagem e 5 em restaurante (com a cobertura por categoria do Passo 4, item 11) e 3 nos demais locais |
 | Fotos | origem da principal, nesta ordem: NX Fotos → Google com autor → outros meios (Instagram do próprio local, parceiro com cessão por escrito, guia); imagem de IA nunca em lugar real |
 
 - **Folha de contato**: no ambiente de trabalho, montar grades de ~40 fotos principais (miniatura,
@@ -539,7 +582,8 @@ candidato a ponto turístico e candidato a destaque.
   campo: ~1.000 caracteres. O PUT da verificação regrava "verificado por" e a data: mandar
   `verificado` com o valor que já estava.
 - A rodada nunca marca `verificado = true` por conta própria.
-- **Pedido ao Brendew** (repetir no relatório até existir): campos de nível, curado por e curado
+- **Pedido ao Brendew** (repetir no relatório até existir): campo `categoria` da foto e os campos de hospedagem e restaurante (spec de
+  25/11/2026); campos de nível, curado por e curado
   em; marca de foto principal aprovada; tela de fila de curadoria no painel (a revisão de
   estabelecimentos pode servir de base); e o site usar o nível — destaque e curado primeiro na
   vitrine, bruto fora dos trilhos e do Guia com IA.
@@ -553,7 +597,8 @@ deve olhar primeiro.
 ## Passo 10 — Conferir no site, checagem de fechamento, aviso e registro
 
 1. Abrir `https://mapas.nx.tv.br/publico/destino/{id}` e confirmar: foto principal, crédito
-   das fotos, blocos e informações importantes, vinculados com distância.
+   das fotos, blocos e informações importantes, vinculados com distância; em hospedagem e
+   restaurante, a galeria com as categorias (quando o novo layout estiver no ar).
 2. Conferir `?lang=en` e `?lang=es` (tradução pendente vai para o relatório).
 3. Relatório por ponto: o que foi inserido, vinculado, fotografado, creditado, etiquetado e
    escrito; o que ficou pendente e por quê; em quais experiências do site o ponto passou a
@@ -581,7 +626,7 @@ deve olhar primeiro.
    Escopo: N locais (N novos, N completados, N antigos)
    Níveis: N destaque · N curados · N conferidos · N brutos (antes: …)
    Correções automáticas: N créditos · N principais · N WhatsApp · N títulos · N fechados
-   Fotos: N subidas, todas tratadas, creditadas e com cópia local · N locais abaixo do mínimo
+   Fotos: N subidas, todas tratadas, creditadas e com cópia local · N locais abaixo do mínimo · N hospedagens e restaurantes sem a cobertura por categoria
    Fila: N decisões → <link>
    Olhe primeiro: 1) … 2) … 3) … 4) … 5) …
    Pendente com o Brendew: …
