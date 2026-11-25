@@ -267,8 +267,8 @@
       "SKILL.md"
     ],
     "pasta": "01 Editorial/00 Padrão de publicação/padrao-publicacao-next",
-    "sha": "e2e5f1bbae69316ada2f6453b65b807a359fcc415199a88ec8817e92914a017d",
-    "updatedAt": "2026-11-25T10:16:36.037141Z"
+    "sha": "d244dfa85590c599b56afe72e70b9593e3ce14d93e92ae980cdccd85e3727a7e",
+    "updatedAt": "2026-11-25T17:13:53.781221Z"
   },
   "panorama-next": {
     "arquivos": [
@@ -344,6 +344,14 @@
     "pasta": "06 Plataformas e dados/sincronizar-projetos-drive",
     "sha": "d138b8c03a7188076887add9bc4adf648cb2b70aaab2997dfbb7eb5b7dbc282c",
     "updatedAt": "2026-11-20T14:36:06.585726Z"
+  },
+  "tratamento-fotos-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/00 Padrão de publicação/tratamento-fotos-next",
+    "sha": "2729a1cbbe89a7f9214ad1e904c3f26e2c8027025b2ef83e98f76ffeb5df7e14",
+    "updatedAt": "2026-11-25T17:00:12.940670Z"
   },
   "validacao-diaria-datafe": {
     "arquivos": [
