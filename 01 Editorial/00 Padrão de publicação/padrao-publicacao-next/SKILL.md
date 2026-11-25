@@ -10,6 +10,7 @@ Regras que valem para **toda** rotina de conteúdo dos sites (turno noturno, Est
 **Skills de apoio** (economia do plano, decisão do Mário Fernando de 17/11/2026). Partes deste padrão que nem toda rodada usa ficam em skills próprias, carregadas só quando a rodada precisa delas, uma vez por execução (11.7). Valem com a mesma força que se estivessem aqui:
 - **`dados-e-graficos-next`** (seções 12 e 13): carregue antes de montar qualquer tabela, gráfico ou infográfico e, sempre, nas rotinas de republicação (`acervo-esbrasil`, `acervo-comunhao`, `artigos-acervo-esbrasil`, `artigos-acervo-comunhao`, `artigos-acervo-next`).
 - **`imagem-ia-next`** (9.1 e 9.2): carregue só quando nenhuma foto real com direito de uso servir, antes de gerar a imagem.
+- **`tratamento-fotos-next`** (9.3, itens 4 e 5; decisão do Mário Fernando de 25/11/2026): carregue sempre que a rodada for gravar foto real. É a única receita de tratamento da casa.
 - **`raspagem-web-next`** (busca e leitura de páginas pelo Firecrawl, com o Apify de reserva; decisão do Mário Fernando de 17/11/2026): carregue só nas rotinas que a citam. A seção 3 dela (o que nunca se raspa) vale acima de qualquer rotina, e a seção 5 diz quando avisar que os créditos estão baixos ou acabaram.
 - **`pauta-local-next`** (pauta de contexto local a partir de número nacional ou internacional; decisão do Mário Fernando de 17/11/2026): carregue só quando uma matéria publicada na rodada passar no filtro rápido da seção 10, item 0.
 
@@ -151,35 +152,11 @@ Vale para toda foto real, de qualquer rotina, antes de gravar.
 1. **Assunto exato.** A foto mostra exatamente o que a matéria diz. Troca de marca mostra a marca nova, nunca a antiga. Órgão mostra o prédio certo: a Secom-ES fica no Palácio da Fonte Grande, não no Palácio Anchieta. Na dúvida sobre o lugar, confira no site oficial do órgão antes de gravar.
 2. **Atual e sem repetição.** A mais recente que sirva. Confira nas publicações do portal já listadas na rodada (seção 4) se a mesma foto foi usada há pouco; se foi, escolha outra.
 3. **Origem limpa.** Nada com crédito de órgão de controle (2.1) e nada tirado de matéria crítica a cliente ou parceiro da casa. Pichação, faixa de protesto ou marca de terceiros em destaque: troque.
-4. **Tratamento no padrão das revistas impressas.** As fotos do banco chegam cruas. Olhe a foto: se já está viva e bem tratada, não mexa. Se está apagada, fria ou lavada, trate no padrão vivid da casa: um pouco mais quente e cítrica, azuis mais quentes (puxados para o ciano), cor e contraste reforçados sem estourar pele nem céu. Valores provisórios, até a calibragem com páginas da revista: balanço quente (vermelho +5%, verde +1,5%, azul −6%), curva S suave, vibrance +45% nas cores apagadas, azuis −8° de matiz, tudo na força 0,85.
-5. **Como aplicar.** Baixe a foto em resolução cheia (no NX Fotos, `link_do_original`), trate com o script abaixo, suba com `pedir_link_de_envio` + `curl -T` e grave a URL do Studio com `definir_imagem_destacada`. O link de envio é de uso único: não mostre nem guarde. Se não der para tratar, grave a original e registre "foto sem tratamento" em Pendências.
+4. **Tratamento na skill `tratamento-fotos-next`** (decisão do Mário Fernando de 25/11/2026). É a única receita de tratamento da casa: carregue-a e siga-a. Ela escolhe o tipo (turismo, pessoas ou editorial), mede cada ajuste na foto, deixa como está a foto que já está boa e grava a marca de foto tratada. Foto com a marca (sufixo `-nxt1` ou `-nxm1` no nome, XMP `nx:Tratamento` ou palavra-chave `tratada-nx-v1` no NX Fotos) não é tratada de novo.
+5. **Como aplicar.** Baixe a foto em resolução cheia (no NX Fotos, `link_do_original`) e trate com `python3 tratar_foto_next.py entrada.jpg saida.jpg --marca <esbrasil|comunhao> --origem <nxfotos|site|agencia|prefeitura|google|instagram> --largura 2400 --sufixo`. Foto tirada de matéria já publicada (acervo do NX Feed, WordPress) vai com `--origem site`. Foto do NX Fotos vai também com `--palavras` (as palavras-chave da foto). Se o script devolver `ja_tratada` (marca da casa, inclusive a invisível) ou `mantida` por tratamento prévio, use a foto como está (decisão do Mário Fernando de 25/11/2026: foto já tratada não é tratada de novo). Suba com `pedir_link_de_envio` (`tratamento="nao"`) + `curl -T` e grave a URL do Studio com `definir_imagem_destacada` (`tratamento="nao"`), para o NX Feed não tratar de novo. O link de envio é de uso único: não mostre nem guarde. Se não der para tratar, grave a original e registre "foto sem tratamento" em Pendências.
 6. **Lacuna no banco.** Sem foto boa do assunto no NX Fotos, registre em Pendências o que falta, para a equipe de fotografia produzir e subir ao banco.
 
-Script (`python3 tratar_foto.py entrada.jpg saida.jpg 0.85`):
-
-```python
-import sys
-import numpy as np
-from PIL import Image
-
-def tratar(im, forca=1.0):
-    a = np.asarray(im.convert("RGB")).astype(np.float32) / 255.0
-    a[..., 0] *= 1 + 0.05 * forca; a[..., 1] *= 1 + 0.015 * forca; a[..., 2] *= 1 - 0.06 * forca
-    a = np.clip(a, 0, 1)
-    k = 0.12 * forca
-    a = np.clip(a + k * (a - 0.5) * (1 - np.abs(2 * a - 1)), 0, 1)
-    hsv = np.asarray(Image.fromarray((a * 255).astype(np.uint8)).convert("HSV")).astype(np.float32)
-    h, s, v = hsv[..., 0] * 360 / 255, hsv[..., 1] / 255, hsv[..., 2] / 255
-    s = np.clip(s + 0.45 * forca * s * (1 - s), 0, 1)
-    azul = (h > 195) & (h < 255)
-    h = np.where(azul, h - 8 * forca, h)
-    hsv2 = np.stack([(h % 360) * 255 / 360, s * 255, v * 255], -1).astype(np.uint8)
-    return Image.fromarray(hsv2, "HSV").convert("RGB")
-
-if __name__ == "__main__":
-    forca = float(sys.argv[3]) if len(sys.argv) > 3 else 1.0
-    tratar(Image.open(sys.argv[1]), forca).save(sys.argv[2], quality=92, subsampling=0)
-```
+O script fica na skill `tratamento-fotos-next` (seção 8). A receita antiga desta seção saiu em 25/11/2026.
 
 ## 10. Avisos ao fim da rodada
 

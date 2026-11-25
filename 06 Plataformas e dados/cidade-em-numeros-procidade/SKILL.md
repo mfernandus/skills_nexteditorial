@@ -38,7 +38,7 @@ Sem dado oficial, o card fica pendente. Nunca inventar número.
 
 ## 3. Mídia
 
-- **Fotos do NX Fotos:** Claude escolhe sozinho, por beleza, informação da foto e atualidade. São 5 para a capa e 15 para a galeria, com crédito "Foto: Autor / NX Fotos".
+- **Fotos do NX Fotos:** Claude escolhe sozinho, por beleza, informação da foto e atualidade. São 5 para a capa e 15 para a galeria, com crédito "Foto: Autor / NX Fotos". Antes de subir, cada foto passa pela skill `tratamento-fotos-next` (original por `link_do_original`; `python3 tratar_foto_next.py entrada.jpg saida.jpg --marca destinos --origem nxfotos --largura 1600 --sufixo`). Foto que já tem a marca da casa (inclusive a invisível) ou foi tratada pelo fotógrafo entra como está (decisão do Mário Fernando de 25/11/2026).
   - `link_do_original` aceita cerca de 4 chamadas por minuto e o link vale 15 minutos.
   - Baixar um arquivo por vez e conferir cada um abrindo com o PIL.
   - Tratar e exportar em webp nos tamanhos 2400 (capa), 1600 e 640.

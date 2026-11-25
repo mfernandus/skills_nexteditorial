@@ -27,7 +27,7 @@ O pacote completo (scripts do gerador, mapa do ES, logos, as 6 trilhas, o manual
 ## Regras que não mudam
 
 - Fonte: Incaper primeiro, Climatempo depois. Nunca estimar número.
-- Fotos só do NX Fotos, sempre tratadas e coerentes com o tempo, e sempre claras e vivas: o `foto_clima.py` nunca escurece a foto (trava de exposição; saída 9 = foto escura, troque). Suba ao Studio a foto já tratada e grave a destacada com `tratamento: "nao"` (decisão de Mário Fernando, 19/11/2026).
+- Fotos só do NX Fotos, sempre tratadas e coerentes com o tempo, e sempre claras e vivas: o `foto_clima.py` nunca escurece a foto (trava de exposição; saída 9 = foto escura, troque). Suba ao Studio a foto já tratada e grave a destacada com `tratamento: "nao"` (decisão de Mário Fernando, 19/11/2026). Foto que já tem a marca da skill `tratamento-fotos-next` (confira com `python3 tratar_foto_next.py --verificar foto.jpg`, que acha também a marca invisível, e com a palavra-chave `tratada-nx-v1` no NX Fotos) não recebe tratamento de cor de novo: o `foto_clima.py` só entra se a foto estiver crua (decisão do Mário Fernando de 25/11/2026).
 - Cada post tem duas fotos do mesmo lugar: a destacada e uma segunda, de outro ângulo, no alto do destaque do Destinos ES (`--formato dica`, 1200 × 600, com crédito do fotógrafo) (19/11/2026).
 - O botão e o "Saiba mais" levam à página exata do lugar (`destinoses.com/destino/ID/slug`), achada só pelo `scripts/destino_link.py`, com o município conferido; nunca montar o link à mão. Sem página certa, o link vai para a home do destinoses.com (19/11/2026).
 - Chapéu "Previsão do tempo", em caixa alta e baixa; nunca PREVISÃO DO TEMPO.

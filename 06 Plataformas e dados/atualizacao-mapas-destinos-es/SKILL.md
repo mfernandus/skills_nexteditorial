@@ -294,7 +294,7 @@ nos demais locais (do Google, até 3 por local).
 6. **Foto principal**: trocar só se não houver principal, ou se a atual for Google ou imprópria
    e houver NX Fotos do lugar horizontal ≥ 1600 (`POST /api/mapa/{id}/images/{imgId}/set-main`).
    Na rodada, a troca entra no plano; na curadoria (9.2), é feita direto.
-7. **Tratamento (regra de Mário, 11/11/2026, todas as rotinas)**: analisar cada foto. Se
+7. **Tratamento (regra de Mário, 11/11/2026, todas as rotinas; tratamento prévio em 25/11/2026)**: a receita da casa está na skill `tratamento-fotos-next`. Sempre que a foto puder passar pelo ambiente de trabalho (original do NX Fotos por `link_do_original`), trate com `python3 tratar_foto_next.py entrada.jpg saida.jpg --marca destinos --origem nxfotos --palavras "<palavras-chave da foto>" --largura 1600 --sufixo`. O sufixo `-nxt1` ou `-nxm1` vale como marca no nome do arquivo, no lugar de `t{k}`. Foto que já tem a marca da casa (inclusive a invisível, ou `t{k}` no nome) entra como está, com `t0`. Foto editada pelo fotógrafo tem o tratamento respeitado. A receita do canvas abaixo fica só para foto crua que só passa pelo navegador. Para ela: analisar cada foto. Se
    estiver crua, tratar no padrão das revistas impressas: mais viva, um pouco mais cítrica e
    quente, azuis mais quentes. Se já estiver tratada e boa, não mexer. Receita usada em
    17/11/2026 (k = 1 para foto crua de câmera, 0,8 para celular, 0,6 para foto já viva):
