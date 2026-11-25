@@ -1,0 +1,80 @@
+/* Grade e estilos da Retrospectiva 2026 da revista ES Brasil, pela base "MATÉRIA 1 - RETROSPECTIVA 2026 - ESB V5"
+   (enviada pelo Mário Fernando em 21/11/2026).
+   Página 205 x 275 mm = 900 x 1207 px (1 mm = 4,39 px; 1 pt = 1,549 px), páginas espelhadas, sangria de 3 mm.
+   Margens: 22 mm em cima, 15 mm embaixo, 17 mm na lombada e 12 mm do lado de fora; colunas com 4 mm entre elas.
+   Texto corrido: Minion Pro Cond 11/12 pt no InDesign; na prova, Crimson Pro em 15,79 px, calibrada para ocupar
+   a mesma largura (a Minion Pro Cond é cerca de 7,5% mais estreita que a Crimson Pro no mesmo corpo).
+   Títulos, linha fina, assinatura, retranca e intertítulo em Inter; legendas, créditos e textos de box em
+   Roboto Condensed, como nos estilos da V5. */
+:root{--azul:#00427B;--preto90:#1A1A1A;--retro:#E01E70;--cond:"Roboto Condensed","Inter",sans-serif;
+  --mg-top:96.59px;--mg-bot:65.85px;--mg-in:74.63px;--mg-out:52.68px;--col:245.85px;--gut:17.56px;--lin:18.585px}
+.page{padding:var(--mg-top) var(--mg-out) var(--mg-bot)!important;gap:12px!important}
+.page.esq{padding-left:var(--mg-out)!important;padding-right:var(--mg-in)!important}
+.page.dir{padding-left:var(--mg-in)!important;padding-right:var(--mg-out)!important}
+
+/* Cabeçalho da página-mestre "A-Master" da V5 (no InDesign ele vem da mestre; aqui é só a prova).
+   Esquerda: retranca "RETROSPECTIVA 2026" a 10 mm do refile e 6,8 mm do topo; selo da Retrospectiva a 155 mm,
+   do lado da lombada; aba de cor de 5 x 5,6 mm na sangria. Direita: logo da ES Brasil a 14,8 mm (lombada),
+   retranca da editoria alinhada à direita, terminando a 10 mm do refile, e aba de cor na sangria. */
+.page .top{position:absolute;inset:0 0 auto 0;height:100px;margin:0;display:block;pointer-events:none}
+.page .top .tag{position:absolute;top:29.85px;margin:0;font-family:var(--sans);font-size:18.59px!important;font-weight:900!important;
+  line-height:18.59px;letter-spacing:-.02em!important;text-transform:uppercase!important;color:var(--azul)!important;white-space:nowrap}
+.page .top .tag::before{content:none!important;display:none!important}
+.page.esq .top .tag{left:43.9px}
+.page.dir .top .tag{right:43.9px;text-align:right}
+.page .top .selo{position:absolute;left:680.45px;top:41.7px;width:148.4px;height:auto}
+.page .top .logo-esb{position:absolute;left:65px;top:26.8px;width:92.2px;height:auto}
+.page .top::after{content:"";position:absolute;top:26.34px;width:21.95px;height:24.58px;background:var(--retro)}
+.page.esq .top::after{left:-13.6px}
+.page.dir .top::after{right:-13.6px}
+
+/* Rodapé no lugar do paginador da página-mestre */
+.page .foot{position:absolute;top:1170px;height:16px;margin:0!important;padding:0!important;border:0!important;display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:10.84px;font-weight:900;letter-spacing:-.03em;color:var(--preto90)}
+.page.esq .foot{left:42.9px;right:auto;justify-content:flex-start}
+.page.dir .foot{right:41.8px;left:auto;justify-content:flex-end}
+.page .foot .pn{font-size:12.39px;font-weight:700;color:#E3061E;margin:0}
+.page .foot .pn.tbd{color:var(--pink)!important}
+.page .foot .redes{display:inline-block;transform:scaleX(.85)}
+.page.esq .foot .redes{transform-origin:left center}.page.dir .foot .redes{transform-origin:right center}
+
+/* Colunas na grade da revista */
+.page .grid{grid-template-columns:minmax(0,1fr) var(--col)!important;gap:var(--gut)!important}
+.flow.c2,.flow.c3{column-gap:var(--gut)!important}
+
+/* Texto corrido: "Texto geral 2026", "Texto fatual cap 3 linhas 2026" e "Intertexto 2026" (Inter Black 11/12, azul,
+   tracking -20, caixa alta e baixa na própria V5) */
+.flow{font-size:15.79px!important;line-height:var(--lin)!important;color:var(--preto90)!important}
+.flow p{text-indent:13.17px}
+.flow p.cap,.flow p.cont{text-indent:0}
+.flow p.cap::first-letter{font-family:var(--sans);font-weight:900;font-size:66px;line-height:52px;color:var(--preto90);margin:3px 5px 0 0}
+.flow h4{font-family:var(--sans);font-weight:900!important;font-size:17.04px!important;line-height:var(--lin)!important;letter-spacing:-.02em!important;color:var(--azul)!important;margin:var(--lin) 0 0!important;text-transform:none!important}
+
+/* Abertura: "Título 36pt 2026" (Inter Black 35,1/32,3 pt, branco, centralizado, tracking -25) sobre a foto,
+   "Lead 2026" (Inter Bold 16/16) e "Assinatura 2026" (Inter Black 11/11,5) */
+.opener h1{font-size:54.36px!important;line-height:50.01px!important;letter-spacing:-.025em!important;font-weight:900!important;color:#fff!important;
+  text-align:center!important;max-width:472px!important;left:50%!important;right:auto!important;transform:translateX(-50%);bottom:24px!important}
+.fina,.p1 .fina{font-weight:700!important;font-size:24.78px!important;line-height:24.78px!important;letter-spacing:-.02em!important;color:var(--preto90)!important;max-width:none!important;margin:2px 0 0!important}
+.by,.p1 .by{font-weight:900!important;font-size:17.04px!important;line-height:17.81px!important;letter-spacing:-.025em!important;color:var(--preto90)!important;margin:0!important}
+.nxtab.sobre{bottom:14px!important;right:14px!important}
+/* QR Code da abertura: quadro branco de 18 mm com fio de 0,5 pt, do lado da lombada, e o texto embaixo
+   ("Legenda dentro foto 2026" em Roboto Condensed Bold 9 pt, centralizado) */
+.qr{left:auto!important;right:14px!important;top:14px!important;width:88px!important;gap:3px!important;background:#fff;padding:0 0 4px;border-radius:0}
+.qr img{width:79px!important;height:79px!important;border:.77px solid var(--preto90);border-radius:0!important;padding:3px;background:#fff;box-sizing:border-box}
+.qr span{font-family:var(--cond)!important;font-weight:700!important;font-size:13.94px!important;line-height:14.5px!important;letter-spacing:-.03em;color:var(--preto90)!important;text-shadow:none!important;padding:0 2px}
+
+/* Legendas: "Legenda 2026" (Roboto Condensed 9,5/11, tracking -25, preto 90%) e "Legenda dentro foto 2026"
+   (Roboto Condensed Light 9,5/11, tracking -20, preto 90%, sobre um fundo claro para ler na foto) */
+.legenda{font-family:var(--cond)!important;font-weight:400!important;font-size:14.71px!important;line-height:17.04px!important;letter-spacing:-.025em;color:var(--preto90)!important;margin:-4px 0 0!important}
+.ph .leg{font-family:var(--cond)!important;font-weight:300!important;font-size:14.71px!important;line-height:17.04px!important;letter-spacing:-.02em;color:var(--preto90)!important;
+  background:rgba(255,255,255,.88)!important;text-shadow:none!important;padding:5px 8px!important;border-radius:0!important}
+/* Crédito ("Créditos 2026": Roboto Condensed Light 7/7, tracking -10): na vertical, à direita da foto */
+.ph{overflow:visible!important;border-radius:0!important}
+.ph > img{border-radius:0}
+.ph .cr{position:absolute!important;left:calc(100% + 4px)!important;right:auto!important;top:0!important;writing-mode:vertical-rl;background:none!important;padding:0!important;border-radius:0!important;font-family:var(--cond)!important;font-size:10.84px!important;line-height:10.84px;font-weight:300!important;letter-spacing:-.01em;color:var(--preto90)!important;text-shadow:none!important;white-space:nowrap}
+
+/* Box de números ("Título de box 2026" Inter Black 12/11, "Texto destaque números box 2026" Inter Black 15/15,
+   "Texto de box 2026" Roboto Condensed Light 9,5/11), sem caixa alta */
+.esn-top h3{font-family:var(--sans);font-size:18.59px!important;line-height:17.1px!important;font-weight:900!important;letter-spacing:-.025em!important;text-transform:none!important}
+.esn .n b{font-size:23.24px!important;line-height:23.24px!important;font-weight:900!important;letter-spacing:-.025em!important}
+.esn .n span{font-family:var(--cond)!important;font-weight:300!important;font-size:14.71px!important;line-height:17.04px!important;letter-spacing:-.02em!important}
+.esn-src{font-family:var(--cond)!important;font-weight:300!important}

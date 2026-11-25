@@ -1,0 +1,10 @@
+Kit da skill retrospectiva-esbrasil (25/11/2026)
+
+- scripts/: exportador do InDesign, IDML, legendas, gráficos (nxtab_grafico.py), embutir imagens, tratar fotos, box do ES em Números.
+- assets/: base da revista (V5, em base64), modelo das páginas, grade, logos e selo.
+- oficina/: montar.py, grade.py, shot.py, alinha.py, dup.py, pdf.py e as bases das provas.
+
+Fora deste repositório (é público):
+- Fontes Minion Pro (licenciadas, uso interno): ficam no pacote da equipe no Drive, em kit/assets/fonts/.
+- NXtab (kit/nxtab.html): baixe o index.html do NXtab publicado (https://claude.ai/artifact/G5Zau8SX9BaWydqLmndR7Z) ou use o repositório privado mfernandus/nxtab.
+- Capítulos, provas e PDFs: pasta do Drive "Retrospectiva 2026 · pacote da equipe".

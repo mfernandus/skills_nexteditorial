@@ -1,0 +1,128 @@
+
+<script>document.fonts.ready.then(()=>{
+
+(function(){
+  const src=document.getElementById('texto');
+  const boxes=[...document.querySelectorAll('.flow')].sort((a,b)=>a.dataset.flow-b.dataset.flow);
+  const blocks=[...src.content.children].map(n=>n.cloneNode(true));
+  const over=el=>el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1;
+  function toks(p){const t=[];let prevSpace=true;p.childNodes.forEach(n=>{if(n.classList&&n.classList.contains('fim'))return;const txt=n.textContent||'';const c=n.nodeType===3?'':(n.className||'');const ws=txt.split(' ');ws.forEach((w,i)=>{if(w==='')return;const glue=(i===0&&!prevSpace&&t.length>0);t.push({w,c,g:glue});});prevSpace=/ $/.test(txt);});return t;}
+  function html(ts){let h='',cur=null;for(const k of ts){const e=k.w.replace(/&/g,'&amp;').replace(/</g,'&lt;');const sp=(h&&!k.g)?' ':'';if(k.c!==cur){if(cur)h+='</span>';h+=sp;if(k.c)h+='<span class="'+k.c+'">';cur=k.c;h+=e;}else{h+=sp+e;}}if(cur)h+='</span>';return h;}
+  // viúvas: linhas do parágrafo e se a última é curta (menos de 1/3 da coluna)
+  function linhas(el){const f=el.closest('.flow')||el.parentNode;const n=+getComputedStyle(f).columnCount||1;const R=f.getBoundingClientRect();const gap=parseFloat(getComputedStyle(f).columnGap)||17.56;const cw=(R.width-(n-1)*gap)/n;
+    const r=document.createRange();r.selectNodeContents(el);const L={};for(const q of r.getClientRects()){if(q.width<1)continue;const c=n>1?Math.floor((q.left-R.left+2)/(cw+gap)):0;const k=c+'|'+Math.round(q.top/4);const a=L[k]||{l:q.left,r:q.right,t:q.top,c,cw};a.l=Math.min(a.l,q.left);a.r=Math.max(a.r,q.right);L[k]=a;}
+    return Object.values(L).sort((a,b)=>a.c-b.c||a.t-b.t);}
+  function curta(el){const L=linhas(el);if(L.length<2)return false;const u=L[L.length-1];return (u.r-u.l)<u.cw*0.37;}
+  function semViuva(p,box){if(p.tagName!=='P'||p.classList.contains('corte')||p.classList.contains('vaga-aspa')||!curta(p))return;
+    const ordem=document.body.dataset.viuva==='solta'?[0.1,0.2,0.25,-0.1,-0.2,-0.25]:[-0.1,-0.2,-0.25,0.1,0.2,0.25];
+    for(const ls of ordem){p.style.letterSpacing=ls+'px';if(!curta(p)&&!over(box))return;}
+    p.style.letterSpacing='';
+  }
+  // mede quantas linhas um parágrafo teria na largura da coluna desta caixa
+  function nLinhas(box,el){const n=+getComputedStyle(box).columnCount||1;const cw=(box.clientWidth-(n-1)*(parseFloat(getComputedStyle(box).columnGap)||17.56))/n;
+    const m=document.createElement('div');m.className='flow c1';m.style.cssText='position:absolute;left:-9999px;top:0;width:'+cw+'px;height:auto;columns:auto;padding:0';box.parentNode.appendChild(m);const c=el.cloneNode(true);m.appendChild(c);const k=linhas(c).length;m.remove();return k;}
+  // problemas de uma caixa de várias colunas: vão no pé de coluna que não é a última, linha sozinha entre colunas e viúva
+  function geo(box){const n=+getComputedStyle(box).columnCount||1;const R=box.getBoundingClientRect();const gap=parseFloat(getComputedStyle(box).columnGap)||17.56;const cw=(R.width-(n-1)*gap)/n;
+    return {n,R,gap,cw,col:x=>Math.floor((x-R.left+2)/(cw+gap)),base:R.bottom-parseFloat(getComputedStyle(box).paddingBottom||0),lin:parseFloat(getComputedStyle(box).lineHeight)||18.585};}
+  function colsDe(box,el){const C={};for(const q of linhas(el)){const c=q.c;C[c]=(C[c]||0)+1;}return Object.keys(C).sort((a,b)=>a-b).map(k=>C[k]);}
+  function sozinha(box,el){if(el.tagName!=='P')return false;const c=colsDe(box,el);return c.length>1&&(c[0]===1||c[c.length-1]===1);}
+  function vaos(box){const g=geo(box);if(g.n<2)return 0;let v=0;for(let c=0;c<g.n-1;c++){let f=g.R.top;for(const k of box.children)for(const q of k.getClientRects())if(g.col(q.left)===c&&q.bottom>f)f=q.bottom;if(g.base-f>=g.lin*0.9)v+=Math.round((g.base-f)/g.lin);}return v;}
+  function problemas(box){let n=vaos(box)*3;for(const k of box.children){if(k.tagName!=='P')continue;if(sozinha(box,k))n+=2;if(!k.classList.contains('corte')&&!k.classList.contains('vaga-aspa')&&curta(k))n+=1;}return n+(over(box)?100:0);}
+  // tenta espacejamentos num parágrafo e fica com o primeiro que reduz os problemas da caixa
+  function ajusta(box,el,vals){const antes=problemas(box);const old=el.style.letterSpacing;for(const v of vals){el.style.letterSpacing=v+'px';if(problemas(box)<antes)return true;}el.style.letterSpacing=old;return false;}
+  const APERTA=[-0.1,-0.2,-0.25],SOLTA=[0.1,0.2,0.25];
+  function semSozinha(box,blk){if((+getComputedStyle(box).columnCount||1)<2||!sozinha(box,blk))return;
+    let prev=blk.previousElementSibling;while(prev&&prev.tagName!=='P')prev=prev.previousElementSibling;
+    if(ajusta(box,blk,APERTA))return; if(prev&&(ajusta(box,prev,APERTA)||ajusta(box,prev,SOLTA)))return; ajusta(box,blk,SOLTA);}
+  function tapaBuraco(box){if((+getComputedStyle(box).columnCount||1)<2)return;
+    for(let volta=0;volta<4&&vaos(box)>0;volta++){let mexeu=false;
+      for(const k of [...box.children].reverse()){if(k.tagName!=='P'||k.classList.contains('vaga-aspa'))continue;if(ajusta(box,k,SOLTA)){mexeu=true;if(!vaos(box))return;}}
+      if(!mexeu)break;}}
+  function revisa(box){if((+getComputedStyle(box).columnCount||1)<2)return;
+    for(let volta=0;volta<3;volta++){const antes=problemas(box);if(!antes)return;
+      for(const k of [...box.children])if(k.tagName==='P'&&sozinha(box,k))semSozinha(box,k);
+      revisa(box);
+    if(i<blocks.length&&(+getComputedStyle(box).columnCount||1)<2){const lin=parseFloat(getComputedStyle(box).lineHeight)||18.585;const R=box.getBoundingClientRect();const base=R.bottom-parseFloat(getComputedStyle(box).paddingBottom||0);
+      const fundo=()=>{let f=R.top;for(const k of box.children)for(const q of k.getClientRects())if(q.bottom>f)f=q.bottom;return f;};
+      if(base-fundo()>=lin*0.9){for(const k of [...box.children].reverse()){if(k.tagName!=='P'||k.classList.contains('vaga-aspa'))continue;const old=k.style.letterSpacing;let ok=false;
+        for(const v of [0.1,0.2,0.25]){k.style.letterSpacing=v+'px';if(!over(box)&&base-fundo()<lin*0.9&&!curta(k)){ok=true;break;}}if(ok)break;k.style.letterSpacing=old;}}}
+      for(const k of [...box.children])if(k.tagName==='P'&&!k.classList.contains('corte')&&curta(k))ajusta(box,k,APERTA.concat(SOLTA));
+      if(problemas(box)>=antes)return;}}
+  // linhas frouxas: maior vão médio entre palavras numa linha justificada (a última linha do parágrafo não conta, a não ser no corte)
+  function vaoMax(el){const f=el.closest('.flow');const n=+getComputedStyle(f).columnCount||1;const R=f.getBoundingClientRect();const gap=parseFloat(getComputedStyle(f).columnGap)||17.56;const cw=(R.width-(n-1)*gap)/n;
+    const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);const r=document.createRange();const L={};const ordem=[];
+    while(w.nextNode()){const t=w.currentNode;for(let i=0;i<t.length;i++){r.setStart(t,i);r.setEnd(t,i+1);const q=r.getClientRects()[0];if(!q||q.width<=0)continue;const k=Math.round(q.top)+'|'+Math.floor((q.left-R.left+2)/(cw+gap));
+      if(!L[k]){L[k]={l:q.left,r:q.right,let:0,esp:0};ordem.push(k);}const a=L[k];a.l=Math.min(a.l,q.left);a.r=Math.max(a.r,q.right);const ch=t.data[i];if(ch===' '||ch==='\u00a0')a.esp++;else a.let+=q.width;}}
+    let m=0;const ult=el.classList.contains('corte')?ordem.length:ordem.length-1;for(let j=0;j<ult;j++){const a=L[ordem[j]];if(a.esp)m=Math.max(m,(a.r-a.l-a.let)/a.esp);}return m;}
+  function arejar(box,el){if(el.tagName!=='P'||el.classList.contains('vaga-aspa'))return;let v0=vaoMax(el);if(v0<12)return;const n0=linhas(el).length;const base=parseFloat(el.style.letterSpacing||0);let melhor=base;
+    for(const d of [0.05,0.1,0.15,0.2,0.25]){if(base+d>0.25)break;el.style.letterSpacing=(base+d)+'px';if(linhas(el).length!==n0||over(box))break;const v=vaoMax(el);if(v<v0){v0=v;melhor=base+d;}}
+    el.style.letterSpacing=melhor?melhor+'px':'';}
+  function fitWords(box,p){
+    const T=toks(p); const words=T.map(k=>k.w);
+    let lo=0,hi=words.length;
+    const part=p.cloneNode(false); box.appendChild(part);
+    while(lo<hi){const mid=Math.ceil((lo+hi)/2); part.innerHTML=html(T.slice(0,mid)); if(over(box)) hi=mid-1; else lo=mid;}
+    if(lo<2){box.removeChild(part); return null;}
+    part.innerHTML=html(T.slice(0,lo)); part.classList.add('corte');
+    // quebra no hífen: se a próxima palavra tem hífen discricionário, leva o pedaço que couber, com hífen, para esta caixa
+    let resto=T.slice(lo);
+    if(lo<T.length&&T[lo].w.includes('\u00ad')){const k=T[lo],pz=k.w.split('\u00ad');
+      for(let j=pz.length-1;j>=1;j--){const pre=pz.slice(0,j).join('\u00ad')+'-',suf=pz.slice(j).join('\u00ad');
+        part.innerHTML=html(T.slice(0,lo).concat([{w:pre,c:k.c,g:k.g}]));
+        if(!over(box)){resto=[{w:suf,c:k.c,g:false}].concat(T.slice(lo+1));break;}
+        part.innerHTML=html(T.slice(0,lo));}}
+    const rest=p.cloneNode(false); rest.classList.add('cont'); rest.classList.remove('cap');
+    rest.innerHTML=html(resto);
+    // linha sozinha no alto da próxima coluna: tenta trazê-la para esta caixa apertando o espacejamento
+    if(resto.length&&nLinhas(box,rest)<2){const keep=part.innerHTML;part.classList.remove('corte');part.innerHTML=html(T);
+      if(p.querySelector('.fim'))part.insertAdjacentHTML('beforeend','<span class="fim"></span>');
+      for(const ls of [-0.1,-0.2,-0.25]){part.style.letterSpacing=ls+'px';if(!over(box))return 'inteiro';}
+      part.style.letterSpacing='';part.innerHTML=keep;part.classList.add('corte');}
+    if(p.querySelector('.fim')) rest.insertAdjacentHTML('beforeend','<span class="fim"></span>');
+    return rest;
+  }
+  // alinhamento: a altura útil de cada caixa vira múltiplo exato da entrelinha e a sobra (< 1 linha) vai para o alto,
+  // para que as últimas linhas de todas as colunas e da lateral caiam na mesma linha de base, no pé da página
+  const _abre=b=>{const a=b.closest('aside');return !!a&&a.firstElementChild===b;};const _lin0=b=>parseFloat(getComputedStyle(b).lineHeight)||18.585;const _rem=b=>{const lin=_lin0(b);const cs=getComputedStyle(b);const h=b.getBoundingClientRect().height-(parseFloat(cs.paddingTop)||0)-(parseFloat(cs.paddingBottom)||0);return h-Math.floor(h/lin+0.001)*lin;};boxes.forEach(bx=>{bx.style.paddingTop='0px'});boxes.filter(bx=>!bx.closest('aside')).forEach(bx=>{const grid=bx.closest('.grid');const rem=_rem(bx);if(!grid){bx.style.paddingTop=Math.max(0,rem-0.3).toFixed(2)+'px';return;}if(rem<0.5)return;let prev=grid.previousElementSibling;while(prev&&prev.matches('p.src'))prev=prev.previousElementSibling;if(prev&&prev.matches('figure.ph:not(.opener)')){prev.style.height=(prev.getBoundingClientRect().height+rem-0.3).toFixed(2)+'px';}else{grid.style.marginTop=((parseFloat(grid.style.marginTop)||0)+rem-0.3).toFixed(2)+'px';}});boxes.filter(bx=>!bx.closest('aside')).forEach(bx=>{const grid=bx.closest('.grid');if(!grid)return;const as=grid.querySelector('aside');if(!as)return;const g=parseFloat(getComputedStyle(as).rowGap)||0;let tot=g*Math.max(0,as.children.length-1);for(const k of as.children){if(k.matches('.flow'))continue;const cs=getComputedStyle(k);tot+=k.getBoundingClientRect().height+(parseFloat(cs.marginTop)||0)+(parseFloat(cs.marginBottom)||0);}const over=tot-as.getBoundingClientRect().height;if(over>0.5){let prev=grid.previousElementSibling;while(prev&&prev.matches('p.src'))prev=prev.previousElementSibling;if(prev&&prev.matches('figure.ph:not(.opener)')){const L=_lin0(bx);prev.style.height=(prev.getBoundingClientRect().height-Math.ceil(over/L)*L).toFixed(2)+'px';}}});boxes.filter(bx=>bx.closest('aside')&&!_abre(bx)).forEach(bx=>{bx.style.paddingTop=Math.max(0,_rem(bx)-0.3).toFixed(2)+'px';});
+  let i=0;
+  for(const box of boxes){
+    box.innerHTML='';
+    while(i<blocks.length){
+      const blk=blocks[i]; box.appendChild(blk);
+      if(!over(box)){semViuva(blk,box);semSozinha(box,blk);i++;continue;}
+      box.removeChild(blk);
+      if(blk.tagName==='P'){const rest=fitWords(box,blk); if(rest==='inteiro'){i++;} else if(rest){blocks[i]=rest;}}
+      break;
+    }
+    const last=box.lastElementChild;
+    if(last&&last.tagName==='H4'){box.removeChild(last); i--;}
+    tapaBuraco(box);
+  }
+  // fim do texto: a sobra (menos de três linhas) da última caixa preenchida sobe para o alto dela,
+  // para o sinal de fim encostar no pé da caixa (ou no box do ES em Números), sem vão embaixo
+  const usadas=boxes.filter(bx=>bx.children.length);const ult=usadas[usadas.length-1];
+  if(ult&&(+getComputedStyle(ult).columnCount||1)<2&&!_abre(ult)){const lin=parseFloat(getComputedStyle(ult).lineHeight)||18.585;const r=ult.getBoundingClientRect();let fundo=r.top;
+    for(const k of ult.children){for(const q of k.getClientRects()){if(q.bottom>fundo)fundo=q.bottom}}
+    const sobra=r.bottom-parseFloat(getComputedStyle(ult).paddingBottom||0)-fundo;if(sobra>0.5&&sobra<lin*3){ult.style.paddingTop=(parseFloat(ult.style.paddingTop||0)+sobra).toFixed(2)+'px'}}
+  boxes.forEach(bx=>{const R=bx.getBoundingClientRect();const pt=parseFloat(getComputedStyle(bx).paddingTop)||0;bx.querySelectorAll('h4').forEach(h=>{h.classList.remove('topo');const r=h.getClientRects()[0];if(r&&r.top-(R.top+pt)<4)h.classList.add('topo')})});window.__prob=()=>boxes.map(b=>[b.dataset.flow,problemas(b),vaos(b),[...b.children].filter(k=>k.tagName==='P'&&sozinha(b,k)).map(k=>k.textContent.slice(0,30)),[...b.children].filter(k=>k.tagName==='P'&&!k.classList.contains('corte')&&curta(k)).map(k=>k.textContent.slice(0,30))]);
+  boxes.forEach(bx=>[...bx.children].forEach(el=>arejar(bx,el)));
+  // corrige recuo: se o último bloco removido era um intertítulo, recoloca na fila
+  const left=blocks.slice(i);
+  const chars=left.reduce((s,n)=>s+n.textContent.length,0);
+  const info=document.getElementById('ocupacao');
+  if(info){ info.textContent = chars>0 ? `Texto excede o espaço das páginas em cerca de ${chars.toLocaleString('pt-BR')} caracteres.` : 'Texto cabe nas páginas.'; info.className = chars>0?'excede':'cabe'; }
+})();
+});</script>
+
+<script>
+(function(){
+  function fit(){
+    document.querySelectorAll('.pagebox').forEach(box=>{
+      const pg=box.firstElementChild; const s=Math.min(1,box.clientWidth/900);
+      pg.style.transform=`scale(${s})`; box.style.height=(1207*s)+'px';
+    });
+  }
+  window.addEventListener('resize',fit); fit();
+})();
+</script>
+</body></html>

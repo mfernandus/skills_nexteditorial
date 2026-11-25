@@ -1,0 +1,545 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Retrospectiva 2026 · [Editoria]</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600;700;800;900&family=Roboto+Condensed:wght@300;400;700&display=swap">
+<style>/* Layout: páginas de revista (retrospectiva ES Brasil) empilhadas sobre uma mesa neutra; cada página traz foto, painel de dados cinza e texto em colunas. Visual de impressão, tema único claro. */
+:root{
+  --navy:#001C43; --blue:#00427B; --pink:#E01E70; --purple:#A115ED; --pastel:#A2D2FF;
+  --paper:#FFFFFF; --ink:#1B2430; --muted:#5E6B7C; --line:#D9DFE8; --panel:#EEF1F5; --desk:#E6E9EE;
+  --up:#0F7A3F; --dn:#C0182F;
+  --serif:"Crimson Pro","Minion Pro","Minion",Georgia,"Times New Roman",serif;
+  --sans:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--desk);color:var(--ink);font-family:var(--sans)}
+.wrap{max-width:940px;margin:0 auto;padding-block:28px 56px;padding-inline:16px;display:flex;flex-direction:column;gap:14px}
+.note{background:#FFF6DA;border:1px solid #E8C766;color:#4A3A06;border-radius:8px;padding:12px 16px;font-size:13px;line-height:1.55}
+.pg{margin:12px 0 -4px 2px;font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:none;color:var(--muted)}
+.page{background:var(--paper);padding:30px 40px 18px;box-shadow:0 1px 2px rgba(0,28,67,.08),0 14px 40px rgba(0,28,67,.12);display:flex;flex-direction:column;gap:18px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.tag{display:flex;align-items:center;gap:9px;font-weight:800;font-size:14px;letter-spacing:1px;text-transform:none;color:var(--blue)}
+.tag::before{content:"";width:6px;height:20px;background:var(--pink)}
+.retro{font-weight:300;font-size:14px;letter-spacing:.6px;text-transform:none;color:var(--pink)}
+.retro b{font-weight:900}
+.ph{margin:0;position:relative;overflow:hidden;border-radius:6px}
+.ph img{display:block;width:100%;height:100%;object-fit:cover}
+.ph .cr{position:absolute;right:6px;top:6px;font-size:9.5px;color:#fff;background:rgba(0,0,0,.35);padding:2px 6px;border-radius:3px}
+.ph .leg{position:absolute;left:16px;bottom:14px;max-width:240px;color:#fff;font-size:12.5px;line-height:1.35;text-shadow:0 1px 6px rgba(0,0,0,.7)}
+.opener{aspect-ratio:1100/446}
+.band{aspect-ratio:1100/380}
+.small{aspect-ratio:4/3}
+.titulo{display:flex;flex-direction:column;gap:8px;margin-top:-4px}
+h1{margin:0;font-weight:800;font-size:clamp(32px,5vw,50px);line-height:1.02;letter-spacing:-1.4px;color:var(--blue);text-wrap:balance;max-width:17ch}
+.fina{margin:0;font-weight:300;font-size:17px;line-height:1.4;color:var(--navy);max-width:60ch}
+.by{margin:4px 0 0;font-weight:700;font-size:13px;color:var(--navy)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:26px;align-items:start}
+.side{display:flex;flex-direction:column;gap:14px;min-width:0}
+.txt{font-family:var(--serif);font-size:16px;line-height:1.38;color:#161C24;text-align:justify;hyphens:auto;min-width:0}
+.c2{column-count:2;column-gap:22px}
+.txt p{margin:0 0 .55em;text-indent:1.1em}
+.txt p.cap{text-indent:0}
+.txt p.cap::first-letter{float:left;font-family:var(--sans);font-weight:900;font-size:62px;line-height:.8;color:var(--navy);margin:5px 8px 0 0}
+.txt h4{font-family:var(--sans);break-after:avoid;text-align:left;margin:.9em 0 .35em;font-size:14px;font-weight:800;letter-spacing:.3px;text-transform:none;color:var(--blue)}
+.txt blockquote{break-inside:avoid;margin:.5em 0 .8em;padding:2px 0 2px 12px;border-left:3px solid var(--pink);text-align:left}
+.txt blockquote p{text-indent:0;font-family:var(--sans);font-weight:600;font-size:13.5px;line-height:1.4;color:var(--navy);margin:0 0 4px}
+.txt blockquote cite{font-family:var(--sans);font-style:normal;font-size:11.5px;color:var(--muted)}
+.fim{display:inline-block;width:9px;height:9px;background:var(--pink);margin-left:5px;vertical-align:middle}
+.panel{margin:0;background:var(--panel);border-radius:6px;padding:14px 14px 10px;min-width:0}
+.panel h3{margin:0;font-size:13.5px;font-weight:800;line-height:1.2;color:var(--blue);text-transform:none;letter-spacing:.1px}
+.panel figcaption p{margin:4px 0 10px;font-size:11.5px;line-height:1.35;color:var(--muted)}
+.panel .src{margin:8px 0 0;font-size:9.5px;color:var(--muted);line-height:1.35}
+.panel svg{display:block;width:100%;height:auto;font-family:var(--sans)}
+svg .v{font-size:10.5px;font-weight:700;fill:var(--navy)}
+svg .v.hi{fill:var(--pink)}
+svg .ax{font-size:9.5px;fill:var(--muted)}
+svg .lb{font-size:12px;font-weight:600;fill:var(--ink)}
+svg .note{font-size:9.5px;font-weight:600;fill:var(--pink)}
+svg .up{font-size:10.5px;font-weight:700;fill:var(--up)}
+svg .dn{font-size:10.5px;font-weight:700;fill:var(--dn)}
+.tabela h3{font-size:15px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:11.5px;font-variant-numeric:tabular-nums;background:#fff;border-radius:.5rem;overflow:hidden}
+thead th{background:var(--blue);color:#fff;font-weight:700;padding:6px 8px;text-align:center;font-size:11px;border-left:1px solid rgba(255,255,255,.25)}
+thead th:first-child{text-align:left;border-left:0}
+tbody td{padding:6px 8px;border-bottom:1px solid var(--line);text-align:right}
+tbody td:first-child{text-align:left;font-weight:600;color:var(--navy)}
+tbody tr:nth-child(even) td{background:#F6F8FB}
+tr.tot td{font-weight:800;background:#E3EBF5!important;color:var(--navy)}
+td.up{color:var(--up);font-weight:700} td.dn{color:var(--dn);font-weight:700}
+.feiras tbody td{text-align:left;vertical-align:top}
+.feiras td:nth-child(4){font-weight:600;color:var(--blue)}
+td.tbd{color:var(--pink)!important}
+.legenda{margin:-6px 0 0;font-size:11.5px;line-height:1.35;color:var(--muted)}
+.legenda.wide{margin-top:-10px}
+.fotos{display:grid;grid-template-columns:1.55fr 1fr;gap:10px}
+.fotos .ph{aspect-ratio:auto;height:250px}
+.infog h3{font-size:14px}
+.tl{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;position:relative}
+.tl::before{content:"";position:absolute;left:4%;right:4%;top:37px;height:2px;background:var(--pastel)}
+.tl li{display:flex;flex-direction:column;gap:5px;position:relative}
+.tl .d{font-size:11px;font-weight:700;color:var(--muted)}
+.tl .t{align-self:flex-start;background:var(--blue);color:#fff;font-weight:800;font-size:13px;padding:4px 9px;border-radius:14px;position:relative;z-index:1}
+.tl li:last-child .t{background:var(--pink)}
+.tl .x{font-size:11px;line-height:1.35;color:var(--ink)}
+.numeros{background:var(--navy);color:#fff;border-radius:6px;padding:16px 16px 14px;display:flex;flex-direction:column;gap:10px}
+.numeros h3{margin:0;font-size:12.5px;font-weight:800;letter-spacing:1px;text-transform:none;color:var(--pastel)}
+.numeros .n{display:flex;flex-direction:column;gap:2px;border-bottom:1px solid rgba(162,210,255,.22);padding-bottom:8px}
+.numeros .n b{font-size:24px;font-weight:800;letter-spacing:-.6px;line-height:1.05}
+.numeros .n span{font-size:12px;line-height:1.35;color:#D6E6FA}
+.aspa{border:1.5px dashed #FF8FB8;border-radius:6px;padding:9px 11px;font-size:12px;line-height:1.4;color:#FFD3E3}
+.aspa em{display:block;font-style:normal;font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:none;color:#FF8FB8;margin-bottom:3px}
+.foot{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:7px;font-size:10.5px;color:var(--muted);margin-top:auto}
+.foot .pn{font-weight:800;color:var(--blue);margin:0 6px}
+.apur{background:#fff;border-radius:8px;padding:18px 22px;font-size:13.5px;line-height:1.55}
+.apur h2{margin:0 0 8px;font-size:16px;font-weight:800;color:var(--navy)}
+.apur ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.apur .meta{margin:10px 0 0;color:var(--muted);font-size:12.5px}
+@media (max-width:820px){
+  .page{padding:18px 16px 14px}
+  .grid{grid-template-columns:1fr}
+  .c2{column-count:1}
+  .fotos{grid-template-columns:1fr}
+  .tl{grid-template-columns:1fr 1fr}
+  .tl::before{display:none}
+  .ph .leg{display:none}
+}
+/* Padrão Retrospectiva 2025: título sobre a foto, QR Code na abertura, painel de dados sobreposto, selo oficial */
+.selo{height:24px;width:auto;display:block}
+.abertura{position:relative}
+.opener{aspect-ratio:1100/560}
+.opener h1{position:absolute;left:24px;bottom:22px;margin:0;color:#fff;font-size:clamp(30px,4.6vw,48px);line-height:1.02;letter-spacing:-1.3px;max-width:13ch;text-shadow:0 2px 14px rgba(0,0,0,.55)}
+
+.qr{position:absolute;left:14px;top:14px;display:flex;flex-direction:column;align-items:center;gap:4px;width:92px;text-align:center}
+.qr img{width:74px;height:74px;border-radius:4px;display:block}
+.qr span{font-size:9.5px;font-weight:700;line-height:1.2;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8)}
+.busca{position:absolute;right:10px;top:32px;max-width:230px;background:#FFE3EF;border:1.5px solid var(--pink);color:#7A0B3A;font-size:10.5px;line-height:1.3;padding:6px 8px;border-radius:5px;box-shadow:0 2px 8px rgba(0,0,0,.18);z-index:2}
+.busca b{display:block;font-size:9.5px;letter-spacing:.8px;text-transform:none;color:var(--pink);margin-bottom:2px}
+.panel.sobre{position:absolute;right:18px;bottom:-26px;width:300px;box-shadow:0 6px 24px rgba(0,28,67,.18);z-index:3}
+.p1 .fina{margin-top:8px;max-width:calc(100% - 330px);font-weight:600;color:var(--blue);font-size:17px}
+.p1 .by{margin-top:-6px}
+.c3{column-count:3;column-gap:20px}
+.tbd{color:var(--pink)!important;font-weight:700}
+.esn{background:var(--navy);border-radius:6px;overflow:hidden;color:#fff}
+.esn-top{background:#fff;display:flex;align-items:center;gap:12px;padding:10px 14px;border-bottom:4px solid var(--pink)}
+.esn-top img{width:86px;height:auto;display:block}
+.esn-top h3{margin:0;font-size:16px;font-weight:800;color:var(--navy);letter-spacing:-.3px}
+.esn-top span{font-size:11px;font-weight:600;color:var(--muted);text-transform:none;letter-spacing:.8px}
+.esn-body{padding:12px 14px;display:flex;flex-direction:column;gap:9px}
+.esn .n{display:grid;grid-template-columns:28px 1fr;column-gap:8px;border-bottom:1px solid rgba(162,210,255,.22);padding-bottom:8px}
+.esn .n i{grid-row:span 2;align-self:start;font-style:normal;font-size:9.5px;font-weight:800;letter-spacing:.5px;text-align:center;background:var(--pastel);color:var(--navy);border-radius:3px;padding:2px 0;margin-top:5px}
+.esn .n b{font-size:22px;font-weight:800;letter-spacing:-.6px;line-height:1.05}
+.esn .n span{font-size:11.5px;line-height:1.35;color:#D6E6FA}
+.esn-qr{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border-radius:5px;padding:8px}
+.esn-qr img{width:58px;height:58px;border-radius:3px}
+.esn-qr span{font-size:11px;line-height:1.35;color:#D6E6FA}
+.esn-qr b{color:#fff}
+.esn-src{margin:0;padding:0 14px 12px;font-size:9.5px;color:#9FB6D6}
+.tempo{margin:0;background:var(--panel);border-radius:6px;padding:10px 12px 8px;border-top:3px solid var(--pink);max-height:200px}
+.tempo figcaption{font-size:11px;font-weight:800;letter-spacing:.9px;text-transform:none;color:var(--blue);margin-bottom:8px}
+.tempo ol{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:8px;position:relative}
+.tempo ol::before{content:"";position:absolute;left:0;right:0;top:7px;height:2px;background:var(--pastel)}
+.tempo li{position:relative;padding-top:18px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.tempo li::before{content:"";position:absolute;left:0;top:2px;width:12px;height:12px;border-radius:50%;background:var(--blue);border:2px solid #fff}
+.tempo li.tbd::before{background:var(--pink)}
+.tempo .m{font-size:10px;font-weight:800;color:var(--pink);text-transform:none;letter-spacing:.5px}
+.tempo b{font-size:11px;line-height:1.2;color:var(--navy)}
+.tempo .x{font-size:9.5px;line-height:1.3;color:var(--muted)}
+.tempo .src{margin:6px 0 0;font-size:9px;color:var(--muted)}
+@media (max-width:820px){
+  .panel.sobre{position:static;width:auto;margin-top:12px}
+  .p1 .fina{max-width:none}
+  .c3{column-count:1}
+  .busca{position:static;display:block;max-width:none;margin:6px}
+  .tempo{max-height:none}
+  .tempo ol{grid-template-columns:1fr 1fr}
+  .tempo ol::before{display:none}
+  .opener h1{font-size:28px}
+}
+/* Estilo dos infográficos da ES Brasil 2026: painel cinza com traço navy, título caixa-alta navy */
+.panel{background:#DDE1E6;border-radius:4px;position:relative;margin-top:6px}
+.panel::before{content:"";position:absolute;left:0;top:-6px;width:64px;height:4px;background:#0F2D5C}
+.panel h3{color:#0F2D5C;font-weight:900;letter-spacing:-.1px}
+.panel figcaption p{color:#3E4A5A}
+.panel.sobre{background:#E7EAEE}
+thead th{background:#0F2D5C}
+.tot td{background:#D3E9F7!important}
+.tempo{background:#DDE1E6;border-top:0;position:relative;border-radius:4px;margin-top:6px}
+.tempo::before{content:"";position:absolute;left:0;top:-6px;width:64px;height:4px;background:#0F2D5C}
+.tempo figcaption{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;color:#0F2D5C}
+.leg-e{display:flex;gap:6px;align-items:center;font-size:9px;font-weight:600;letter-spacing:0;text-transform:none;color:#3E4A5A}
+.leg-e i,.tempo .e{font-style:normal;font-size:8.5px;font-weight:800;letter-spacing:.4px;padding:1px 5px;border-radius:3px;color:#fff;align-self:flex-start}
+.leg-e i.es,.esc-es .e{background:#0F2D5C}
+.leg-e i.br,.esc-br .e{background:#18A6E6}
+.leg-e i.mundo,.esc-mundo .e,.esc-eua .e{background:#7A8597}
+.tempo ol{grid-template-columns:repeat(9,minmax(0,1fr));gap:7px}
+.tempo ol::before{background:#18A6E6;top:7px}
+.tempo li::before{background:#0F2D5C}
+.tempo li.esc-br::before{background:#18A6E6}
+.tempo li.esc-mundo::before,.tempo li.esc-eua::before{background:#7A8597}
+.tempo li.tbd::before{background:#E01E70}
+.tempo li{gap:3px}
+@media (max-width:820px){.tempo ol{grid-template-columns:1fr 1fr}}
+/* Versão 8: página de revista com tamanho fixo (900 x 1207 px = 20,5 x 27,5 cm) e texto em fluxo */
+.wrap{max-width:932px}
+.pagebox{position:relative;width:100%;overflow:hidden}
+.page{width:900px;height:1207px;transform-origin:top left;position:absolute;left:0;top:0;padding:26px 36px 14px;gap:12px;overflow:hidden}
+.page > *{flex-shrink:0}
+.page .grid{flex:1 1 auto;min-height:0;align-items:stretch;grid-template-columns:minmax(0,1fr) 270px;gap:20px}
+.page .grid > .flow{height:100%}
+.flow{min-width:0;min-height:0;column-fill:auto;font-family:var(--serif);font-size:14.6px;line-height:17.7px;color:#161C24;text-align:justify;hyphens:auto;overflow:hidden}
+.p1 .flow{flex:1 1 auto;height:auto}
+.flow.c3{column-count:3;column-gap:18px}
+.flow.c2{column-count:2;column-gap:18px}
+.flow p{margin:0;text-indent:1em}
+.flow p.cont{text-indent:0}
+.flow p.cap{text-indent:0}
+.flow p.cap::first-letter{float:left;font-family:var(--sans);font-weight:900;font-size:50px;line-height:.8;color:var(--navy);margin:4px 6px 0 0}
+.flow h4{font-family:var(--sans);break-after:avoid;text-align:left;margin:.7em 0 .25em;font-size:12.5px;font-weight:800;letter-spacing:.3px;text-transform:none;color:var(--blue)}
+.flow blockquote{break-inside:avoid;margin:.45em 0 .55em;padding:1px 0 1px 10px;border-left:3px solid var(--pink);text-align:left}
+.flow blockquote p{text-indent:0;font-family:var(--sans);font-weight:600;font-size:12.5px;line-height:1.35;color:var(--navy);margin:0 0 3px}
+.flow blockquote cite{font-family:var(--sans);font-style:normal;font-size:10.5px;color:var(--muted)}
+.page .side{gap:10px;overflow:hidden}
+.page .panel{padding:10px 11px 8px}
+.page .panel figcaption p{margin:2px 0 6px;font-size:10.5px}
+.page .panel h3{font-size:12px}
+.page .tabela h3{font-size:13px}
+.page table{font-size:10.5px}
+.page tbody td{padding:4px 7px}
+.page thead th{padding:4px 6px;font-size:10px}
+.opener{aspect-ratio:auto;height:540px}
+.p1 .fina{font-size:15.5px;margin:4px 0 0}
+.p1 .by{margin:0;font-size:12px}
+.panel.sobre{width:300px;bottom:-30px}
+.band{aspect-ratio:auto;height:300px}
+.small{aspect-ratio:auto;height:180px}
+.fotos .ph{height:175px}
+.legenda{font-size:10.5px;margin:-4px 0 0}
+.tempo{padding:8px 10px 6px}
+.tempo .x{font-size:9px}
+.esn .n b{font-size:19px}
+.esn .n span{font-size:10.5px}
+.esn-body{gap:6px;padding:10px 12px}
+.esn .n{padding-bottom:5px}
+.aspa{padding:6px 9px;font-size:10.5px}
+.esn-qr img{width:48px;height:48px}
+.foot{margin-top:auto}
+#ocupacao.excede{color:var(--pink)}
+#ocupacao.cabe{color:#0F7A3F}
+@media (max-width:820px){
+  .page .grid{grid-template-columns:minmax(0,1fr) 270px}
+  .flow.c2{column-count:2}.flow.c3{column-count:3}
+  .fotos{grid-template-columns:1.55fr 1fr}
+  .busca{position:absolute;display:block;max-width:230px;margin:0}
+  .ph .leg{display:block}
+  .tempo ol{grid-template-columns:repeat(9,minmax(0,1fr))}
+  .tempo ol::before{display:block}
+  .panel.sobre{position:absolute;width:300px;margin:0}
+  .opener h1{font-size:46px}
+}
+.feira1{height:250px}
+.marmo{height:330px}
+.marmo img{object-position:center 30%}
+/* Tabelas com seções e subtotais */
+.page table tr.sec td{background:#0F2D5C1a!important;color:#0F2D5C;font-weight:800;text-transform:none;letter-spacing:.3px;font-size:9.5px;padding:3px 7px}
+.page table tr.sub td{font-weight:700;border-top:1px solid #0F2D5C55}
+.projetos table td:first-child{font-weight:700;color:#0F2D5C}
+.projetos tbody td{padding:3.5px 6px}
+.feira1{height:250px}
+.marmo{height:350px}
+.marmo img{object-position:center 45%}
+.band img{object-position:center 40%}
+.opener img{object-position:center 55%}
+.projetos tbody td{text-align:left!important}
+.projetos thead th{text-align:left}
+.ph .leg{background:rgba(10,24,48,.62);padding:6px 9px;border-radius:3px;text-shadow:none;max-width:330px}
+.p2 .side .panel svg{max-height:150px}
+/* Mockup de aspas: verificadas x montadas */
+.flow blockquote small{display:block;font-family:var(--sans);font-size:9px;color:#7A8597;margin-top:1px}
+.flow blockquote.montada{border-left:3px solid #E07A00;background:#FFF1DE;padding:5px 8px 5px 10px}
+.flow blockquote.montada p{color:#8A4A00}
+.flow blockquote.montada cite{color:#8A4A00}
+.flow blockquote.montada small{color:#B5651D}
+.selo-m{display:inline-block;font-family:var(--sans);font-size:8.5px;font-weight:800;letter-spacing:.5px;text-transform:none;color:#fff;background:#E07A00;border-radius:2px;padding:1px 5px;margin-bottom:4px}
+.aspa b{display:block;margin-top:4px;font-weight:700;color:#fff;font-size:10.5px}
+.aspa small{display:block;margin-top:2px;font-size:9px;opacity:.85}
+.aspa.montada{border:1.5px dashed #FFB347;background:rgba(224,122,0,.16);color:#FFE2BF}
+.aspa.montada em{color:#FFB347}
+.aspa.verif{border:1.5px solid rgba(162,210,255,.45);color:#E6F0FF}
+.aspa.verif em{color:#A2D2FF}
+.lg-v{color:#0F2D5C;font-weight:700;border-left:3px solid #E01E70;padding-left:5px}
+.lg-m{color:#8A4A00;font-weight:700;background:#FFF1DE;border-left:3px solid #E07A00;padding:0 5px}
+.banco{background:#fff;border:1px solid #D7DCE3;border-radius:8px;padding:18px 22px;margin-top:18px;font-family:var(--sans)}
+.banco h2{margin:0 0 4px;font-size:18px;color:#0F2D5C}
+.banco>p{margin:0 0 12px;font-size:13px;color:#5E6B7C}
+.banco table{width:100%;border-collapse:collapse;font-size:12px}
+.banco th{background:#0F2D5C;color:#fff;text-align:left;padding:6px 8px;font-size:11px}
+.banco td{padding:6px 8px;border-bottom:1px solid #E5E8ED;vertical-align:top}
+.banco .st{font-weight:800;font-size:10px;text-transform:none;letter-spacing:.4px;white-space:nowrap}
+.banco .st.v{color:#0F7A3F}.banco .st.m{color:#E07A00}.banco .st.p{color:#E01E70}
+.banco a{color:#0F2D5C}
+@media (max-width:820px){.banco{padding:14px}.banco table{font-size:11px}}
+.flow span.mont{background:#FFE3BF;color:#8A4A00;box-shadow:0 0 0 1px #F2B266 inset;border-radius:2px;padding:0 1px}
+.stats .kpis{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;margin:4px 0 6px}
+.stats .kpis b{display:block;font-size:20px;font-weight:900;color:#18A6E6;letter-spacing:-.5px;line-height:1.05}
+.stats .kpis span{font-size:10px;line-height:1.3;color:#1B2430}
+.flow span.aspa-v{background:#D9EEFC;box-shadow:0 0 0 1px #A2D2FF inset;border-radius:2px;padding:0 1px}
+.lg-a{background:#D9EEFC;color:#0F2D5C;font-weight:700;padding:0 5px;border-radius:2px}
+
+.page table td small{font-size:8.5px;color:#5E6B7C}
+/* Regras de 11/11/2026: cartola em caixa alta, selo 15% maior, gráficos do NXtab sem cerco nem sombra, mapa manual e escala tipográfica única */
+.tag{text-transform:uppercase!important;letter-spacing:.5px}.selo{height:27.6px}
+.panel.sobre{box-shadow:none}
+.nxtab{margin:0;background:none;box-shadow:none;border-radius:0}.nxtab svg{display:block;width:100%;height:auto}
+.nxtab.sobre{position:absolute;right:18px;bottom:-30px;z-index:3}.p1 .fina{max-width:calc(100% - 360px)}
+.manual{position:relative;margin:0;border:1.5px dashed #E01E70;border-radius:4px;background:#FFF5F9;min-height:120px}
+.manual .busca{position:static;display:block;max-width:none;margin:10px;box-shadow:none}
+.page .panel h3,.page .tabela h3,.esn-top h3{font-size:12px!important;font-weight:900}
+.page .panel figcaption p,.esn-top span,.esn-qr span{font-size:10.5px}
+.page table{font-size:10px}.page thead th{font-size:10px}.page table tr.sec td{font-size:9px}
+.stats .kpis b,.esn .n b{font-size:18px!important;font-weight:900}.stats .kpis span,.esn .n span{font-size:10px!important}
+.page .src,.esn-src,.panel .src{font-size:9px!important}.esn .n i,.tempo .e,.leg-e i{font-size:9px!important}
+.tempo figcaption{font-size:12px!important;font-weight:900}.tempo .m{font-size:10px}.tempo b{font-size:10.5px}.tempo .x{font-size:9px!important}
+/* Rotina de dados quentes: número atualizado (verde-claro) e registro das atualizações, fora das páginas */
+.novo{background:#DDF5E3!important;box-shadow:0 0 0 1px #8FD3A2 inset;border-radius:2px}span.novo{padding:0 1px}
+.atual{background:#fff;border-radius:8px;padding:18px 22px;font-size:13.5px;line-height:1.55;margin-top:18px}.atual h2{margin:0 0 8px;font-size:16px;font-weight:800;color:#0F2D5C}.atual ul{margin:0;padding-left:18px;display:grid;gap:4px}
+
+/* Grade e estilos da Retrospectiva 2026 da revista ES Brasil, pela base "MATÉRIA 1 - RETROSPECTIVA 2026 - ESB V5"
+   (enviada pelo Mário Fernando em 21/11/2026).
+   Página 205 x 275 mm = 900 x 1207 px (1 mm = 4,39 px; 1 pt = 1,549 px), páginas espelhadas, sangria de 3 mm.
+   Margens: 22 mm em cima, 15 mm embaixo, 17 mm na lombada e 12 mm do lado de fora; colunas com 4 mm entre elas.
+   Texto corrido: Minion Pro Cond 11/12 pt no InDesign; na prova, Crimson Pro em 15,79 px, calibrada para ocupar
+   a mesma largura (a Minion Pro Cond é cerca de 7,5% mais estreita que a Crimson Pro no mesmo corpo).
+   Títulos, linha fina, assinatura, retranca e intertítulo em Inter; legendas, créditos e textos de box em
+   Roboto Condensed, como nos estilos da V5. */
+:root{--azul:#00427B;--preto90:#1A1A1A;--retro:#E01E70;--cond:"Roboto Condensed","Inter",sans-serif;
+  --mg-top:96.59px;--mg-bot:65.85px;--mg-in:74.63px;--mg-out:52.68px;--col:245.85px;--gut:17.56px;--lin:18.585px}
+.page{padding:var(--mg-top) var(--mg-out) var(--mg-bot)!important;gap:12px!important}
+.page.esq{padding-left:var(--mg-out)!important;padding-right:var(--mg-in)!important}
+.page.dir{padding-left:var(--mg-in)!important;padding-right:var(--mg-out)!important}
+
+/* Cabeçalho da página-mestre "A-Master" da V5 (no InDesign ele vem da mestre; aqui é só a prova).
+   Esquerda: retranca "RETROSPECTIVA 2026" a 10 mm do refile e 6,8 mm do topo; selo da Retrospectiva a 155 mm,
+   do lado da lombada; aba de cor de 5 x 5,6 mm na sangria. Direita: logo da ES Brasil a 14,8 mm (lombada),
+   retranca da editoria alinhada à direita, terminando a 10 mm do refile, e aba de cor na sangria. */
+.page .top{position:absolute;inset:0 0 auto 0;height:100px;margin:0;display:block;pointer-events:none}
+.page .top .tag{position:absolute;top:29.85px;margin:0;font-family:var(--sans);font-size:18.59px!important;font-weight:900!important;
+  line-height:18.59px;letter-spacing:-.02em!important;text-transform:uppercase!important;color:var(--azul)!important;white-space:nowrap}
+.page .top .tag::before{content:none!important;display:none!important}
+.page.esq .top .tag{left:43.9px}
+.page.dir .top .tag{right:43.9px;text-align:right}
+.page .top .selo{position:absolute;left:680.45px;top:41.7px;width:148.4px;height:auto}
+.page .top .logo-esb{position:absolute;left:65px;top:26.8px;width:92.2px;height:auto}
+.page .top::after{content:"";position:absolute;top:26.34px;width:21.95px;height:24.58px;background:var(--retro)}
+.page.esq .top::after{left:-13.6px}
+.page.dir .top::after{right:-13.6px}
+
+/* Rodapé no lugar do paginador da página-mestre */
+.page .foot{position:absolute;top:1170px;height:16px;margin:0!important;padding:0!important;border:0!important;display:flex;align-items:center;gap:7px;font-family:var(--sans);font-size:10.84px;font-weight:900;letter-spacing:-.03em;color:var(--preto90)}
+.page.esq .foot{left:42.9px;right:auto;justify-content:flex-start}
+.page.dir .foot{right:41.8px;left:auto;justify-content:flex-end}
+.page .foot .pn{font-size:12.39px;font-weight:700;color:#E3061E;margin:0}
+.page .foot .pn.tbd{color:var(--pink)!important}
+.page .foot .redes{display:inline-block;transform:scaleX(.85)}
+.page.esq .foot .redes{transform-origin:left center}.page.dir .foot .redes{transform-origin:right center}
+
+/* Colunas na grade da revista */
+.page .grid{grid-template-columns:minmax(0,1fr) var(--col)!important;gap:var(--gut)!important}
+.flow.c2,.flow.c3{column-gap:var(--gut)!important}
+
+/* Texto corrido: "Texto geral 2026", "Texto fatual cap 3 linhas 2026" e "Intertexto 2026" (Inter Black 11/12, azul,
+   tracking -20, caixa alta e baixa na própria V5) */
+.flow{font-size:15.79px!important;line-height:var(--lin)!important;color:var(--preto90)!important}
+.flow p{text-indent:13.17px}
+.flow p.cap,.flow p.cont{text-indent:0}
+.flow p.cap::first-letter{font-family:var(--sans);font-weight:900;font-size:66px;line-height:52px;color:var(--preto90);margin:3px 5px 0 0}
+.flow h4{font-family:var(--sans);font-weight:900!important;font-size:17.04px!important;line-height:var(--lin)!important;letter-spacing:-.02em!important;color:var(--azul)!important;margin:var(--lin) 0 0!important;text-transform:none!important}
+
+/* Abertura: "Título 36pt 2026" (Inter Black 35,1/32,3 pt, branco, centralizado, tracking -25) sobre a foto,
+   "Lead 2026" (Inter Bold 16/16) e "Assinatura 2026" (Inter Black 11/11,5) */
+.opener h1{font-size:54.36px!important;line-height:50.01px!important;letter-spacing:-.025em!important;font-weight:900!important;color:#fff!important;
+  text-align:center!important;max-width:472px!important;left:50%!important;right:auto!important;transform:translateX(-50%);bottom:24px!important}
+.fina,.p1 .fina{font-weight:700!important;font-size:24.78px!important;line-height:24.78px!important;letter-spacing:-.02em!important;color:var(--preto90)!important;max-width:none!important;margin:2px 0 0!important}
+.by,.p1 .by{font-weight:900!important;font-size:17.04px!important;line-height:17.81px!important;letter-spacing:-.025em!important;color:var(--preto90)!important;margin:0!important}
+.nxtab.sobre{bottom:14px!important;right:14px!important}
+/* QR Code da abertura: quadro branco de 18 mm com fio de 0,5 pt, do lado da lombada, e o texto embaixo
+   ("Legenda dentro foto 2026" em Roboto Condensed Bold 9 pt, centralizado) */
+.qr{left:auto!important;right:14px!important;top:14px!important;width:88px!important;gap:3px!important;background:#fff;padding:0 0 4px;border-radius:0}
+.qr img{width:79px!important;height:79px!important;border:.77px solid var(--preto90);border-radius:0!important;padding:3px;background:#fff;box-sizing:border-box}
+.qr span{font-family:var(--cond)!important;font-weight:700!important;font-size:13.94px!important;line-height:14.5px!important;letter-spacing:-.03em;color:var(--preto90)!important;text-shadow:none!important;padding:0 2px}
+
+/* Legendas: "Legenda 2026" (Roboto Condensed 9,5/11, tracking -25, preto 90%) e "Legenda dentro foto 2026"
+   (Roboto Condensed Light 9,5/11, tracking -20, preto 90%, sobre um fundo claro para ler na foto) */
+.legenda{font-family:var(--cond)!important;font-weight:400!important;font-size:14.71px!important;line-height:17.04px!important;letter-spacing:-.025em;color:var(--preto90)!important;margin:-4px 0 0!important}
+.ph .leg{font-family:var(--cond)!important;font-weight:300!important;font-size:14.71px!important;line-height:17.04px!important;letter-spacing:-.02em;color:var(--preto90)!important;
+  background:rgba(255,255,255,.88)!important;text-shadow:none!important;padding:5px 8px!important;border-radius:0!important}
+/* Crédito ("Créditos 2026": Roboto Condensed Light 7/7, tracking -10): na vertical, à direita da foto */
+.ph{overflow:visible!important;border-radius:0!important}
+.ph > img{border-radius:0}
+.ph .cr{position:absolute!important;left:calc(100% + 4px)!important;right:auto!important;top:0!important;writing-mode:vertical-rl;background:none!important;padding:0!important;border-radius:0!important;font-family:var(--cond)!important;font-size:10.84px!important;line-height:10.84px;font-weight:300!important;letter-spacing:-.01em;color:var(--preto90)!important;text-shadow:none!important;white-space:nowrap}
+
+/* Box de números ("Título de box 2026" Inter Black 12/11, "Texto destaque números box 2026" Inter Black 15/15,
+   "Texto de box 2026" Roboto Condensed Light 9,5/11), sem caixa alta */
+.esn-top h3{font-family:var(--sans);font-size:18.59px!important;line-height:17.1px!important;font-weight:900!important;letter-spacing:-.025em!important;text-transform:none!important}
+.esn .n b{font-size:23.24px!important;line-height:23.24px!important;font-weight:900!important;letter-spacing:-.025em!important}
+.esn .n span{font-family:var(--cond)!important;font-weight:300!important;font-size:14.71px!important;line-height:17.04px!important;letter-spacing:-.02em!important}
+.esn-src{font-family:var(--cond)!important;font-weight:300!important}
+</style>
+</head><body><!-- Grade da revista ES Brasil 2026: páginas espelhadas. A primeira página do capítulo é par (esquerda, classe "esq"); as demais alternam "dir"/"esq". Se o espelho do NX Pages abrir o capítulo numa página ímpar, troque as classes e o data-lado de todas as páginas (o cabeçalho segue a página-mestre da V5: na esquerda, retranca "RETROSPECTIVA 2026" e selo; na direita, logo da ES Brasil e retranca da editoria). O rodapé imita o paginador da página-mestre da revista e não vai para o InDesign. Créditos das fotos ficam na vertical, à direita da foto. -->
+<div class="wrap" lang="pt-BR"><div class="note"><b>[Editoria] · versão 1.</b> Nível [n], perfil [letra], [N] páginas no formato da revista (20,5 × 27,5 cm), com o texto corrido fluindo de página em página. Trechos em <span class="lg-a">azul-claro</span> são aspas publicadas, a validar pela produção; trechos em <span class="lg-m">laranja</span> são aspas montadas, a confirmar com a fonte. Etiquetas rosa “Buscar original” indicam a foto em alta. As marcações saem na versão final. <b id="ocupacao">Calculando ocupação…</b></div>
+
+<!-- MODELO 1 · ABERTURA: foto grande com título, QR Code, painel de dados sobreposto, linha fina, assinatura e texto em 3 colunas -->
+<p class="pg">Página 1 de N</p><div class="pagebox">
+<article class="page p1 esq" data-lado="esq">
+  <header class="top"><span class="tag">RETROSPECTIVA 2026</span><img class="selo" src="selo-retrospectiva.png" alt="Retrospectiva"></header>
+  <div class="abertura">
+    <figure class="ph opener"><img src="fotos/p1-abertura.jpg" alt="[descrição da foto]">
+      <span class="cr v">Foto: [autor]/[veículo ou Divulgação]</span>
+      <div class="qr"><img src="qr-materia.png" alt="QR Code para a matéria"><span>Acesse o QR Code e leia a matéria em esbrasil.com.br</span></div>
+      <span class="busca"><b>Buscar original</b>[ES Brasil nº, p. x — pedir original a fonte]</span>
+      <h1>[Título curto e afirmativo]</h1>
+    </figure>
+    <figure class="panel chart sobre"><figcaption><h3>[Título do gráfico]</h3><p>[Unidade e recorte]</p></figcaption>
+      <svg viewBox="0 0 330 161" role="img" aria-label="[descrição]"><!-- barras horizontais: rótulo acima, valor em negrito no fim; 1º item navy #0F2D5C, demais ciano #18A6E6 --></svg>
+      <p class="src">Fonte: [fonte]</p></figure>
+  </div>
+  <p class="fina">[Linha fina com o número-chave do ano]</p>
+  <p class="by">Por <span class="tbd">[repórter]</span></p>
+  <div class="flow c3" data-flow="1"></div>
+  <footer class="foot"><span class="pn tbd">00</span><span class="redes">revistaesbrasil • @esbrasil</span></footer>
+</article></div>
+
+<!-- MODELO 2 · DADOS: tabela padrão no alto, texto em 2 colunas e coluna lateral com foto e gráfico -->
+<p class="pg">Página 2 de N</p><div class="pagebox">
+<article class="page p2 dir" data-lado="dir">
+  <header class="top"><img class="logo-esb" src="logo-es-brasil.png" alt="ES Brasil"><span class="tag">[EDITORIA EM CAIXA ALTA]</span></header>
+  <figure class="panel tabela"><figcaption><h3>[Título da tabela padrão]</h3><p>[Unidade, recorte e período]</p></figcaption>
+    <div class="scroll"><table>
+      <thead><tr><th>[Produto]</th><th>2025</th><th>2026</th><th>Var.</th></tr></thead>
+      <tbody>
+        <tr><td>[item]</td><td>[valor]</td><td>[valor]</td><td class="up">+0,0%</td></tr>
+        <tr><td>[item]</td><td>[valor]</td><td>[valor]</td><td class="dn">-0,0%</td></tr>
+        <tr class="tot"><td>Total</td><td>[valor]</td><td>[valor]</td><td class="up">+0,0%</td></tr>
+      </tbody></table></div>
+    <p class="src">Fonte: [base oficial, período]. <span class="tbd">[pendência]</span></p></figure>
+  <div class="grid">
+    <div class="flow c2" data-flow="2"></div>
+    <aside class="side">
+      <figure class="ph small"><img src="fotos/p2-lateral.jpg" alt="[descrição]"><span class="cr">Foto: [autor]/[veículo]</span><span class="busca"><b>Buscar original</b>[origem]</span></figure>
+      <p class="legenda">[Legenda da foto]</p>
+      <figure class="panel chart"><figcaption><h3>[Título do gráfico]</h3><p>[Unidade]</p></figcaption><svg viewBox="0 0 300 150" role="img" aria-label="[descrição]"></svg><p class="src">Fonte: [fonte]</p></figure>
+    </aside>
+  </div>
+  <footer class="foot"><span class="redes">radio.esbrasil.com.br</span><span class="pn tbd">00</span></footer>
+</article></div>
+
+<!-- MODELO 3 · CONTEXTO: foto em faixa, texto em 2 colunas, gráfico lateral e linha do tempo do ano acima do rodapé -->
+<p class="pg">Página 3 de N</p><div class="pagebox">
+<article class="page p3 esq" data-lado="esq">
+  <header class="top"><span class="tag">RETROSPECTIVA 2026</span><img class="selo" src="selo-retrospectiva.png" alt="Retrospectiva"></header>
+  <figure class="ph band"><img src="fotos/p3-faixa.jpg" alt="[descrição]"><span class="cr v">Foto: [autor]/[veículo]</span><span class="busca"><b>Buscar original</b>[origem]</span><span class="leg">[Legenda sobre a foto]</span></figure>
+  <div class="grid">
+    <div class="flow c2" data-flow="3"></div>
+    <aside class="side">
+      <figure class="panel chart"><figcaption><h3>[Título]</h3><p>[Unidade]</p></figcaption><svg viewBox="0 0 300 150" role="img" aria-label="[descrição]"></svg><p class="src">Fonte: [fonte]</p></figure>
+      <figure class="panel chart stats"><figcaption><h3>[Título dos números]</h3><p>[Recorte]</p></figcaption><div class="kpis"><div><b>[número]</b><span>[rótulo]</span></div><div><b>[número]</b><span>[rótulo]</span></div></div><p class="src">Fonte: [fonte]</p></figure>
+    </aside>
+  </div>
+  <figure class="tempo"><figcaption>Linha do tempo • [editoria] em 2026</figcaption><ol>
+    <li class="esc-es"><span class="e">ES</span><span class="m">Jan</span><b>[Marco em até 6 palavras]</b><span class="x">[Uma linha de detalhe]</span></li>
+    <li class="esc-br"><span class="e">BR</span><span class="m">Mar</span><b>[Marco]</b><span class="x">[Detalhe]</span></li>
+    <li class="tbd esc-mundo"><span class="e">Mundo</span><span class="m">Nov</span><b>[Marco]</b><span class="x">[Detalhe]</span></li>
+  </ol><p class="src">Fontes: [fontes].</p></figure>
+  <footer class="foot"><span class="pn tbd">00</span><span class="redes">revistaesbrasil • @esbrasil</span></footer>
+</article></div>
+
+<!-- MODELO 4 · EVENTOS: foto, tabela de feiras/eventos/marcos (class="feiras"), texto em 2 colunas e gráficos na lateral — mesma estrutura do modelo 2 -->
+
+<!-- MODELO 5 · FECHAMENTO: foto, fim do texto e box “2026 em Números” na lateral -->
+<p class="pg">Página N de N</p><div class="pagebox">
+<article class="page p4 dir" data-lado="dir">
+  <header class="top"><img class="logo-esb" src="logo-es-brasil.png" alt="ES Brasil"><span class="tag">[EDITORIA EM CAIXA ALTA]</span></header>
+  <figure class="ph marmo"><img src="fotos/pN-fechamento.jpg" alt="[descrição]"><span class="cr">Foto: [autor]/[veículo]</span><span class="busca"><b>Buscar original</b>[origem]</span><span class="leg">[Legenda]</span></figure>
+  <div class="grid">
+    <div class="flow c2" data-flow="4"></div>
+    <aside class="side">
+      <section class="esn" aria-label="2026 em Números">
+        <div class="esn-top"><img src="logo-es-em-numeros.png" alt="ES em Números"><div><h3>2026 em Números</h3><span>[Editoria]</span></div></div>
+        <div class="esn-body">
+          <div class="n"><i>ES</i><b>[número]</b><span>[o que é, recorte e período]</span></div>
+          <div class="n"><i>BR</i><b>[número]</b><span>[o que é]</span></div>
+          <div class="esn-qr"><img src="qr-es-em-numeros.png" alt="QR Code da plataforma ES em Números"><span>Mais indicadores na plataforma <b>ES em Números</b><br>esemnumeros.esbrasil.com.br</span></div>
+        </div>
+        <p class="esn-src">Fontes: [fontes]. ES = Espírito Santo; BR = Brasil.</p>
+      </section>
+    </aside>
+  </div>
+  <footer class="foot"><span class="redes">radio.esbrasil.com.br</span><span class="pn tbd">00</span></footer>
+</article></div>
+
+<section class="apur"><h2>Para o fechamento da edição</h2><ul><li>[pendência]</li></ul></section>
+<section class="banco"><h2>Banco de aspas • [Editoria]</h2><p>[como foi feita a busca]</p><table><thead><tr><th>Situação</th><th>Quem</th><th>Aspa</th><th>Onde saiu / base</th><th>Seção</th></tr></thead><tbody>
+<tr><td class="st v">Verificada</td><td>[nome, cargo]</td><td>“[aspa literal]”</td><td><a href="[link]">[veículo, data]</a></td><td>[seção]</td></tr>
+</tbody></table></section></div>
+
+<!-- TEXTO CORRIDO: um único bloco, na ordem; o script distribui pelas caixas .flow (data-flow 1, 2, 3...).
+     p.cap = parágrafo de abertura com capitular; h4 = intertítulo; span.aspa-v = aspa verificada; span.mont = aspa montada;
+     span.tbd = pendência; span.fim no último parágrafo. -->
+<template id="texto"><p class="cap">[Abertura com o saldo do ano e a comparação com 2025.]</p>
+<p>[Parágrafo com aspa: <span class="aspa-v">“[aspa literal]”</span>, afirma [nome, cargo].]</p>
+<h4>[Intertítulo]</h4>
+<p>[Parágrafo.]<span class="fim"></span></p></template>
+<script>document.fonts.ready.then(()=>{
+
+(function(){
+  const src=document.getElementById('texto');
+  const boxes=[...document.querySelectorAll('.flow')].sort((a,b)=>a.dataset.flow-b.dataset.flow);
+  const blocks=[...src.content.children].map(n=>n.cloneNode(true));
+  const over=el=>el.scrollWidth>el.clientWidth+1||el.scrollHeight>el.clientHeight+1;
+  function toks(p){const t=[];let prevSpace=true;p.childNodes.forEach(n=>{if(n.classList&&n.classList.contains('fim'))return;const txt=n.textContent||'';const c=n.nodeType===3?'':(n.className||'');const ws=txt.split(' ');ws.forEach((w,i)=>{if(w==='')return;const glue=(i===0&&!prevSpace&&t.length>0);t.push({w,c,g:glue});});prevSpace=/ $/.test(txt);});return t;}
+  function html(ts){let h='',cur=null;for(const k of ts){const e=k.w.replace(/&/g,'&amp;').replace(/</g,'&lt;');const sp=(h&&!k.g)?' ':'';if(k.c!==cur){if(cur)h+='</span>';h+=sp;if(k.c)h+='<span class="'+k.c+'">';cur=k.c;h+=e;}else{h+=sp+e;}}if(cur)h+='</span>';return h;}
+  function fitWords(box,p){
+    const T=toks(p); const words=T.map(k=>k.w);
+    let lo=0,hi=words.length;
+    const part=p.cloneNode(false); box.appendChild(part);
+    while(lo<hi){const mid=Math.ceil((lo+hi)/2); part.innerHTML=html(T.slice(0,mid)); if(over(box)) hi=mid-1; else lo=mid;}
+    if(lo<2){box.removeChild(part); return null;}
+    part.innerHTML=html(T.slice(0,lo));
+    const rest=p.cloneNode(false); rest.classList.add('cont'); rest.classList.remove('cap');
+    rest.innerHTML=html(T.slice(lo));
+    if(p.querySelector('.fim')) rest.insertAdjacentHTML('beforeend','<span class="fim"></span>');
+    return rest;
+  }
+  let i=0;
+  for(const box of boxes){
+    box.innerHTML='';
+    while(i<blocks.length){
+      const blk=blocks[i]; box.appendChild(blk);
+      if(!over(box)){i++;continue;}
+      box.removeChild(blk);
+      if(blk.tagName==='P'){const rest=fitWords(box,blk); if(rest){blocks[i]=rest;}}
+      break;
+    }
+    const last=box.lastElementChild;
+    if(last&&last.tagName==='H4'){box.removeChild(last); i--;}
+  }
+  // corrige recuo: se o último bloco removido era um intertítulo, recoloca na fila
+  const left=blocks.slice(i);
+  const chars=left.reduce((s,n)=>s+n.textContent.length,0);
+  const info=document.getElementById('ocupacao');
+  if(info){ info.textContent = chars>0 ? `Texto excede o espaço das páginas em cerca de ${chars.toLocaleString('pt-BR')} caracteres.` : 'Texto cabe nas páginas.'; info.className = chars>0?'excede':'cabe'; }
+})();
+});</script>
+
+<script>
+(function(){
+  function fit(){
+    document.querySelectorAll('.pagebox').forEach(box=>{
+      const pg=box.firstElementChild; const s=Math.min(1,box.clientWidth/900);
+      pg.style.transform=`scale(${s})`; box.style.height=(1207*s)+'px';
+    });
+  }
+  window.addEventListener('resize',fit); fit();
+})();
+</script>
+</body></html>
