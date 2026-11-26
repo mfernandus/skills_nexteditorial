@@ -224,51 +224,76 @@ Articulista vivo: a mesma estrutura, com a minibio no presente e sem "In memoria
 
 ### Foto destacada: padrão de artigos (decisão do Mário Fernando, 16/11/2026)
 
-Toda destacada com pessoa sai no mesmo padrão, seja qual for a foto de partida (estúdio, cena ou montagem antiga): **a pessoa recortada sobre uma foto do tema bem desfocada (o fundo é sempre trocado), em 1600x900 (16:9), com a cabeça sempre do mesmo tamanho e na mesma altura**: do alto do cabelo ao queixo, metade da altura da imagem; o alto do cabelo a 7% do topo; o rosto no centro; o corte na altura dos braços. Substitui as regras de enquadramento e de fundo neutro de 13 e 14/11/2026: o fundo agora é trocado sempre, não só quando é neutro. Em 16:9, com o rosto no centro e a cabeça logo abaixo do topo, os cortes do tema dos sites (destaque grande 5:3, blocos de 70% e miniaturas quadradas) nunca pegam a cabeça.
+Toda destacada com pessoa sai no mesmo padrão, seja qual for a foto de partida (estúdio, cena ou montagem antiga): **a pessoa recortada sobre uma foto do tema desfocada e em tons neutros (o fundo é sempre trocado), em 1600x900 (16:9), com a cabeça sempre do mesmo tamanho e na mesma altura**: do alto do cabelo ao queixo, metade da altura da imagem; o alto do cabelo a 7% do topo; o rosto no centro; o corte na altura dos braços. Substitui as regras de enquadramento e de fundo neutro de 13 e 14/11/2026: o fundo agora é trocado sempre, não só quando é neutro. Em 16:9, com o rosto no centro e a cabeça logo abaixo do topo, os cortes do tema dos sites (destaque grande 5:3, blocos de 70% e miniaturas quadradas) nunca pegam a cabeça.
 
-1. **A foto mais recente da pessoa (decisão do Mário Fernando, 16/11/2026).** Procure em todas as fontes e fique com a mais recente que sirva, pela data: o acervo WordPress da revista (no navegador, com o site aberto: `/wp-json/wp/v2/media?search=<sobrenome>&orderby=date&order=desc&per_page=30&_fields=date,source_url`; sem navegador, `buscar_imagens` com `fonte` "editoriais" e o nome, que traz a mesma biblioteca; o ano e o mês estão no caminho `wp-content/uploads/AAAA/MM`), o NX Fotos (pasta "Articulistas" e `buscar` pelo nome; campo `data`) e a destacada de posts antigos dele. As fotos de cdn.esbrasil.com.br e cdn.comunhao.com.br baixam direto pelo terminal. Fora: montagem antiga da rotina (nome terminado em "-HHMMSS.webp", fundo já desfocado) quando houver o original, arte com texto, foto de evento (palco, microfone, grupo) e foto com objeto ou outra pessoa encostada (carro, cadeira, haste de microfone, parede com sombra). Confira que é a mesma pessoa das fotos antigas. Prefira a que mostra peito e ombros; foto recente fechada no peito ainda serve (o script resolve, item 4), mas, se o resultado ficar só cabeça e gola, use a mais recente que tenha corpo.
-2. **Fundo do tema, no NX Fotos** (`buscar`, `orientacao` "h", `tipo` "foto"): foto real, horizontal, ligada ao tema do artigo. Exemplos: gestão, carreira e liderança → escritório; ESG, sustentabilidade e meio ambiente → área verde; urbanismo e cidades → Centro de Vitória, orla ou Terceira Ponte; mobilidade → trânsito na cidade; economia, indústria e logística → porto ou fábrica; agro e mundo rural → lavouras capixabas; turismo → cartão-postal capixaba. Prefira a biblioteca dos fotógrafos da casa (Sidney Pagotto, Claudio Alves e demais). Nunca foto oculta (`visibilidade` "oculta", banco de imagem comprado), de outro veículo ou da Reuters, nem com texto, logotipo ou pessoa em primeiro plano. A versão de 1600 px do CDN basta, porque o fundo vai desfocado.
-3. Grave o script abaixo como `padronizar_retrato.py` e rode `python3 padronizar_retrato.py foto.jpg fundo.jpg destacada.jpg --altura 0.45 --folha folha.jpg` (`--altura`, de 0 a 1, escolhe a faixa da foto do tema que fica atrás da pessoa). Ele recorta a pessoa (rembg; se faltar, `pip install --break-system-packages "rembg[cpu]" opencv-python-headless`), acha o rosto (YuNet), trata a foto, iguala a cabeça e compõe sobre o tema desfocado. **Tratamento (decisão do Mário Fernando, 16/11/2026):** é medido no rosto de cada foto, não é filtro fixo: foto escura clareia, pele avermelhada ou alaranjada volta ao tom natural, terno preto ganha detalhe e pele morena ou negra não é clareada à força. Nunca aplique ao retrato o tratamento quente das matérias (`padrao-publicacao-next` 9.3) nem o do NX Feed: a destacada sobe com `tratamento` "nao". **Foto já tratada (decisão do Mário Fernando de 25/11/2026):** antes, rode `python3 tratar_foto_next.py --verificar foto.jpg` (skill `tratamento-fotos-next`, com `--origem site` para foto do acervo WordPress). Se a foto já tem a marca da casa (inclusive a invisível), a palavra-chave `tratada-nx-v1` no NX Fotos ou foi editada pelo fotógrafo (Lightroom, Photoshop), rode o `padronizar_retrato.py` com `--sem-tratamento`: só recorte, fundo e cabeça. A destacada nova sai do script; a foto inteira tratada que vai para o NX Fotos (item 8) recebe depois a marca com `tratar_foto_next.py --tipo pessoas --sufixo`.
+**Decisões do Mário Fernando de 25 e 26/11/2026 (valem acima de tudo nesta seção):**
+- **O rosto não se estraga.** Nunca escurece, nunca fica manchado, acinzentado, rosado ou magenta, e o tratamento nunca endurece a pele: a foto tem de sair mais bonita do que entrou. O script trava isso (o rosto nunca sai mais escuro do que entrou), clareia rosto abaixo do tom saudável, deixa a pele dourada (um pouco de amarelo), suaviza manchas e tira o aspecto "HDR" de rugas marcadas.
+- **A pessoa vai inteira e por cima de tudo.** Nada de esfumado, degradê ou fundo passando por cima do corpo. Faltou corpo (foto fechada no peito, ombro ou braço cortado), a pessoa é reconstruída com o preenchimento generativo da Adobe (item 4).
+- **Fundo com cara de foto, nunca "plantado":** em tons neutros (sem cor gritando, pouco contraste, luz clara e calma), com o horizonte na altura dos olhos, desfoque de lente e a mesma luz da pessoa. Quem tem cor e contraste é a pessoa, não o fundo.
+- **Fundo ligado à atividade da pessoa e ao tema do artigo, nunca doméstico (sala, quarto ou cozinha de casa) e nunca repetido:** cada destacada tem um fundo próprio, inclusive dois artigos do mesmo articulista.
+
+1. **A foto mais recente da pessoa (decisão do Mário Fernando, 16/11/2026).** Procure em todas as fontes e fique com a mais recente que sirva, pela data: o acervo WordPress da revista (no navegador, com o site aberto: `/wp-json/wp/v2/media?search=<sobrenome>&orderby=date&order=desc&per_page=30&_fields=date,source_url`; sem navegador, `buscar_imagens` com `fonte` "editoriais" e o nome, que traz a mesma biblioteca; o ano e o mês estão no caminho `wp-content/uploads/AAAA/MM`), o NX Fotos (pasta "Articulistas" e `buscar` pelo nome; campo `data`) e a destacada de posts antigos dele. As fotos de cdn.esbrasil.com.br e cdn.comunhao.com.br baixam direto pelo terminal. Fora: montagem antiga da rotina (nome terminado em "-HHMMSS.webp", fundo já desfocado) quando houver o original, arte com texto, foto de evento (palco, microfone, grupo) e foto com objeto ou outra pessoa encostada (carro, cadeira, haste de microfone, parede com sombra). Confira que é a mesma pessoa das fotos antigas. Prefira a que mostra peito e ombros; foto fechada no peito ainda serve (o corpo é reconstruído, item 4). Foto com o rosto estragado (mancha, pele acinzentada ou escurecida, montagem antiga já danificada) não serve, por mais recente que seja: use a mais recente que esteja limpa, mesmo que mais antiga.
+2. **Fundo: um lugar ligado à atividade da pessoa e ao tema do artigo (decisões do Mário Fernando, 25 e 26/11/2026)**, no NX Fotos (`buscar`, `orientacao` "h", `tipo` "foto"). Comece pela atividade e afine pelo tema: empresário, gestor ou executivo → escritório ou sala de reunião; publicitário ou comunicador → agência ou escritório; jornalista → redação; advogado → escritório com estantes; médico → consultório ou hospital; professor ou pesquisador → sala de aula, universidade ou biblioteca; engenheiro ou industrial → fábrica ou obra; produtor rural → lavoura; pastor ou líder religioso → igreja por dentro; palestrante → auditório. O tema afina: ESG e meio ambiente → área verde ou parque; urbanismo e cidades → Centro de Vitória ou orla; economia e logística → porto; turismo → cartão-postal capixaba; educação → escola ou biblioteca. **Nunca ambiente doméstico** (sala, quarto ou cozinha de casa). **Foto feita na altura dos olhos** (de pé, câmera reta), de um lugar com profundidade (corredor, salão, nave, auditório), claro e de cores calmas: foto escura, de cor forte (verde intenso, laranja, roxo) ou cheia de detalhe fica feia mesmo neutralizada. Fora: foto aérea ou de drone, feita de cima, só céu, parede lisa, com texto, logotipo ou pessoa em primeiro plano, foto oculta (`visibilidade` "oculta", banco de imagem comprado), de outro veículo ou da Reuters. **Nunca repita um fundo:** antes de escolher, leia com `ver_materia` (`formato_texto` "nenhum") as destacadas das 30 últimas matérias desta rotina e da rotina irmã (`artigos-acervo-comunhao`); o id do fundo fica no fim do título da imagem ("· fundo <id>", item 6) e nenhum desses ids volta, nem para o mesmo articulista. Prefira a biblioteca dos fotógrafos da casa (Sidney Pagotto, Claudio Alves, Renato Cabrini e demais). Baixe a versão de 1600 px do CDN.
+3. Grave o script abaixo como `padronizar_retrato.py` e rode `python3 padronizar_retrato.py foto.jpg fundo.jpg destacada.jpg --folha folha.jpg`. Ele recorta a pessoa (rembg; se faltar, `pip install --break-system-packages "rembg[cpu]" opencv-python-headless`), acha o rosto (YuNet), trata a foto, iguala a cabeça e monta o fundo como uma lente de retrato veria: ampliado (`--zoom`, padrão 1.5), com a linha do horizonte da foto do fundo na altura dos olhos da pessoa (`--horizonte`, padrão 0.5, o meio da foto; mude se o horizonte do fundo estiver em outro ponto), desfoque de lente, tons neutros, luz no nível da do rosto, o mesmo grão da pessoa, borda sem halo e a luz e a cor do lugar no contorno e na roupa. `--altura` (0 a 1) só para escolher a faixa do fundo à mão. **Tratamento (decisões do Mário Fernando, 16, 25 e 26/11/2026):** é medido no rosto de cada foto: rosto abaixo do tom saudável clareia; pele rosada, magenta, avermelhada ou alaranjada vai para um tom dourado e natural; a pele é suavizada (manchas e textura dura) sem perder olhos, boca e barba; foto com aspecto "HDR" perde parte do microcontraste; terno preto ganha detalhe; pele morena ou negra não é clareada à força. **O rosto nunca sai mais escuro do que entrou** (o script devolve a luz se algum passo a baixar). Nunca aplique ao retrato o tratamento quente das matérias (`padrao-publicacao-next` 9.3) nem o do NX Feed: a destacada sobe com `tratamento` "nao". **Foto já tratada (decisão do Mário Fernando de 25/11/2026):** antes, rode `python3 tratar_foto_next.py --verificar foto.jpg` (skill `tratamento-fotos-next`, com `--origem site` para foto do acervo WordPress). Se a foto já tem a marca da casa (inclusive a invisível), a palavra-chave `tratada-nx-v1` no NX Fotos ou foi editada pelo fotógrafo (Lightroom, Photoshop), rode o `padronizar_retrato.py` com `--sem-tratamento`: só recorte, fundo e cabeça. A destacada nova sai do script; a foto inteira tratada que vai para o NX Fotos (item 8) recebe depois a marca com `tratar_foto_next.py --tipo pessoas --sufixo`.
 4. Leia o JSON. Com `ok` true, siga. Com problema:
-   - "tratamento": a pele do rosto antes e depois (L, a, b). Bom: L 158 a 184, a 14 a 18, b 12 a 22. Pele morena ou negra pode fechar com L menor (o JSON traz "claros_ja_certos"): está certo. "rosto ainda escuro": olhe; se continuar escuro, troque a foto.
-   - "foto fechada" e "tronco esfumado" (em "ajuste" e "ajuste_base"): a foto acaba no peito; a cabeça cresceu até 56% e o tronco some num degradê para a base escurecida do fundo. Olhe a saída.
-   - "corpo curto demais": falta mais de 16% da altura mesmo com a cabeça em 56%. Se o esfumado deixar só cabeça e gola, troque pela foto mais recente que tenha corpo. `--aceitar-cabeca-maior` (cabeça maior, sem esfumado) só quando não houver outra; registre "cabeça maior que o padrão" em Pendências.
-   - "corte lateral esfumado": a foto original corta o ombro ou o braço, e o script esfuma o corte. Se o degradê ficar estranho, troque a foto.
+   - **"reconstruir"** (nada foi gravado): a foto acaba antes do quadro (fechada no peito, ombro ou braço cortado, cabelo encostado no alto). A pessoa é reconstruída, nunca esfumada. Converta a foto para JPEG e suba para a Adobe: `adobe_mandatory_init`; `asset_initialize_file_upload` (`path` "nx-artigos/<arquivo>.jpg", `file_size`, `media_type` "image/jpeg"); `curl -L -X PUT -H "Content-Type: image/jpeg" --data-binary @arquivo.jpg "<href de transfer>"`; `asset_finalize_file_upload` com o `transfer_document` inteiro, como veio. Com o `presignedAssetUrl`, `image_generative_expand` com `expandPixels` = os números de "reconstruir" e `sessionId` "-1"; baixe o `outputUrl` com `curl -L` e rode o script de novo na foto estendida. Se ele pedir mais um lado, estenda de novo a saída anterior (o `outputUrl` em `imageURIs` e o mesmo `sessionId`). Olhe a emenda: roupa contínua, sem mão, braço ou objeto inventado. A descrição da foto ganha "e o paletó (ou a camisa) completado digitalmente".
+   - Reconstrução falhou (Adobe fora do ar ou emenda ruim): troque pela foto mais recente que tenha corpo. Sem outra, `--aceitar-cabeca-maior` (a cabeça cresce até o corpo chegar à base, sem esfumado) e registre "cabeça maior que o padrão" em Pendências.
+   - "tratamento": a pele do rosto antes e depois (L, a, b). O L depois nunca é menor que o antes; o b (amarelo) fica perto ou acima do a (vermelho). Pele morena ou negra pode fechar com L menor ("claros_ja_certos"): está certo.
    - "sem rosto detectado" ou "ampliação alta": troque a foto. Sem outra, mantenha a destacada que houver e registre "foto fora do padrão" em Pendências.
-5. Olhe com Read a saída e a folha (cortes 5:3, 70% e quadrado): cabeça inteira, alto do cabelo logo abaixo do topo, recorte limpo, sem halo, sem pedaço do fundo antigo ou de objeto grudado na pessoa, sem orelha, óculos ou ombro comidos, sem fio ou haste grudado no ombro; pele com cor natural (nem escura, nem avermelhada, nem alaranjada) e terno com detalhe, não um bloco preto. Com defeito, troque a foto ou o fundo.
-6. Suba com `pedir_link_de_envio` (`tipo` "imagem", `tratamento` "nao", `materia_id`) e `curl -T`, e grave a URL que o envio devolve com `definir_imagem_destacada` (`tratamento` "nao"). O link de envio é de uso único: não mostre nem guarde. Campos: título "<Nome>, articulista da ES Brasil"; fonte, a da foto da pessoa; autor "<crédito da foto da pessoa>; fundo: <autor do fundo>/NX Fotos"; descrição "<Nome>, autor do artigo[, em <ano da foto>]; foto de arquivo, em montagem com fundo ilustrativo de <cena>"; legenda (alt) com o que se vê, terminando em "diante de <cena> desfocada".
+5. Olhe com Read a saída e a folha (cortes 5:3, 70% e quadrado): cabeça inteira, alto do cabelo logo abaixo do topo, recorte limpo, sem halo, sem pedaço do fundo antigo ou de objeto grudado na pessoa, sem orelha, óculos ou ombro comidos, sem fio ou haste grudado no ombro; **rosto mais bonito que o da foto original, nunca pior** (ponha os dois lado a lado: nem mais escuro, nem manchado, nem acinzentado, nem rosado ou magenta, nem duro); terno com detalhe, não um bloco preto; corpo inteiro até a base, nada passando por cima dele; **a pessoa dentro do lugar e não colada nele** (mesma luz, mesmo ar); fundo neutro, que não grita nem apaga a pessoa, com o horizonte na altura dos olhos e o lugar reconhecível. Com defeito, troque a foto ou o fundo e rode de novo.
+6. Suba com `pedir_link_de_envio` (`tipo` "imagem", `tratamento` "nao", `materia_id`) e `curl -T`, e grave a URL que o envio devolve com `definir_imagem_destacada` (`tratamento` "nao"). O link de envio é de uso único: não mostre nem guarde. Campos: título "<Nome>, articulista da ES Brasil · fundo <id do fundo no NX Fotos>" (o id é o controle para nunca repetir o fundo, item 2); fonte, a da foto da pessoa; autor "<crédito da foto da pessoa>; fundo: <autor do fundo>/NX Fotos" (fundo sem autor no NX Fotos: "fundo: NX Fotos"); descrição "<Nome>, autor do artigo[, em <ano da foto>]; foto de arquivo, em montagem com fundo ilustrativo de <cena>[ e o paletó completado digitalmente]"; legenda (alt) com o que se vê, terminando no lugar (ex.: "num escritório desfocado com divisórias de vidro").
 7. Vale para toda foto de pessoa na destacada (articulista ou personagem do título). Foto de tema sem pessoa e imagem de IA (gerada em 16:9) não passam pelo script.
 8. **Foto nova vai para o NX Fotos.** Quando a foto da pessoa veio do acervo WordPress e ainda não está no NX Fotos, rode o script também com `--retrato retrato.jpg` (a foto inteira, com o fundo original, tratada) e salve-a na pasta "Articulistas" do NX Fotos (id 1450): no navegador, Gerenciador de Mídia (nxfotos.com.br/admin/midia), arquivo no campo de envio (`file_upload`) e "Enviar"; depois `listar_biblioteca` (texto: o nome do arquivo) para achar o `mediaId`, `editar_midia` (título "<Nome>, articulista da ES Brasil (<ano>)", autor "Arquivo ES Brasil", descrição com roupa e ano, palavras-chave com nome, articulista, revista e retrato, e a URL de origem em notas) e `mover_para_pasta` com a pasta 1450. Sem navegador na sessão, registre em Pendências "foto nova de <Nome> para o NX Fotos: <URL>".
 
 ```python
 #!/usr/bin/env python3
-"""Padrão de foto dos artigos: recorta o articulista, TRATA a foto, troca SEMPRE o fundo e iguala a cabeça.
+"""Padrão de foto dos artigos: recorta o articulista, troca sempre o fundo e iguala a cabeça.
 
 Decisões do Mário Fernando (16/11/2026): toda destacada de artigo sai no mesmo padrão,
 seja qual for a foto de partida (estúdio, cena, montagem antiga):
-  - a foto mais recente do articulista (acervo WordPress das revistas, NX Fotos);
-  - tratamento adaptativo, medido no rosto de cada foto: foto escura clareia, pele avermelhada
-    ou alaranjada volta ao tom natural, terno preto "empapado" ganha detalhe; pele morena ou
-    negra não é clareada à força (o tratamento quente das matérias não vale para retrato);
-  - a pessoa recortada (rembg) sobre uma foto do tema bem desfocada (o fundo é sempre trocado);
+  - a foto mais recente do articulista que esteja boa (acervo WordPress das revistas, NX Fotos);
+  - a pessoa recortada (rembg) sobre uma foto do tema desfocada (o fundo é sempre trocado);
   - 1600x900 (16:9);
   - a cabeça sempre do mesmo tamanho e na mesma altura: do alto do cabelo ao queixo = 50%
     da altura; alto do cabelo a 7% do topo; rosto no centro; corte na altura dos braços.
-    Foto recente fechada no peito: a cabeça cresce até 56% e o que faltar vira esfumado do
-    tronco para a base escurecida do fundo.
+
+Decisões do Mário Fernando (25 e 26/11/2026):
+  - a pessoa vai inteira e por cima de tudo. Nada de esfumado, degradê ou fundo passando por
+    cima do tronco, dos ombros ou dos braços. O recorte sai sólido por dentro, só a borda macia.
+    Quando a foto acaba antes da base ou corta um ombro ou braço dentro do quadro, a pessoa é
+    reconstruída: o script não monta a imagem e devolve "reconstruir" com quantos pixels faltam
+    em cada lado; a rotina estende a foto com o preenchimento generativo da Adobe
+    (image_generative_expand) e roda o script de novo sobre a foto estendida;
+  - o rosto não se estraga ("não pode matar a imagem do personagem"; "a foto tem que ser mais
+    bonita e bem tratada"): nunca sai mais escuro do que entrou, nunca manchado, acinzentado,
+    rosado ou magenta, nunca com a pele endurecida. O tratamento clareia rosto abaixo do tom
+    saudável, deixa a pele dourada (um pouco de amarelo), suaviza manchas e textura dura e tira
+    parte do aspecto "HDR" (rugas marcadas, luz dura);
+  - o fundo não pode parecer "plantado" nem gritar: entra ampliado como numa lente de retrato,
+    com o horizonte na altura dos olhos da pessoa, desfoque de lente (bokeh), em tons neutros
+    (pouca cor, pouco contraste, luz clara e calma, no nível da luz do rosto), com o mesmo grão
+    da pessoa, borda sem halo, a luz do lugar no contorno e a cor e o ar do lugar no corpo.
+    Quem tem cor e contraste é a pessoa.
 
 Uso:
-  python3 padronizar_retrato.py foto.jpg fundo.jpg saida.jpg [--altura 0.45] [--folha folha.jpg]
-  fundo.jpg: foto do tema (NX Fotos, horizontal). Use "cinza" só para testar.
-  --altura: de 0 (alto) a 1 (baixo), a faixa da foto do tema que fica atrás da pessoa.
-  --aceitar-cabeca-maior: foto fechada demais e nenhuma outra do articulista: a cabeça cresce
-    o necessário para o corpo chegar à base (o alto da cabeça continua a 7%), sem esfumado.
+  python3 padronizar_retrato.py foto.jpg fundo.jpg saida.jpg [--folha folha.jpg]
+  fundo.jpg: foto do tema (NX Fotos, horizontal, feita na altura dos olhos). "cinza" só para testar.
+  --horizonte f: onde está a linha do horizonte na foto do fundo (0 = topo, 1 = base; padrão
+    0.5, o centro, que é onde fica numa foto feita em pé e reta). O script põe essa linha na
+    altura dos olhos da pessoa.
+  --zoom z: quanto o fundo entra ampliado (padrão 1.5): de perto, o ambiente aparece grande.
+  --altura a: ignora o horizonte e escolhe à mão a faixa do fundo (0 alto, 1 baixo).
+  --desfoque N: raio do desfoque de lente, em px. Sem ele: automático (foto do fundo já
+    desfocada leva 16 px; nítida, 25 px): fora de foco, mas o lugar continua reconhecível.
+  --aceitar-cabeca-maior: último recurso, só quando a reconstrução falhar: a cabeça cresce o
+    necessário para o corpo chegar à base (o alto da cabeça continua a 7%). Nunca esfuma.
   --sem-tratamento: só para foto que já veio tratada.
-  --retrato r.jpg: grava também a foto inteira, com o fundo original, tratada (para o NX Fotos).
-Imprime um JSON. "tratamento" traz a pele do rosto antes e depois (L, a, b do Lab de 8 bits):
-rosto bom fica com L 158 a 184, a 14 a 18, b 12 a 22. "ok": false lista os problemas (corpo
-curto demais, corte lateral, ampliação alta, sem rosto, rosto ainda escuro): confira a saída e,
-se ficar ruim, escolha outra foto do articulista.
+  --retrato r.jpg: grava também a foto inteira, com o fundo original (para o NX Fotos).
+Imprime um JSON. "reconstruir" ({"bottom", "left", "right"} em pixels da foto de entrada)
+quer dizer que nada foi gravado: estenda a foto e rode de novo. "tratamento" traz a pele do
+rosto antes e depois (L, a, b do Lab de 8 bits); o L depois nunca é menor que o antes.
+"ok": false lista os problemas (ampliação alta, sem rosto, rosto ainda escuro, recorte com
+buraco): confira a saída e, se ficar ruim, escolha outra foto do articulista.
 Precisa de: pip install --break-system-packages "rembg[cpu]" opencv-python-headless
 (o detector de rosto YuNet é baixado na primeira vez para a pasta modelos/).
 """
@@ -282,8 +307,14 @@ CABECA = 0.50    # do alto do cabelo ao queixo, em fração da altura (metade da
 AMPLIAR = False  # --aceitar-cabeca-maior: só quando não houver outra foto do articulista
 FOLGA = 0.04     # se o corpo não chegar à base por até 4% da altura, a pessoa desce esse tanto
 CENTRO_X = 0.50  # centro do rosto
-CABECA_MAX = 0.56  # foto fechada: a cabeça pode crescer até aqui antes de esfumar o tronco
 TRATAR = True    # tratamento adaptativo do retrato (--sem-tratamento desliga)
+DESFOQUE = None  # --desfoque N: raio do desfoque do fundo em px (padrão: automático)
+MARGEM_EXPANSAO = 1.15  # pede 15% a mais de foto do que falta, para a emenda ficar fora do quadro
+ZOOM_FUNDO = 1.5   # --zoom: o fundo entra ampliado (efeito de teleobjetiva: de perto, o ambiente é grande)
+FUNDO_SAT = 0.40        # o fundo fica com 40% da saturação: tons neutros, a pessoa se destaca
+FUNDO_CONTRASTE = 0.72  # contraste do fundo suavizado
+FUNDO_LUZ = 150         # luz média do fundo (Lab): meio-tom claro e calmo, nem escuro nem estourado
+HORIZONTE = 0.5    # --horizonte: onde fica a linha do horizonte na foto do fundo (0.5 = foto feita na altura dos olhos)
 
 
 HAAR_BASE = "https://raw.githubusercontent.com/opencv/opencv/4.x/data/haarcascades/"
@@ -355,7 +386,42 @@ def maior_componente(alfa):
     return (alfa * keep).astype(np.uint8)
 
 
+def solidificar(alfa, rgb):
+    """A pessoa sai sólida: buracos de dentro do recorte (paletó escuro, gola, cabelo) são
+    fechados e tudo o que fica a mais de 3 px da borda vai a 255. Só a borda externa continua
+    macia, para não ficar serrilhada. Assim o fundo nunca aparece através do corpo nem por
+    cima dele. Vão de verdade entre braço e corpo (da cor do fundo antigo e grande) fica vazio."""
+    import cv2
+    bin_ = (alfa > 128).astype(np.uint8)
+    hh, ww = bin_.shape
+    k = max(5, int(min(hh, ww) * 0.012)) | 1
+    fechado = cv2.morphologyEx(bin_, cv2.MORPH_CLOSE, cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (k, k)))
+    inv = (1 - fechado).astype(np.uint8)
+    n, lab = cv2.connectedComponents(inv, 4)
+    borda = set(np.unique(np.concatenate([lab[0], lab[-1], lab[:, 0], lab[:, -1]])).tolist())
+    fundo_antigo = (alfa < 20)
+    cor_fundo = np.median(rgb[fundo_antigo], axis=0) if fundo_antigo.sum() > 100 else None
+    buracos = np.zeros_like(bin_, dtype=bool)
+    for i in range(1, n):
+        if i in borda:
+            continue                       # liga-se à borda: é fundo de verdade
+        comp = lab == i
+        area = int(comp.sum())
+        if area < 0.002 * hh * ww:
+            buracos |= comp                # buraco pequeno: é a pessoa
+        elif cor_fundo is not None and np.linalg.norm(rgb[comp].mean(axis=0) - cor_fundo) > 30:
+            buracos |= comp                # buraco grande mas com cor de roupa: é a pessoa
+    cheio = (fechado.astype(bool) | buracos).astype(np.uint8)
+    dist = cv2.distanceTransform(cheio, cv2.DIST_L2, 3)
+    out = alfa.astype(np.float32)
+    out[cheio.astype(bool) & (dist > 3)] = 255
+    out[buracos] = 255
+    return out.clip(0, 255).astype(np.uint8), int(buracos.sum())
+
+
 PELE_L = (158, 184)   # luminância do rosto (Lab 8 bits do OpenCV): abaixo é escuro, acima estoura
+ROSTO_MIN, ROSTO_ALVO = 168, 174   # rosto abaixo de 168 clareia até 174 (tom saudável); nunca escurece
+SUAVIZAR = 0.55   # quanto da pele é suavizada (manchas e textura dura); olhos, boca e barba ficam
 PELE_A, PELE_B = 14, 16   # tom de pele de referência (a*, b* a partir do neutro 128)
 TOL_A, TOL_B = 4, 5       # dentro da tolerância, a cor da pele não é mexida
 
@@ -379,11 +445,12 @@ def medir_pele(lab, rosto, mask):
 
 def tratar_pessoa(rgb, mask, rosto):
     """Tratamento adaptativo do retrato, medido no rosto de cada foto (não é filtro fixo):
-    1) exposição: leva a luz do rosto para a faixa PELE_L (foto escura clareia, estourada escurece);
-    2) sombras: terno preto 'empapado' ganha um pouco de detalhe;
+    1) exposição: rosto abaixo de L 168 clareia até 174 (tom saudável); nunca escurece;
+    2) sombras: terno preto 'empapado' ganha um pouco de detalhe (só o corpo, nunca o rosto);
     3) cor: dominante geral pelos brancos da roupa; pele avermelhada/alaranjada volta ao tom natural;
-    4) contraste local suave (CLAHE) só na pessoa.
-    O tratamento quente e saturado das matérias (padrao-publicacao-next 9.3) NÃO vale para rosto."""
+    4) sem contraste local e sem nitidez (marcam rugas e manchas);
+    5) pele suavizada com filtro que respeita contornos: some mancha e textura dura, fica a pessoa.
+    O tratamento quente e saturado das matérias (padrao-publicacao-next 9.3) não vale para rosto."""
     import cv2
     lab = cv2.cvtColor(rgb, cv2.COLOR_RGB2LAB).astype(np.float32)
     antes = medir_pele(lab, rosto, mask) if rosto else None
@@ -395,16 +462,16 @@ def tratar_pessoa(rgb, mask, rosto):
     # 1) exposição pelo rosto (gamma no L)
     lf = antes[0]
     alvo = None
-    if lf < PELE_L[0]:
-        alvo = PELE_L[0] + 6
-    elif lf > PELE_L[1]:
-        alvo = PELE_L[1] - 4
+    if lf < ROSTO_MIN:
+        alvo = ROSTO_ALVO
+    # rosto claro nunca é escurecido (decisão do Mário Fernando, 25/11/2026: escurecer o
+    # rosto "mata" o personagem e deixa a pele acinzentada, com cara de doente)
     p98 = float(np.percentile(L[mask], 98)) if mask.any() else 255
     if alvo and alvo > lf and p98 >= 235:
         # os claros da foto já estão certos (camisa branca bem exposta): o rosto escuro é
         # sombra ou pele morena/negra; clareia com moderação, sem "embranquecer" a pele
-        alvo = min(alvo, lf + 40)
-        gmin = 0.70
+        alvo = min(alvo, lf + 18)
+        gmin = 0.75
         rel["claros_ja_certos"] = True
     else:
         gmin = 0.55
@@ -418,9 +485,9 @@ def tratar_pessoa(rgb, mask, rosto):
     corpo = mask.copy(); corpo[:int(fy + 1.1 * fh)] = False
     if corpo.sum() > 500:
         preto = float((L[corpo] < 45).mean())
-        if preto > 0.18:
-            lift = 16 + 14 * min(1.0, (preto - 0.18) / 0.4)
-            x = np.clip(1 - L / 110, 0, 1)
+        if preto > 0.30:
+            lift = 8 + 6 * min(1.0, (preto - 0.30) / 0.4)
+            x = np.clip(1 - L / 110, 0, 1) * corpo
             L[:] = L + lift * x ** 2
             rel["passos"].append(f"sombras +{lift:.0f} ({preto:.0%} do corpo quase preto)")
 
@@ -441,15 +508,17 @@ def tratar_pessoa(rgb, mask, rosto):
             A += sa; B += sb
             rel["passos"].append(f"dominante geral a{sa:+.1f} b{sb:+.1f}")
 
-    # 3b) pele: só os tons parecidos com a pele do rosto são puxados para o tom natural
+    # 3b) pele: tom quente e natural, nunca magenta nem rosado (decisão do Mário Fernando,
+    #     26/11/2026: "tem que ter um pouco de amarelo"). O b (amarelo) fica pelo menos no nível
+    #     do a (vermelho) + 2; o a passa no máximo de 17. Só os tons parecidos com a pele mexem.
     agora = medir_pele(np.dstack([L, A, B]), rosto, mask)
     if agora:
         _, ca, cb = agora
-        ea, eb = ca - PELE_A, cb - PELE_B
-        if abs(ea) > TOL_A or abs(eb) > TOL_B:
-            # corrige o excesso além da tolerância (ex.: a+35 vira ~a+18); não zera a cor
-            sa = -np.sign(ea) * max(0.0, abs(ea) - TOL_A) * 0.85
-            sb = -np.sign(eb) * max(0.0, abs(eb) - TOL_B) * 0.85
+        alvo_a = min(max(ca, 11.0), PELE_A + 3)
+        alvo_b = max(PELE_B, min(22.0, ca + 2))
+        sa = (alvo_a - ca) * 0.8 if ca > alvo_a else 0.0
+        sb = (alvo_b - cb) * 0.75 if cb < alvo_b else ((24 - cb) * 0.8 if cb > 26 else 0.0)
+        if abs(sa) > 0.4 or abs(sb) > 0.4:
             d2 = (A - 128 - ca) ** 2 + (B - 128 - cb) ** 2
             peso = np.exp(-d2 / (2 * 14.0 ** 2)) * mask
             A += sa * peso; B += sb * peso
@@ -460,32 +529,245 @@ def tratar_pessoa(rgb, mask, rosto):
             A[:] = 128 + (A - 128) * (1 + (f - 1) * peso); B[:] = 128 + (B - 128) * (1 + (f - 1) * peso)
             rel["passos"].append(f"cor da pele x{f:.2f}")
 
-    # 4) contraste local suave
-    l8 = np.clip(L, 0, 255).astype(np.uint8)
-    cl = cv2.createCLAHE(clipLimit=1.6, tileGridSize=(8, 8)).apply(l8).astype(np.float32)
-    L[:] = np.where(mask, .65 * L + .35 * cl, L)
+    # 4) nunca contraste local a mais (o CLAHE marcava rugas e deixava a pele dura, com aspecto
+    #    de doente: pedido do Mário Fernando, 25/11/2026). Ao contrário: foto que veio com cara de
+    #    "HDR" (rugas e manchas marcadas, luz dura) perde parte desse microcontraste, para a pessoa
+    #    ficar macia e entrar na luz do lugar (26/11/2026). Contornos, olhos e cabelo ficam.
+    if mask.any():
+        base = cv2.GaussianBlur(L, (0, 0), max(2.0, fw * 0.035))
+        det = L - base
+        hdr = float(np.std(det[mask]))
+        if hdr > 6:
+            k_ = float(np.clip((hdr - 6) / 10, 0, 1)) * 0.35
+            L[:] = np.where(mask, base + det * (1 - k_), L)
+            rel["passos"].append(f"menos aspecto HDR ({k_:.0%})")
+
+    # trava (decisão do Mário Fernando, 25 e 26/11/2026): o rosto nunca sai mais escuro do que
+    # entrou (nem do que o alvo, quando foi clareado). Se algum passo baixou a luz, ela volta.
+    piso = max(antes[0], alvo if alvo else 0)
+    agora_l = medir_pele(np.dstack([L, A, B]), rosto, mask)
+    if agora_l and agora_l[0] < piso - 0.5:
+        g = float(np.clip(np.log(piso / 255) / np.log(max(agora_l[0], 20) / 255), 0.6, 1.0))
+        L[:] = np.where(mask, 255 * (np.clip(L, 0, 255) / 255) ** g, L)
+        rel["passos"].append(f"luz do rosto devolvida (gamma {g:.2f})")
 
     lab = np.dstack([np.clip(L, 0, 255), np.clip(A, 0, 255), np.clip(B, 0, 255)]).astype(np.uint8)
     out = cv2.cvtColor(lab, cv2.COLOR_LAB2RGB)
+
+    # 5) pele mais bonita (decisão do Mário Fernando, 25/11/2026: "não pode manchar o rosto nem
+    #    embrutecer o tratamento; a foto tem que ser mais bonita"): suaviza manchas e a textura
+    #    dura só nos tons de pele do rosto e do pescoço, com filtro que respeita contornos.
+    #    Olhos, sobrancelhas, boca, barba, cabelo e óculos ficam como estão.
+    ref = medir_pele(lab.astype(np.float32), rosto, mask)
+    if ref and SUAVIZAR > 0:
+        Lr, ar, br = ref
+        lab_f = lab.astype(np.float32)
+        dcor = np.hypot(lab_f[..., 1] - 128 - ar, lab_f[..., 2] - 128 - br)
+        hh, ww = mask.shape
+        zona = np.zeros_like(mask)
+        zona[max(0, int(fy - 0.5 * fh)):min(hh, int(fy + 1.9 * fh)),
+             max(0, int(fx - 0.35 * fw)):min(ww, int(fx + 1.35 * fw))] = True
+        pele = mask & zona & (dcor < 11) & (np.abs(lab_f[..., 0] - Lr) < 38)
+        k = max(3, int(fw * 0.02)) | 1
+        pele = cv2.morphologyEx(pele.astype(np.uint8), cv2.MORPH_OPEN, np.ones((k, k), np.uint8))
+        peso = cv2.GaussianBlur(pele.astype(np.float32), (0, 0), max(1.5, fw * 0.012)) * SUAVIZAR
+        lisa = cv2.bilateralFilter(out, 0, 24, max(3.0, fw * 0.018))
+        lisa = cv2.bilateralFilter(lisa, 0, 16, max(2.0, fw * 0.01))
+        out = (out.astype(np.float32) * (1 - peso[..., None]) + lisa.astype(np.float32) * peso[..., None])
+        out = np.clip(out + 0.5, 0, 255).astype(np.uint8)
+        rel["passos"].append(f"pele suavizada ({int(pele.sum())} px)")
+    # a mesma trava no fim: o rosto que sai nunca é mais escuro do que o que entrou
+    lab_o = cv2.cvtColor(out, cv2.COLOR_RGB2LAB).astype(np.float32)
+    fim_l = medir_pele(lab_o, rosto, mask)
+    if fim_l and fim_l[0] < piso - 0.3:
+        g = float(np.clip(np.log(piso / 255) / np.log(max(fim_l[0], 20) / 255), 0.6, 1.0))
+        lab_o[..., 0] = np.where(mask, 255 * (lab_o[..., 0] / 255) ** g, lab_o[..., 0])
+        out = cv2.cvtColor(np.clip(lab_o, 0, 255).astype(np.uint8), cv2.COLOR_LAB2RGB)
     depois = medir_pele(cv2.cvtColor(out, cv2.COLOR_RGB2LAB).astype(np.float32), rosto, mask)
     rel["depois"] = [round(v) for v in depois] if depois else None
     return out, rel
 
 
-def fundo_tema(caminho, altura):
+def desfoque_lente(arr, raio):
+    """Desfoque de lente (bokeh), não gaussiano: disco feito em luz linear, como numa objetiva
+    aberta. Luzes viram círculos, as bordas do ambiente continuam legíveis. O gaussiano deixa
+    tudo "lavado" e é uma das coisas que entregam a montagem."""
+    import cv2
+    r = max(1, int(round(raio)))
+    yy, xx = np.mgrid[-r:r + 1, -r:r + 1]
+    d = np.sqrt(xx ** 2 + yy ** 2)
+    k = np.clip(r + 0.5 - d, 0, 1).astype(np.float32)
+    k /= k.sum()
+    lin = (arr.astype(np.float32) / 255) ** 2.2
+    lin = cv2.filter2D(lin, -1, k, borderType=cv2.BORDER_REFLECT)
+    return (np.clip(lin, 0, 1) ** (1 / 2.2) * 255).astype(np.float32)
+
+
+def fundo_tema(caminho, altura, olho, luz=None):
+    """Monta o fundo como uma lente veria atrás de um retrato de perto (decisão do Mário
+    Fernando, 25/11/2026: o fundo não pode parecer "plantado"):
+      - ampliado (ZOOM_FUNDO): de perto, o ambiente aparece grande e fechado, não a sala inteira;
+      - o horizonte da foto do fundo na altura dos olhos da pessoa (câmera e fundo no mesmo nível);
+      - desfoque de lente, não gaussiano."""
+    import cv2
     if caminho == "cinza":
-        return Image.new("RGB", (W, H), (128, 132, 136))
+        return np.full((H, W, 3), (128, 132, 136), np.float32)
     t = ImageOps.exif_transpose(Image.open(caminho)).convert("RGB")
     bw, bh = t.size
     if bw / bh >= W / H:
-        cw = int(bh * W / H); x0 = (bw - cw) // 2
-        t = t.crop((x0, 0, x0 + cw, bh))
+        ch = bh; cw = bh * W / H
     else:
-        ch = int(bw * H / W); y0 = int((bh - ch) * altura)
-        t = t.crop((0, y0, bw, y0 + ch))
-    t = t.resize((W, H), Image.LANCZOS).filter(ImageFilter.GaussianBlur(W / 55))
-    t = ImageEnhance.Brightness(t).enhance(0.92)
-    return ImageEnhance.Color(t).enhance(0.85)
+        cw = bw; ch = bw * H / W
+    cw, ch = cw / ZOOM_FUNDO, ch / ZOOM_FUNDO
+    x0 = (bw - cw) / 2
+    if altura is not None:
+        y0 = (bh - ch) * altura
+    else:
+        y0 = HORIZONTE * bh - olho * ch
+    y0 = min(max(0.0, y0), bh - ch)
+    t = t.crop((int(x0), int(y0), int(x0 + cw), int(y0 + ch))).resize((W, H), Image.LANCZOS)
+    arr = np.array(t)
+    nitidez = float(cv2.Laplacian(cv2.cvtColor(arr, cv2.COLOR_RGB2GRAY), cv2.CV_64F).var())
+    raio = DESFOQUE if DESFOQUE is not None else (W / 100 if nitidez < 60 else W / 64)
+    out = desfoque_lente(arr, raio)
+    return neutralizar(out, luz)
+
+
+def neutralizar(fundo, luz=None):
+    """Fundo em tons neutros (decisão do Mário Fernando, 25/11/2026): o lugar continua
+    reconhecível, mas não grita nem apaga a pessoa. Tira a dominante de cor (o verde forte, o
+    laranja), baixa a saturação, suaviza o contraste e leva a luz para um meio-tom claro e
+    calmo, com um leve calor. Quem tem cor e contraste é a pessoa, não o fundo."""
+    import cv2
+    lab = cv2.cvtColor(np.clip(fundo, 0, 255).astype(np.uint8), cv2.COLOR_RGB2LAB).astype(np.float32)
+    L, A, B = lab[..., 0], lab[..., 1], lab[..., 2]
+    ma, mb = float(A.mean() - 128), float(B.mean() - 128)
+    A[:] = 128 + (A - 128 - 0.8 * ma) * FUNDO_SAT + 1.0
+    B[:] = 128 + (B - 128 - 0.8 * mb) * FUNDO_SAT + 4.0
+    Lm = float(L.mean())
+    L[:] = Lm + (L - Lm) * FUNDO_CONTRASTE
+    # a luz do lugar é a mesma que bate na pessoa (decisão de 26/11/2026: a pessoa não pode
+    # parecer "fora do ambiente"): o fundo fica um pouco abaixo da luz do rosto
+    alvo = FUNDO_LUZ if luz is None else float(np.clip(luz - 16, 138, 162))
+    L[:] = L + float(np.clip(alvo - Lm, -20, 30)) * 0.85
+    lab = np.dstack([np.clip(L, 0, 255), np.clip(A, 0, 255), np.clip(B, 0, 255)]).astype(np.uint8)
+    return cv2.cvtColor(lab, cv2.COLOR_LAB2RGB).astype(np.float32)
+
+
+def harmonizar(camada, fundo, info, rosto_out=None):
+    """Casa a pessoa com o ambiente, como se as duas coisas estivessem na mesma foto:
+      - borda limpa: a cor do fundo antigo que ficou presa no contorno é trocada pela cor da
+        própria pessoa (é o "halo" que denuncia o recorte);
+      - borda de lente: o contorno fica levemente macio, como o resto da foto;
+      - cor do ambiente: só a roupa recebe um toque da cor do lugar; o rosto e o brilho da
+        pessoa não mudam nunca;
+      - luz que contorna: a claridade do fundo invade de leve a borda do corpo (light wrap)."""
+    import cv2
+    rgb = camada[:, :, :3].astype(np.float32)
+    al = camada[:, :, 3].astype(np.float32) / 255
+    dentro = (al > 0.98).astype(np.float32)
+    if dentro.sum() < 100:
+        return camada
+    # 1) borda limpa
+    k = max(5, int(H * 0.012)) | 1
+    num = cv2.GaussianBlur(rgb * dentro[..., None], (k, k), 0)
+    den = cv2.GaussianBlur(dentro, (k, k), 0)[..., None]
+    estimado = num / np.maximum(den, 1e-4)
+    borda = ((al > 0.01) & (al <= 0.98) & (den[..., 0] > 0.02))[..., None]
+    rgb = np.where(borda, estimado, rgb)
+    # 2) borda de lente
+    al = cv2.GaussianBlur(al, (0, 0), 1.2)
+    # 3) luz do ambiente (no Lab): leva a pessoa um pouco na direção da cor e do brilho do lugar
+    amb = cv2.GaussianBlur(fundo, (0, 0), W / 10)
+    lab_p = cv2.cvtColor(np.clip(rgb, 0, 255).astype(np.uint8), cv2.COLOR_RGB2LAB).astype(np.float32)
+    lab_a = cv2.cvtColor(np.clip(amb, 0, 255).astype(np.uint8), cv2.COLOR_RGB2LAB).astype(np.float32)
+    m = al > 0.5
+    media_p = lab_p[m].mean(axis=0)
+    # o rosto não muda de brilho nem de cor aqui (decisão de 25/11/2026: nada de escurecer
+    # nem tingir o rosto). Só a roupa recebe um toque da cor do lugar.
+    fora_rosto = np.ones((H, W), np.float32)
+    if rosto_out is not None:
+        cx, cy, rx, ry = rosto_out
+        yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+        e = ((xx - cx) / (rx * 1.6)) ** 2 + ((yy - cy) / (ry * 1.5)) ** 2
+        fora_rosto = np.clip((e - 1) / 0.8, 0, 1)
+    lab_p[..., 1] += np.clip(0.10 * (lab_a[..., 1] - media_p[1]), -4, 4) * fora_rosto
+    lab_p[..., 2] += np.clip(0.10 * (lab_a[..., 2] - media_p[2]), -4, 4) * fora_rosto
+    rgb_novo = cv2.cvtColor(np.clip(lab_p, 0, 255).astype(np.uint8), cv2.COLOR_LAB2RGB).astype(np.float32)
+    rgb = rgb + (rgb_novo - rgb) * fora_rosto[..., None]      # no rosto, nem o arredondamento do Lab
+    # 3b) luz do ambiente no corpo (decisão de 26/11/2026: a pessoa não pode parecer "fora do
+    #     ambiente"): o preto da roupa sobe até perto do preto do lugar (fundo claro e calmo não
+    #     tem preto chapado) e as sombras do corpo pegam um pouco da cor do lugar. Rosto intacto.
+    lab_r = cv2.cvtColor(np.clip(rgb, 0, 255).astype(np.uint8), cv2.COLOR_RGB2LAB).astype(np.float32)
+    lab_f = cv2.cvtColor(np.clip(fundo, 0, 255).astype(np.uint8), cv2.COLOR_RGB2LAB).astype(np.float32)
+    corpo = (al > 0.5) & (fora_rosto > 0.5)
+    if corpo.sum() > 1000:
+        p_f = float(np.percentile(lab_f[..., 0], 4)); p_c = float(np.percentile(lab_r[..., 0][corpo], 4))
+        sombra = np.clip(1 - lab_r[..., 0] / 115, 0, 1) ** 1.5 * fora_rosto
+        if p_f > p_c + 4:
+            lab_r[..., 0] += (p_f - p_c) * 0.55 * sombra
+        mf = lab_f.reshape(-1, 3).mean(axis=0)
+        lab_r[..., 1] += (mf[1] - lab_r[..., 1]) * 0.25 * sombra
+        lab_r[..., 2] += (mf[2] - lab_r[..., 2]) * 0.25 * sombra
+        # roupa sem o "HDR" da foto de origem: menos microcontraste e um pouco menos de cor,
+        # como tudo o que está no mesmo ar do lugar
+        Lc = lab_r[..., 0]
+        base = cv2.GaussianBlur(Lc, (0, 0), 6)
+        lab_r[..., 0] = base + (Lc - base) * (1 - 0.25 * fora_rosto)
+        lab_r[..., 1] = 128 + (lab_r[..., 1] - 128) * (1 - 0.15 * fora_rosto)
+        lab_r[..., 2] = 128 + (lab_r[..., 2] - 128) * (1 - 0.15 * fora_rosto)
+        # a luz do lugar vem de um lado: o corpo acompanha, de leve (só o corpo)
+        faixa = lab_f[int(H * 0.45):int(H * 0.85), :, 0]
+        esq, dir_ = float(faixa[:, :W // 3].mean()), float(faixa[:, -W // 3:].mean())
+        g = float(np.clip((dir_ - esq) / 2.5, -8, 8))
+        xx = np.linspace(-1, 1, W, dtype=np.float32)[None, :]
+        lab_r[..., 0] += g * xx * fora_rosto
+        rgb_novo = cv2.cvtColor(np.clip(lab_r, 0, 255).astype(np.uint8), cv2.COLOR_LAB2RGB).astype(np.float32)
+        rgb = rgb + (rgb_novo - rgb) * fora_rosto[..., None]
+        info["luz_do_lugar"] = f"preto do corpo +{max(0.0, (p_f - p_c) * 0.55):.0f}, luz lateral {g:+.1f}"
+    dL = 0.0
+    # 4) luz que contorna
+    R = H * 0.022
+    dist = cv2.distanceTransform((al > 0.5).astype(np.uint8), cv2.DIST_L2, 5)
+    peso = np.clip(1 - dist / R, 0, 1) ** 1.6 * 0.30
+    luz = cv2.GaussianBlur(fundo, (0, 0), R * 0.8)
+    tela = 255 - (255 - rgb) * (255 - luz) / 255           # modo "tela": só clareia
+    rgb = rgb * (1 - peso[..., None]) + (0.5 * tela + 0.5 * luz) * peso[..., None]
+    info["harmonizacao"] = "rosto intacto; roupa com 10% da cor do lugar; contorno com luz do fundo"
+    return np.dstack([np.clip(rgb, 0, 255), al * 255])
+
+
+def acabamento(img, grao):
+    """A foto inteira recebe o mesmo acabamento: o mesmo grão por cima de tudo (fundo desfocado
+    sem grão parece plástico), um véu de ar leve, um toque de amarelo (calor) e uma vinheta
+    leve de lente."""
+    hh, ww = img.shape[:2]
+    rng = np.random.default_rng(7)
+    ruido = rng.normal(0, grao, (hh, ww)).astype(np.float32)
+    import cv2
+    ruido = cv2.GaussianBlur(ruido, (0, 0), 0.6) * 1.6
+    img = img + ruido[..., None]
+    # a mesma luz para tudo: um véu de ar bem leve (3%) e um toque de amarelo na foto inteira
+    veu = cv2.GaussianBlur(img, (0, 0), ww / 60)
+    img = img * 0.97 + veu * 0.03
+    lab = cv2.cvtColor(np.clip(img, 0, 255).astype(np.uint8), cv2.COLOR_RGB2LAB).astype(np.float32)
+    lab[..., 1] -= 0.6; lab[..., 2] += 2.5
+    img = cv2.cvtColor(np.clip(lab, 0, 255).astype(np.uint8), cv2.COLOR_LAB2RGB).astype(np.float32)
+    yy, xx = np.mgrid[0:hh, 0:ww].astype(np.float32)
+    r = np.sqrt(((xx - ww / 2) / (ww / 2)) ** 2 + ((yy - hh / 2) / (hh / 2)) ** 2) / np.sqrt(2)
+    img = img * (1 - 0.06 * r ** 2.4)[..., None]
+    return np.clip(img, 0, 255).astype(np.uint8)
+
+
+def grao_da_pessoa(rgb, mask):
+    """Mede o grão da pessoa (ruído fino nas áreas lisas) para o fundo receber o mesmo."""
+    import cv2
+    g = cv2.cvtColor(rgb, cv2.COLOR_RGB2GRAY).astype(np.float32)
+    hp = g - cv2.GaussianBlur(g, (0, 0), 1.5)
+    liso = mask & (np.abs(cv2.Laplacian(cv2.GaussianBlur(g, (0, 0), 3), cv2.CV_32F)) < 1.0)
+    if liso.sum() < 500:
+        return 1.4
+    return float(np.clip(0.6 * np.std(hp[liso]), 0.8, 2.2))
 
 
 def folha(img, saida):
@@ -508,8 +790,14 @@ def folha(img, saida):
 
 def main():
     a = sys.argv[1:]
-    global AMPLIAR, TRATAR
-    altura, folha_saida = 0.45, None
+    global AMPLIAR, TRATAR, DESFOQUE, ZOOM_FUNDO, HORIZONTE
+    altura, folha_saida = None, None
+    if "--zoom" in a:
+        i = a.index("--zoom"); ZOOM_FUNDO = float(a[i + 1]); del a[i:i + 2]
+    if "--horizonte" in a:
+        i = a.index("--horizonte"); HORIZONTE = float(a[i + 1]); del a[i:i + 2]
+    if "--desfoque" in a:
+        i = a.index("--desfoque"); DESFOQUE = float(a[i + 1]); del a[i:i + 2]
     if "--sem-tratamento" in a:
         a.remove("--sem-tratamento"); TRATAR = False
     if "--aceitar-cabeca-maior" in a:
@@ -582,6 +870,13 @@ def main():
             mask = arr[:, :, 3] > 128
             info["limpeza"] = f"{int(fino.sum())} px de detalhes finos removidos abaixo do queixo"
 
+    arr = np.array(pessoa)            # a pessoa sólida por dentro: o fundo nunca passa por ela
+    arr[:, :, 3], buracos = solidificar(arr[:, :, 3], np.array(im))
+    pessoa = Image.fromarray(arr)
+    mask = arr[:, :, 3] > 128
+    if buracos:
+        info["recorte"] = f"{buracos} px de buracos fechados dentro da pessoa"
+
     if TRATAR and rosto:            # tratamento adaptativo da pessoa, antes de compor
         arr = np.array(pessoa)
         rgb, rel = tratar_pessoa(np.ascontiguousarray(arr[:, :, :3]), mask, rosto)
@@ -597,92 +892,69 @@ def main():
         if dep and not rel.get("claros_ja_certos") and not (PELE_L[0] - 8 <= dep[0] <= PELE_L[1] + 6):
             info["problemas"].append(f"rosto ainda {'escuro' if dep[0] < PELE_L[0] else 'claro'} (L {dep[0]}) depois do tratamento: confira")
 
-    # Conferências: a pessoa tem de chegar à base, sem corte reto visível nas laterais
+    # Conferências (decisão do Mário Fernando, 25/11/2026): a pessoa vai inteira e por cima.
+    # Nada de esfumar tronco ou ombro: o que falta de corpo é reconstruído na foto original.
     base_y = oy + h * s
     toca_base = mask[-3:, :].any()
     if toca_base and H - 2 > base_y >= H * (1 - FOLGA):    # falta pouco: desce a pessoa
         oy += H - base_y; base_y = H
         info["ajuste"] = "pessoa descida para chegar à base"
-    elif toca_base and base_y < H - 2 and AMPLIAR:          # foto fechada: a cabeça cresce
+    if toca_base and base_y < H - 2 and AMPLIAR:          # último recurso: a cabeça cresce
         b = h - queixo                                       # o mínimo para chegar à base
         c_min = (1 - TOPO) * cabeca / (b + cabeca) + 0.005
         s = c_min * H / cabeca
         ox = CENTRO_X * W - cx * s
         oy = TOPO * H - topo * s
         base_y = oy + h * s
-        info["ajuste"] = f"foto fechada: cabeça em {c_min:.0%} da altura, acima do padrão de {CABECA:.0%}"
-        info["problemas"].append("cabeça maior que o padrão (não há corpo para a cabeça de 50%)")
+        info["ajuste"] = f"reconstrução indisponível: cabeça em {c_min:.0%} da altura, acima do padrão de {CABECA:.0%}"
+        info["problemas"].append("cabeça maior que o padrão (a reconstrução do corpo falhou)")
         info["escala"] = round(s, 2)
-    esfumar_base = False
-    if toca_base and base_y < H - 2 and not AMPLIAR:
-        # foto recente fechada demais: a cabeça cresce no máximo até CABECA_MAX (diferença
-        # quase imperceptível) e o que ainda faltar vira um esfumado do tronco para o fundo
-        b = h - queixo
-        c_min = (1 - TOPO) * cabeca / (b + cabeca) + 0.005
-        c_use = min(c_min, CABECA_MAX)
-        if c_use > CABECA:
-            s = c_use * H / cabeca
-            ox = CENTRO_X * W - cx * s
-            oy = TOPO * H - topo * s
-            base_y = oy + h * s
-            info["escala"] = round(s, 2)
-            info["ajuste"] = f"foto fechada: cabeça em {c_use:.0%} da altura"
-        if H - 2 > base_y >= H * (1 - FOLGA):              # falta pouco: desce a pessoa
-            oy += H - base_y; base_y = H
-        if base_y < H - 2:
-            esfumar_base = True
-            info["ajuste_base"] = f"tronco esfumado para o fundo (a foto acaba {int(H - base_y)} px acima da base)"
-            if H - base_y > 0.16 * H:
-                info["problemas"].append(f"corpo curto demais: a foto acaba {int(H - base_y)} px acima da base mesmo com a cabeça em {c_use:.0%}; confira o esfumado ou troque a foto")
-    elif toca_base and base_y < H - 2:
-        info["problemas"].append(f"corpo curto: a foto acaba {int(H - base_y)} px acima da base")
     if not toca_base:
-        info["problemas"].append("a pessoa não chega à borda de baixo da foto original")
-    toca_esq = mask[:, :3].mean() > 0.02
-    toca_dir = mask[:, -3:].mean() > 0.02
-    esfuma = []
-    if toca_esq and ox > 2:
-        esfuma.append("esq")
-        info["aviso_lateral_esq"] = f"ombro ou braço cortado pela foto original ({int(ox)} px da borda): esfumado"
-    if toca_dir and ox + w * s < W - 2:
-        esfuma.append("dir")
-        info["aviso_lateral_dir"] = f"ombro ou braço cortado pela foto original ({int(W - (ox + w * s))} px da borda): esfumado"
-    if esfuma:                       # o corte reto da foto vira um degradê para o fundo
-        a_ = np.array(pessoa).astype(float)
-        F = max(8, int(w * 0.10))
-        rampa = np.linspace(0.0, 1.0, F)
-        if "esq" in esfuma:
-            a_[:, :F, 3] *= rampa[None, :]
-        if "dir" in esfuma:
-            a_[:, -F:, 3] *= rampa[::-1][None, :]
-        pessoa = Image.fromarray(a_.clip(0, 255).astype(np.uint8))
-        info["problemas"].append("corte lateral esfumado: confira se não ficou estranho; se ficar, troque a foto")
+        info["problemas"].append("a pessoa não chega à borda de baixo da foto original: confira se o corpo não termina dentro do quadro")
+    faltas = {}
+    if toca_base and base_y < H - 2:
+        faltas["bottom"] = (H - base_y) / s
+    col0, col1 = (max(0, int(cx - 0.6 * cabeca)), min(w, int(cx + 0.6 * cabeca)))
+    if mask[:2, col0:col1].any() and topo <= 2:            # o cabelo encosta no alto da foto
+        faltas["top"] = 0.10 * cabeca
+    if mask[:, :3].mean() > 0.02 and ox > 2:
+        faltas["left"] = ox / s
+    if mask[:, -3:].mean() > 0.02 and ox + w * s < W - 2:
+        faltas["right"] = (W - (ox + w * s)) / s
+    if not AMPLIAR:
+        faltas = {k: int(np.ceil(v * MARGEM_EXPANSAO)) + 8 for k, v in faltas.items() if v > 2}
+        if faltas:
+            info["reconstruir"] = faltas
+            info["como"] = ("a foto acaba antes do quadro (corpo, ombro ou cabelo cortados): estenda a foto "
+                            "original com image_generative_expand (Adobe), expandPixels = reconstruir, e rode "
+                            "o script de novo na foto estendida. Nada foi gravado.")
+            info["ok"] = False
+            print(json.dumps(info, ensure_ascii=False))
+            sys.exit(3)
     if s > 2.2:
         info["problemas"].append(f"ampliação alta ({s:.1f}x): a foto vai perder nitidez")
 
-    out = fundo_tema(fundo_p, altura).convert("RGBA")
+    olho = ((oy + s * (rosto[1] + 0.40 * rosto[3])) / H) if rosto else (TOPO + 0.22)
+    luz_rosto = (info.get("tratamento") or {}).get("depois") or (info.get("tratamento") or {}).get("antes")
+    fundo = fundo_tema(fundo_p, altura, olho, luz_rosto[0] if luz_rosto else None)
     p2 = pessoa.resize((max(1, int(w * s + .5)), max(1, int(h * s + .5))), Image.LANCZOS)
-    if esfumar_base:
-        # o tronco some aos poucos e a base do fundo escurece em degradê: o corte da foto
-        # original não aparece e a pessoa "assenta" na imagem
-        a2 = np.array(p2).astype(np.float32)
-        hh2 = a2.shape[0]
-        qy = queixo * s                                  # queixo dentro da camada redimensionada
-        ini = int(qy + 0.30 * (hh2 - qy))
-        if hh2 - ini > 4:
-            r = (1 - np.linspace(0.0, 1.0, hh2 - ini)) ** 1.4
-            a2[ini:, :, 3] *= r[:, None]
-        p2 = Image.fromarray(a2.clip(0, 255).astype(np.uint8))
-        fa = np.array(out.convert("RGB")).astype(np.float32)
-        y0 = int(max(0, oy + ini - 0.05 * H))
-        g = np.ones(H, np.float32)
-        g[y0:] = 1 - 0.55 * np.linspace(0, 1, H - y0) ** 1.2
-        fa *= g[:, None, None]
-        out = Image.fromarray(fa.clip(0, 255).astype(np.uint8)).convert("RGBA")
     camada = Image.new("RGBA", (W, H), (0, 0, 0, 0))
     camada.paste(p2, (int(round(ox)), int(round(oy))))
-    out.alpha_composite(camada)
-    out = out.convert("RGB")
+    camada = np.array(camada).astype(np.float32)
+    grao = grao_da_pessoa(camada[:, :, :3].astype(np.uint8), camada[:, :, 3] > 250)
+    rosto_out = None
+    if rosto:
+        rosto_out = (ox + s * (rosto[0] + rosto[2] / 2), oy + s * (rosto[1] + rosto[3] / 2),
+                     s * rosto[2] / 2, s * rosto[3] / 2)
+    if fundo_p != "cinza":
+        camada = harmonizar(camada, fundo, info, rosto_out)
+    al = camada[:, :, 3:4] / 255
+    comp = camada[:, :, :3] * al + fundo * (1 - al)
+    # o grão que falta no fundo (o desfoque tirou) entra só no fundo; o acabamento vale para tudo
+    rng = np.random.default_rng(3)
+    comp = comp + (rng.normal(0, grao, (H, W)).astype(np.float32) * (1 - al[..., 0]))[..., None]
+    out = Image.fromarray(acabamento(comp, 0.5))
+    info["grao"] = round(grao, 1)
     out.save(sai, "JPEG", quality=92, optimize=True, progressive=True)
     info["saida"] = f"{W}x{H}"
     info["ok"] = not info["problemas"]
