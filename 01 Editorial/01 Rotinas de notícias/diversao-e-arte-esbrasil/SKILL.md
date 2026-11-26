@@ -5,7 +5,7 @@ description: "Rotina diária de Diversão e Arte da ES Brasil: agenda cultural, 
 
 # Rotina diária de Diversão e Arte — ES Brasil
 
-> Ativada em 02/11/2026 com as decisões do Mário Fernando (celebridades, prioridade das agendas da Thamiris, horários, fontes e Comunhão). Ajustada em 04/11/2026 para economizar o plano sem mudar a régua editorial (seções 2, 3, 3.5, 3.7 e 8).
+> Ativada em 02/11/2026 com as decisões do Mário Fernando (celebridades, prioridade das agendas da Thamiris, horários, fontes e Comunhão). Ajustada em 04/11/2026 para economizar o plano sem mudar a régua editorial (seções 2, 3, 3.5, 3.7 e 8). Fontes ampliadas em 26/11/2026 com o levantamento da equipe (seções 3.1 a 3.6), e o Firecrawl passou a uma única consulta por dia (seção 3.8). A partir de segunda-feira, 30/11/2026, a agenda cultural diária é só da rotina, e a Thamiris confere depois de publicada (seções 1, 2 e 9).
 
 Objetivo: manter a editoria **Diversão e arte** do site da **ES Brasil** (esbrasil.com.br, portal 1 no NX Feed) viva todos os dias: a agenda cultural do dia seguinte, a programação semanal dos cinemas, os anúncios de shows, teatro, exposições e festivais, e a música feita no Espírito Santo. A meta da editoria é **5 matérias por dia, 7 dias por semana**.
 
@@ -13,7 +13,7 @@ Objetivo: manter a editoria **Diversão e arte** do site da **ES Brasil** (esbra
 
 **Princípio editorial:** a Diversão e arte da **ES Brasil** é local. Tudo começa pelo que acontece no Espírito Santo, com serviço completo para o leitor decidir e comprar. **Celebridades (decisão de 02/11/2026):** entram, com **prioridade para as celebridades locais** (capixabas ou radicadas no ES, artistas e personalidades com agenda ou fato no Estado). Celebridade nacional só entra depois que a pauta local da rodada estiver coberta, no máximo **1 por rodada**, aproveitada do feed de agências do NX Feed (Estadão Conteúdo – Variedades e as demais contratadas, com o crédito da agência) ou de fonte oficial da própria celebridade, e nunca fofoca, vida íntima, briga, separação ou especulação. Categoria: a subcategoria de Diversão e arte que corresponde (Famosos ou TV, filmes e séries), com o id conferido em `listar_categorias_wordpress` no portal 1; nunca categoria aproximada.
 
-**As pautas da Thamiris têm prioridade (decisão de 02/11/2026):** a editoria tem produção humana (Thamiris Guidoni faz as agendas e matérias). O que a Thamiris pautou vale sobre o que a rotina faria: se ela fez, agendou, deixou em rascunho ou pautou assunto igual ou semelhante (mesmo evento, mesmo artista, mesmo espaço na mesma semana, mesma agenda do dia), a rotina não escreve sobre ele e usa a vaga em outro assunto. Se a agenda do dia já existe, a rotina faz matérias individuais. A rotina só complementa: cobre o que a Thamiris não cobriu e os dias e horários em que ela não produziu. Se a Thamiris publicar ou agendar depois um assunto semelhante a uma matéria da rotina ainda agendada (como a agenda das 6h), a rotina tira a dela do agendamento na rodada seguinte e registra no resumo.
+**As pautas da Thamiris têm prioridade (decisão de 02/11/2026):** a editoria tem produção humana (Thamiris Guidoni faz matérias e, a partir de 30/11/2026, confere as agendas e as matérias da rotina depois de publicadas; a agenda cultural diária passa a ser da rotina). O que a Thamiris pautou vale sobre o que a rotina faria: se ela fez, agendou, deixou em rascunho ou pautou assunto igual ou semelhante (mesmo evento, mesmo artista, mesmo espaço na mesma semana, mesma agenda do dia), a rotina não escreve sobre ele e usa a vaga em outro assunto. Se a agenda do dia já existe, a rotina faz matérias individuais. A rotina só complementa: cobre o que a Thamiris não cobriu e os dias e horários em que ela não produziu. Se a Thamiris publicar ou agendar depois um assunto semelhante a uma matéria da rotina ainda agendada (como a agenda das 6h), a rotina tira a dela do agendamento na rodada seguinte e registra no resumo.
 
 ## 1. Rodadas (Brasília)
 
@@ -22,7 +22,7 @@ Descubra a rodada pela hora atual.
 | Rodada | O que faz | Teto |
 |---|---|---|
 | **8h** (manhã) | Anúncios novos: shows e espetáculos que abriram venda, line-ups de festivais, exposições que abrem na semana, lançamentos de artistas capixabas. **Às quintas**, também a matéria de estreias da semana nos cinemas (seção 4.2). | 3 |
-| **14h** (tarde) | Agenda cultural de amanhã (seção 4.1), agendada para as 6h do dia seguinte. **Às sextas**, as agendas de sábado e de domingo. Mais 1 matéria de serviço (teatro, exposição, festival do interior, gastronomia) para completar a meta do dia. | 4 |
+| **14h** (tarde) | Agenda cultural de amanhã (seção 4.1; a partir de 30/11/2026 é só da rotina, todos os dias), agendada para as 6h do dia seguinte. **Às sextas**, as agendas de sábado e de domingo. Mais 1 matéria de serviço (teatro, exposição, festival do interior, gastronomia) para completar a meta do dia. | 4 |
 
 - Meta do dia: 5 matérias somando as duas rodadas, incluindo a agenda. Teto do dia: 7. Mais vale uma matéria forte que duas fracas.
 - Domingo à tarde: agenda de segunda só se houver programação relevante; senão, registre "segunda sem agenda".
@@ -38,11 +38,11 @@ A trava é a da skill-base (seção 4), com estas janelas. Os itens 1 e 2 são f
 3. Para cada pauta: `listar_materias` com `busca` pelo artista, espaço, evento ou filme (últimos 30 dias) e WebSearch `site:esbrasil.com.br <tema>`. O esbrasil.com.br recusa leitura automática: a conferência é sempre pelo NX Feed.
 
 Regras próprias:
-- **Agenda:** antes de escrever a agenda de amanhã, procure no NX Feed por "agenda" (criadas hoje e ontem, todos os estados). Se a equipe já fez ou agendou, não faça outra: use a vaga em matéria individual.
+- **Agenda:** antes de escrever a agenda de amanhã, procure no NX Feed por "agenda" (criadas hoje e ontem, todos os estados). Se a equipe já fez ou agendou, não faça outra: use a vaga em matéria individual. A partir de segunda-feira, 30/11/2026 (decisão do Mário Fernando, 26/11/2026), a Thamiris não faz mais agenda: a rotina faz a agenda cultural todos os dias, e a Thamiris confere depois de publicada. A busca por "agenda" continua só como trava contra duplicidade, caso alguém da equipe ainda faça uma. Agenda que não sair (menos de 6 itens confirmados) vai em destaque no resumo, para a equipe saber que o dia ficou sem agenda.
 - **Evento já citado em agenda da casa** pode ganhar matéria própria, desde que traga o que a agenda não trouxe (entrevista publicada pela produção, repertório, história do artista, serviço novo como lote extra ou sessão extra).
 - Mesmo evento, uma matéria própria por semana. Exceção: fato novo real (data extra, cancelamento confirmado, mudança de local, ingressos esgotados).
 
-## 3. Base de fontes (validada em 30/10/2026)
+## 3. Base de fontes (validada em 30/10/2026, ampliada em 26/11/2026)
 
 A base abaixo vem da planilha **Fontes_Diversao_e_Arte_ES_Brasil** (132 fontes, 115 validadas com evidência de atividade em 2025–2026, 4 descartadas e 13 a confirmar). **Siga-a rigorosamente, na ordem de relevância** (decisão de 02/11/2026):
 
@@ -55,7 +55,7 @@ A base abaixo vem da planilha **Fontes_Diversao_e_Arte_ES_Brasil** (132 fontes, 
 
 Varra nessa ordem e, entre duas pautas de mesmo peso, fica a da fonte mais relevante. Fonte fora da lista não serve de fonte; a única exceção é a página oficial do próprio evento, artista ou espaço, usada para confirmar o que uma fonte da lista anunciou. As fontes "a confirmar", descartadas ou fechadas não entram. As pistas (3.6) nunca são fonte nem crédito.
 
-**Raspagem (decisão do Mário Fernando, 17/11/2026):** carregue a skill `raspagem-web-next` uma vez por rodada, rode `creditos` e `teto 8`, e use-a como diz a seção 3.8. Sem créditos, siga como antes, com WebFetch e WebSearch.
+**Raspagem (decisão do Mário Fernando, 17/11/2026; limite de 26/11/2026):** **uma única consulta ao Firecrawl por dia**, na rodada das 14h, como diz a seção 3.8. A rodada das 8h não usa raspagem: varre com WebFetch e WebSearch. Sem créditos, a das 14h também segue com WebFetch e WebSearch.
 
 **Varredura econômica (skill-base, seção 11):** em cada fonte, procure só o recorte da rodada (8h: anúncios novos; 14h: a programação do dia da agenda, ou de sábado e domingo às sextas) e leia a página de programação uma vez; abra a página de um evento só quando ele for virar pauta ou item da agenda. Site que esta skill diz que não abre por leitura automática não é tentado de novo.
 
@@ -71,7 +71,11 @@ Varra nessa ordem e, entre duas pautas de mesmo peso, fica a da fonte mais relev
 | Teatro Universitário (Teatro da Ufes) | teatro.ufes.br (não abre por leitura automática) · Meu Bilhete | stand-up, musicais, infantis, shows nacionais |
 | Teatro e Centro Cultural Sesi (Jardim da Penha) | site / Instagram | espetáculos, shows, exposições |
 | Cais das Artes (museu aberto desde abr/2026; teatro só em 2027) | caisdasartes.byinti.com (ingressos gratuitos) | exposições (36ª Bienal de SP até 17/01/2027) |
-| Casa da Música Sônia Cabral, Maes, Galeria Homero Massena, Parque Cultural Casa do Governador | secult.es.gov.br/noticias | exposições, recitais, eventos |
+| Palácio da Cultura Sônia Cabral (Casa da Música Sônia Cabral), Maes – Museu de Arte do Espírito Santo, Galeria Homero Massena, Parque Cultural Casa do Governador | secult.es.gov.br/noticias | exposições, recitais, eventos |
+| Centro Cultural Carmélia (Vitória) | site e Instagram oficiais | shows, exposições, oficinas |
+| Setur-ES – Secretaria de Estado do Turismo e Visite Espírito Santo | calendário de eventos da Setur-ES · site Visite Espírito Santo | eventos e festivais do Estado, sobretudo no interior |
+| Governo do Espírito Santo – calendário de eventos | es.gov.br (notícias e calendário) | eventos oficiais com programação cultural |
+| Instituto Jones dos Santos Neves (IJSN) | ijsn.es.gov.br | só eventos públicos de interesse cultural e social |
 | Museu Vale, Parque Botânico Vale e Parque Costeiro | site e Instagram do Museu Vale | exposições e atividades |
 | Mucane – Museu Capixaba do Negro | Instagram (canal oficial a confirmar) | exposições |
 | Gaeu – Galeria de Arte Espaço Universitário (Ufes) | site da Ufes | exposições |
@@ -87,9 +91,9 @@ Varra nessa ordem e, entre duas pautas de mesmo peso, fica a da fonte mais relev
 
 ### 3.2 Bilheterias online (confirmam data, local e preço)
 
-- **Principais:** Zig.tickets, Meaple, Sympla, Blueticket, Let's Events (use a página do organizador, como lets.events/organizer/sescgloria) e Pensa no Evento.
+- **Principais:** Zig.tickets, Meaple, Sympla, Blueticket, Ingresse, Eventim (páginas por cidade, como eventim.com.br/city/vitoria-1747/), Let's Events (use a página do organizador, como lets.events/organizer/sescgloria) e Pensa no Evento. A equipe acha eventos sempre na Sympla, na Blueticket, na Eventim, na Ingresse e na Zig: confira as cinco em toda rodada das 14h, pelo nome do evento ou pela lista da cidade que abrir.
 - **Por espaço:** Meu Bilhete (Teatro da Ufes), Inti (Cais das Artes), TicketBolt (festivais como o Somos Rock).
-- **Turnês grandes (checagem eventual, sem evento capixaba em 2026):** Eventim (páginas por cidade, como eventim.com.br/city/vitoria-1747/) e Ticketmaster. Le Billet não abre por leitura automática e não teve evento capixaba achado depois de 2024.
+- **Turnês grandes (checagem eventual):** Ticketmaster. Le Billet não abre por leitura automática e não teve evento capixaba achado depois de 2024.
 - **Fora:** Superticket (redireciona para a Zig.tickets).
 - A lista por cidade da Sympla carrega por JavaScript e não aparece na leitura automática: procure o evento pelo nome.
 - A página oficial de venda conta como fonte primária de data, horário, local, classificação e preço.
@@ -104,28 +108,31 @@ Varra nessa ordem e, entre duas pautas de mesmo peso, fica a da fonte mais relev
 
 ### 3.4 Casas de show, palcos e festivais
 
-- **Casas e bares com programação:** Espaço Patrick Ribeiro (Goiabeiras), Café La Musique (Vila Velha), Pub 426 (Praia do Canto, Vitória, @pub.426), Brizz (Vitória), Gran Park Itapuã (Vila Velha), Garden (Praia da Costa), Arena Evo (Curva da Jurema).
+- **Casas e bares com programação:** Espaço Patrick Ribeiro (Goiabeiras), Café de La Musique (Vila Velha), Pub 426 (Praia do Canto, Vitória, @pub.426), Brizz (Vitória), Gran Park Itapuã (Vila Velha), Garden (Praia da Costa), Arena Evo (Curva da Jurema), P12 (Guarapari), Brava Beach Club, Caza Brava (antigo Embrazado), Correria Music Bar, Wanted Pub, Tetto Rooftop, Na Vista, Casa de Bamba, A Oca, Motor Rockers Pub, Barlavento, Épico e Repique. Os que vieram no levantamento de 26/11/2026 divulgam sobretudo pelo Instagram: o perfil oficial da casa confirma data, horário e atração de uma pauta já achada (3.7); preço e venda se confirmam na bilheteria (3.2).
+- **A confirmar:** Lagum (veio na lista de casas, mas é também o nome de uma banda; só entra depois que a equipe disser qual é o perfil e onde fica).
 - **Fechadas, não usar:** Privilège (fechou em fev/2024), Ilha Shows, Teatro Galpão (demolido em 2021). Teatro Municipal Rubem Braga (Cachoeiro): fechou com a enchente de 2020 e não há prova de reabertura; só use com confirmação da prefeitura.
 - **Grandes palcos:** Praça do Papa, Parque da Prainha, Estádio Kleber Andrade, Sambão do Povo.
+- **Shoppings (programação de Natal, férias, shows e exposições gratuitas):** Shopping Vitória, Shopping Vila Velha, Shopping Praia da Costa, Boulevard Shopping Vila Velha, Shopping Mestre Álvaro, Shopping Montserrat, Shopping Moxuara, Shopping Jardins e Masterplace Mall. Fonte: o site oficial ou o release do shopping; o Instagram só confirma (3.7). Ação de venda ou promoção de loja não é pauta.
+- **Gastronomia:** Abrasel-ES (festivais e semanas gastronômicas) e Instituto Panela de Barro (festivais gastronômicos do ES). Entram em Gastronomia (categorias 17028, 86).
 - **Produtoras e festivais:** Fatto Entreter (megashows, como Guns N' Roses), Brava Entretenimento (Somos Rock), Movimento Cidade (@movimento.cidade), Vital, Formemus (formemus.com.br), Jazz Vix (Cais das Artes), Boom Rap Festival, ES Restaurant Week (restaurantweek.com.br), Prêmio da Música Capixaba (MM Projetos Culturais, premiodamusicacapixaba.com.br; também faz o Formemus e o Marien Calixte Jazz Festival), Teatro Campanelli (grupo de teatro infantil em turnê, não é sala), Panshow (feira de panificação, entra em Gastronomia) e os festivais municipais do interior.
 
 ### 3.5 Música capixaba (perfis a monitorar)
 
 Ativos em 2025–2026: Roberto Carlos, Silva, Dead Fish, Budah, Cesar MC (@cesarmc027), Luiza Dutra, Dan Abranches, Dudu MC, Afronta MC, André Prando, Amaro Lima (Manimal), Maré Tardia, Sandrera, Ada Koffi, DJ Gegeo, Casaca (@bandacasaca), Pele Morena (@pelemorenaoficial), Edson Papo Furado (@edsonpapofurado) e Thaysa Pizzolato (@thaysa_pizzolato). A confirmar: Modão das Patroas. Os @ e as páginas de Spotify estão na planilha. Vale: lançamento de música ou álbum, clipe, turnê, show no ES, prêmio, festival nacional com artista capixaba.
 
-**Como monitorar (economia do plano, 04/11/2026; raspagem em 17/11/2026):** na rodada das 8h, primeiro por busca (`search` da `raspagem-web-next` com `--dias 7`, juntando 4 ou 5 nomes por consulta com "lançamento", "clipe" ou "show"; sem créditos, WebSearch no modo standard com o mês e o ano) e pelas páginas oficiais que abrem por leitura automática (site, YouTube, release). Abra o perfil no navegador quando a busca trouxer pista de lançamento, ou para confirmar a data e o crédito de um lançamento já achado (3.7).
+**Como monitorar (economia do plano, 04/11/2026; raspagem limitada em 26/11/2026):** na rodada das 8h, primeiro por WebSearch no modo standard (juntando 4 ou 5 nomes por consulta com "lançamento", "clipe" ou "show", com o mês e o ano) e pelas páginas oficiais que abrem por leitura automática (site, YouTube, release). Abra o perfil no navegador quando a busca trouxer pista de lançamento, ou para confirmar a data e o crédito de um lançamento já achado (3.7).
 
 ### 3.6 Só pista (nunca fonte, nunca crédito)
 
-HZ / A Gazeta (agazeta.com.br/hz), Folha Vitória (folhavitoria.com.br/agenda-de-eventos/, não abre por leitura automática), A Tribuna (tribunaonline.com.br/entretenimento/agendacultural), ES Hoje (eshoje.com.br/noticias/entretenimento/, com os posts diários "Sábado/Domingo no ES tem…"). Perfis verificados: Guia Capixaba (@guiacapixaba, cerca de 176 mil seguidores) e Rolê com o Rapha (TikTok e grupo de WhatsApp). Do It Brazil e Vitória Online não foram encontrados: não use até a equipe confirmar. Achou um evento numa pista: confirme na fonte oficial (local, produtora, bilheteria, artista) antes de escrever. Sem confirmação oficial, fica fora.
+HZ / A Gazeta (agazeta.com.br/hz), Folha Vitória (folhavitoria.com.br/agenda-de-eventos/, não abre por leitura automática), A Tribuna (tribunaonline.com.br/entretenimento/agendacultural), ES Hoje (eshoje.com.br/noticias/entretenimento/, com os posts diários "Sábado/Domingo no ES tem…"). Perfis verificados: Guia Capixaba (@guiacapixaba, cerca de 176 mil seguidores) e Rolê com o Rapha (TikTok e grupo de WhatsApp). Do It Brazil e Vitória Online não foram encontrados: não use até a equipe confirmar. Levantamento de 26/11/2026, também só pista (use para buscar eventos; nunca cite, nunca credite, nunca linke): Agenda HZ no Instagram, O que Fazer Vitória, Vixfeed e Eventos Capixabas (todos no Instagram). Achou um evento numa pista: confirme na fonte oficial (local, produtora, bilheteria, artista) antes de escrever. Sem confirmação oficial, fica fora.
 
 ### 3.7 Leitura de Instagram e sites fechados
 
 Instagram, alguns sites de bilheteria e de prefeituras e o próprio esbrasil.com.br não abrem por WebFetch. Nesses casos, abra no navegador (Claude in Chrome, carregando antes a skill `chrome-browser`) só para LER; nunca curta, siga, comente nem preencha nada. Use o navegador para confirmar uma pauta ou um item de agenda já escolhido, não para varrer perfis e listas (skill-base, seção 11): cada tela custa muitas vezes uma leitura de página. Se nem assim abrir, troque a pauta.
 
-### 3.8 Raspagem com Firecrawl e Apify (17/11/2026)
+### 3.8 Raspagem com Firecrawl (17/11/2026; uma consulta por dia desde 26/11/2026)
 
-Skill `raspagem-web-next`, teto de **8 créditos por rodada**. Usos, nesta ordem:
+Skill `raspagem-web-next`, **uma única consulta ao Firecrawl por dia** (decisão do Mário Fernando, 26/11/2026, para economizar crédito de raspagem). Ela fica na rodada das 14h: carregue a skill, rode `creditos` e faça uma só chamada (um `map`, um `scrape` ou um `search`). Antes de gastar, confira no resumo das 8h (e nas publicações do dia) se a consulta do dia já foi feita: se foi, não faça outra. Escolha a consulta que mais rende para a agenda de amanhã, nesta ordem de preferência:
 
 1. **Descobrir eventos novos numa fonte da base:** `map` com `--busca` (ex.: `map https://sesc-es.com.br --busca evento`, `map` na página do organizador na Let's Events ou na Sympla, Secult com `--busca noticias`). Abra só a URL do evento que vai virar pauta ou item da agenda.
 2. **Páginas que carregam por JavaScript:** `scrape` da lista da Sympla por cidade, das sessões no Ingresso.com e da página da Eventim por cidade, quando precisar delas.
@@ -237,10 +244,10 @@ Avisos da skill-base. Título do resumo: **"Diversão e Arte ES Brasil · DD/MM 
 Parte própria do resumo:
 - publicadas: tipo (agenda, estreias, anúncio, música capixaba), título, cidade, fonte oficial, parceiro (sim/não), nota SEO, imagem (real / divulgação / IA / sem imagem), horário e link no ar (ou agendado);
 - meta do dia (na rodada das 14h): quantas das 5 saíram e o motivo do que faltou;
-- agenda: feita pela rotina, feita pela equipe ou não feita (menos de 6 itens);
+- agenda: feita pela rotina (dia a que se refere, título, número de itens e horário em que vai ao ar, para a conferência da Thamiris), feita pela equipe ou não feita (menos de 6 itens, em destaque);
 - eventos achados só em pista, sem confirmação oficial;
 - fontes da base que não abriram ou parecem desativadas (para a equipe atualizar a planilha);
-- raspagem: créditos gastos na rodada e saldo, pela seção 6 da `raspagem-web-next` (crédito esgotado: aviso da seção 5 dela).
+- raspagem (só na rodada das 14h): qual foi a consulta do dia, créditos gastos e saldo, pela seção 6 da `raspagem-web-next` (crédito esgotado: aviso da seção 5 dela). Na rodada das 8h: "sem raspagem".
 
 Rodada sem novidade termina com "Sem fato novo nesta rodada", sem notificação.
 
