@@ -337,6 +337,14 @@
     "sha": "0d55c42702f48d365203229bf5d4a1f4b2d899db0aec74f1e2c8e5527f570892",
     "updatedAt": "2026-11-25T17:14:07.654217Z"
   },
+  "revista-por-modelo-next": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/03 Dados e especiais/revista-por-modelo-next",
+    "sha": "81b09aa829e6c76ae9e7f62c94a591bd91303f2ae1a25c1932d048a1d70474d1",
+    "updatedAt": "2026-11-27T15:46:34.982926Z"
+  },
   "sincronizar-projetos-drive": {
     "arquivos": [
       "SKILL.md"
