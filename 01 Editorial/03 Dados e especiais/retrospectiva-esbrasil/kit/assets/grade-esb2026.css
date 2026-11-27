@@ -69,7 +69,7 @@
   background:rgba(255,255,255,.88)!important;text-shadow:none!important;padding:5px 8px!important;border-radius:0!important}
 /* Crédito ("Créditos 2026": Roboto Condensed Light 7/7, tracking -10): na vertical, à direita da foto */
 .ph{overflow:visible!important;border-radius:0!important}
-.ph > img{border-radius:0}
+.ph > img{border-radius:7.74px}  /* = 5 pt do estilo de objeto "Frame Box de foto 2026" (26/11/2026), em todas as fotos */
 .ph .cr{position:absolute!important;left:calc(100% + 4px)!important;right:auto!important;top:0!important;writing-mode:vertical-rl;background:none!important;padding:0!important;border-radius:0!important;font-family:var(--cond)!important;font-size:10.84px!important;line-height:10.84px;font-weight:300!important;letter-spacing:-.01em;color:var(--preto90)!important;text-shadow:none!important;white-space:nowrap}
 
 /* Box de números ("Título de box 2026" Inter Black 12/11, "Texto destaque números box 2026" Inter Black 15/15,
@@ -78,3 +78,16 @@
 .esn .n b{font-size:23.24px!important;line-height:23.24px!important;font-weight:900!important;letter-spacing:-.025em!important}
 .esn .n span{font-family:var(--cond)!important;font-weight:300!important;font-size:14.71px!important;line-height:17.04px!important;letter-spacing:-.02em!important}
 .esn-src{font-family:var(--cond)!important;font-weight:300!important}
+/* Colunagem alternada nas páginas internas (26/11/2026): a grade de 3 colunas de 55,8 mm pode trocar de arranjo de
+   página para página, para o gráfico ganhar espaço sem encolher a letra.
+   .grid            texto em 2 colunas | lateral de 1 coluna (padrão)
+   .grid.inv        lateral de 1 coluna | texto em 2 colunas
+   .grid.dupla      texto em 1 coluna | peças em 2 colunas (vaga "dupla" do NXtab, 509 px)
+   .grid.dupla.inv  peças em 2 colunas | texto em 1 coluna */
+.page .grid.inv{grid-template-columns:var(--col) minmax(0,1fr)!important}
+.page .grid.inv>.side{order:-1}
+.page .grid.dupla{grid-template-columns:var(--col) minmax(0,1fr)!important}
+.page .grid.dupla.inv{grid-template-columns:minmax(0,1fr) var(--col)!important}
+.page .grid.dupla.inv>.side{order:-1}
+.flow.c1{column-count:1!important}
+.side figure.nxtab[data-vaga="dupla"]{width:100%!important;max-width:509.26px}
