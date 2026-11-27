@@ -74,7 +74,34 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 
-VAGAS = {"abertura": (420, 320), "lateral": (330, 246), "larga": (1000, 773), "tabela": (1000, 773)}   # grade da revista: coluna de 55,8 mm e mancha de 176 mm
+VAGAS = {"abertura": (420, 320), "lateral": (330, 246), "dupla": (660, 509), "larga": (1000, 773), "tabela": (1000, 773)}   # grade da revista: coluna de 55,8 mm e mancha de 176 mm
+
+# Barrinha de cor no canto superior esquerdo de toda peça (filete da marca): tamanho padrão de 20 x 1 mm
+# na página impressa (pedido de 26/11/2026). A página tem 205 mm em 900 px na prova.
+ABA_MM = (20.0, 1.0)
+PX_POR_MM = 900 / 205
+
+
+def aba_padrao(svg: str, w: float, exibe: float) -> str:
+    """Redimensiona a barrinha do topo (o <rect> encostado no canto do viewBox, com até 10 de altura)
+    para 20 x 1 mm na página, mantendo a posição e a cor."""
+    m = re.search(r'viewBox="([-\d.]+)[\s,]+([-\d.]+)', svg)
+    if not m:
+        return svg
+    vx, vy = float(m.group(1)), float(m.group(2))
+    u = PX_POR_MM * w / exibe          # unidades do SVG por milímetro na página
+
+    def troca(r):
+        tag = r.group(0)
+        g = lambda k: float(re.search(k + r'="([-\d.]+)"', tag).group(1)) if re.search(k + r'="([-\d.]+)"', tag) else None  # noqa: E731
+        x, y, hh = g("x"), g("y"), g("height")
+        if x is None or y is None or hh is None or abs(x - vx) > 0.5 or abs(y - vy) > 0.5 or hh > 10:
+            return tag
+        tag = re.sub(r'width="[\d.]+"', f'width="{ABA_MM[0] * u:.2f}"', tag, count=1)
+        return re.sub(r'height="[\d.]+"', f'height="{ABA_MM[1] * u:.2f}"', tag, count=1)
+
+    return re.sub(r"<rect [^>]*>", troca, svg)
+
 
 JS = r'''
 async (g) => {
@@ -414,6 +441,7 @@ async def main(nxtab: Path, specs: Path, saida: Path) -> None:
             svg_bruto = aplicar_realces(svg_bruto, g.get("realces"))
             svg, w, h = sem_cerco(svg_bruto, larg)
             svg, h = fonte_em_duas_linhas(svg, h)
+            svg = aba_padrao(svg, w, exibe)
             svg = ids_unicos(svg, g["id"])
             svg = svg.replace('<svg xmlns="http://www.w3.org/2000/svg"',
                               f'<svg aria-label="{g["titulo"]}" xmlns="http://www.w3.org/2000/svg"', 1)

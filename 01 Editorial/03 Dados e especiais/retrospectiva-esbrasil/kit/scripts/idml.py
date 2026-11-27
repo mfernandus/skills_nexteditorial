@@ -28,7 +28,7 @@ def attrs(d: dict) -> str:
 
 
 def safe_name(s: str) -> str:
-    return re.sub(r"[^\w\- .áéíóúâêôãõçÁÉÍÓÚÂÊÔÃÕÇ/]", "_", s).strip() or "estilo"
+    return re.sub(r"[^\w\- .,áéíóúâêôãõçÁÉÍÓÚÂÊÔÃÕÇ/]", "_", s).strip() or "estilo"
 
 
 @dataclass
@@ -51,6 +51,30 @@ class Para:
     leading: float | None = None
 
 
+
+# Ajustes nos estilos da base V5 da casa, aplicados no próprio estilo (nunca como substituição local,
+# para o InDesign não mostrar "+"). Um ajuste novo pedido para a Retrospectiva entra aqui.
+AJUSTES_ESTILOS_CASA = {
+    # 26/11/2026: uma linha em branco (12 pt, a entrelinha do "Texto geral 2026") entre o fim do
+    # parágrafo anterior e o intertítulo.
+    "ParagraphStyle/Intertexto 2026": {"SpaceBefore": "12", "SpaceAfter": "0"},
+}
+
+
+def ajustar_estilos_casa(st: str) -> str:
+    for self_id, novos in AJUSTES_ESTILOS_CASA.items():
+        m = re.search(r'<(ParagraphStyle|CharacterStyle|ObjectStyle) Self="' + re.escape(self_id) + r'"[^>]*>', st)
+        if not m:
+            continue
+        tag = m.group(0)
+        for k, v in novos.items():
+            if re.search(r'\s' + k + r'="[^"]*"', tag):
+                tag = re.sub(r'(\s' + k + r')="[^"]*"', r'\1="' + v + '"', tag, count=1)
+            else:
+                tag = tag[:-1].rstrip("/") + f' {k}="{v}"' + ("/>" if tag.endswith("/>") else ">")
+        st = st[:m.start()] + tag + st[m.end():]
+    return st
+
 class IDML:
     def __init__(self, width: float, height: float, bleed: float = 8.5039, lang: str = LANG,
                  facing: bool = False, primeira: str = "esq"):
@@ -59,6 +83,8 @@ class IDML:
         self.sides: list[str | None] = []
         self._n = 0
         self.colors: dict[str, tuple] = {}
+        self.gradients: dict[str, list] = {}  # nome -> [(cor, posição 0-100)]
+        self.cmyk = False   # True: as amostras novas saem em CMYK (pacote sobre a base da revista)
         self.para_styles: dict[str, dict] = {}
         self.char_styles: dict[str, dict] = {}
         self.pages: list[list[str]] = []      # xml dos itens por página
@@ -98,9 +124,40 @@ class IDML:
         for nm, val in self.colors.items():
             if val == (r, g, b):
                 return f"Color/{nm}"
-        nm = name or f"R={r} G={g} B={b}"
+        if self.cmyk:   # documento de impressão: amostra nova sempre em CMYK
+            from casa import rgb_para_cmyk
+            c, m, y, k = rgb_para_cmyk((r, g, b))
+            nm = name or f"C={c} M={m} Y={y} K={k}"
+        else:
+            nm = name or f"R={r} G={g} B={b}"
         self.colors[nm] = (r, g, b)
         return f"Color/{nm}"
+
+    def _color_xml(self, n: str, rgb) -> str:
+        if self.cmyk:
+            from casa import rgb_para_cmyk
+            esp, val = "CMYK", " ".join(str(v) for v in rgb_para_cmyk(rgb))
+        else:
+            esp, val = "RGB", " ".join(str(v) for v in rgb)
+        return (f'<Color {attrs({"Self": f"Color/{n}", "Model": "Process", "Space": esp, "ColorValue": val, "ColorOverride": "Normal", "AlternateSpace": "NoAlternateColor", "AlternateColorValue": "", "Name": n, "ColorEditable": "true", "ColorRemovable": "true", "Visible": "true", "SwatchCreatorID": "7937"})}/>')
+
+    def gradient(self, stops: list[tuple[str, float]]) -> str:
+        """Amostra de degradê linear com as paradas [(Color/..., 0-100)]; devolve "Gradient/<nome>"."""
+        for nm, val in self.gradients.items():
+            if val == stops:
+                return f"Gradient/{nm}"
+        nm = "Degradê gráfico " + str(len(self.gradients) + 1)
+        self.gradients[nm] = list(stops)
+        return f"Gradient/{nm}"
+
+    def _gradients_xml(self) -> str:
+        out = []
+        for nm, stops in self.gradients.items():
+            gs = "".join(f'<GradientStop Self="Gradient/{escape(nm)}GradientStop{i}" StopColor="{escape(c)}" '
+                         f'Location="{f(loc)}" Midpoint="50"/>' for i, (c, loc) in enumerate(stops))
+            out.append(f'<Gradient Self="Gradient/{escape(nm)}" Type="Linear" Name="{escape(nm)}" ColorEditable="true" '
+                       f'ColorRemovable="true" Visible="true" SwatchCreatorID="7937">{gs}</Gradient>')
+        return "".join(out)
 
     # ------------------------------------------------------------------ estilos
     def para_style(self, name: str, **a) -> str:
@@ -223,22 +280,27 @@ class IDML:
     def text_frame(self, page: int, x, y, w, h, paras: list[Para], columns: int = 1, gutter: float = 12,
                    valign: str = "TopAlign", autosize: bool = False, name: str | None = None,
                    fill: str | None = None, inset: tuple | None = None, layer: str | None = None,
-                   baseline: float | None = None, rot: int = 0, object_style: str | None = None):
+                   baseline: float | None = None, rot: int = 0, object_style: str | None = None, limpo: bool = False):
         sid = self.uid("st")
         self._add_story(self._story_xml(sid, paras), sid)
         self._frame(page, sid, x, y, w, h, columns, gutter, valign, autosize, name, fill, inset,
-                    layer=layer, baseline=baseline, rot=rot, object_style=object_style)
+                    layer=layer, baseline=baseline, rot=rot, object_style=object_style, limpo=limpo)
         return sid
 
     def _frame(self, page, sid, x, y, w, h, columns=1, gutter=12, valign="TopAlign", autosize=False,
                name=None, fill=None, inset=None, prev="n", nxt="n", fid=None, layer=None, baseline=None,
-               rot=0, object_style=None):
+               rot=0, object_style=None, limpo=False):
         fid = fid or self.uid("tf")
         xf = self._xf(page)
         if rot == 90:   # texto de cima para baixo: a moldura gira 90 graus; (x, y, w, h) é a caixa já girada
             ox, oy = self._off(page)
             xf = f"0 1 -1 0 {f(ox + x + w)} {f(oy + y)}"
             x, y, w, h = 0, 0, h, w
+        if limpo and object_style:   # só o estilo de objeto da casa: espaçamento, linha de base etc. vêm dele
+            a = {"Self": fid, "Name": name, "ItemLayer": self._lid(layer), "ParentStory": sid, "PreviousTextFrame": prev,
+                 "NextTextFrame": nxt, "ContentType": "TextType", "AppliedObjectStyle": object_style, "ItemTransform": xf}
+            self.pages[page].append(f"<TextFrame {attrs(a)}>{self._path(x, y, w, h)}</TextFrame>")
+            return fid
         a = {"Self": fid, "Name": name, "ItemLayer": self._lid(layer), "ParentStory": sid, "PreviousTextFrame": prev, "NextTextFrame": nxt,
              "ContentType": "TextType", "FillColor": fill or NONE, "StrokeColor": NONE, "StrokeWeight": "0",
              "AppliedObjectStyle": object_style or "ObjectStyle/$ID/[None]", "ItemTransform": xf}
@@ -307,13 +369,19 @@ class IDML:
     # ------------------------------------------------------------------ imagens e PDF
     def placed(self, page: int, x, y, w, h, link_uri: str, kind: str, gw: float, gh: float,
                sx: float, sy: float, tx: float, ty: float, radius: float = 0, name: str | None = None,
-               layer: str | None = None):
+               layer: str | None = None, object_style: str | None = None):
         """kind: 'jpg' | 'png' | 'pdf'. (gw, gh) = tamanho do gráfico em pt; (sx,sy,tx,ty) posiciona
         o gráfico dentro da moldura (coordenadas de página)."""
         rid, gid, lid = self.uid(), self.uid("g"), self.uid("l")
-        a = {"Self": rid, "Name": name, "ItemLayer": self._lid(layer), "ContentType": "GraphicType", "StoryTitle": "$ID/", "FillColor": NONE,
-             "StrokeColor": NONE, "StrokeWeight": "0", "AppliedObjectStyle": "ObjectStyle/$ID/[None]",
-             "ItemTransform": self._xf(page), **self._corner(radius)}
+        if object_style:
+            # Estilo de objeto da casa (ex.: "Frame Box de foto 2026"): cantos, preenchimento e contorno vêm
+            # do estilo. Nada disso é gravado localmente, para a moldura não sair com "+" (substituição).
+            a = {"Self": rid, "Name": name, "ItemLayer": self._lid(layer), "ContentType": "GraphicType", "StoryTitle": "$ID/",
+                 "AppliedObjectStyle": object_style, "ItemTransform": self._xf(page)}
+        else:
+            a = {"Self": rid, "Name": name, "ItemLayer": self._lid(layer), "ContentType": "GraphicType", "StoryTitle": "$ID/", "FillColor": NONE,
+                 "StrokeColor": NONE, "StrokeWeight": "0", "AppliedObjectStyle": "ObjectStyle/$ID/[None]",
+                 "ItemTransform": self._xf(page), **self._corner(radius)}
         fmt = {"jpg": "$ID/JPEG", "png": "$ID/Portable Network Graphics (PNG)",
                "pdf": "$ID/Adobe Portable Document Format (PDF)"}[kind]
         link = (f'<Link {attrs({"Self": lid, "AssetURL": "$ID/", "AssetID": "$ID/", "LinkResourceURI": link_uri, "LinkResourceFormat": fmt, "StoredState": "Normal", "LinkClassID": 35906, "LinkClientID": 257, "LinkResourceModified": "false", "LinkObjectModified": "false", "ShowInUI": "true", "CanEmbed": "true", "CanUnembed": "true", "CanPackage": "true", "ImportPolicy": "NoAutoImport", "ExportPolicy": "NoAutoExport"})}/>')
@@ -335,9 +403,9 @@ class IDML:
             '<Color Self="Color/Paper" Model="Process" Space="CMYK" ColorValue="0 0 0 0" ColorOverride="Specialpaper" AlternateSpace="NoAlternateColor" AlternateColorValue="" Name="Paper" ColorEditable="true" ColorRemovable="false" Visible="true" SwatchCreatorID="7937"/>'
             '<Color Self="Color/Registration" Model="Registration" Space="CMYK" ColorValue="100 100 100 100" ColorOverride="Specialregistration" AlternateSpace="NoAlternateColor" AlternateColorValue="" Name="Registration" ColorEditable="false" ColorRemovable="false" Visible="true" SwatchCreatorID="7937"/>')
         cols = "".join(
-            f'<Color {attrs({"Self": f"Color/{n}", "Model": "Process", "Space": "RGB", "ColorValue": f"{r} {g} {b}", "ColorOverride": "Normal", "AlternateSpace": "NoAlternateColor", "AlternateColorValue": "", "Name": n, "ColorEditable": "true", "ColorRemovable": "true", "Visible": "true", "SwatchCreatorID": "7937"})}/>'
+            self._color_xml(n, (r, g, b))
             for n, (r, g, b) in self.colors.items())
-        return (f'{HDR}<idPkg:Graphic {NS} DOMVersion="{DOM}">{base}{cols}'
+        return (f'{HDR}<idPkg:Graphic {NS} DOMVersion="{DOM}">{base}{cols}{self._gradients_xml()}'
                 '<Swatch Self="Swatch/None" Name="None" ColorEditable="false" ColorRemovable="false" Visible="true" SwatchCreatorID="7937"/>'
                 '<StrokeStyle Self="StrokeStyle/$ID/Solid" Name="$ID/Solid"/>'
                 '</idPkg:Graphic>')
@@ -592,6 +660,7 @@ class IDML:
 
         # --- estilos e cores do capítulo ao lado dos da casa
         st = txt("Resources/Styles.xml")
+        st = ajustar_estilos_casa(st)
         existentes = set(re.findall(r'Self="((?:Paragraph|Character)Style/[^"]+)"', st))
         ps = "".join(self._style_el("ParagraphStyle", n, a) for n, a in self.para_styles.items()
                      if f"ParagraphStyle/{n}" not in existentes)
@@ -602,9 +671,17 @@ class IDML:
         files["Resources/Styles.xml"] = st.encode("utf-8")
         gr = txt("Resources/Graphic.xml")
         cores = "".join(
-            f'<Color {attrs({"Self": f"Color/{n}", "Model": "Process", "Space": "RGB", "ColorValue": f"{r} {g} {b}", "ColorOverride": "Normal", "AlternateSpace": "NoAlternateColor", "AlternateColorValue": "", "Name": n, "ColorEditable": "true", "ColorRemovable": "true", "Visible": "true", "SwatchCreatorID": "7937"})}/>'
+            self._color_xml(n, (r, g, b))
             for n, (r, g, b) in self.colors.items() if f'Self="Color/{n}"' not in gr)
-        files["Resources/Graphic.xml"] = gr.replace("</idPkg:Graphic>", cores + "</idPkg:Graphic>", 1).encode("utf-8")
+        degr = "".join(g for g in re.findall(r"<Gradient .*?</Gradient>", self._gradients_xml())
+                       if re.search(r'Self="([^"]+)"', g).group(1) not in gr)
+        # amostras de cor antes dos degradês, que as usam; tudo antes do primeiro Swatch/StrokeStyle da base
+        i_ss = gr.find("<StrokeStyle ")
+        if degr and i_ss > 0:   # ordem do esquema do IDML: cores e degradês antes dos estilos de traço
+            gr = gr[:i_ss] + cores + degr + gr[i_ss:]
+        else:
+            gr = gr.replace("</idPkg:Graphic>", cores + degr + "</idPkg:Graphic>", 1)
+        files["Resources/Graphic.xml"] = gr.encode("utf-8")
 
         # --- espelhos do capítulo
         spread_refs, n_pag, pid_primeira = [], len(self.pages), None

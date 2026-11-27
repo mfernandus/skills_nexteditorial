@@ -29,11 +29,15 @@ import sys
 import unicodedata
 from pathlib import Path
 
+ESTILO_OBJETO_FOTO = "ObjectStyle/Frame Box de foto 2026"   # estilo de objeto das fotos na base V5
+
 from PIL import Image
 from playwright.sync_api import sync_playwright
 
 sys.path.insert(0, str(Path(__file__).parent))
 from idml import IDML, Para, Run, safe_name  # noqa: E402
+from svg_vetor import JS_MEDIR, desenhar_svg  # noqa: E402
+from casa import CAP, OBJ, PAR, Casa  # noqa: E402
 
 W_PT, H_PT = 581.1024, 779.5276          # 205 x 275 mm
 CHROME = next((c for c in ("/usr/bin/google-chrome", "/usr/bin/chromium", "/usr/bin/chromium-browser",
@@ -57,14 +61,15 @@ SWATCHES = {
     (217, 238, 252): "Prova Aspa verificada", (255, 227, 191): "Prova Aspa montada",
     (255, 227, 239): "Prova Buscar original", (224, 122, 0): "Prova Laranja",
 }
-# Base da Retrospectiva (MATÉRIA 1 - RETROSPECTIVA 2026 - ESB V5, enviada pelo Mário em 21/11/2026): o pacote nasce
+# Base da Retrospectiva V6 (a V5, MATÉRIA 1 - RETROSPECTIVA 2026 - ESB V5, de 21/11/2026, com os estilos, as cores e
+# as fontes do "GRAFICOS E TABELAS 1 - RETROSPECTIVA 2026 - ESB V1", de 26/11/2026): o pacote nasce
 # com os estilos, as cores, as preferências e as páginas-mestre da casa. As mestres da V5 já trazem o fundo da
 # Retrospectiva, a retranca "retrospectiva 2026", o selo, o logo da ES Brasil, as abas de cor e o paginador; o
 # exportador copia a "A-Master" inteira e troca a retranca da página direita pela editoria.
 # Papéis do HTML que usam os estilos da base pelo nome:
 _ASSETS = Path(__file__).resolve().parent.parent / "assets"
-BASE_PADRAO = _ASSETS / "base-retrospectiva-2026-v5.idml"
-_B64 = _ASSETS / "base-retrospectiva-2026-v5.idml.b64.txt"   # o artefato do kit não serve .idml: a base vai em base64
+BASE_PADRAO = _ASSETS / "base-retrospectiva-2026-v6.idml"
+_B64 = _ASSETS / "base-retrospectiva-2026-v6.idml.b64.txt"   # o artefato do kit não serve .idml: a base vai em base64
 if not BASE_PADRAO.exists() and _B64.exists():
     BASE_PADRAO.write_bytes(base64.b64decode(_B64.read_text(encoding="ascii")))
 CASA_ESTILOS = {
@@ -75,6 +80,26 @@ CASA_ESTILOS = {
     "Legenda sobre foto": "Legenda dentro foto 2026",
     "Crédito da foto": "Créditos 2026",
 }
+# estilos de objeto da casa para legendas e créditos de foto (base V6, 26/11/2026)
+OBJ_FOTO = {"Legenda": "ObjectStyle/Frame Legenda fora da foto 2026",
+            "Legenda sobre foto": "ObjectStyle/Frame Legenda dentro foto 2026",
+            "Crédito da foto": "ObjectStyle/Frame Créditos 2026"}
+MM = 72 / 25.4
+# Papéis do HTML que, no pacote da revista, usam só os estilos de parágrafo da casa (26/11/2026: o .idml é para
+# impressão; títulos em Inter, texto de box e números em Roboto Condensed, variando só o corpo). Nada de estilo
+# "Retro 2026 - ..." gerado.
+CASA_PAPEIS = {
+    "Box · título": "Título de box 2026", "Box · subtítulo": "Texto de box 2026", "Box · etiqueta": "Texto de box 2026",
+    "Box · número": "Texto de tabela e gráficos destaque grande azul 2026", "Box · texto": "Texto de box destaque 2026",
+    "Box · QR Code": "Texto de box 2026", "Box · fontes": "Créditos 2026", "Box · aspa": "Texto de box 2026",
+    "QR Code": "Texto de box 2026",
+    "Linha do tempo · título": "Título de box 2026", "Linha do tempo · escopo": "Texto de box 2026",
+    "Linha do tempo · mês": "Texto topo de tabela 2026", "Linha do tempo · marco": "Texto de tabela primeira coluna 2026",
+    "Linha do tempo · detalhe": "Texto de box 2026", "Linha do tempo · fontes": "Créditos 2026",
+    "Gráfico · título": "Título de box 2026", "Tabela · título": "Título de box 2026",
+    "Gráfico · subtítulo": "Texto de box 2026", "Gráfico · fonte": "Créditos 2026",
+    "Gráfico · número": "Texto de tabela e gráficos destaque azul 2026", "Gráfico · rótulo": "Texto de tabela normal 2026",
+}
 CASA_DERIVADOS = {}   # a V5 já traz título branco, intertítulo em caixa alta e baixa e legendas em Roboto Condensed
 CASA_CORES = {   # cores do HTML -> amostras CMYK da casa
     (0, 66, 123): "Color/Azul ES Brasil 2026", (15, 45, 92): "Color/Azul ES Brasil 2026",
@@ -83,6 +108,17 @@ CASA_CORES = {   # cores do HTML -> amostras CMYK da casa
     (26, 26, 26): "Color/Preto 90%25", (22, 28, 36): "Color/Preto 90%25", (27, 36, 48): "Color/Preto 90%25",
     (204, 204, 204): "Color/Preto 20%25", (255, 255, 255): "Color/Paper", (0, 0, 0): "Color/Black",
     (24, 166, 230): "Color/C=70 M=20 Y=0 K=0", (221, 225, 230): "Color/Preto 10%25",
+    # cores do NXtab e da prova -> amostras CMYK da paleta da casa (26/11/2026: o .idml é para impressão)
+    (57, 53, 54): "Color/Preto 90%25", (35, 31, 32): "Color/Preto 90%25", (61, 61, 61): "Color/Preto 80%25",
+    (189, 189, 189): "Color/Preto 30%25", (242, 242, 242): "Color/Preto 10%25", (231, 234, 238): "Color/Preto 10%25",
+    (0, 173, 239): "Color/C=100 M=0 Y=0 K=0", (82, 165, 224): "Color/C=70 M=20 Y=0 K=0",
+    (23, 102, 197): "Color/C=100 M=60 Y=0 K=0", (14, 52, 98): "Color/Destinos Navy 2026",
+    (234, 248, 254): "Color/NX Fundo 2026", (157, 216, 243): "Color/ESB Azul Pastel 2026",
+    (217, 243, 253): "Color/C=10 M=0 Y=0 K=0", (204, 239, 252): "Color/C=20 M=0 Y=0 K=0",
+    (211, 233, 247): "Color/C=10 M=0 Y=0 K=0", (162, 210, 255): "Color/ESB Azul Pastel 2026",
+    (161, 21, 237): "Color/ESB Roxo 2026", (94, 107, 124): "Color/NX Cinza 2026", (62, 74, 90): "Color/Preto 80%25",
+    (15, 122, 63): "Color/Verde Escuro ESG", (192, 24, 47): "Color/NX Vermelho 600 2026",
+    (122, 11, 58): "Color/NX Vermelho 800 2026",
 }
 PESOS = {100: "Thin", 200: "ExtraLight", 300: "Light", 400: "Regular", 500: "Medium", 600: "SemiBold",
          700: "Bold", 800: "ExtraBold", 900: "Black"}
@@ -106,10 +142,13 @@ def parse_color(c: str):
 class Exportador:
     def __init__(self, data: dict, out: Path, nome: str, pdf_page=None, base: Path | None = None):
         self.d, self.out, self.nome, self.pdf_page, self.base = data, out, nome, pdf_page, base
+        self.vetor = True     # peças do NXtab como objetos nativos do InDesign (--graficos-vinculados desliga)
+        self.casa = Casa(base) if base else None   # medidas dos estilos da base (espaçamentos e corpos)
         self.K = W_PT / data["width"]
         if base:
             primeira = (data["pages"][0].get("lado") if data.get("pages") else None) or "esq"
             self.doc = IDML(W_PT, H_PT, facing=True, primeira=primeira)
+            self.doc.cmyk = True      # pacote para impressão: nenhuma amostra RGB (26/11/2026)
             import zipfile
             dm = zipfile.ZipFile(base).read("designmap.xml").decode("utf-8")
             camadas = dict((n, s) for s, n in re.findall(r'<Layer Self="([^"]+)" Name="([^"]+)"', dm))
@@ -135,6 +174,10 @@ class Exportador:
             return None, 1.0
         if self.base and rgb in CASA_CORES:
             return CASA_CORES[rgb], a
+        if self.casa:     # impresso: a amostra CMYK mais próxima da paleta da casa; se nenhuma servir, uma CMYK nova
+            am = self.casa.amostra(rgb)
+            if am:
+                return am, a
         return self.doc.color(rgb, SWATCHES.get(rgb)), a
 
     def fonte(self, family: str, weight: int, italic: bool):
@@ -151,6 +194,43 @@ class Exportador:
             return "Roboto Condensed", st
         self.fontes_usadas.add(st)
         return "Inter", st
+
+    def moldura_de_foto(self, doc, pg, it, papel, paras, x, y, w, h, fotos, lay):
+        """Legenda e crédito de foto com o estilo de objeto da casa (26/11/2026): a moldura leva só o estilo, e o
+        espaçamento até a foto é o Inset Spacing do estilo. Legenda logo abaixo da foto encosta na borda de baixo
+        dela; crédito vertical encosta na lateral da foto."""
+        cs, obj = self.casa, OBJ_FOTO[papel]
+        t_in, l_in, b_in, r_in = cs.inset(obj)
+        p = cs.par("ParagraphStyle/" + CASA_ESTILOS[papel])
+        texto = " ".join("".join(r.text for r in pa.runs) for pa in paras)
+        tol = 8 * MM
+        if it.get("rot") == 90:
+            # crédito vertical, de cima para baixo: a borda de baixo da moldura (já girada) encosta na foto
+            esp = t_in + p["cap"] + b_in
+            foto = next((fo for fo in fotos if abs(x - fo[2]) < tol and fo[1] - tol <= y <= fo[3]), None)
+            fx = foto[2] if foto else x
+            fy = foto[1] if foto and y - foto[1] < tol else y
+            comp = max(h, cs.largura(texto, "ParagraphStyle/" + CASA_ESTILOS[papel]) + 4)
+            doc.text_frame(pg, fx, fy, esp, comp, paras, name=papel.replace("·", "-"), layer=lay, rot=90,
+                           object_style=obj, limpo=True)
+            return
+        base0 = it["paras"][0]["base0"] * self.K
+        fy = base0 - p["cap"] - t_in
+        fx, fw = x - l_in, w + l_in + r_in + 2
+        if papel == "Legenda":
+            foto = next((fo for fo in fotos if 0 <= fy - fo[3] < tol and fo[0] - tol <= x <= fo[2]), None)
+            if foto:
+                fy = foto[3]
+        linhas = cs.linhas(texto, obj, "ParagraphStyle/" + CASA_ESTILOS[papel], fw)
+        fh = cs.altura(obj, "ParagraphStyle/" + CASA_ESTILOS[papel], linhas) + 1
+        doc.text_frame(pg, fx, fy, fw, fh, paras, name=papel.replace("·", "-"), layer=lay, object_style=obj, limpo=True)
+
+    def fonte_grafico(self, family: str, weight: int, italic: bool):
+        """Fonte dos textos das peças do NXtab: Arial Narrow na linha de apoio; o resto como no capítulo."""
+        if family.lower().startswith("arial narrow"):
+            st = "Bold" if (weight or 400) >= 600 else "Regular"
+            return "Arial Narrow", (st + " Italic" if italic else st)
+        return self.fonte(family, weight, italic)
 
     def run_attrs(self, r: dict) -> dict:
         font, style = self.fonte(r["family"], r["weight"], r["italic"])
@@ -192,6 +272,26 @@ class Exportador:
             out.append(Para(rr, estilo))
         return out
 
+    def para_casa(self, p: dict, runs: list[dict], estilo: str) -> Para:
+        """Parágrafo só com o estilo da casa, no corpo do estilo (sem variação de tamanho); por trecho, só o branco
+        quando o texto vai sobre fundo escuro. O alinhamento da prova entra no parágrafo quando difere do estilo."""
+        sd = self.casa.par("ParagraphStyle/" + estilo)
+        rr = []
+        for r in runs:
+            ra = self.run_attrs(r)
+            cs = None
+            if "tbd" in (r.get("cls") or ""):
+                self.doc.char_style("Prova - pendência", FillColor=self.cor("rgb(224,30,112)")[0])
+                cs = "Prova - pendência"
+            branco = ra["FillColor"] == "Color/Paper"
+            rr.append(Run(r["text"], char_style=cs,      # corpo do estilo, sem variação (Mário Fernando, 26/11/2026)
+                          color="Color/Paper" if branco and not cs else None))
+        ov = {}
+        just = {"center": "CenterAlign", "right": "RightAlign", "end": "RightAlign", "justify": "LeftJustified"}.get(p.get("align"), "LeftAlign")
+        if just != sd["just"]:
+            ov["Justification"] = just
+        return Para(rr, estilo, ov)
+
     def converter_paras(self, paras: list[dict], role_override: str | None = None) -> tuple[list[Para], float | None]:
         out: list[Para] = []
         prev_base = None
@@ -202,6 +302,10 @@ class Exportador:
             first = next((r for r in runs if r["text"].strip()), runs[0])
             base = self.run_attrs(first)
             papel = role_override or p["role"]
+            if self.casa and papel in CASA_PAPEIS and self.casa.tem("ParagraphStyle/" + CASA_PAPEIS[papel]):
+                out.append(self.para_casa(p, runs, CASA_PAPEIS[papel]))
+                prev_base = p["base1"]
+                continue
             nome = self.estilo(("Retro 2026 - " + papel) if self.base else papel, base, p)
             sd = self.style_defs[nome]
             lead = round(p["lh"] * self.K, 2) if p.get("lh") else None
@@ -303,6 +407,8 @@ class Exportador:
             pg = doc.add_page()
             ng = 0
             nfoto = 0
+            fotos_da_pagina = [(f["x"] * self.K, f["y"] * self.K, (f["x"] + f["w"]) * self.K, (f["y"] + f["h"]) * self.K)
+                               for f in page["items"] if f.get("type") == "image" and f.get("inPhoto")]
             for it in page["items"]:
                 t = it["type"]
                 lay = it.get("layer")
@@ -338,6 +444,9 @@ class Exportador:
                     if not paras:
                         continue
                     x, y, w, h = it["x"] * K, it["y"] * K, it["w"] * K, it["h"] * K
+                    if self.casa and papel in OBJ_FOTO and self.casa.tem(OBJ_FOTO[papel]):
+                        self.moldura_de_foto(doc, pg, it, papel, paras, x, y, w, h, fotos_da_pagina, lay)
+                        continue
                     if it.get("rot") == 90:
                         doc.text_frame(pg, x - 1, y, w + 2, h + 6, paras, name=papel.replace("·", "-"), layer=lay, rot=90)
                         continue
@@ -387,8 +496,11 @@ class Exportador:
                         sx, sy = w / gw, h / gh
                     pos = [float(v[:-1]) / 100 if v.endswith("%") else 0.5 for v in (it.get("pos") or "50% 50%").split()[:2]]
                     tx, ty = x + (w - gw * sx) * pos[0], y + (h - gh * sy) * pos[1]
+                    # Fotos do capítulo (inclusive a de abertura) usam o estilo de objeto da base V5,
+                    # "Frame Box de foto 2026" (cantos arredondados), pedido de 26/11/2026.
+                    estilo_foto = ESTILO_OBJETO_FOTO if (self.base and it["inPhoto"] and not is_qr) else None
                     doc.placed(pg, cx, cy, cw, ch, f"file:Links/{fn}", kind, gw, gh, sx, sy, tx, ty,
-                               radius=(it.get("radius") or 0) * K, name=fn, layer=lay)
+                               radius=(it.get("radius") or 0) * K, name=fn, layer=lay, object_style=estilo_foto)
                     if it["inPhoto"]:
                         self.fotos.append({"pagina": pi + 1, "arquivo": fn, "px": f"{it['nw']} x {it['nh']}",
                                            "uso_cm": f"{it['w'] * K / 28.3465:.1f} x {it['h'] * K / 28.3465:.1f}".replace(".", ","),
@@ -397,10 +509,25 @@ class Exportador:
                     ng += 1
                     fn = f"p{pi + 1}-grafico-{ng}-{slug(it['title'], 34)}.pdf"
                     gw, gh = self.render_pdf(it["svg"], fn, it["w"], it["h"])
-                    cx, cy, cw, ch = (it["clip"][k] * K for k in ("x", "y", "w", "h"))
-                    s = K / 0.75
-                    doc.placed(pg, cx, cy, cw, ch, f"file:Links/{fn}", "pdf", gw, gh, s, s, it["x"] * K, it["y"] * K,
-                               name=fn, layer=lay)
+                    feito = None
+                    if self.vetor:
+                        # Peça do NXtab em objetos nativos do InDesign (26/11/2026): caminhos vetoriais, textos
+                        # editáveis e degradês, num grupo só. O PDF e o SVG ficam em Links/ como referência.
+                        try:
+                            larguras = self.pdf_page.evaluate(JS_MEDIR) if self.pdf_page else None
+                            feito = desenhar_svg(doc, pg, it["svg"], it["x"] * K, it["y"] * K, it["w"] * K, it["h"] * K,
+                                                 cor=lambda rgb: self.cor(f"rgb({rgb[0]},{rgb[1]},{rgb[2]})")[0],
+                                                 fonte=self.fonte_grafico, salvar_imagem=self.salvar_link,
+                                                 larguras=larguras, layer=lay, nome=fn[:-4], avisos=self.avisos,
+                                                 casa=self.casa)
+                        except Exception as e:  # noqa: BLE001
+                            self.avisos.append(f"{fn}: não consegui converter em vetores do InDesign "
+                                               f"({e.__class__.__name__}: {e}); a peça foi vinculada como PDF.")
+                    if not feito:
+                        cx, cy, cw, ch = (it["clip"][k] * K for k in ("x", "y", "w", "h"))
+                        s = K / 0.75
+                        doc.placed(pg, cx, cy, cw, ch, f"file:Links/{fn}", "pdf", gw, gh, s, s, it["x"] * K, it["y"] * K,
+                                   name=fn, layer=lay)
                 elif t == "table":
                     self.tabela(pg, it)
         self.historia(flows)
@@ -730,9 +857,11 @@ def main():
     ap.add_argument("html")
     ap.add_argument("saida")
     ap.add_argument("--nome", default=None)
-    ap.add_argument("--base", default=None, help="IDML-base da revista (padrão: assets/base-retrospectiva-2026-v5.idml)")
+    ap.add_argument("--base", default=None, help="IDML-base da revista (padrão: assets/base-retrospectiva-2026-v6.idml)")
     ap.add_argument("--sem-base", action="store_true", help="gera o IDML do zero, sem a base da revista")
     ap.add_argument("--pagina", type=int, default=None, help="número da primeira página no espelho do NX Pages")
+    ap.add_argument("--graficos-vinculados", action="store_true",
+                    help="vincula as peças do NXtab como PDF, em vez de convertê-las em objetos nativos do InDesign")
     a = ap.parse_args()
     base = None if a.sem_base else (Path(a.base) if a.base else (BASE_PADRAO if BASE_PADRAO.exists() else None))
     html = Path(a.html).resolve()
@@ -762,6 +891,7 @@ def main():
         for sub in ("Links", "Referencia", "Textos") if base else ("Links", "Document fonts", "Referencia", "Textos"):
             (out / sub).mkdir(parents=True, exist_ok=True)
         exp = Exportador(data, out, nome, pdf_page=ctx.new_page(), base=base)
+        exp.vetor = not a.graficos_vinculados
         exp.construir()
         exp.salvar(a.pagina)
         br.close()
