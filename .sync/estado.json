@@ -246,6 +246,14 @@
     "sha": "0e58c5652f6f0c5598e73ec6ba39292cc60f0f91850bbf63245295eeb171487e",
     "updatedAt": "2026-11-17T10:09:39.473773Z"
   },
+  "modelo-revista-procidade": {
+    "arquivos": [
+      "SKILL.md"
+    ],
+    "pasta": "01 Editorial/03 Dados e especiais/modelo-revista-procidade",
+    "sha": "60df689f369e3631f8359d9cc537a703f59cd97aa0f30237986751857aba0729",
+    "updatedAt": "2026-11-27T15:59:58.704532Z"
+  },
   "monitor-audiencia-next": {
     "arquivos": [
       "SKILL.md"

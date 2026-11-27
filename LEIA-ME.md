@@ -45,6 +45,7 @@ Esta pasta é cópia de consulta e backup: editar um arquivo aqui não altera a 
 - **datafe-manchetes-semana** — Rotina de toda segunda (5h36) que troca as 4 a 6 manchetes de números que giram no topo da home do Datafé, a partir das matérias do Datafé publicadas na Comunhão, com números reconsultados no banco.
 - **artigos-retrospectiva-2026** — Diagrama artigo assinado da Retrospectiva 2026 da **revista ES Brasil** no modelo do artigo do Sidemar Acosta: pergunta a página, trata a foto, gera o QR, encaixa o texto e entrega PDF e InDesign.
 - **revista-por-modelo-next** — Cria revistas e cadernos (Prócidade, **ES Brasil**, Destinos ES, Comunhão) copiando a diagramação de uma edição-modelo em PDF, com boneca e versão para gráfica.
+- **modelo-revista-procidade** — Modelo Revista ProCidade: cria revistas (Prócidade e outras marcas da Next) copiando a diagramação de uma edição-modelo em PDF, com boneca e versão para gráfica.
 
 ## 01 Editorial / 04 Pesquisa e apuração
 
