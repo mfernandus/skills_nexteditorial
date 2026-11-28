@@ -101,7 +101,8 @@ class Casa:
     def __init__(self, base: Path):
         with zipfile.ZipFile(base) as z:
             st = z.read("Resources/Styles.xml").decode("utf-8")
-        self._st = st
+        from idml import ajustar_estilos_casa   # os ajustes da casa valem também para as medidas lidas aqui
+        self._st = ajustar_estilos_casa(st)
         self._ins: dict[str, tuple] = {}
         self._par: dict[str, dict] = {}
         with zipfile.ZipFile(base) as z:

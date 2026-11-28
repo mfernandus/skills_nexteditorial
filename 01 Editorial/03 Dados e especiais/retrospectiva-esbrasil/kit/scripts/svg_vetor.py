@@ -37,6 +37,7 @@ HERDADOS = ("fill", "stroke", "stroke-width", "stroke-linecap", "stroke-linejoin
 CORES_NOMEADAS = {"black": (0, 0, 0), "white": (255, 255, 255), "red": (255, 0, 0), "green": (0, 128, 0),
                   "blue": (0, 0, 255), "gray": (128, 128, 128), "grey": (128, 128, 128)}
 
+MARCADOR_MM = 1.3        # marcador quadrado dos tópicos (c-lista), em mm na página (28/11/2026)
 ABA_MM = (20.0, 1.0)     # barrinha de cor do topo de toda peça, em mm na página
 MM = 72 / 25.4            # pontos por milímetro
 
@@ -312,6 +313,7 @@ class Conversor:
         tipo = "GraphicLine" if linha_simples else "Polygon"
         self.itens.append({"k": "forma", "xml": f"<{tipo} {attrs(a)}>{self._geometria(subs)}{self._transparencia(o)}</{tipo}>",
                            "bbox": bbox, "tag": tag, "fill": fill, "gf": gf, "rgb": _rgb(fill_v), "stroke": stroke,
+                           "srgb": _rgb(stroke_v), "sw": sw,
                            "aba": bool(aba), "vertical": linha_simples and abs(bbox[2] - bbox[0]) < 0.6,
                            "horizontal": linha_simples and abs(bbox[3] - bbox[1]) < 0.6})
 
@@ -591,7 +593,14 @@ class Conversor:
         # --- tabela do NXtab -> tabela do InDesign
         tabela = self._tabela(corpo_f, corpo_t, L, W)
         miolo = []
-        if tabela:
+        lista = None if tabela else self._lista(corpo_f, corpo_t, L, W, topo_corpo)
+        if lista:
+            # tópicos (c-lista): um parágrafo por tópico, numa moldura só, empilhadas (28/11/2026)
+            miolo, fim_corpo, usados = lista
+            corpo_f = [x for x in corpo_f if id(x) not in usados]
+            corpo_t = [x for x in corpo_t if id(x) not in usados]
+            dy = 0.0
+        elif tabela:
             xml_tab, h_tab, usados = tabela
             corpo_f = [x for x in corpo_f if id(x) not in usados]
             corpo_t = [x for x in corpo_t if id(x) not in usados]
@@ -606,7 +615,9 @@ class Conversor:
                 fim_corpo = max(fim_corpo, x["bbox"][3] + dy + b_in)
             for r in corpo_t:
                 fim_corpo = max(fim_corpo, r["py"] + 0.22 * r["size"] + dy + b_in)
-        else:
+        if lista:
+            pass
+        elif not tabela:
             tops = [x["bbox"][1] for x in corpo_f] + [self._topo_texto(r) for r in corpo_t]
             bots = [x["bbox"][3] for x in corpo_f] + [r["py"] + 0.22 * r["size"] for r in corpo_t]
             if not tops:
@@ -617,6 +628,8 @@ class Conversor:
         if W < 62 * MM_CASA and len(corpo_t) > 10:
             self.avisos.append(f"{self.nome}: peça com {len(corpo_t)} rótulos e números numa coluna só; com o corpo da "
                                "casa ela fica apertada. Prefira a vaga dupla (duas colunas).")
+        # --- textos de mais de uma linha (o NXtab escreve cada linha num <text>): um parágrafo só (28/11/2026)
+        corpo_t = self._juntar_linhas(corpo_t)
         # --- números e rótulos do gráfico
         tam_num = sorted(r["size"] for r in corpo_t if self.NUM.match(r["texto"].strip()) and self._tom(r["rgb"])
                          and r["size"] <= 16)
@@ -624,11 +637,13 @@ class Conversor:
         for rec in corpo_t:
             miolo.append(self._texto_corpo(rec, dy, mediana))
         for x in corpo_f:
-            miolo.append(x["xml"].replace("@@XF@@", self._xf(dy)))
+            miolo.append(self._forma_casa(x).replace("@@XF@@", self._xf(dy)))
         # --- box com o estilo da casa, do topo até o fim do miolo
         box_h = fim_corpo - T
         a = {"Self": self.doc.uid("v"), "Name": "Box", "ItemLayer": self.doc._lid(self.layer), "ContentType": "Unassigned",
-             "AppliedObjectStyle": OBJ["box"], "ItemTransform": self._xf(), "FillColor": card["fill"]}
+             "AppliedObjectStyle": OBJ["box"], "ItemTransform": self._xf(),
+             "FillColor": "Color/Preto 10%25" if cs.tem("Color/Preto 10%25") else card["fill"]}
+        card = {**card, "gf": None}      # box em Preto 10% chapado, como na base V2 (28/11/2026)
         if card["gf"]:
             gx0, gy0 = (float(v) for v in card["gf"]["start"].split())
             esc = box_h / max(B - T, 1)
@@ -659,6 +674,167 @@ class Conversor:
             self.avisos.append(f"{self.nome}: no padrão da casa a peça ficou {abs(dif):.1f} mm "
                                f"{'mais alta' if dif > 0 else 'mais baixa'} que na prova; confira o texto em volta.")
         return saida
+
+    NUM_TOPICO = re.compile(r"(?<![\w])[+\-−]?(?:US\$\s?|R\$\s?)?\d[\d.,]*(?:\s?%|\s(?:mil|milhões?|bilhões?)\b)?(?![\dºª])")
+
+    def _lista(self, formas, textos, L, W, topo):
+        """Tópicos com marcador quadrado (modelo c-lista do NXtab), no padrão da base V2 (28/11/2026): cada tópico
+        é um parágrafo só, em "Frame texto de box 2026" com "Texto de box 2026"; o marcador de 1,3 x 1,3 mm vai
+        ancorado no começo do texto (em linha, deslocamento de linha de base de 1,5 pt), seguido de espaço e
+        "Recuo até aqui"; os números do tópico em "ESB Rosa 2026", Black, 11 pt, tracking -25. Molduras empilhadas,
+        cada uma encostada na de cima. Devolve (xml do miolo, fim do miolo, ids usados) ou None."""
+        cs = self.casa
+        marc = sorted([x for x in formas if x["k"] == "forma" and x["tag"] in ("rect", "path") and x["fill"]
+                       and 4 <= x["bbox"][2] - x["bbox"][0] <= 12 and abs((x["bbox"][2] - x["bbox"][0]) - (x["bbox"][3] - x["bbox"][1])) < 1.5],
+                      key=lambda x: x["bbox"][1])
+        if len(marc) < 2 or len({round(m["bbox"][0]) for m in marc}) > 1:
+            return None
+        xm = marc[0]["bbox"][2]
+        linhas = sorted([r for r in textos if r["px"] > xm and r["just"] == "LeftAlign"], key=lambda r: r["py"])
+        if not linhas:
+            return None
+        topicos = [[] for _ in marc]
+        for r in linhas:
+            i = max((k for k, m in enumerate(marc) if m["bbox"][1] - r["size"] <= r["py"]), default=None)
+            if i is None:
+                return None
+            topicos[i].append(r)
+        if any(not t for t in topicos):
+            return None
+        ps, obj = PAR["texto"], OBJ["texto"]
+        t_in, l_in, b_in, r_in = cs.inset(obj)
+        rosa = next((c for c in ("Color/ESB Rosa 2026", "Color/Destinos Rosa 2026") if cs.tem(c)), None)
+        lado = MARCADOR_MM * MM_CASA
+        x = marc[0]["bbox"][0] - l_in
+        w = L + W - x
+        y = topo
+        saida, usados = [], {id(m) for m in marc} | {id(r) for r in linhas}
+        nada = "CharacterStyle/$ID/[No character style]"
+        for m, t in zip(marc, topicos):
+            texto = re.sub(r"\s+", " ", " ".join(r["texto"] for r in t)).strip()
+            pa = {"Self": self.doc.uid("v"), "ContentType": "Unassigned", "FillColor": m["fill"], "StrokeColor": NONE,
+                  "StrokeWeight": "0", "AppliedObjectStyle": "ObjectStyle/$ID/[None]", "ItemTransform": "1 0 0 1 0 0"}
+            pts = "".join(f'<PathPointType Anchor="{f(a)} {f(b)}" LeftDirection="{f(a)} {f(b)}" RightDirection="{f(a)} {f(b)}"/>'
+                          for a, b in ((0, -lado), (lado, -lado), (lado, 0), (0, 0)))
+            marcador = (f'<Polygon {attrs(pa)}><Properties><PathGeometry><GeometryPathType PathOpen="false"><PathPointArray>'
+                        f'{pts}</PathPointArray></GeometryPathType></PathGeometry></Properties></Polygon>')
+            xml = (f'<CharacterStyleRange AppliedCharacterStyle="{nada}" BaselineShift="1.5">{marcador}</CharacterStyleRange>'
+                   f'<CharacterStyleRange AppliedCharacterStyle="{nada}"><Content> <?ACE 7?></Content></CharacterStyleRange>')
+            pos = 0
+            for mt in self.NUM_TOPICO.finditer(texto):
+                if mt.start() > pos:
+                    xml += f'<CharacterStyleRange AppliedCharacterStyle="{nada}"><Content>{escape(texto[pos:mt.start()])}</Content></CharacterStyleRange>'
+                da = {"AppliedCharacterStyle": nada, "FontStyle": "Black", "PointSize": "11", "Tracking": "-25"}
+                if rosa:
+                    da["FillColor"] = rosa
+                xml += f'<CharacterStyleRange {attrs(da)}><Content>{escape(mt.group(0))}</Content></CharacterStyleRange>'
+                pos = mt.end()
+            if pos < len(texto):
+                xml += f'<CharacterStyleRange AppliedCharacterStyle="{nada}"><Content>{escape(texto[pos:])}</Content></CharacterStyleRange>'
+            sid = self.doc.uid("st")
+            self.doc._add_story(self.doc._wrap_story(sid, f'<ParagraphStyleRange AppliedParagraphStyle="{ps}">{xml}</ParagraphStyleRange>'), sid)
+            # largura útil menor pelo marcador, pelo espaço e pelos números em Black 11 pt
+            n = cs.linhas("■ " + texto, obj, ps, w - 4)
+            h = cs.altura(obj, ps, n)
+            saida.append(self._moldura_casa(sid, obj, x, y, w, h, texto))
+            y += h
+        return saida, y, usados
+
+    def _arranjo_esn(self, escala):
+        """Box "Quer saber mais sobre os números do [editoria]?" do ES em Números (28/11/2026): fica no desenho
+        oficial, sem o arranjo das peças do NXtab. Faixa navy de cima, filete rosa e faixa de baixo em retângulos com
+        os cantos externos arredondados; a pergunta numa moldura só, com as quebras de linha do desenho, centrada na
+        faixa de cima; a marca à direita; o endereço centrado na faixa de baixo."""
+        rects = sorted([x for x in self.itens if x["k"] == "forma" and x["fill"]], key=lambda x: x["bbox"][1])
+        textos = [x for x in self.itens if x["k"] == "texto"]
+        imgs = [x for x in self.itens if x["k"] == "imagem"]
+        if len(rects) < 3 or not textos:
+            return None
+        topo, filete, base = rects[0], rects[1], rects[-1]
+        L = min(r["bbox"][0] for r in rects)
+        R = max(r["bbox"][2] for r in rects)
+        raio = 13 * escala
+        saida = []
+        for r, cantos in ((topo, ("TopLeft", "TopRight")), (filete, ()), (base, ("BottomLeft", "BottomRight"))):
+            x0, y0, x1, y1 = r["bbox"]
+            a = {"Self": self.doc.uid("v"), "Name": {id(topo): "Faixa de cima", id(base): "Faixa de baixo"}.get(id(r), "Filete"),
+                 "ItemLayer": self.doc._lid(self.layer), "ContentType": "Unassigned", "FillColor": r["fill"],
+                 "StrokeColor": NONE, "StrokeWeight": "0", "AppliedObjectStyle": "ObjectStyle/$ID/[None]",
+                 "ItemTransform": self._xf()}
+            for c in cantos:
+                a[f"{c}CornerOption"] = "RoundedCorner"
+                a[f"{c}CornerRadius"] = f(raio)
+            saida.append(f'<Rectangle {attrs(a)}>{self.doc._path(L, y0, R - L, y1 - y0)}</Rectangle>')
+        for im in imgs:
+            saida.append(im["xml"].replace("@@XF@@", self._xf()))
+        ps = PAR["titulo"] if self.casa and self.casa.tem(PAR["titulo"]) else "ParagraphStyle/$ID/NormalParagraphStyle"
+        lim = filete["bbox"][1]
+        perg = sorted([t for t in textos if t["py"] < lim], key=lambda t: t["py"])
+        end = [t for t in textos if t["py"] > lim]
+        logo_x = min([im["bbox"][0] for im in imgs] or [R])
+
+        def moldura(texto, rec, x, y, w, h, just, nome, lead=None):
+            ca = {"AppliedCharacterStyle": "CharacterStyle/$ID/[No character style]", "PointSize": f(rec["size"]),
+                  "FillColor": "Color/Paper", "FontStyle": rec["est0"], "Tracking": f(rec["trk0"])}
+            if lead:
+                ca["Leading"] = f(lead)
+            props = "" if rec["fam0"] == "Inter" else f'<Properties><AppliedFont type="string">{escape(rec["fam0"])}</AppliedFont></Properties>'
+            sid = self.doc.uid("st")
+            inner = (f'<ParagraphStyleRange {attrs({"AppliedParagraphStyle": ps, "Justification": just})}>'
+                     f'<CharacterStyleRange {attrs(ca)}>{props}<Content>{escape(texto)}</Content></CharacterStyleRange>'
+                     f'</ParagraphStyleRange>')
+            self.doc._add_story(self.doc._wrap_story(sid, inner), sid)
+            tp = {"TextColumnCount": 1, "FirstBaselineOffset": "CapHeight", "VerticalJustification": "CenterAlign",
+                  "IgnoreWrap": "true"}
+            ins = ('<Properties><InsetSpacing type="list"><ListItem type="unit">0</ListItem><ListItem type="unit">0</ListItem>'
+                   '<ListItem type="unit">0</ListItem><ListItem type="unit">0</ListItem></InsetSpacing></Properties>')
+            a = {"Self": self.doc.uid("tf"), "Name": nome, "ItemLayer": self.doc._lid(self.layer), "ParentStory": sid,
+                 "PreviousTextFrame": "n", "NextTextFrame": "n", "ContentType": "TextType", "FillColor": NONE,
+                 "StrokeColor": NONE, "StrokeWeight": "0", "AppliedObjectStyle": "ObjectStyle/$ID/[None]",
+                 "ItemTransform": self._xf()}
+            return (f'<TextFrame {attrs(a)}>{self.doc._path(x, y, w, h)}'
+                    f'<TextFramePreference {attrs(tp)}>{ins}</TextFramePreference></TextFrame>')
+
+        if perg:
+            lead = (perg[-1]["py"] - perg[0]["py"]) / (len(perg) - 1) if len(perg) > 1 else perg[0]["size"] * 1.15
+            texto = "\u2028".join(t["texto"].strip() for t in perg)      # quebra de linha forçada, como no desenho
+            x0 = perg[0]["px"]
+            saida.append(moldura(texto, perg[0], x0, topo["bbox"][1], logo_x - x0 - 4, topo["bbox"][3] - topo["bbox"][1],
+                                 "LeftAlign", "Pergunta", lead))
+        if end:
+            t = end[0]
+            saida.append(moldura(t["texto"].strip(), t, L, base["bbox"][1], R - L, base["bbox"][3] - base["bbox"][1],
+                                 "CenterAlign", "Endereço"))
+        return saida
+
+    def _forma_casa(self, x) -> str:
+        """Forma do gráfico no padrão da base V2 (28/11/2026): barras e colunas em cor chapada (sem degradê),
+        NX Azul 2026 ou Destinos Rosa 2026; filetes, grade e eixos em Preto 50%, 0,5 pt; quadradinho de legenda
+        com 3 x 3 mm."""
+        cs, xml = self.casa, x["xml"]
+        tem = cs.tem
+        if tem("Color/Destinos Rosa 2026"):      # nada de amostra de 2025 nas peças
+            xml = xml.replace('"Color/VermelhoRetro2025"', '"Color/Destinos Rosa 2026"')
+        if x["gf"] or (x["fill"] and self._tom(x["rgb"]) == "azul" and not x["aba"]):
+            if tem("Color/NX Azul 2026"):
+                xml = re.sub(r'FillColor="[^"]*"', 'FillColor="Color/NX Azul 2026"', xml, count=1)
+                xml = re.sub(r'\sGradientFill(Start|Length|Angle)="[^"]*"', "", xml)
+        elif x["fill"] and (self._tom(x["rgb"]) == "rosa" or x["fill"] == "Color/VermelhoRetro2025") and tem("Color/Destinos Rosa 2026"):
+            xml = re.sub(r'FillColor="[^"]*"', 'FillColor="Color/Destinos Rosa 2026"', xml, count=1)
+        cinza = x.get("srgb") and max(x["srgb"]) - min(x["srgb"]) < 12
+        p50 = next((c for c in ("Color/Preto 50%25 ", "Color/Preto 50%25") if tem(c)), None)   # na base, o nome tem espaço no fim
+        if x["stroke"] and not x["fill"] and cinza and p50:
+            xml = re.sub(r'StrokeColor="[^"]*"', f'StrokeColor="{p50}"', xml, count=1)
+            xml = re.sub(r'StrokeWeight="[^"]*"', 'StrokeWeight="0.5"', xml, count=1)
+        b = x["bbox"]
+        lado = b[2] - b[0]
+        if x["fill"] and x["tag"] == "rect" and 4 <= lado <= 12 and abs(lado - (b[3] - b[1])) < 1 and not x["aba"]:
+            n = 3 * MM_CASA          # quadradinho de legenda: 3 x 3 mm, centrado onde estava
+            cx, cy = (b[0] + b[2]) / 2, (b[1] + b[3]) / 2
+            geo = self._geometria([([[(cx - n / 2, cy - n / 2)] * 3, [(cx + n / 2, cy - n / 2)] * 3,
+                                     [(cx + n / 2, cy + n / 2)] * 3, [(cx - n / 2, cy + n / 2)] * 3], False)])
+            xml = re.sub(r"<Properties><PathGeometry>.*?</PathGeometry></Properties>", geo, xml, count=1, flags=re.S)
+        return xml
 
     def _story_casa(self, texto, ps) -> str:
         sid = self.doc.uid("st")
@@ -698,16 +874,55 @@ class Conversor:
             size = p["size"]
             cap = p["cap"]
             larg = cs.largura(txt, ps) + 2
-            sid = self._story_tamanho(rec, ps)
+            multi = len(rec.get("linhas") or []) > 1
+            sid = self._story_tamanho(rec, ps, just=rec["just"] if multi else None)
             centro = {"LeftAlign": rec["px"] + larg / 2, "RightAlign": rec["px"] - larg / 2}.get(rec["just"], rec["px"])
             fw = larg + l_in + r_in
             if p["just"] == "LeftAlign":
                 fx = centro - larg / 2 - l_in
             else:
                 fx = centro - fw / 2
+        linhas = rec.get("linhas")
+        if linhas and len(linhas) > 1:
+            # parágrafo de várias linhas: largura da linha mais longa e a altura das linhas no estilo da casa
+            larg = max(cs.largura(l, ps) for l in linhas) + 3
+            fw = larg + l_in + r_in
+            ancora = {"LeftAlign": rec["px"], "RightAlign": rec["px"] - larg}.get(rec["just"], rec["px"] - larg / 2)
+            fx = ancora - l_in
+            n = max(len(linhas), cs.linhas(txt, obj, ps, fw))
+            fy = rec["py"] - cap - t_in
+            fh = t_in + cap + (n - 1) * p["leading"] + 0.3 * size + b_in
+            return self._moldura_casa(sid, obj, fx, fy, fw, fh, txt, dy)
         fy = rec["py"] - cap - t_in
         fh = t_in + cap + 0.3 * size + b_in
         return self._moldura_casa(sid, obj, fx, fy, fw, fh, txt, dy)
+
+    def _juntar_linhas(self, textos):
+        """Junta, num registro só, as linhas que formam um mesmo parágrafo no SVG do NXtab: mesmo alinhamento e ponto
+        de ancoragem, mesma fonte, corpo e cor, e linha de base logo abaixo da anterior (até 1,7 corpo). Números
+        soltos (eixos, valores) nunca se juntam."""
+        def chave(r):
+            return (r["just"], round(r["px"]), r["fam0"], r["est0"], round(r["size"], 1), r["rgb"])
+        so_num = lambda r: bool(self.NUM.match(r["texto"].strip()))  # noqa: E731
+        pos = {id(x): i for i, x in enumerate(self.itens)}   # ordem no SVG: forma ou número no meio separa itens
+        grupos, saida = {}, []
+        for r in textos:
+            (saida.append(r) if so_num(r) else grupos.setdefault(chave(r), []).append(r))
+        for g in grupos.values():
+            g.sort(key=lambda r: r["py"])
+            atual = None
+            for r in g:
+                if atual and pos.get(id(r)) == atual["_pos"] + 1 and 0.9 * r["size"] <= r["py"] - atual["_ult"] <= 1.7 * r["size"]:
+                    atual["linhas"].append(r["texto"].strip())
+                    atual["texto"] = atual["texto"].rstrip() + " " + r["texto"].strip()
+                    atual["runs"] = atual["runs"] + [{**r["runs"][0], "t": " "}] + r["runs"]
+                    atual["w"] = max(atual["w"], r["w"])
+                    atual["_ult"] = r["py"]
+                    atual["_pos"] = pos.get(id(r), -9)
+                else:
+                    atual = {**r, "linhas": [r["texto"].strip()], "_ult": r["py"], "_pos": pos.get(id(r), -9)}
+                    saida.append(atual)
+        return saida
 
     def _estilo_rotulo(self, rec, numero, tom) -> str:
         rgb = rec["rgb"] or (0, 0, 0)
@@ -718,17 +933,21 @@ class Conversor:
         if tom == "rosa":
             return PAR["rosa"]
         if rec["peso"] >= 600:
-            return PAR["tab_primeira"]                 # rótulo em negrito: Roboto Condensed Bold, azul da casa
+            return PAR["tab_total"]                    # rótulo em negrito: "Texto de tabela destaque de total 2026" (base V2)
         return PAR["tab_normal"]
 
-    def _story_tamanho(self, rec, ps) -> str:
-        """História só com o estilo da casa, no corpo do estilo."""
+    def _story_tamanho(self, rec, ps, just=None) -> str:
+        """História só com o estilo da casa, no corpo do estilo (com o alinhamento da prova, quando é parágrafo de
+        várias linhas e o estilo alinha de outro jeito)."""
         crs = []
         for r in rec["runs"]:     # só o estilo: nem corpo nem deslocamento locais (o "%" sobrescrito volta à linha)
             ca = {"AppliedCharacterStyle": "CharacterStyle/$ID/[No character style]"}
             crs.append(f"<CharacterStyleRange {attrs(ca)}><Content>{escape(r['t'])}</Content></CharacterStyleRange>")
         sid = self.doc.uid("st")
-        self.doc._add_story(self.doc._wrap_story(sid, f'<ParagraphStyleRange AppliedParagraphStyle="{ps}">{"".join(crs)}'
+        pa = {"AppliedParagraphStyle": ps}
+        if just and just != self.casa.par(ps)["just"]:
+            pa["Justification"] = just
+        self.doc._add_story(self.doc._wrap_story(sid, f'<ParagraphStyleRange {attrs(pa)}>{"".join(crs)}'
                                                       f'</ParagraphStyleRange>'), sid)
         return sid
 
@@ -797,7 +1016,7 @@ class Conversor:
             for r in range(n_lin):
                 if r == 0:
                     ps, fill = PAR["tab_topo"], COR["navy"]
-                    bordas = dict(L=(0 if c == 0 else 0.5), R=(0 if c == n_col - 1 else 0.5), T=0, B=0.75)
+                    bordas = dict(L=(0 if c == 0 else 0.5), R=(0 if c == n_col - 1 else 0.5), T=0, B=0.5)
                 else:
                     fill = COR["linha_a"] if r % 2 == 1 else COR["linha_b"]
                     if c == 0:
@@ -808,8 +1027,8 @@ class Conversor:
                         ps = PAR["tab_total"]
                     else:
                         ps = PAR["tab_normal"]
-                    bordas = dict(L=(0 if c == 0 else 0.75), R=(0 if c == n_col - 1 else 0.75), T=0.75,
-                                  B=(0 if r == n_lin - 1 else 0.75))
+                    bordas = dict(L=(0 if c == 0 else 0.5), R=(0 if c == n_col - 1 else 0.5), T=0.5,
+                                  B=(0 if r == n_lin - 1 else 0.5))
                 cor_b = {k: (COR["branco"] if v else "Color/Black") for k, v in bordas.items()}
                 a = {"Self": f"{tid}i{n}", "Name": f"{c}:{r}", "RowSpan": 1, "ColumnSpan": 1, "ColumnType": "BodyColumn",
                      "CellType": "TextTypeCell", "AppliedCellStyle": "CellStyle/$ID/[None]", "AppliedCellStylePriority": 0,
@@ -882,7 +1101,13 @@ class Conversor:
         if not self.itens:
             return None
         saida = None
-        if self.casa is not None:
+        esn = "esemnumeros" in (raiz.get("aria-label") or "")
+        if esn:
+            try:
+                saida = self._arranjo_esn(s)
+            except Exception as e:  # noqa: BLE001
+                self.avisos.append(f"{self.nome}: não consegui montar o box do ES em Números ({e.__class__.__name__}: {e}).")
+        elif self.casa is not None:
             try:
                 saida = self._arranjo_casa()
             except Exception as e:  # noqa: BLE001

@@ -58,6 +58,8 @@ AJUSTES_ESTILOS_CASA = {
     # 26/11/2026: uma linha em branco (12 pt, a entrelinha do "Texto geral 2026") entre o fim do
     # parágrafo anterior e o intertítulo.
     "ParagraphStyle/Intertexto 2026": {"SpaceBefore": "12", "SpaceAfter": "0"},
+    # 28/11/2026: título da abertura alinhado à esquerda, não centralizado.
+    "ParagraphStyle/Título 36pt 2026": {"Justification": "LeftAlign"},
 }
 
 

@@ -52,7 +52,7 @@
 /* Abertura: "Título 36pt 2026" (Inter Black 35,1/32,3 pt, branco, centralizado, tracking -25) sobre a foto,
    "Lead 2026" (Inter Bold 16/16) e "Assinatura 2026" (Inter Black 11/11,5) */
 .opener h1{font-size:54.36px!important;line-height:50.01px!important;letter-spacing:-.025em!important;font-weight:900!important;color:#fff!important;
-  text-align:center!important;max-width:472px!important;left:50%!important;right:auto!important;transform:translateX(-50%);bottom:24px!important}
+  text-align:left!important;max-width:472px!important;left:24px!important;right:auto!important;transform:none!important;bottom:24px!important}
 .fina,.p1 .fina{font-weight:700!important;font-size:24.78px!important;line-height:24.78px!important;letter-spacing:-.02em!important;color:var(--preto90)!important;max-width:none!important;margin:2px 0 0!important}
 .by,.p1 .by{font-weight:900!important;font-size:17.04px!important;line-height:17.81px!important;letter-spacing:-.025em!important;color:var(--preto90)!important;margin:0!important}
 .nxtab.sobre{bottom:14px!important;right:14px!important}

@@ -76,7 +76,7 @@ CASA_ESTILOS = {
     "Título": "Título 36pt 2026",
     "Linha fina": "Lead 2026",
     "Assinatura": "Assinatura 2026",
-    "Legenda": "Legenda 2026",
+    "Legenda": "Legenda dentro foto 2026",   # também a de baixo da foto, como na base V2 de 28/11/2026
     "Legenda sobre foto": "Legenda dentro foto 2026",
     "Crédito da foto": "Créditos 2026",
 }
@@ -119,6 +119,9 @@ CASA_CORES = {   # cores do HTML -> amostras CMYK da casa
     (161, 21, 237): "Color/ESB Roxo 2026", (94, 107, 124): "Color/NX Cinza 2026", (62, 74, 90): "Color/Preto 80%25",
     (15, 122, 63): "Color/Verde Escuro ESG", (192, 24, 47): "Color/NX Vermelho 600 2026",
     (122, 11, 58): "Color/NX Vermelho 800 2026",
+    # box oficial do ES em Números (28/11/2026): faixa de cima, filete rosa e faixa de baixo
+    (0, 107, 148): "Color/Azul ES Brasil 2026",
+    (7, 50, 105): "Color/Azul ES Brasil 2026", (216, 22, 93): "Color/ESB Rosa 2026", (3, 21, 52): "Color/NX Navy 2026",
 }
 PESOS = {100: "Thin", 200: "ExtraLight", 300: "Light", 400: "Regular", 500: "Medium", 600: "SemiBold",
          700: "Bold", 800: "ExtraBold", 900: "Black"}

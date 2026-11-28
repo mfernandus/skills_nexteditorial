@@ -82,6 +82,20 @@ ABA_MM = (20.0, 1.0)
 PX_POR_MM = 900 / 205
 
 
+def vaga_da_tabela(g: dict) -> str:
+    """Tabela enxuta (até 3 colunas e textos curtos) ocupa duas colunas da grade, não a largura toda
+    (28/11/2026). "vaga_fixa": true no pedido mantém a vaga escolhida."""
+    vaga = g.get("vaga", "lateral")
+    if g.get("vaga_fixa") or not str(g.get("modelo", "")).startswith("t-") or vaga not in ("tabela", "larga"):
+        return vaga
+    linhas = [l.split(";") for l in str(g.get("csv", "")).strip().splitlines() if l.strip()]
+    if not linhas:
+        return vaga
+    colunas = max(len(l) for l in linhas)
+    maior = max(len(c.strip()) for l in linhas for c in l)
+    return "dupla" if colunas <= 3 and maior <= 26 else vaga
+
+
 def aba_padrao(svg: str, w: float, exibe: float) -> str:
     """Redimensiona a barrinha do topo (o <rect> encostado no canto do viewBox, com até 10 de altura)
     para 20 x 1 mm na página, mantendo a posição e a cor."""
@@ -416,7 +430,7 @@ async def main(nxtab: Path, specs: Path, saida: Path) -> None:
         await pg.wait_for_timeout(2500)
         relatorio = []
         for g in pecas:
-            vaga = g.get("vaga", "lateral")
+            vaga = vaga_da_tabela(g)
             csv_original = g["csv"]
             larg, exibe = VAGAS[vaga]
             g = {**g, "largura": larg, "fotos_dados": fotos_da_linha(g, base), "fundo_dados": fundo_da_peca(g, base)}
